@@ -216,3 +216,16 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Node / React
+node_modules/
+dist/
+build/
+.env.local
+
+# Docker
+.env
+*.env
+
+# VS Code
+.vscode/

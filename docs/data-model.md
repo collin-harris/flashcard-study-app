@@ -1,0 +1,146 @@
+# Data Model
+
+**Project:** Flashcard & Spaced Repetition Study App  
+**Last Updated:** 2025  
+**Status:** Finalized — pre-implementation
+
+---
+
+## Overview
+
+This document describes the relational database schema for the flashcard study app. The database is implemented in PostgreSQL using SQLAlchemy as the ORM layer.
+
+The schema consists of four tables: `User`, `Deck`, `Flashcard`, and `CardReview`. The core design goal is to support the SM-2 spaced repetition algorithm, which requires tracking each user's review history on a per-card basis.
+
+---
+
+## Tables
+
+### User
+
+Stores account information for each registered user.
+
+| Column | Type | Constraints | Description |
+|---|---|---|---|
+| user_id | UUID / Serial | Primary Key | Unique identifier for the user |
+| name | VARCHAR | NOT NULL | Display name |
+| email | VARCHAR | NOT NULL, UNIQUE | Login email address |
+| password_hash | VARCHAR | NOT NULL | Bcrypt-hashed password — never store plaintext |
+
+---
+
+### Deck
+
+A named collection of flashcards owned by a single user.
+
+| Column | Type | Constraints | Description |
+|---|---|---|---|
+| deck_id | UUID / Serial | Primary Key | Unique identifier for the deck |
+| user_id | UUID / Serial | Foreign Key → User | The user who owns this deck |
+| name | VARCHAR | NOT NULL | Display name of the deck |
+
+**Relationships:**
+- Belongs to one `User` (many-to-one)
+- Contains many `Flashcard` rows (one-to-many)
+
+> **Design note:** The number of cards in a deck is not stored as a column. It is a derived value, computed by counting `Flashcard` rows where `deck_id` matches. Storing it would require manual synchronization on every insert and delete, introducing a potential source of bugs.
+
+---
+
+### Flashcard
+
+A single two-sided study card containing a question and an answer.
+
+| Column | Type | Constraints | Description |
+|---|---|---|---|
+| card_id | UUID / Serial | Primary Key | Unique identifier for the card |
+| deck_id | UUID / Serial | Foreign Key → Deck | The deck this card belongs to |
+| question | TEXT | NOT NULL | The front side of the card |
+| answer | TEXT | NOT NULL | The back side of the card |
+
+**Relationships:**
+- Belongs to one `Deck` (many-to-one)
+- Has one `CardReview` record per user who studies it (one-to-many)
+
+> **Design note:** A flashcard belongs to exactly one deck. A many-to-many relationship (cards shared across decks) was considered and explicitly descoped to keep the schema simple and the codebase maintainable.
+
+---
+
+### CardReview
+
+Tracks the SM-2 spaced repetition state for a specific user and card pair. This is a weak entity — it cannot exist without both a `User` and a `Flashcard`.
+
+| Column | Type | Constraints | Description |
+|---|---|---|---|
+| user_id | UUID / Serial | Primary Key (composite), Foreign Key → User | The user being tracked |
+| card_id | UUID / Serial | Primary Key (composite), Foreign Key → Flashcard | The card being tracked |
+| easiness | FLOAT | NOT NULL, DEFAULT 2.5 | SM-2 easiness factor; reflects historical difficulty |
+| repetitions | INTEGER | NOT NULL, DEFAULT 0 | Consecutive correct review streak |
+| interval | INTEGER | NOT NULL, DEFAULT 1 | Days until the next scheduled review |
+| next_review_date | TIMESTAMP | NOT NULL | The datetime when this card is next due |
+
+**Primary Key:** Composite of (`user_id`, `card_id`)
+
+**Relationships:**
+- Belongs to one `User`
+- Belongs to one `Flashcard`
+
+> **Design note:** This table stores only the current SM-2 state, not a full review history. Per-event history (e.g. a log of every review with its timestamp and result) was considered and descoped. The SM-2 algorithm only requires current state to compute the next interval — historical logging is a future enhancement.
+
+---
+
+## Entity Relationship Diagram
+
+```
+User
+ │
+ │ one-to-many
+ ▼
+Deck
+ │
+ │ one-to-many
+ ▼
+Flashcard
+ │
+ │ one-to-many
+ ▼
+CardReview ◄─── many-to-one ── User
+```
+
+One user owns many decks. Each deck contains many flashcards. Each flashcard has one CardReview record per user who studies it. CardReview is jointly owned by User and Flashcard.
+
+---
+
+## Key Design Decisions
+
+| Decision | Choice | Rationale |
+|---|---|---|
+| Card-to-deck relationship | Many-to-one (one deck per card) | Many-to-many adds a junction table and complexity with minimal user-facing value at this scope |
+| Deck-to-user relationship | Many-to-one (one owner per deck) | Shared/public decks descoped; single ownership keeps authorization logic simple |
+| Derived values | Not stored (e.g. card count) | Avoids synchronization bugs; compute from the data at query time |
+| Review history | Not stored | SM-2 only needs current state; full history logging is a future enhancement |
+| Password storage | Hashed via bcrypt | Plaintext passwords must never be stored; the hash is one-way and salted |
+
+---
+
+## SM-2 Algorithm Reference
+
+The `CardReview` table is designed around the SM-2 algorithm. At a high level, after each review the algorithm updates three values:
+
+- **easiness** — adjusted up or down based on the user's self-reported difficulty rating
+- **repetitions** — reset to 0 on failure, incremented on success
+- **interval** — the number of days until the next review, calculated from easiness and repetitions
+
+The `next_review_date` is set to `now + interval days` after each review. Cards are surfaced for study when `next_review_date <= now`.
+
+The algorithm is implemented server-side in the FastAPI backend, not in the database layer.
+
+---
+
+## Future Enhancements (Out of Scope)
+
+The following were considered during design and intentionally deferred:
+
+- **Review history log** — a separate table recording every individual review event with timestamp and result, enabling analytics and progress charts
+- **Shared/public decks** — allowing multiple users to study the same deck, requiring a many-to-many relationship between users and decks
+- **Card tagging** — cross-deck organization via tags, requiring a many-to-many relationship between cards and tags

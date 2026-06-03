@@ -1,4 +1,4 @@
-# Flashcard Study App
+# Flashcard & Spaced Repetition Study App
 
 A full-stack spaced repetition flashcard application built with 
 FastAPI, PostgreSQL, React, and Docker.

@@ -5,6 +5,11 @@ services:
       - .env
     volumes:
       - postgres_data:/var/lib/postgresql/data  # Postgres stores all data here; the volume persists it across restarts
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "flashcard_user", "-d", "postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
   backend:
     build: ./backend
     ports:
@@ -12,7 +17,8 @@ services:
     env_file:
       - .env
     depends_on:
-      - db
+      db:
+        condition: service_healthy
 
 volumes:
   postgres_data:

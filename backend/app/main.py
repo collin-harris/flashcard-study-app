@@ -4,8 +4,11 @@ from app.models.user import User
 from app.models.deck import Deck
 from app.models.flashcard import Flashcard
 from app.models.card_review import CardReview
+from app.routers.auth import router as auth_router
 
 app = FastAPI()
+
+app.include_router(auth_router)
 
 Base.metadata.create_all(bind=engine)
 

@@ -7,6 +7,7 @@ from app.routers.auth import get_db, get_current_user
 
 router = APIRouter()
 
+
 @router.get("/decks/{deck_id}/cards", response_model=list[CardResponse])
 def get_cards(deck_id: int, db: Session = Depends(get_db), current_user = Depends(get_current_user)):
     deck = db.query(Deck).filter(Deck.deck_id == deck_id).first()
@@ -15,6 +16,7 @@ def get_cards(deck_id: int, db: Session = Depends(get_db), current_user = Depend
     if deck.user_id != current_user.user_id:
         raise HTTPException(status_code=403, detail="Not authorized")
     return db.query(Flashcard).filter(Flashcard.deck_id == deck_id).all()
+
 
 @router.get("/decks/{deck_id}/cards/{card_id}", response_model=CardResponse)
 def get_card(deck_id: int, card_id: int, db: Session = Depends(get_db), current_user = Depends(get_current_user)):
@@ -28,6 +30,7 @@ def get_card(deck_id: int, card_id: int, db: Session = Depends(get_db), current_
         raise HTTPException(status_code=404, detail="Card not found")
     return card
 
+
 @router.post("/decks/{deck_id}/cards", response_model=CardResponse, status_code=201)
 def create_card(deck_id: int, card_data: CardCreate, db: Session = Depends(get_db), current_user = Depends(get_current_user)):
     deck = db.query(Deck).filter(Deck.deck_id == deck_id).first()
@@ -40,6 +43,7 @@ def create_card(deck_id: int, card_data: CardCreate, db: Session = Depends(get_d
     db.commit()
     db.refresh(new_card)
     return new_card
+
 
 @router.patch("/decks/{deck_id}/cards/{card_id}", response_model=CardResponse)
 def update_card(deck_id: int, card_id: int, update_data: CardUpdate, db: Session = Depends(get_db), current_user = Depends(get_current_user)):
@@ -58,6 +62,7 @@ def update_card(deck_id: int, card_id: int, update_data: CardUpdate, db: Session
     db.commit()
     db.refresh(card)
     return card
+
 
 @router.delete("/decks/{deck_id}/cards/{card_id}", status_code=204)
 def delete_card(deck_id: int, card_id: int, db: Session = Depends(get_db), current_user = Depends(get_current_user)):

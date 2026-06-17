@@ -1,10 +1,13 @@
 from pydantic import BaseModel, ConfigDict
 
+
 class DeckCreate(BaseModel):
     name: str
 
+
 class DeckUpdate(BaseModel):
     name: str | None = None
+
 
 class DeckResponse(BaseModel):
     deck_id: int

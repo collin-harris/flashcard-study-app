@@ -1,6 +1,7 @@
 from sqlalchemy import Column, ForeignKey, Integer, String
 from app.database import Base
 
+
 class Deck(Base):
     __tablename__ = 'decks'
 

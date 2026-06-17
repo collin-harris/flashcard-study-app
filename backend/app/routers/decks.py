@@ -6,9 +6,11 @@ from app.routers.auth import get_db, get_current_user
 
 router = APIRouter()
 
+
 @router.get("/decks", response_model=list[DeckResponse])
 def get_decks(db: Session = Depends(get_db), current_user = Depends(get_current_user)):
     return db.query(Deck).filter(Deck.user_id == current_user.user_id).all()
+
 
 @router.get("/decks/{deck_id}", response_model=DeckResponse)
 def get_deck(deck_id: int, db: Session = Depends(get_db), current_user = Depends(get_current_user)):
@@ -19,6 +21,7 @@ def get_deck(deck_id: int, db: Session = Depends(get_db), current_user = Depends
         raise HTTPException(status_code=403, detail="Not authorized")
     return deck
 
+
 @router.post("/decks", response_model=DeckResponse, status_code=201)
 def create_deck(deck_data: DeckCreate, db: Session = Depends(get_db), current_user = Depends(get_current_user)):
     new_deck = Deck(user_id=current_user.user_id, name=deck_data.name)
@@ -26,6 +29,7 @@ def create_deck(deck_data: DeckCreate, db: Session = Depends(get_db), current_us
     db.commit()
     db.refresh(new_deck)
     return new_deck
+
 
 @router.patch("/decks/{deck_id}", response_model=DeckResponse)
 def update_deck(deck_id: int, update_data: DeckUpdate, db: Session = Depends(get_db), current_user = Depends(get_current_user)):
@@ -39,6 +43,7 @@ def update_deck(deck_id: int, update_data: DeckUpdate, db: Session = Depends(get
     db.commit()
     db.refresh(deck)
     return deck
+
 
 @router.delete("/decks/{deck_id}", status_code=204)
 def delete_deck(deck_id: int, db: Session = Depends(get_db), current_user = Depends(get_current_user)):

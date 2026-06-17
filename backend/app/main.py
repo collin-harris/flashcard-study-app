@@ -16,6 +16,7 @@ app.include_router(card_router)
 
 Base.metadata.create_all(bind=engine)
 
+
 # Confirms the server is running
 @app.get("/")
 def health_check():

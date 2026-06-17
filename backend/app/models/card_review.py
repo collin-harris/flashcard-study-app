@@ -1,6 +1,7 @@
 from sqlalchemy import Column, Date, Float, ForeignKey, Integer
 from app.database import Base
 
+
 class CardReview(Base):
     __tablename__ = 'card_reviews'
 

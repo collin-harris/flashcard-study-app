@@ -5,8 +5,8 @@ from app.database import Base
 class CardReview(Base):
     __tablename__ = 'card_reviews'
 
-    user_id = Column(Integer, ForeignKey("users.user_id"), primary_key=True)
-    card_id = Column(Integer, ForeignKey("flashcards.card_id"), primary_key=True)
+    user_id = Column(Integer, ForeignKey("users.user_id", ondelete="CASCADE"), primary_key=True)
+    card_id = Column(Integer, ForeignKey("flashcards.card_id", ondelete="CASCADE"), primary_key=True)
     easiness = Column(Float, nullable=False)
     repetitions = Column(Integer, nullable=False)
     interval = Column(Integer, nullable=False)

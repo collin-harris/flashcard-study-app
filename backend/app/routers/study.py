@@ -13,7 +13,11 @@ router = APIRouter()
 
 
 @router.get("/decks/{deck_id}/study", response_model=list[DueCardResponse])
-def get_due_cards(deck_id: int, db: Session = Depends(get_db), current_user = Depends(get_current_user)):
+def get_due_cards(
+    deck_id: int,
+    db: Session = Depends(get_db),
+    current_user = Depends(get_current_user)
+):
     # Confirm the deck exists and belongs to the current user
     deck = db.query(Deck).filter(Deck.deck_id == deck_id).first()
     if deck is None:

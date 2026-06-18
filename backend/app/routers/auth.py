@@ -42,6 +42,7 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
 
 
 def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
+    # Decode the JWT and extract the user id
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         user_id: str = payload.get("sub")
@@ -50,6 +51,7 @@ def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(
     except JWTError:
         raise HTTPException(status_code=401, detail="Invalid token")
 
+    # Look up the user the token belongs to
     user = db.query(User).filter(User.user_id == int(user_id)).first()
     if user is None:
         raise HTTPException(status_code=401, detail="Invalid token")

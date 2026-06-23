@@ -112,3 +112,14 @@ export function deleteCard(deckId, cardId) {
     method: 'DELETE',
   })
 }
+
+export function getDueCards(deckId) {
+  return request(`/decks/${deckId}/study`)
+}
+
+export function submitReview(deckId, cardId, rating) {
+  return request(`/decks/${deckId}/cards/${cardId}/review`, {
+    method: 'POST',
+    body: JSON.stringify({ rating }),
+  })
+}

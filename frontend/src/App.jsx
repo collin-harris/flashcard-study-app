@@ -4,6 +4,7 @@ import LoginPage from './pages/LoginPage'
 import DashboardPage from './pages/DashboardPage'
 import CreateDeckPage from './pages/CreateDeckPage'
 import DeckDetailPage from './pages/DeckDetailPage'
+import StudySessionPage from './pages/StudySessionPage'
 import ProtectedRoute from './components/ProtectedRoute'
 
 function App() {
@@ -33,6 +34,14 @@ function App() {
         element={
           <ProtectedRoute>
             <DeckDetailPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/decks/:deckId/study/:mode"
+        element={
+          <ProtectedRoute>
+            <StudySessionPage />
           </ProtectedRoute>
         }
       />

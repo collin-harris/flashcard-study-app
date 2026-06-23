@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useParams, useNavigate } from 'react-router'
+import { Link, useParams, useNavigate } from 'react-router'
 import {
   getDeck,
   updateDeck,
@@ -158,6 +158,10 @@ function DeckDetailPage() {
       )}
 
       {deleteError && <p>{deleteError}</p>}
+
+      <h2>Study</h2>
+      <Link to={`/decks/${deckId}/study/free`}>Free Study</Link>
+      <Link to={`/decks/${deckId}/study/review`}>Spaced Repetition</Link>
 
       {cards.length === 0 ? (
         <p>This deck has no cards yet. Add your first one!</p>

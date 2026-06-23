@@ -26,7 +26,7 @@ def get_due_cards(
         raise HTTPException(status_code=403, detail="Not authorized")
 
     # Get every card in this deck
-    cards = db.query(Flashcard).filter(Flashcard.deck_id == deck_id).all()
+    cards = db.query(Flashcard).filter(Flashcard.deck_id == deck_id).order_by(Flashcard.card_id).all()
 
     # Get this user's existing review state for those cards, if any
     card_ids = [card.card_id for card in cards]

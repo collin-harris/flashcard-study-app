@@ -10,7 +10,7 @@ router = APIRouter()
 @router.get("/decks", response_model=list[DeckResponse])
 def get_decks(db: Session = Depends(get_db), current_user = Depends(get_current_user)):
     # Return only the decks owned by the current user
-    return db.query(Deck).filter(Deck.user_id == current_user.user_id).all()
+    return db.query(Deck).filter(Deck.user_id == current_user.user_id).order_by(Deck.deck_id).all()
 
 
 @router.get("/decks/{deck_id}", response_model=DeckResponse)

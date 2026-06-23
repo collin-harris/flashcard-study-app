@@ -21,7 +21,7 @@ def get_cards(
     if deck.user_id != current_user.user_id:
         raise HTTPException(status_code=403, detail="Not authorized")
 
-    return db.query(Flashcard).filter(Flashcard.deck_id == deck_id).all()
+    return db.query(Flashcard).filter(Flashcard.deck_id == deck_id).order_by(Flashcard.card_id).all()
 
 
 @router.get("/decks/{deck_id}/cards/{card_id}", response_model=CardResponse)

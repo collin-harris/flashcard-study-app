@@ -1,7 +1,12 @@
+# Web framework
 fastapi
 uvicorn[standard]
+
+# Database
 sqlalchemy
 psycopg2-binary
+
+# Authentication
 passlib[bcrypt]
 bcrypt==4.0.1
 python-jose[cryptography]

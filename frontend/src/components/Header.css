@@ -1,0 +1,27 @@
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  background-color: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.app-header__brand {
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: var(--color-text-primary);
+}
+
+.app-header__brand:hover {
+  color: var(--color-accent);
+}
+
+.app-header__logout {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+}
+
+.app-header__logout:hover {
+  color: var(--color-text-primary);
+}

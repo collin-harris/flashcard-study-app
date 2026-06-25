@@ -9,6 +9,7 @@ import {
   updateCard,
   deleteCard,
 } from '../api'
+import './DeckDetailPage.css'
 
 function DeckDetailPage() {
   const { deckId } = useParams()
@@ -19,6 +20,7 @@ function DeckDetailPage() {
   const [error, setError] = useState('')
   const [deleteError, setDeleteError] = useState('')
 
+  const [isAddingCard, setIsAddingCard] = useState(false)
   const [question, setQuestion] = useState('')
   const [answer, setAnswer] = useState('')
   const [createError, setCreateError] = useState('')
@@ -61,6 +63,13 @@ function DeckDetailPage() {
     } catch (err) {
       setCreateError(err.message)
     }
+  }
+
+  function cancelAddCard() {
+    setIsAddingCard(false)
+    setQuestion('')
+    setAnswer('')
+    setCreateError('')
   }
 
   function startEditingName() {
@@ -135,84 +144,107 @@ function DeckDetailPage() {
   }
 
   if (error) {
-    return <p>{error}</p>
+    return <p className="error-message">{error}</p>
   }
 
   return (
     <div>
-      {editingName ? (
-        <form onSubmit={handleSaveName}>
-          <input value={name} onChange={(e) => setName(e.target.value)} />
-          <button type="submit">Save</button>
-          <button type="button" onClick={() => setEditingName(false)}>
-            Cancel
-          </button>
-          {editError && <p>{editError}</p>}
-        </form>
-      ) : (
-        <>
-          <h1>{deck.name}</h1>
-          <button onClick={startEditingName}>Edit Deck Name</button>
-          <button onClick={handleDeleteDeck}>Delete Deck</button>
-        </>
-      )}
+      <div className="deck-header">
+        {editingName ? (
+          <form onSubmit={handleSaveName} className="deck-header__edit-form">
+            <input value={name} onChange={(e) => setName(e.target.value)} />
+            <button type="submit" className="button-primary">Save</button>
+            <button type="button" className="button-secondary" onClick={() => setEditingName(false)}>
+              Cancel
+            </button>
+          </form>
+        ) : (
+          <>
+            <h1>{deck.name}</h1>
+            <div className="deck-header__actions">
+              <button className="button-secondary" onClick={startEditingName}>Edit Deck Name</button>
+              <button className="button-danger" onClick={handleDeleteDeck}>Delete Deck</button>
+            </div>
+          </>
+        )}
+      </div>
 
-      {deleteError && <p>{deleteError}</p>}
+      {editError && <p className="error-message">{editError}</p>}
+      {deleteError && <p className="error-message">{deleteError}</p>}
 
-      <h2>Study</h2>
-      <Link to={`/decks/${deckId}/study/free`}>Free Study</Link>
-      <Link to={`/decks/${deckId}/study/review`}>Spaced Repetition</Link>
+      <div className="study-actions">
+        <Link to={`/decks/${deckId}/study/free`} className="study-actions__button">Free Study</Link>
+        <Link to={`/decks/${deckId}/study/review`} className="study-actions__button">Spaced Repetition</Link>
+      </div>
 
-      {cards.length === 0 ? (
-        <p>This deck has no cards yet. Add your first one!</p>
-      ) : (
-        <ul>
-          {cards.map((card) =>
-            editingCardId === card.card_id ? (
-              <li key={card.card_id}>
-                <form onSubmit={handleSaveCard}>
-                  <input
-                    value={editQuestion}
-                    onChange={(e) => setEditQuestion(e.target.value)}
-                  />
-                  <input
-                    value={editAnswer}
-                    onChange={(e) => setEditAnswer(e.target.value)}
-                  />
-                  <button type="submit">Save</button>
-                  <button type="button" onClick={() => setEditingCardId(null)}>
-                    Cancel
-                  </button>
-                  {cardEditError && <p>{cardEditError}</p>}
-                </form>
-              </li>
-            ) : (
-              <li key={card.card_id}>
-                {card.question}
-                <button onClick={() => startEditingCard(card)}>Edit</button>
-                <button onClick={() => handleDeleteCard(card)}>Delete</button>
-              </li>
-            )
-          )}
-        </ul>
-      )}
+      <hr className="divider" />
 
-      <h2>Add a Card</h2>
-      <form onSubmit={handleCreateCard}>
-        <label>
-          Question
-          <input value={question} onChange={(e) => setQuestion(e.target.value)} />
-        </label>
+      <div className="card-list-section">
+        <p className="card-count">{cards.length} {cards.length === 1 ? 'card' : 'cards'}</p>
 
-        <label>
-          Answer
-          <input value={answer} onChange={(e) => setAnswer(e.target.value)} />
-        </label>
+        {cards.length === 0 ? (
+          <p className="empty-message">This deck has no cards yet. Add your first one!</p>
+        ) : (
+          <ul className="card-list">
+            {cards.map((card) =>
+              editingCardId === card.card_id ? (
+                <li key={card.card_id} className="card-list__item">
+                  <form onSubmit={handleSaveCard} className="card-list__edit-form">
+                    <input
+                      value={editQuestion}
+                      onChange={(e) => setEditQuestion(e.target.value)}
+                    />
+                    <input
+                      value={editAnswer}
+                      onChange={(e) => setEditAnswer(e.target.value)}
+                    />
+                    <button type="submit" className="button-primary">Save</button>
+                    <button type="button" className="button-secondary" onClick={() => setEditingCardId(null)}>
+                      Cancel
+                    </button>
+                    {cardEditError && <p className="error-message">{cardEditError}</p>}
+                  </form>
+                </li>
+              ) : (
+                <li key={card.card_id} className="card-list__item">
+                  <span className="card-list__question">{card.question}</span>
+                  <div className="card-list__actions">
+                    <button className="button-secondary" onClick={() => startEditingCard(card)}>Edit</button>
+                    <button className="button-danger" onClick={() => handleDeleteCard(card)}>Delete</button>
+                  </div>
+                </li>
+              )
+            )}
+          </ul>
+        )}
+      </div>
 
-        {createError && <p>{createError}</p>}
+      <hr className="divider" />
 
-        <button type="submit">Add Card</button>
-      </form>
+      <div className="add-card-section">
+        {isAddingCard ? (
+          <form onSubmit={handleCreateCard} className="add-card-form">
+            <label>
+              Question
+              <input value={question} onChange={(e) => setQuestion(e.target.value)} />
+            </label>
+
+            <label>
+              Answer
+              <input value={answer} onChange={(e) => setAnswer(e.target.value)} />
+            </label>
+
+            {createError && <p className="error-message">{createError}</p>}
+
+            <div className="form-actions">
+              <button type="submit" className="button-primary">Add Card</button>
+              <button type="button" className="button-secondary" onClick={cancelAddCard}>Cancel</button>
+            </div>
+          </form>
+        ) : (
+          <button className="add-card-trigger" onClick={() => setIsAddingCard(true)}>+ Add a card</button>
+        )}
+      </div>
     </div>
   )
 }

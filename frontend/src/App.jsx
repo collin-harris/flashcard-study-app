@@ -1,4 +1,5 @@
-import { Routes, Route, Link } from 'react-router'
+import { Routes, Route } from 'react-router'
+import HomePage from './pages/HomePage'
 import RegisterPage from './pages/RegisterPage'
 import LoginPage from './pages/LoginPage'
 import DashboardPage from './pages/DashboardPage'
@@ -10,16 +11,7 @@ import ProtectedLayout from './components/ProtectedLayout'
 function App() {
   return (
     <Routes>
-      <Route
-        path="/"
-        element={
-          <>
-            <h1>Flashcard Study App</h1>
-            <Link to="/login">Login</Link>
-            <Link to="/register">Register</Link>
-          </>
-        }
-      />
+      <Route path="/" element={<HomePage />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/login" element={<LoginPage />} />
 

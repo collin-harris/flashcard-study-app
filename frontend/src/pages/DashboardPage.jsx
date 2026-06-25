@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router'
 import { getDecks } from '../api'
+import './DashboardPage.css'
 
 function DashboardPage() {
   const [decks, setDecks] = useState([])
@@ -27,19 +28,21 @@ function DashboardPage() {
   }
 
   if (error) {
-    return <p>{error}</p>
+    return <p className="error-message">{error}</p>
   }
 
   return (
     <div>
-      <h1>Dashboard</h1>
-      <Link to="/decks/new">Create Deck</Link>
+      <div className="dashboard-page__header">
+        <h1>Dashboard</h1>
+        <Link to="/decks/new" className="button-primary">Create Deck</Link>
+      </div>
       {decks.length === 0 ? (
-        <p>You have no decks yet. Create your first one!</p>
+        <p className="dashboard-page__empty">You have no decks yet. Create your first one!</p>
       ) : (
-        <ul>
+        <ul className="deck-list">
           {decks.map((deck) => (
-            <li key={deck.deck_id}>
+            <li key={deck.deck_id} className="deck-list__item">
               <Link to={`/decks/${deck.deck_id}`}>{deck.name}</Link>
             </li>
           ))}

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router'
 import { createDeck } from '../api'
+import './CreateDeckPage.css'
 
 function CreateDeckPage() {
   const [name, setName] = useState('')
@@ -20,19 +21,25 @@ function CreateDeckPage() {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h1>Create Deck</h1>
+    <div className="form-page">
+      <div className="form-card">
+        <form onSubmit={handleSubmit}>
+          <h1>Create Deck</h1>
 
-      <label>
-        Deck Name
-        <input value={name} onChange={(e) => setName(e.target.value)} />
-      </label>
+          <label>
+            Deck Name
+            <input value={name} onChange={(e) => setName(e.target.value)} />
+          </label>
 
-      {error && <p>{error}</p>}
+          {error && <p className="error-message">{error}</p>}
 
-      <button type="submit">Create</button>
-      <Link to="/dashboard">Cancel</Link>
-    </form>
+          <div className="form-actions">
+            <button type="submit" className="button-primary">Create</button>
+            <Link to="/dashboard">Cancel</Link>
+          </div>
+        </form>
+      </div>
+    </div>
   )
 }
 

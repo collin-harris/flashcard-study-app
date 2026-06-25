@@ -1,0 +1,41 @@
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 360px;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 32px;
+}
+
+.auth-card h1 {
+  margin: 0 0 24px;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.auth-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.auth-actions a {
+  flex: 1;
+  padding: 10px 16px;
+  border: 1px solid var(--color-accent);
+  border-radius: 6px;
+  text-align: center;
+  font-weight: 600;
+}
+
+.auth-actions a:hover {
+  background-color: var(--color-accent);
+  color: var(--color-surface);
+}

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router'
+import { Link, useNavigate } from 'react-router'
 import { createDeck } from '../api'
 
 function CreateDeckPage() {
@@ -31,6 +31,7 @@ function CreateDeckPage() {
       {error && <p>{error}</p>}
 
       <button type="submit">Create</button>
+      <Link to="/dashboard">Cancel</Link>
     </form>
   )
 }

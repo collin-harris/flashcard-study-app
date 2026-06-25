@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useParams } from 'react-router'
+import { Link, useParams } from 'react-router'
 import { getCards, getDueCards, submitReview } from '../api'
 
 function StudySessionPage() {
@@ -49,15 +49,26 @@ function StudySessionPage() {
   }
 
   if (cards.length === 0) {
-    return <p>{mode === 'review' ? 'No cards are due today!' : 'This deck has no cards to study.'}</p>
+    return (
+      <div>
+        <p>{mode === 'review' ? 'No cards are due today!' : 'This deck has no cards to study.'}</p>
+        <Link to={`/decks/${deckId}`}>Back to Deck</Link>
+      </div>
+    )
   }
 
   if (isSessionComplete) {
-    return <p>You reviewed {cards.length} cards. Session Complete.</p>
+    return (
+      <div>
+        <p>You reviewed {cards.length} cards. Session Complete.</p>
+        <Link to={`/decks/${deckId}`}>Back to Deck</Link>
+      </div>
+    )
   }
 
   return (
     <div>
+      <Link to={`/decks/${deckId}`}>Back to Deck</Link>
       <p>{currentCard.question}</p>
       {isAnswerRevealed ? (
         <>

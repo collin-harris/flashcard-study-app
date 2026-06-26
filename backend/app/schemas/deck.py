@@ -15,3 +15,7 @@ class DeckResponse(BaseModel):
     name: str
 
     model_config = ConfigDict(from_attributes=True)
+
+
+class DeckWithCardCount(DeckResponse):
+    card_count: int

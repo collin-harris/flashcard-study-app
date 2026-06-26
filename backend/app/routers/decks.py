@@ -1,16 +1,36 @@
 from fastapi import APIRouter, Depends, HTTPException
+from sqlalchemy import func
 from sqlalchemy.orm import Session
 from app.models.deck import Deck
-from app.schemas.deck import DeckCreate, DeckUpdate, DeckResponse
+from app.models.flashcard import Flashcard
+from app.schemas.deck import DeckCreate, DeckUpdate, DeckResponse, DeckWithCardCount
 from app.routers.auth import get_db, get_current_user
 
 router = APIRouter()
 
 
-@router.get("/decks", response_model=list[DeckResponse])
+@router.get("/decks", response_model=list[DeckWithCardCount])
 def get_decks(db: Session = Depends(get_db), current_user = Depends(get_current_user)):
-    # Return only the decks owned by the current user
-    return db.query(Deck).filter(Deck.user_id == current_user.user_id).order_by(Deck.deck_id).all()
+    # Return only the decks owned by the current user, each annotated with its
+    # card count via a single outer-joined, grouped query (not one query per deck)
+    results = (
+        db.query(Deck, func.count(Flashcard.card_id))
+        .outerjoin(Flashcard, Flashcard.deck_id == Deck.deck_id)
+        .filter(Deck.user_id == current_user.user_id)
+        .group_by(Deck.deck_id)
+        .order_by(Deck.deck_id)
+        .all()
+    )
+
+    return [
+        DeckWithCardCount(
+            deck_id=deck.deck_id,
+            user_id=deck.user_id,
+            name=deck.name,
+            card_count=card_count,
+        )
+        for deck, card_count in results
+    ]
 
 
 @router.get("/decks/{deck_id}", response_model=DeckResponse)

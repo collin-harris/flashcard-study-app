@@ -43,7 +43,10 @@ function DashboardPage() {
         <ul className="deck-list">
           {decks.map((deck) => (
             <li key={deck.deck_id} className="deck-list__item">
-              <Link to={`/decks/${deck.deck_id}`}>{deck.name}</Link>
+              <Link to={`/decks/${deck.deck_id}`}>
+                <span className="deck-list__name">{deck.name}</span>
+                <span className="deck-list__count">{deck.card_count} {deck.card_count === 1 ? 'card' : 'cards'}</span>
+              </Link>
             </li>
           ))}
         </ul>

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router'
 import { registerUser } from '../api'
+import PasswordInput from '../components/PasswordInput'
 import './RegisterPage.css'
 
 function RegisterPage() {
@@ -44,11 +45,7 @@ function RegisterPage() {
 
           <label>
             Password
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
+            <PasswordInput value={password} onChange={(e) => setPassword(e.target.value)} />
           </label>
 
           {error && <p className="auth-error">{error}</p>}

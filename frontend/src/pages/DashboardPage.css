@@ -44,7 +44,10 @@
 }
 
 .deck-list__item a {
-  display: block;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
   padding: 14px 4px;
   color: var(--color-text-primary);
   font-weight: 500;
@@ -52,4 +55,17 @@
 
 .deck-list__item a:hover {
   color: var(--color-accent);
+}
+
+.deck-list__name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.deck-list__count {
+  flex-shrink: 0;
+  font-weight: 400;
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
 }

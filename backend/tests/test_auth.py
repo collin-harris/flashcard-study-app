@@ -5,7 +5,7 @@ def test_register_new_user(client):
         "password": "testpass123",
     })
 
-    assert response.status_code == 200
+    assert response.status_code == 201
     body = response.json()
     assert body["name"] == "Ada Lovelace"
     assert body["email"] == "ada@example.com"

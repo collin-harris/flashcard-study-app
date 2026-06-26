@@ -59,7 +59,7 @@ def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(
 
 
 # Register
-@router.post("/auth/register", response_model=UserResponse)
+@router.post("/auth/register", response_model=UserResponse, status_code=201)
 def register_user(user_data: UserCreate, db: Session = Depends(get_db)):
     # Check if email exists
     existing_user = db.query(User).filter(User.email == user_data.email).first()

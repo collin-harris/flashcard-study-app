@@ -2,7 +2,7 @@
 
 **Project:** Flashcard & Spaced Repetition Study App  
 **Last Updated:** 2026
-**Status:** Finalized — pre-implementation
+**Status:** Finalized
 
 ---
 
@@ -22,7 +22,7 @@ Stores account information for each registered user.
 
 | Column | Type | Constraints | Description |
 |---|---|---|---|
-| user_id | UUID / Serial | Primary Key | Unique identifier for the user |
+| user_id | Serial | Primary Key | Unique identifier for the user |
 | name | VARCHAR | NOT NULL | Display name |
 | email | VARCHAR | NOT NULL, UNIQUE | Login email address |
 | password_hash | VARCHAR | NOT NULL | Bcrypt-hashed password — never store plaintext |
@@ -35,15 +35,17 @@ A named collection of flashcards owned by a single user.
 
 | Column | Type | Constraints | Description |
 |---|---|---|---|
-| deck_id | UUID / Serial | Primary Key | Unique identifier for the deck |
-| user_id | UUID / Serial | Foreign Key → User | The user who owns this deck |
+| deck_id | Serial | Primary Key | Unique identifier for the deck |
+| user_id | Integer | Foreign Key → User | The user who owns this deck |
 | name | VARCHAR | NOT NULL | Display name of the deck |
 
 **Relationships:**
-- Belongs to one `User` (many-to-one)
+- Belongs to one `User` (many-to-one); deleting the user does **not** cascade to delete this row (see note below)
 - Contains many `Flashcard` rows (one-to-many)
 
 > **Design note:** The number of cards in a deck is not stored as a column. It is a derived value, computed by counting `Flashcard` rows where `deck_id` matches. Storing it would require manual synchronization on every insert and delete, introducing a potential source of bugs.
+
+> **Design note:** `user_id` does not cascade on deletion of the owning `User`, unlike `Flashcard.deck_id` and the `CardReview` foreign keys, which do. This is dormant rather than a bug — there is currently no `DELETE /users` endpoint, so a user is never actually deleted. See [Future Enhancements](#future-enhancements-out-of-scope) for what would need to change if user deletion is ever implemented.
 
 ---
 
@@ -53,13 +55,15 @@ A single two-sided study card containing a question and an answer.
 
 | Column | Type | Constraints | Description |
 |---|---|---|---|
-| card_id | UUID / Serial | Primary Key | Unique identifier for the card |
-| deck_id | UUID / Serial | Foreign Key → Deck | The deck this card belongs to |
-| question | TEXT | NOT NULL | The front side of the card |
-| answer | TEXT | NOT NULL | The back side of the card |
+| card_id | Serial | Primary Key | Unique identifier for the card |
+| deck_id | Integer | Foreign Key → Deck | The deck this card belongs to |
+| question | String | NOT NULL | The front side of the card |
+| answer | String | NOT NULL | The back side of the card |
+
+*Stored as SQLAlchemy's generic `String` (unbounded `VARCHAR` in PostgreSQL) — functionally equivalent to `TEXT` for this use case.*
 
 **Relationships:**
-- Belongs to one `Deck` (many-to-one)
+- Belongs to one `Deck` (many-to-one); deleting the deck cascades to delete this row
 - Has one `CardReview` record per user who studies it (one-to-many)
 
 > **Design note:** A flashcard belongs to exactly one deck. A many-to-many relationship (cards shared across decks) was considered and explicitly descoped to keep the schema simple and the codebase maintainable.
@@ -72,20 +76,22 @@ Tracks the SM-2 spaced repetition state for a specific user and card pair. This 
 
 | Column | Type | Constraints | Description |
 |---|---|---|---|
-| user_id | UUID / Serial | Primary Key (composite), Foreign Key → User | The user being tracked |
-| card_id | UUID / Serial | Primary Key (composite), Foreign Key → Flashcard | The card being tracked |
-| easiness | FLOAT | NOT NULL, DEFAULT 2.5 | SM-2 easiness factor; reflects historical difficulty |
-| repetitions | INTEGER | NOT NULL, DEFAULT 0 | Consecutive correct review streak |
-| interval | INTEGER | NOT NULL, DEFAULT 1 | Days until the next scheduled review |
-| next_review_date | TIMESTAMP | NOT NULL | The datetime when this card is next due |
+| user_id | Integer | Primary Key (composite), Foreign Key → User | The user being tracked |
+| card_id | Integer | Primary Key (composite), Foreign Key → Flashcard | The card being tracked |
+| easiness | FLOAT | NOT NULL | SM-2 easiness factor; reflects historical difficulty |
+| repetitions | INTEGER | NOT NULL | Consecutive correct review streak |
+| interval | INTEGER | NOT NULL | Days until the next scheduled review |
+| next_review_date | DATE | NOT NULL | The date when this card is next due |
 
 **Primary Key:** Composite of (`user_id`, `card_id`)
 
 **Relationships:**
-- Belongs to one `User`
-- Belongs to one `Flashcard`
+- Belongs to one `User`; deleting the user cascades to delete this row
+- Belongs to one `Flashcard`; deleting the card cascades to delete this row
 
 > **Design note:** This table stores only the current SM-2 state, not a full review history. Per-event history (e.g. a log of every review with its timestamp and result) was considered and descoped. The SM-2 algorithm only requires current state to compute the next interval — historical logging is a future enhancement.
+
+> **Design note:** A `CardReview` row is never created in a default or partially-initialized state — it only comes into existence inside the review-submission flow, already populated with the output of the SM-2 calculation. The starting values used on a card's first-ever review (`easiness` 2.5, `repetitions` 0) are inputs the service layer feeds into that calculation, not constraints enforced by the database. Database-level `DEFAULT` values were deliberately not used here, to avoid two sources of truth for a card's starting state — the database and the algorithm logic could drift out of sync if both defined it. The service layer owns these values exclusively.
 
 ---
 
@@ -144,3 +150,4 @@ The following were considered during design and intentionally deferred:
 - **Review history log** — a separate table recording every individual review event with timestamp and result, enabling analytics and progress charts
 - **Shared/public decks** — allowing multiple users to study the same deck, requiring a many-to-many relationship between users and decks
 - **Card tagging** — cross-deck organization via tags, requiring a many-to-many relationship between cards and tags
+- **User account deletion** — no `DELETE /users` endpoint exists yet; if added, `Deck.user_id` would need an `ondelete="CASCADE"` foreign key (or equivalent cleanup logic) to avoid orphaned decks, matching the cascade behavior already used for `Flashcard.deck_id` and both `CardReview` foreign keys

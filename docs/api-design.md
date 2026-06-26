@@ -2,13 +2,13 @@
 
 **Project:** Flashcard & Spaced Repetition Study App  
 **Last Updated:** 2026  
-**Status:** Finalized — pre-implementation
+**Status:** Finalized
 
 ---
 
 ## Overview
 
-This document describes the REST API contract between the React frontend and the FastAPI backend. All endpoints are prefixed with `/api/v1` and return JSON. Authentication is required for all endpoints except `/auth/register` and `/auth/login`.
+This document describes the REST API contract between the React frontend and the FastAPI backend. All endpoints return JSON. Authentication is required for all endpoints except `/auth/register` and `/auth/login`.
 
 The API is organized around four concerns:
 
@@ -23,7 +23,7 @@ The API is organized around four concerns:
 
 **Base URL:**
 ```
-http://localhost:8000/api/v1
+http://localhost:8000
 ```
 
 **HTTP Methods:**
@@ -130,12 +130,12 @@ Retrieve all decks owned by the authenticated user.
 **Response `200 OK`:**
 ```json
 [
-  { "deck_id": "integer", "name": "string" },
-  { "deck_id": "integer", "name": "string" }
+  { "deck_id": "integer", "user_id": "integer", "name": "string", "card_count": "integer" },
+  { "deck_id": "integer", "user_id": "integer", "name": "string", "card_count": "integer" }
 ]
 ```
 
-> This is the primary endpoint for the user dashboard. It returns all decks belonging to the logged-in user only — never another user's decks.
+> This is the primary endpoint for the user dashboard. It returns all decks belonging to the logged-in user only — never another user's decks. Unlike every other deck endpoint, this one includes `card_count` — a per-deck flashcard count computed at query time. It exists only here, on `DeckWithCardCount` (a schema that extends the plain `DeckResponse` used everywhere else), because the dashboard is the one place that needs it; `GET /decks/{deck_id}`, `POST /decks`, and `PATCH /decks/{deck_id}` all continue to return the plain shape.
 
 ---
 
@@ -370,8 +370,8 @@ Retrieve all flashcards in a deck that are due for review today. Used to drive s
 **Response `200 OK`:**
 ```json
 [
-  { "card_id": "integer", "question": "string", "answer": "string", "next_review_date": "datetime" },
-  { "card_id": "integer", "question": "string", "answer": "string", "next_review_date": "datetime" }
+  { "card_id": "integer", "question": "string", "answer": "string", "next_review_date": "date" },
+  { "card_id": "integer", "question": "string", "answer": "string", "next_review_date": "date" }
 ]
 ```
 
@@ -406,7 +406,7 @@ Submit a study result for a flashcard. The backend runs the SM-2 algorithm and u
   "easiness": "float",
   "repetitions": "integer",
   "interval": "integer",
-  "next_review_date": "datetime"
+  "next_review_date": "date"
 }
 ```
 
@@ -450,4 +450,3 @@ Submit a study result for a flashcard. The backend runs the SM-2 algorithm and u
 - **`POST /auth/logout`** — token invalidation; deferred pending auth implementation decisions
 - **`GET /decks/{deck_id}/stats`** — deck-level performance metrics derived from CardReview history
 - **`GET /users/me`** — user profile endpoint; descoped as no profile page is planned
-- **API versioning** — the `/v1` prefix is included now so a future `/v2` does not require breaking changes

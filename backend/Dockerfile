@@ -34,5 +34,8 @@ CMD ["pytest"]
 # This is the stage actually deployed.
 FROM base AS production
 
-# 0.0.0.0 makes the server reachable from outside the container
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+# 0.0.0.0 makes the server reachable from outside the container.
+# Render assigns the listen port dynamically via $PORT at runtime; the
+# ${PORT:-8000} fallback means local docker-compose usage (where $PORT is
+# never set) keeps binding to 8000 exactly as before.
+CMD ["sh", "-c", "uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}"]

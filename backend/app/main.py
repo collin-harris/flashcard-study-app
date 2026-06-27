@@ -12,10 +12,11 @@ from app.routers.study import router as study_router
 
 app = FastAPI()
 
-# Allow the Vite dev server's origin to call this API from the browser
+# Allow both the local Vite dev server and the deployed production
+# frontend to call this API from the browser
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origins=["http://localhost:5173", "https://flashcard-study-app-r3lr.onrender.com"],
     allow_methods=["*"],
     allow_headers=["*"],
 )

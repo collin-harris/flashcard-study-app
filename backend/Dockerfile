@@ -20,9 +20,10 @@ COPY ./app ./app
 # never used for the deployed image.
 FROM base AS test
 
-COPY requirements-test.txt pytest.ini .
+COPY requirements-test.txt .
 RUN pip install --no-cache-dir -r requirements-test.txt
 
+COPY pytest.ini .
 COPY ./tests ./tests
 
 CMD ["pytest"]

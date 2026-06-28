@@ -279,6 +279,8 @@ flashcard-study-app/
 │   │       └── StudySessionPage.css
 │   ├── index.html
 │   └── package.json
+├── scripts/
+│   └── seed_demo_account.py
 ├── .env
 ├── .env.example
 ├── .gitignore             ← frontend/ has its own separate .gitignore too

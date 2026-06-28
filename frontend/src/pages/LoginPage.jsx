@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router'
 import { loginUser, saveToken } from '../api'
+import { isValidEmail } from '../validation'
 import PasswordInput from '../components/PasswordInput'
 import './LoginPage.css'
 
@@ -14,6 +15,11 @@ function LoginPage() {
     e.preventDefault()
     setError('')
 
+    if (!isValidEmail(email)) {
+      setError('Invalid email')
+      return
+    }
+
     try {
       const data = await loginUser(email, password)
       saveToken(data.access_token)
@@ -26,7 +32,7 @@ function LoginPage() {
   return (
     <div className="auth-page">
       <div className="auth-card">
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} noValidate>
           <h1>Login</h1>
 
           <label>

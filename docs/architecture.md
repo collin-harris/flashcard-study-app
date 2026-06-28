@@ -252,6 +252,7 @@ flashcard-study-app/
 │   │   ├── main.jsx
 │   │   ├── App.jsx
 │   │   ├── api.js
+│   │   ├── validation.js
 │   │   ├── index.css
 │   │   ├── components/
 │   │   │   ├── Header.jsx

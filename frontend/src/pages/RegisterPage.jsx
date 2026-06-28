@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router'
 import { registerUser } from '../api'
+import { isValidEmail } from '../validation'
 import PasswordInput from '../components/PasswordInput'
 import './RegisterPage.css'
 
@@ -15,6 +16,11 @@ function RegisterPage() {
     e.preventDefault()
     setError('')
 
+    if (!isValidEmail(email)) {
+      setError('Invalid email')
+      return
+    }
+
     try {
       await registerUser(name, email, password)
       navigate('/login')
@@ -26,7 +32,7 @@ function RegisterPage() {
   return (
     <div className="auth-page">
       <div className="auth-card">
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} noValidate>
           <h1>Register</h1>
 
           <label>

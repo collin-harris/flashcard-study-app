@@ -94,7 +94,7 @@ function StudySessionPage() {
           className="flip-card"
           onClick={() => setIsAnswerRevealed((prev) => !prev)}
         >
-          <div className={`flip-card__inner ${isAnswerRevealed ? 'is-flipped' : ''}`}>
+          <div key={currentIndex} className={`flip-card__inner ${isAnswerRevealed ? 'is-flipped' : ''}`}>
             <div className="flip-card__face flip-card__face--front">
               <p className="study-session__card-text">{currentCard.question}</p>
             </div>

@@ -1,7 +1,7 @@
 # Evaluation Rubric: AI Flashcard Generation
 
 **Project:** Flashcard & Spaced Repetition Study App
-**Rubric Version:** 1.1
+**Rubric Version:** 1.2
 **Last Updated:** September 2026
 **Status:** Active
 
@@ -228,13 +228,20 @@ deterministic app feature rather than model output.
 
 ## Source Check (Automated)
 
-Each generated card includes a `source` field: the text from the notes that
-supports the card.
+Each generated card includes a `source` field: a list of one or more
+excerpts from the notes that together support the card. A list allows a
+card that combines facts from different parts of the notes to cite each
+one.
 
-> A card's source **matches** if its `source` text appears word-for-word in
-> the sample's `source_text`, after normalizing whitespace.
+> An **excerpt matches** if it appears word-for-word in the sample's
+> `source_text`, after normalizing whitespace.
+>
+> A card's source **matches** only if it contains at least one excerpt and
+> **every** excerpt matches.
 
-This check is deterministic and scored by code, not judgment.
+This check is deterministic and scored by code, not judgment. This is a
+per-card diagnostic, not a quality criterion. It does not count toward the
+clean card rate.
 
 **How the source field is used when grading:**
 
@@ -243,8 +250,9 @@ This check is deterministic and scored by code, not judgment.
   actually stated in the source text.
 - A card whose source does **not** match should be checked especially
   carefully, since the cited evidence may be paraphrased or invented.
-- A matching source does not automatically make a card supported. The quoted
-  text must actually contain every claim the card makes.
+- A matching source does not automatically make a card supported. The
+  excerpts, taken together, must actually contain every claim the card
+  makes.
 
 ---
 
@@ -276,8 +284,8 @@ Each evaluation run records the following.
 | Unambiguous rate     | Unambiguous cards ÷ total cards scored                |
 | Duplicate-free rate  | Non-duplicate cards ÷ total cards scored              |
 | Card count pass rate | Batches within `expected_card_range` ÷ batches scored |
-| Source match rate    | Cards whose `source` appears verbatim in the notes ÷  |
-|                      | total cards scored                                    |
+| Source match rate    | Cards whose `source` excerpts all appear verbatim in  |
+|                      | the notes ÷ total cards scored                        |
 
 Per-card rates are **pooled** across all cards in all scored batches.
 
@@ -304,8 +312,8 @@ For each sample:
 2. Compare against the expected outcome. If Stage 1 failed, record the
    error type and stop.
 3. If correctly rejected, stop.
-4. If correctly accepted, check each card's `source` against the notes and
-   record whether it matches.
+4. If correctly accepted, check every excerpt in each card's `source` list
+   against the notes, and record whether the card's source matches.
 5. If correctly accepted, score each card on the four per-card criteria.
 6. Mark any card that duplicates an earlier card in the batch.
 7. Record the card count and whether it falls within
@@ -338,6 +346,10 @@ comparison is needed, rescore the earlier run under the current version.
 
 ### Changelog
 
+- **1.2:** Changed `source` from a single excerpt to a list of excerpts, so
+  cards combining facts from different parts of the notes can cite each
+  one. A card's source matches only if it has at least one excerpt and
+  every excerpt matches. No runs had been scored under 1.1.
 - **1.1:** Added the automated source check and source match rate metric,
   following the addition of a `source` field to the generation output
   format. No runs had been scored under 1.0.

@@ -1,4 +1,5 @@
 import hashlib
+import json
 import os
 import time
 from functools import lru_cache
@@ -9,17 +10,15 @@ import anthropic
 from pydantic import BaseModel, Field, TypeAdapter, ValidationError
 
 
-# Every evaluation run records these settings, so changing any of them means
-# the results are no longer comparable with earlier runs.
+# Every evaluation run records these settings in its run.json, so changing
+# any of them means the results are no longer comparable with earlier runs.
 MODEL = "claude-haiku-4-5-20251001"
 PROMPT_VERSION = "v1"
 MAX_TOKENS = 4096
 REQUEST_TIMEOUT_SECONDS = 60
-
-# SDK 1.x removed temperature as a keyword argument, so it's sent through
-# extra_body instead. Haiku 4.5 accepts it, but Opus 4.7 and later models
-# reject any temperature with a 400 -- remove it if the model changes to one.
-TEMPERATURE = 0
+# The SDK's own default, set explicitly so retry behavior is a deliberate
+# setting and a future SDK default change can't alter it silently.
+MAX_RETRIES = 2
 
 # Haiku 4.5 base rates in USD per million tokens, from
 # https://platform.claude.com/docs/en/about-claude/pricing (checked 2026-09-29).
@@ -104,10 +103,16 @@ def _load_system_prompt() -> str:
 
 
 def get_prompt_hash() -> str:
-    # Covers everything sent besides the notes themselves, so an edit to the
-    # prompt without a version bump still shows up as a different hash.
-    combined = _load_system_prompt() + USER_MESSAGE_PREFIX + USER_MESSAGE_SUFFIX
-    return hashlib.sha256(combined.encode("utf-8")).hexdigest()[:12]
+    # Covers the system prompt, the text wrapped around the notes, and the
+    # output schema: everything sent with every request besides the notes
+    # and the request settings. An edit to any of them without a version bump
+    # still shows up as a different hash. Encoding the parts as a JSON list
+    # keeps the boundaries between them unambiguous, and sort_keys keeps the
+    # schema's serialization stable. The model, token limit, timeout, and
+    # retries aren't covered; each run records them in its metadata instead.
+    parts = [_load_system_prompt(), USER_MESSAGE_PREFIX, USER_MESSAGE_SUFFIX, OUTPUT_SCHEMA]
+    encoded = json.dumps(parts, sort_keys=True)
+    return hashlib.sha256(encoded.encode("utf-8")).hexdigest()[:12]
 
 
 def _estimate_cost(input_tokens: int, output_tokens: int) -> float:
@@ -124,7 +129,7 @@ def generate_cards(notes: str) -> GenerationResult:
             "Card generation needs it to call the Anthropic API."
         )
 
-    client = anthropic.Anthropic(api_key=api_key, timeout=REQUEST_TIMEOUT_SECONDS)
+    client = anthropic.Anthropic(api_key=api_key, timeout=REQUEST_TIMEOUT_SECONDS, max_retries=MAX_RETRIES)
 
     # Latency covers the whole call, including any automatic SDK retries.
     start = time.perf_counter()
@@ -137,7 +142,6 @@ def generate_cards(notes: str) -> GenerationResult:
                 {"role": "user", "content": USER_MESSAGE_PREFIX + notes + USER_MESSAGE_SUFFIX}
             ],
             output_config={"format": {"type": "json_schema", "schema": OUTPUT_SCHEMA}},
-            extra_body={"temperature": TEMPERATURE},
         )
     except anthropic.APITimeoutError as e:
         raise CardGenerationError("api_error", f"Request timed out: {e}") from e

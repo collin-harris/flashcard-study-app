@@ -1,7 +1,7 @@
 # Evaluation Rubric: AI Flashcard Generation
 
 **Project:** Flashcard & Spaced Repetition Study App
-**Rubric Version:** 1.2
+**Rubric Version:** 1.3
 **Last Updated:** September 2026
 **Status:** Active
 
@@ -34,7 +34,7 @@ the batch as a whole.
 
 ## Stage 1: Input Gate
 
-Scored on **all 35 samples**.
+Scored on **every sample that did not error**.
 
 ### Expected outcome
 
@@ -46,7 +46,7 @@ Scored on **all 35 samples**.
 `too_short` samples contain real content and should be **accepted**. They are
 expected to produce a small number of cards, not a rejection.
 
-### Error types
+### Gate errors
 
 | Error            | Definition                                      |
 |------------------|-------------------------------------------------|
@@ -226,6 +226,39 @@ deterministic app feature rather than model output.
 
 ---
 
+## Errored Samples and Run Validity
+
+A sample **errors** when the system fails to produce a valid result. Each
+errored sample is recorded with one of five **error kinds**:
+
+- **API failure** (`api_error`): the request to the API failed, timed
+  out, or was rate limited.
+- **Truncated output** (`truncated`): the output hit the token limit
+  before finishing.
+- **Refusal** (`refusal`): the model declined to respond.
+- **Invalid output** (`invalid_output`): the output does not match the
+  required format.
+- **Unexpected error** (`unexpected_error`): any other failure. This most
+  likely indicates a bug in the runner or the generation module rather
+  than model behavior, and should be investigated before any other result
+  from that run.
+
+An errored sample is neither accepted nor rejected, so it is **excluded**
+from every Stage 1 and Stage 2 rate. Because exclusion can hide
+problems (for example, errors concentrated in one category could make
+that category's rates look better than they are), errors are reported
+as their own metric and are never silently dropped.
+
+A run with **any** errored samples is **incomplete**. An incomplete run
+must not be used as a baseline or comparison point until the errored
+samples are resolved and rerun.
+
+A **partial** run is deliberately run on a subset of samples, for smoke
+testing. A partial run is also not valid as a baseline or comparison
+point, and its rates are not comparable with those of full runs.
+
+---
+
 ## Source Check (Automated)
 
 Each generated card includes a `source` field: a list of one or more
@@ -269,10 +302,13 @@ Each evaluation run records the following.
 
 ### Stage 1
 
-| Metric                | Definition                                              |
-|-----------------------|---------------------------------------------------------|
-| False rejection rate  | False rejections ÷ samples expected to be accepted (30) |
-| False acceptance rate | False acceptances ÷ samples expected to be rejected (5) |
+| Metric                | Definition                                                      |
+|-----------------------|-----------------------------------------------------------------|
+| False rejection rate  | False rejections ÷ non-errored samples expected to be accepted  |
+| False acceptance rate | False acceptances ÷ non-errored samples expected to be rejected |
+
+A complete run of the full test set has 30 samples expected to be
+accepted and 5 expected to be rejected.
 
 ### Stage 2
 
@@ -297,10 +333,16 @@ visible rather than averaged away.
 
 ### Operational
 
-| Metric                         | Definition                          |
-|--------------------------------|-------------------------------------|
-| Average cost per generation    | Total API cost ÷ samples run        |
-| Average latency per generation | Total generation time ÷ samples run |
+| Metric                         | Definition                           |
+|--------------------------------|--------------------------------------|
+| Average cost per generation    | Total API cost ÷ samples run         |
+| Average latency per generation | Total generation time ÷ samples that |
+|                                | received model output                |
+| Error rate                     | Errored samples ÷ total samples run, |
+|                                | reported overall and per category    |
+
+API failures and unexpected errors have no recorded latency, so average
+latency counts only samples that received model output.
 
 ---
 
@@ -308,15 +350,17 @@ visible rather than averaged away.
 
 For each sample:
 
-1. Record whether the system accepted or rejected the input.
-2. Compare against the expected outcome. If Stage 1 failed, record the
-   error type and stop.
-3. If correctly rejected, stop.
-4. If correctly accepted, check every excerpt in each card's `source` list
+1. If the sample errored, record its error kind and stop. It is excluded
+   from all Stage 1 and Stage 2 rates.
+2. Record whether the system accepted or rejected the input.
+3. Compare against the expected outcome. If Stage 1 failed, record which
+   gate error occurred and stop.
+4. If correctly rejected, stop.
+5. If correctly accepted, check every excerpt in each card's `source` list
    against the notes, and record whether the card's source matches.
-5. If correctly accepted, score each card on the four per-card criteria.
-6. Mark any card that duplicates an earlier card in the batch.
-7. Record the card count and whether it falls within
+6. If correctly accepted, score each card on the four per-card criteria.
+7. Mark any card that duplicates an earlier card in the batch.
+8. Record the card count and whether it falls within
    `expected_card_range`.
 
 Then compute the run's metrics and record them in
@@ -331,9 +375,13 @@ Each run in `eval/runs/` records at minimum:
 - Run ID and date
 - Rubric version used for scoring
 - Model and prompt version
-- Gate approach (separate call, combined call, pre-checks, or none)
+- Gate approach (separate call, single call, pre-checks, or none)
 - All metrics listed above
 - Notes on what changed from the previous run and why
+- Test set size and number of samples run
+- Whether the run is **partial** (deliberately run on a subset of
+  samples) or **incomplete** (one or more samples errored)
+- Each errored sample's ID, category, and error kind
 
 ---
 
@@ -346,6 +394,14 @@ comparison is needed, rescore the earlier run under the current version.
 
 ### Changelog
 
+- **1.3:** Defined errored samples as a distinct outcome, excluded from
+  all rates but reported as an error rate overall and per category. Runs
+  with any errors are marked incomplete and are not valid as a baseline
+  or comparison point. Added partial and incomplete flags to the run
+  record. Stage 1 rates now use non-errored sample counts rather than
+  fixed totals, partial runs are not valid for comparison, and average
+  latency counts only samples that received model output. No runs had
+  been scored under 1.2.
 - **1.2:** Changed `source` from a single excerpt to a list of excerpts, so
   cards combining facts from different parts of the notes can cite each
   one. A card's source matches only if it has at least one excerpt and

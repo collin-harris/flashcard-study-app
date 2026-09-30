@@ -1,7 +1,7 @@
 # Evaluation Rubric: AI Flashcard Generation
 
 **Project:** Flashcard & Spaced Repetition Study App
-**Rubric Version:** 1.3
+**Rubric Version:** 1.4
 **Last Updated:** September 2026
 **Status:** Active
 
@@ -257,6 +257,15 @@ A **partial** run is deliberately run on a subset of samples, for smoke
 testing. A partial run is also not valid as a baseline or comparison
 point, and its rates are not comparable with those of full runs.
 
+An **interrupted** run stopped before every selected sample ran, whether
+it was cancelled, crashed, or was killed. Its rates cover only the samples
+that finished, so an interrupted run is not valid as a baseline or
+comparison point; rerun it in full.
+
+Partial, interrupted, and incomplete are independent, so a run can be any
+combination of them. Only a run that is none of them is valid as a
+baseline or comparison point.
+
 ---
 
 ## Source Check (Automated)
@@ -266,8 +275,12 @@ excerpts from the notes that together support the card. A list allows a
 card that combines facts from different parts of the notes to cite each
 one.
 
-> An **excerpt matches** if it appears word-for-word in the sample's
-> `source_text`, after normalizing whitespace.
+> An **excerpt matches** if, after normalizing whitespace in both the
+> excerpt and the sample's `source_text`, the excerpt is non-empty and
+> appears word-for-word in the `source_text`. Normalizing whitespace
+> collapses every run of whitespace characters (spaces, tabs, line breaks,
+> non-breaking spaces, and so on) to a single space and trims both ends,
+> so an excerpt of only whitespace is empty.
 >
 > A card's source **matches** only if it contains at least one excerpt and
 > **every** excerpt matches.
@@ -297,8 +310,7 @@ Each evaluation run records the following.
 
 | Metric              | Definition                                             |
 |---------------------|--------------------------------------------------------|
-| **Clean card rate** | Cards passing all four per-card criteria ÷ total cards |
-|                     | scored in Stage 2                                      |
+| **Clean card rate** | Cards passing all four per-card criteria ÷ total cards scored in Stage 2 |
 
 ### Stage 1
 
@@ -320,8 +332,7 @@ accepted and 5 expected to be rejected.
 | Unambiguous rate     | Unambiguous cards ÷ total cards scored                |
 | Duplicate-free rate  | Non-duplicate cards ÷ total cards scored              |
 | Card count pass rate | Batches within `expected_card_range` ÷ batches scored |
-| Source match rate    | Cards whose `source` excerpts all appear verbatim in  |
-|                      | the notes ÷ total cards scored                        |
+| Source match rate    | Cards whose `source` excerpts all appear verbatim in the notes ÷ total cards scored |
 
 Per-card rates are **pooled** across all cards in all scored batches.
 
@@ -336,10 +347,8 @@ visible rather than averaged away.
 | Metric                         | Definition                           |
 |--------------------------------|--------------------------------------|
 | Average cost per generation    | Total API cost ÷ samples run         |
-| Average latency per generation | Total generation time ÷ samples that |
-|                                | received model output                |
-| Error rate                     | Errored samples ÷ total samples run, |
-|                                | reported overall and per category    |
+| Average latency per generation | Total generation time ÷ samples that received model output |
+| Error rate                     | Errored samples ÷ total samples run, reported overall and per category |
 
 API failures and unexpected errors have no recorded latency, so average
 latency counts only samples that received model output.
@@ -380,7 +389,8 @@ Each run in `eval/runs/` records at minimum:
 - Notes on what changed from the previous run and why
 - Test set size and number of samples run
 - Whether the run is **partial** (deliberately run on a subset of
-  samples) or **incomplete** (one or more samples errored)
+  samples), **interrupted** (stopped before every selected sample ran),
+  or **incomplete** (one or more samples errored)
 - Each errored sample's ID, category, and error kind
 
 ---
@@ -394,6 +404,15 @@ comparison is needed, rescore the earlier run under the current version.
 
 ### Changelog
 
+- **1.4:** An excerpt must be non-empty after normalizing whitespace to
+  match, since an empty excerpt would otherwise appear in any source text.
+  Defined what normalizing whitespace means. This matches how the runner
+  already scored excerpts. Defined interrupted runs (stopped before every
+  selected sample ran) as not valid as a baseline or comparison point,
+  added the interrupted flag to the run record, and stated that the
+  partial, interrupted, and incomplete flags are independent. Put every
+  metric table row on a single line; the wrapped rows had rendered as
+  extra rows. No runs had been scored under 1.3.
 - **1.3:** Defined errored samples as a distinct outcome, excluded from
   all rates but reported as an error rate overall and per category. Runs
   with any errors are marked incomplete and are not valid as a baseline

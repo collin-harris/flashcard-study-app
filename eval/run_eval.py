@@ -3,8 +3,10 @@
 
 Calls the same generate_cards() function the API endpoint will use, computes
 the automated metrics defined in eval/rubric.md, and writes everything for the
-run to its own folder in eval/runs/, including a hand-scoring sheet for the
-judgment-based criteria.
+run to its own folder in eval/runs/ (eval/runs/partial/ for a --samples run),
+including a hand-scoring sheet for the judgment-based criteria. Each sample's
+result is saved as soon as it finishes, so an interrupted run keeps the
+samples that completed.
 
 Requires ANTHROPIC_API_KEY, either exported in the shell or set in the
 repo's .env file, and the eval dependencies installed into .venv
@@ -39,6 +41,9 @@ from app.services.card_generation import CardGenerationError, GeneratedCards, ge
 TEST_SET_PATH = EVAL_DIR / "test_set" / "test_set.json"
 RUBRIC_PATH = EVAL_DIR / "rubric.md"
 RUNS_DIR = EVAL_DIR / "runs"
+# Partial runs are smoke tests, kept apart from full runs and never committed
+# (see .gitignore).
+PARTIAL_RUNS_DIR = RUNS_DIR / "partial"
 ENV_PATH = REPO_ROOT / ".env"
 
 GATE_APPROACH = "single call"
@@ -236,13 +241,24 @@ def inline_code(text: str) -> str:
     return f"{delimiter}{padding}{text}{padding}{delimiter}"
 
 
+def write_json(path: Path, data) -> None:
+    # Written to a temporary file and then renamed over the target, so an
+    # interruption mid-write leaves the previous version intact instead of a
+    # half-written file.
+    temp_path = path.with_name(path.name + ".tmp")
+    temp_path.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    os.replace(temp_path, path)
+
+
 def write_summary(path: Path, run_info: dict, metrics: dict, by_category: dict, records: list[dict]) -> None:
     error_rate = metrics["error_rate"]
     samples_run = metrics["samples_run"]
+    samples_selected = len(run_info["sample_ids"])
     test_set_size = run_info["test_set_size"]
 
-    # Partial (a --samples subset) and incomplete (some samples errored) are
-    # independent, so both are always stated, each with its own warning.
+    # Partial (a --samples subset), interrupted (stopped before every selected
+    # sample ran), and incomplete (some samples errored) are independent, so
+    # all three are always stated, each with its own warning.
     lines = [
         f"# Evaluation Run {run_info['run_id']}",
         "",
@@ -252,11 +268,15 @@ def write_summary(path: Path, run_info: dict, metrics: dict, by_category: dict, 
     ]
     if run_info["partial"]:
         lines.append(
-            f"- **Partial:** Yes. Only {samples_run} of {test_set_size} test set samples were run "
+            f"- **Partial:** Yes. Only {samples_selected} of {test_set_size} test set samples were selected "
             "(`--samples`). Use for smoke testing only, not as a baseline."
         )
     else:
-        lines.append(f"- **Partial:** No. All {test_set_size} test set samples were run.")
+        lines.append(f"- **Partial:** No. All {test_set_size} test set samples were selected.")
+    if run_info["interrupted"]:
+        lines.append(f"- **Interrupted:** Yes. The run stopped after {samples_run} of {samples_selected} samples.")
+    else:
+        lines.append(f"- **Interrupted:** No. All {samples_selected} selected samples ran.")
     if run_info["incomplete"]:
         lines.append(f"- **Incomplete:** Yes. {error_rate['count']} of {samples_run} samples errored.")
     else:
@@ -271,6 +291,13 @@ def write_summary(path: Path, run_info: dict, metrics: dict, by_category: dict, 
             "> and rerun first.",
             "",
         ]
+    if run_info["interrupted"]:
+        lines += [
+            f"> ⚠️ **Interrupted run.** Only {samples_run} of {samples_selected} selected samples finished",
+            "> before the run was stopped, so the rates below leave the rest out. Do not",
+            "> use this run as a baseline or comparison point; rerun it in full.",
+            "",
+        ]
     if run_info["partial"]:
         lines += [
             "> ⚠️ **Partial run.** The rates below cover only the samples selected with",
@@ -280,7 +307,7 @@ def write_summary(path: Path, run_info: dict, metrics: dict, by_category: dict, 
 
     lines += ["## Run Details", ""]
     for key, value in run_info.items():
-        if key not in ("sample_ids", "partial", "incomplete", "test_set_size"):
+        if key not in ("sample_ids", "partial", "interrupted", "incomplete", "test_set_size"):
             lines.append(f"- **{key}:** {value}")
     lines.append("")
 
@@ -409,18 +436,21 @@ def write_scoring_sheet(path: Path, run_id: str, records: list[dict], samples_by
 
 def write_scores_csv(path: Path, records: list[dict]) -> None:
     # utf-8-sig adds a byte order mark so Excel detects UTF-8 instead of
-    # garbling non-ASCII characters in questions.
+    # garbling non-ASCII characters in questions and answers.
     with path.open("w", newline="", encoding="utf-8-sig") as f:
         writer = csv.writer(f)
         writer.writerow([
-            "card_id", "sample_id", "category", "question",
+            "card_id", "sample_id", "category", "question", "answer",
             "atomic", "supported", "no_leakage", "unambiguous", "duplicate_of", "notes",
         ])
         for r in records:
             if not r["scored_in_stage2"]:
                 continue
             for card in r["cards"]:
-                writer.writerow([card["card_id"], r["id"], ", ".join(r["tags"]), card["question"], "", "", "", "", "", ""])
+                writer.writerow([
+                    card["card_id"], r["id"], ", ".join(r["tags"]), card["question"], card["answer"],
+                    "", "", "", "", "", "",
+                ])
 
 
 # ---------------------------------------------------------------------------
@@ -458,9 +488,11 @@ def main() -> None:
             sys.exit(f"Unknown sample IDs: {', '.join(sorted(unknown))}")
         samples = [s for s in all_samples if s["id"] in wanted]
 
+    # A partial run (--samples) is for smoke testing, never a baseline.
+    partial = len(samples) < len(all_samples)
     now = datetime.now()
     run_id = now.strftime("%Y-%m-%d_%H%M%S")
-    run_dir = RUNS_DIR / run_id
+    run_dir = (PARTIAL_RUNS_DIR if partial else RUNS_DIR) / run_id
     run_dir.mkdir(parents=True)
 
     run_info = {
@@ -470,36 +502,51 @@ def main() -> None:
         "model": card_generation.MODEL,
         "prompt_version": card_generation.PROMPT_VERSION,
         "prompt_hash": card_generation.get_prompt_hash(),
-        "temperature": card_generation.TEMPERATURE,
         "max_tokens": card_generation.MAX_TOKENS,
+        "request_timeout_seconds": card_generation.REQUEST_TIMEOUT_SECONDS,
+        "max_retries": card_generation.MAX_RETRIES,
         "gate_approach": GATE_APPROACH,
         "anthropic_sdk_version": anthropic.__version__,
-        # A partial run (--samples) is for smoke testing, never a baseline.
-        "partial": len(samples) < len(all_samples),
+        "partial": partial,
+        # Starts true and is cleared only once every selected sample has run
+        # and all output is written, so a run killed outright (not just by
+        # Ctrl+C) is still marked interrupted.
+        "interrupted": True,
         # An incomplete run had errored samples, so its rates leave some out
         # and it can't be a baseline either. Set once the run finishes.
         "incomplete": None,
         "test_set_size": len(all_samples),
         "sample_ids": [s["id"] for s in samples],
     }
+    write_json(run_dir / "run.json", run_info)
 
     records = []
-    for i, sample in enumerate(samples, start=1):
-        record = run_sample(sample)
-        records.append(record)
+    interrupted = False
+    try:
+        for i, sample in enumerate(samples, start=1):
+            record = run_sample(sample)
+            records.append(record)
+            # Saved after every sample, so an interrupted run keeps the
+            # samples that finished.
+            write_json(run_dir / "results.json", records)
 
-        if record["outcome"] == "error":
-            status = f"ERROR ({record['error']['kind']})"
-        elif record["outcome"] == "accept":
-            status = f"accept, {record['card_count']} cards"
-        else:
-            status = "reject"
-        check = "" if record["stage1_correct"] is None else (" ok" if record["stage1_correct"] else " WRONG")
-        cost = f" ${record['metadata']['cost_usd']:.4f}" if record["metadata"] else ""
-        print(f"[{i}/{len(samples)}] {sample['id']}: {status}{check}{cost}")
+            if record["outcome"] == "error":
+                status = f"ERROR ({record['error']['kind']})"
+            elif record["outcome"] == "accept":
+                status = f"accept, {record['card_count']} cards"
+            else:
+                status = "reject"
+            check = "" if record["stage1_correct"] is None else (" ok" if record["stage1_correct"] else " WRONG")
+            cost = f" ${record['metadata']['cost_usd']:.4f}" if record["metadata"] else ""
+            print(f"[{i}/{len(samples)}] {sample['id']}: {status}{check}{cost}")
+    except KeyboardInterrupt:
+        # The finished samples are still written up below, marked interrupted.
+        interrupted = True
+        print(f"\nInterrupted after {len(records)} of {len(samples)} samples. Writing results for those.")
 
     metrics = compute_metrics(records)
     by_category = compute_metrics_by_category(records)
+    run_info["interrupted"] = interrupted
     run_info["incomplete"] = metrics["error_rate"]["count"] > 0
 
     run_record = {
@@ -508,11 +555,13 @@ def main() -> None:
         "metrics": metrics,
         "metrics_by_category": by_category,
     }
-    (run_dir / "run.json").write_text(json.dumps(run_record, indent=2) + "\n", encoding="utf-8")
-    (run_dir / "results.json").write_text(json.dumps(records, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    write_json(run_dir / "results.json", records)
     write_summary(run_dir / "summary.md", run_info, metrics, by_category, records)
     write_scoring_sheet(run_dir / "scoring_sheet.md", run_id, records, {s["id"]: s for s in samples})
     write_scores_csv(run_dir / "scores.csv", records)
+    # Written last, so run.json says the run wasn't interrupted only once
+    # every other file is in place.
+    write_json(run_dir / "run.json", run_record)
 
     print()
     print(f"Error rate: {format_rate(metrics['error_rate'])}")
@@ -522,6 +571,12 @@ def main() -> None:
     print(f"Source match rate: {format_rate(metrics['stage2']['source_match_rate'])}")
     print(f"Total cost: ${metrics['operational']['total_cost_usd']:.4f}")
     print(f"Results written to {run_dir}")
+    if run_info["interrupted"]:
+        print()
+        print(
+            "WARNING: this run was interrupted. Do not use it as a baseline or comparison "
+            "point; rerun it in full."
+        )
     if run_info["incomplete"]:
         print()
         print(

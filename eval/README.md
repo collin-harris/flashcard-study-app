@@ -14,7 +14,8 @@ gets shipped. It computes the automated metrics defined in
 - `run_eval.py`: The evaluation runner
 - `requirements.txt`: The runner's dependencies: `backend/requirements.txt`
   plus `python-dotenv`
-- `runs/`: One folder per run, created by the runner
+- `runs/`: One folder per full run, created by the runner. Partial runs go
+  in `runs/partial/`, which is excluded by `.gitignore`
 
 All commands below are run from the repository root.
 
@@ -107,25 +108,39 @@ run records its actual cost.
 A sample that fails (API error, truncated output, refusal, invalid output,
 or an unexpected error) is recorded as an error and the run continues.
 
+Each sample's result is saved as soon as it finishes. If you stop a run
+with Ctrl+C, the runner writes all the output files for the samples that
+finished and marks the run interrupted. A run killed outright (for example,
+by closing the terminal) keeps `run.json` and the finished samples in
+`results.json`, and `run.json` still marks it interrupted.
+
 ## Output
 
-Each run writes to its own folder, `eval/runs/<run_id>/`, where the run ID
-is the local start time (for example `2026-10-01_141502`).
+Each run writes to its own folder, where the run ID is the local start time
+(for example `2026-10-01_141502`):
+
+- Full runs: `eval/runs/<run_id>/`
+- Partial runs (`--samples`): `eval/runs/partial/<run_id>/`. This folder is
+  excluded by `.gitignore`, so smoke tests are never committed.
+
+Each folder contains:
 
 - `run.json`: Run metadata (date, rubric version, model, prompt version and
-  hash, temperature, max tokens, gate approach, SDK version, partial and
-  incomplete flags, test set size), the list of errored samples, and every
-  automated metric, overall and per category
+  hash, max tokens, request timeout, max retries, gate approach, SDK
+  version, partial, interrupted, and incomplete flags, test set size), the
+  list of errored samples, and every automated metric, overall and per
+  category. The prompt hash covers the system prompt, the text wrapped
+  around the notes, and the output schema.
 - `results.json`: One record per sample: outcome, the model's raw output, the
   parsed output, token counts and cost, any error, the card count, and the
-  source check for each card and excerpt
+  source check for each card and excerpt. Rewritten after every sample.
 - `summary.md`: The run status, errored samples, and metrics as readable
   tables, overall, per category, and per sample
 - `scoring_sheet.md`: Read-only reference for hand scoring: each correctly
   accepted sample's source text, followed by its cards and their source
   excerpts, each marked ✓ or ✗ by the automated source check
-- `scores.csv`: One row per card, with blank columns for the hand-scored
-  criteria
+- `scores.csv`: One row per card, with its question and answer and blank
+  columns for the hand-scored criteria
 
 ### Hand scoring
 
@@ -147,14 +162,19 @@ automated yet.
 
 ## Run validity
 
-Two flags in `run.json`, also shown at the top of `summary.md`, say whether
-a run can be used as a baseline or comparison point. They're independent,
-so a run can be partial, incomplete, both, or neither. Only a run that is
-neither is valid for comparison.
+Three flags in `run.json`, also shown at the top of `summary.md`, say
+whether a run can be used as a baseline or comparison point. They're
+independent, so a run can have any combination of them. Only a run with
+none of them set is valid for comparison.
 
 **Partial:** the run used `--samples` to run a subset of the test set, for
 smoke testing. Its rates cover only the selected samples and aren't
 comparable with those of full runs.
+
+**Interrupted:** the run stopped before every selected sample ran. Its
+rates cover only the samples that finished. The flag is set when the run
+starts and cleared only after every sample has run and all output is
+written, so a run killed without warning is still marked.
 
 **Incomplete:** at least one sample errored. Errored samples are excluded
 from every Stage 1 and Stage 2 rate, which can make results look better
@@ -164,3 +184,11 @@ comparison point until the errored samples are resolved and rerun.
 
 See the "Errored Samples and Run Validity" section of
 [`rubric.md`](rubric.md) for the full definitions.
+
+## Committing runs
+
+Commit a run folder only if none of the three flags is set: not partial,
+not interrupted, and not incomplete. Delete any other run, or fix the cause
+and rerun it. Partial runs are already excluded by `.gitignore`, but
+interrupted and incomplete runs are written to `eval/runs/` alongside valid
+ones, so check `run.json` or the top of `summary.md` before committing.

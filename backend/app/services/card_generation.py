@@ -55,8 +55,31 @@ class Rejection(BaseModel):
 
 GenerationOutput = Union[GeneratedCards, Rejection]
 
+
+def _inline_refs(schema: dict) -> dict:
+    # The API rejects `$defs` in an `anyOf` schema ("For 'anyOf', '$defs' is
+    # not supported"), a restriction the structured outputs docs don't
+    # mention. So every local `$ref` is replaced with a copy of the
+    # definition it points to, and `$defs` is dropped. None of these models
+    # refer to themselves, so the inlining always terminates.
+    defs = schema.get("$defs", {})
+
+    def resolve(node):
+        if isinstance(node, dict):
+            if "$ref" in node:
+                name = node["$ref"].removeprefix("#/$defs/")
+                siblings = {key: resolve(value) for key, value in node.items() if key != "$ref"}
+                return {**resolve(defs[name]), **siblings}
+            return {key: resolve(value) for key, value in node.items() if key != "$defs"}
+        if isinstance(node, list):
+            return [resolve(item) for item in node]
+        return node
+
+    return resolve(schema)
+
+
 _output_adapter = TypeAdapter(GenerationOutput)
-OUTPUT_SCHEMA = anthropic.transform_schema(_output_adapter.json_schema())
+OUTPUT_SCHEMA = _inline_refs(anthropic.transform_schema(_output_adapter.json_schema()))
 
 
 class GenerationMetadata(BaseModel):

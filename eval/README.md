@@ -12,6 +12,9 @@ gets shipped. It computes the automated metrics defined in
 - `test_set/test_set.json`: The 35 fixed test samples, with category tags and
   expected card ranges
 - `run_eval.py`: The evaluation runner
+- `score_run.py`: Turns a run's hand scores into final metrics and records
+  the run in `results_log.md`
+- `results_log.md`: One row per valid run and scorer, for comparing runs
 - `requirements.txt`: The runner's dependencies: `backend/requirements.txt`
   plus `python-dotenv`
 - `runs/`: One folder per full run, created by the runner. Partial runs go
@@ -156,9 +159,82 @@ The definitions and examples for each criterion are in
 [`rubric.md`](rubric.md). `scores.csv` is written with a UTF-8 byte order
 mark so Excel displays non-ASCII characters correctly.
 
-Computing the clean card rate and the other hand-scored rates from
-`scores.csv`, and recording results in `eval/results_log.md`, is not
-automated yet.
+## Scoring a run
+
+`score_run.py` validates a run's hand scores, computes the hand-scored
+metrics, and records the run in `results_log.md`. It uses only the standard
+library and makes no API calls.
+
+```bash
+.venv/bin/python eval/score_run.py eval/runs/2026-10-02_215109
+```
+
+It reads only `card_id`, the four criteria, and `duplicate_of` from
+`scores.csv`. Excel auto-converts some values in the `question` and
+`answer` columns (dates, for example), so card text always comes from
+`results.json`. Saving from Excel as "CSV UTF-8" is fine; the byte order
+mark, stray spaces around values, and blank trailing rows are all handled.
+
+**Validation.** Before computing anything, the script checks the following
+and, if anything fails, lists every problem and writes nothing:
+
+- The run is valid: not partial, interrupted, or incomplete (see
+  [Run validity](#run-validity)), with no errored or missing samples in
+  `results.json`.
+- The run's rubric version matches the current `rubric.md`. A run's
+  automated metrics were computed under its own rubric version, so scores
+  under a different version can't be combined with them.
+- Every card scored in Stage 2 has exactly one row in `scores.csv`, and
+  every row is a card scored in Stage 2.
+- Each of the four criteria is exactly `Y` or `N`.
+- Each `duplicate_of` is an earlier card in the same sample.
+
+**Output.** The metrics are written to `hand_scores.json` in the run folder:
+the clean card rate, the atomic, supported, no-leakage, unambiguous, and
+duplicate-free rates, and the automated metrics copied from `run.json`, all
+overall and per category. Per-card rates are pooled across all scored
+cards, and duplicates don't count against the clean card rate, as defined
+in [`rubric.md`](rubric.md).
+
+### Scorers
+
+`--scorer` names who scored the run, and defaults to `hand`. An LLM judge's
+label **must** include the judge's model and judge prompt version, for
+example `judge:sonnet-5:v1`. The scorer label identifies the run's row in
+the results log, so an unversioned label would let a new judge prompt
+silently replace the old one's results. The output file is named after
+the scorer (`judge_sonnet-5_v1_scores.json`, with colons replaced since
+Windows doesn't allow them in file names).
+
+### Logging a run without scores
+
+To record a valid run's automated metrics without hand scores, for example
+to track run-to-run variation:
+
+```bash
+.venv/bin/python eval/score_run.py --automated-only eval/runs/2026-10-02_215610
+```
+
+`scores.csv` isn't read and no scores file is written. The run's row shows
+the scored columns as `not scored`.
+
+## Results log
+
+`results_log.md` has one row per valid run and scorer: run ID, date, model,
+prompt version and hash, rubric version, scorer, each scored rate, the
+Stage 1 gate rates, card count pass rate, source match rate, and average
+cost. Each run's full metrics, including per-category results, stay in its
+folder.
+
+The table is written by `score_run.py`, so don't edit its rows by hand.
+Rerunning the script updates rows rather than adding duplicates:
+
+- Scoring a run again with the same scorer replaces that scorer's row.
+- Scoring a run replaces its `not scored` row, if it has one.
+- A run can have rows from several scorers, for example `hand` and a judge,
+  so their scores can be compared.
+- `--automated-only` is refused for a run that already has a scored row,
+  since that row already includes the automated metrics.
 
 ## Run validity
 

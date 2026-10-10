@@ -18,6 +18,7 @@ Usage:
 """
 import argparse
 import csv
+import hashlib
 import json
 import os
 import re
@@ -40,6 +41,8 @@ from app.services.card_generation import CardGenerationError, GeneratedCards, ge
 
 TEST_SET_PATH = EVAL_DIR / "test_set" / "test_set.json"
 RUBRIC_PATH = EVAL_DIR / "rubric.md"
+# Records the test set version, so test_set.json stays a plain list of samples.
+README_PATH = EVAL_DIR / "README.md"
 RUNS_DIR = EVAL_DIR / "runs"
 # Partial runs are smoke tests, kept apart from full runs and never committed
 # (see .gitignore).
@@ -54,12 +57,39 @@ REJECT_CATEGORY = "unusable_input"  # the only category expected to be rejected
 # Running samples
 # ---------------------------------------------------------------------------
 
-def read_rubric_version() -> str:
-    # Read from the rubric itself so the recorded version can't go stale.
-    match = re.search(r"^\*\*Rubric Version:\*\*\s*(\S+)", RUBRIC_PATH.read_text(encoding="utf-8"), re.MULTILINE)
+def read_version(path: Path, label: str) -> str:
+    # Read from the document itself so the recorded version can't go stale.
+    match = re.search(rf"^\*\*{label}:\*\*\s*(\S+)", path.read_text(encoding="utf-8"), re.MULTILINE)
     if not match:
-        sys.exit(f"Could not find a '**Rubric Version:**' line in {RUBRIC_PATH}.")
+        sys.exit(f"Could not find a '**{label}:**' line in {path}.")
     return match.group(1)
+
+
+def read_rubric_version() -> str:
+    return read_version(RUBRIC_PATH, "Rubric Version")
+
+
+def read_test_set_version() -> str:
+    return read_version(README_PATH, "Test Set Version")
+
+
+def hash_json(data) -> str:
+    # Hashes canonical JSON, so reformatting test_set.json doesn't change the
+    # hash. Shortened to 12 characters, like the prompt hash.
+    return hashlib.sha256(json.dumps(data, sort_keys=True).encode("utf-8")).hexdigest()[:12]
+
+
+def get_test_set_hash(samples: list[dict]) -> str:
+    # Covers every field of every sample, so a label edit made without a
+    # version bump still shows up as a different hash.
+    return hash_json(samples)
+
+
+def get_source_text_hash(samples: list[dict]) -> str:
+    # Covers only the given samples' IDs and notes. Relabeling or adding
+    # samples doesn't change it, so recompute_run.py can use it to confirm
+    # that the notes a run was generated from haven't changed.
+    return hash_json([[s["id"], s["source_text"]] for s in samples])
 
 
 def expected_outcome(sample: dict) -> str:
@@ -113,32 +143,47 @@ def run_sample(sample: dict) -> dict:
     record["raw_text"] = result.raw_text
     record["output"] = result.output.model_dump()
     record["metadata"] = result.metadata.model_dump()
-
-    accepted = isinstance(result.output, GeneratedCards)
-    record["outcome"] = "accept" if accepted else "reject"
-    record["stage1_correct"] = record["outcome"] == record["expected_outcome"]
-    record["scored_in_stage2"] = accepted and record["stage1_correct"]
-
-    # Cards are checked for every accepted sample so false acceptances can be
-    # inspected too, but only scored_in_stage2 samples count toward metrics.
-    if accepted:
-        low, high = sample["expected_card_range"]
-        record["card_count"] = len(result.output.cards)
-        record["card_count_in_range"] = low <= record["card_count"] <= high
-
-        normalized_source = normalize_whitespace(sample["source_text"])
+    record["outcome"] = "accept" if isinstance(result.output, GeneratedCards) else "reject"
+    if record["outcome"] == "accept":
         for number, card in enumerate(result.output.cards, start=1):
-            matches = [excerpt_matches(excerpt, normalized_source) for excerpt in card.source]
             record["cards"].append({
                 "card_id": f"{sample['id']}-c{number:02d}",
                 "question": card.question,
                 "answer": card.answer,
                 "source": card.source,
-                "excerpt_matches": matches,
-                "source_matches": bool(matches) and all(matches),
             })
 
+    derive_fields(record, sample)
     return record
+
+
+def derive_fields(record: dict, sample: dict) -> None:
+    """Fills in the fields derived from a record's outcome and the sample's labels.
+
+    Everything else in the record is what the model returned. Shared with
+    recompute_run.py, so a recomputed run is derived exactly the way a new
+    run is.
+    """
+    record["tags"] = sample["tags"]
+    record["expected_outcome"] = expected_outcome(sample)
+    record["expected_card_range"] = sample["expected_card_range"]
+    if record["outcome"] == "error":
+        return
+    record["stage1_correct"] = record["outcome"] == record["expected_outcome"]
+    record["scored_in_stage2"] = record["outcome"] == "accept" and record["stage1_correct"]
+
+    # Cards are checked for every accepted sample so false acceptances can be
+    # inspected too, but only scored_in_stage2 samples count toward metrics.
+    if record["outcome"] == "accept":
+        low, high = sample["expected_card_range"]
+        record["card_count"] = len(record["cards"])
+        record["card_count_in_range"] = low <= record["card_count"] <= high
+
+        normalized_source = normalize_whitespace(sample["source_text"])
+        for card in record["cards"]:
+            matches = [excerpt_matches(excerpt, normalized_source) for excerpt in card["source"]]
+            card["excerpt_matches"] = matches
+            card["source_matches"] = bool(matches) and all(matches)
 
 
 # ---------------------------------------------------------------------------
@@ -499,6 +544,9 @@ def main() -> None:
         "run_id": run_id,
         "date": now.isoformat(timespec="seconds"),
         "rubric_version": read_rubric_version(),
+        "test_set_version": read_test_set_version(),
+        "test_set_hash": get_test_set_hash(all_samples),
+        "source_text_hash": get_source_text_hash(samples),
         "model": card_generation.MODEL,
         "prompt_version": card_generation.PROMPT_VERSION,
         "prompt_hash": card_generation.get_prompt_hash(),

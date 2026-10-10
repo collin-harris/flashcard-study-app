@@ -9,18 +9,56 @@ gets shipped. It computes the automated metrics defined in
 
 - `rubric.md`: How generated cards are scored, and the definition of every
   metric
-- `test_set/test_set.json`: The 35 fixed test samples, with category tags and
-  expected card ranges
+- `test_set/test_set.json`: The 35 test samples, with category tags and
+  expected card ranges. Versioned; see [Test set](#test-set)
 - `run_eval.py`: The evaluation runner
+- `recompute_run.py`: Recomputes a run's automated metrics under the
+  current rubric and test set, without calling the API
 - `score_run.py`: Turns a run's hand scores into final metrics and records
   the run in `results_log.md`
-- `results_log.md`: One row per valid run and scorer, for comparing runs
+- `results_log.md`: The shipping criteria, and one row per valid run,
+  rubric and test set version, and scorer, for comparing runs
 - `requirements.txt`: The runner's dependencies: `backend/requirements.txt`
   plus `python-dotenv`
 - `runs/`: One folder per full run, created by the runner. Partial runs go
   in `runs/partial/`, which is excluded by `.gitignore`
 
 All commands below are run from the repository root.
+
+## Test set
+
+**Test Set Version:** 2
+
+Each run records the test set version and a hash of the test set
+(`test_set_hash`), like the prompt hash, so an edit made without a version
+bump still shows up as a different hash. Any change to a sample's labels
+(`tags` or `expected_card_range`) increments the version. A sample's
+`source_text` is never edited, since a run's recorded outputs were
+generated from it; to change the text, add a new sample with a new ID.
+Runs scored under different test set versions are not directly
+comparable; [recompute](#recomputing-a-run) the earlier run under the
+current version first.
+
+### Changelog
+
+- **2:** Replaced the `expected_card_range` of every sample expected to be
+  accepted with hand-counted ranges. The original ranges came from the
+  synthetic data generator that produced the test set and were never
+  checked against the notes. The new ranges count one card per distinct
+  fact worth studying: a closed set of six or fewer items counts as one
+  card, and framing or transition sentences don't count. The counts were
+  made after the baseline runs, and some were made after seeing Run 1's
+  output, so they may lean toward what the model produced. No
+  `source_text` changed, and the `unusable_input` samples stay at
+  `[0, 0]`.
+- **1:** Initial 35-sample test set. Runs made before test set versioning
+  (`2026-10-02_215109` and `2026-10-02_215610`) used this version.
+
+### Known limitations
+
+- **Duplicates are under-tested.** No sample repeats content, so the
+  duplicate criterion only catches the model restating a fact in a new
+  way, never notes that repeat themselves.
 
 ## Setup
 
@@ -128,9 +166,10 @@ Each run writes to its own folder, where the run ID is the local start time
 
 Each folder contains:
 
-- `run.json`: Run metadata (date, rubric version, model, prompt version and
-  hash, max tokens, request timeout, max retries, gate approach, SDK
-  version, partial, interrupted, and incomplete flags, test set size), the
+- `run.json`: Run metadata (date, rubric version, test set version and
+  hash, source text hash, model, prompt version and hash, max tokens,
+  request timeout, max retries, gate approach, SDK version, partial,
+  interrupted, and incomplete flags, test set size), the
   list of errored samples, and every automated metric, overall and per
   category. The prompt hash covers the system prompt, the text wrapped
   around the notes, and the output schema.
@@ -166,7 +205,7 @@ metrics, and records the run in `results_log.md`. It uses only the standard
 library and makes no API calls.
 
 ```bash
-.venv/bin/python eval/score_run.py eval/runs/2026-10-02_215109
+.venv/bin/python eval/score_run.py eval/runs/2026-10-02_215109/rescored/rubric-1.5_test-set-2
 ```
 
 It reads only `card_id`, the four criteria, and `duplicate_of` from
@@ -181,18 +220,22 @@ and, if anything fails, lists every problem and writes nothing:
 - The run is valid: not partial, interrupted, or incomplete (see
   [Run validity](#run-validity)), with no errored or missing samples in
   `results.json`.
-- The run's rubric version matches the current `rubric.md`. A run's
-  automated metrics were computed under its own rubric version, so scores
-  under a different version can't be combined with them.
-- Every card scored in Stage 2 has exactly one row in `scores.csv`, and
-  every row is a card scored in Stage 2.
+- The run's rubric and test set versions match the current `rubric.md`
+  and test set. A run's automated metrics were computed under its own
+  versions, so scores under different versions can't be combined with
+  them. To score an older run under the current versions,
+  [recompute](#recomputing-a-run) it first and score the recomputed
+  folder. A run without a recorded test set version counts as version 1.
+- Every card scored in Stage 2 has exactly one row in the scores file,
+  and every row is a card scored in Stage 2.
 - Each of the four criteria is exactly `Y` or `N`.
 - Each `duplicate_of` is an earlier card in the same sample.
 
 **Output.** The metrics are written to `hand_scores.json` in the run folder:
-the clean card rate, the atomic, supported, no-leakage, unambiguous, and
-duplicate-free rates, and the automated metrics copied from `run.json`, all
-overall and per category. Per-card rates are pooled across all scored
+the rubric and test set versions, the scores file used, the clean card
+rate, the atomic, supported, no-leakage, unambiguous, and duplicate-free
+rates, and the automated metrics copied from `run.json`, all overall and
+per category. Per-card rates are pooled across all scored
 cards, and duplicates don't count against the clean card rate, as defined
 in [`rubric.md`](rubric.md).
 
@@ -206,35 +249,97 @@ silently replace the old one's results. The output file is named after
 the scorer (`judge_sonnet-5_v1_scores.json`, with colons replaced since
 Windows doesn't allow them in file names).
 
+### Scores file
+
+By default the script reads `scores.csv` in the run folder. `--scores`
+reads a different file instead, and its name is recorded in the output as
+`scores_file`:
+
+```bash
+.venv/bin/python eval/score_run.py --scores path/to/scores.csv <run_folder>
+```
+
 ### Logging a run without scores
 
 To record a valid run's automated metrics without hand scores, for example
 to track run-to-run variation:
 
 ```bash
-.venv/bin/python eval/score_run.py --automated-only eval/runs/2026-10-02_215610
+.venv/bin/python eval/score_run.py --automated-only eval/runs/2026-10-02_215610/rescored/rubric-1.5_test-set-2
 ```
 
-`scores.csv` isn't read and no scores file is written. The run's row shows
-the scored columns as `not scored`.
+No scores file is read or written. The run's row shows the scored columns
+as `not scored`.
 
 ## Results log
 
-`results_log.md` has one row per valid run and scorer: run ID, date, model,
-prompt version and hash, rubric version, scorer, each scored rate, the
-Stage 1 gate rates, card count pass rate, source match rate, and average
-cost. Each run's full metrics, including per-category results, stay in its
-folder.
+`results_log.md` opens with the shipping criteria: the results a prompt or
+model change must reach before it ships, set before the runs that will be
+judged against them. Below them is one row per valid run, rubric and test
+set version, and scorer: run ID, date, model, prompt version and hash,
+rubric and test set versions, scorer, each scored rate, the Stage 1 gate
+rates, card count pass rate, source match rate, and average cost. Each
+run's full metrics, including per-category results, stay in its folder.
 
 The table is written by `score_run.py`, so don't edit its rows by hand.
+Text above the table, including the shipping criteria, is left as it is.
 Rerunning the script updates rows rather than adding duplicates:
 
-- Scoring a run again with the same scorer replaces that scorer's row.
-- Scoring a run replaces its `not scored` row, if it has one.
+- A row is identified by its run ID, rubric version, test set version, and
+  scorer. Recomputing and rescoring a run under new versions adds rows, so
+  the run's earlier results stay visible.
+- Scoring a run again under the same versions with the same scorer
+  replaces that row.
+- Scoring a run replaces its `not scored` row for the same versions, if it
+  has one.
 - A run can have rows from several scorers, for example `hand` and a judge,
   so their scores can be compared.
-- `--automated-only` is refused for a run that already has a scored row,
-  since that row already includes the automated metrics.
+- `--automated-only` is refused for a run that already has a scored row
+  for the same versions, since that row already includes the automated
+  metrics.
+
+## Recomputing a run
+
+When the rubric or test set version changes, an existing run's automated
+metrics can be recomputed under the new versions without calling the API:
+
+```bash
+.venv/bin/python eval/recompute_run.py eval/runs/2026-10-02_215109
+```
+
+The run's original files are never modified. The recomputed run is
+written to its own folder inside the run folder,
+`rescored/rubric-<version>_test-set-<version>/`, with `results.json`,
+`run.json`, `summary.md`, and `scoring_sheet.md`. The original results,
+and any scores made under the earlier versions, stay where they are.
+
+- The model's recorded outputs (outcome, raw and parsed output, token
+  counts and cost, errors, and each card's ID, question, answer, and
+  source) are copied unchanged. The script stops without writing anything
+  if any of them would differ.
+- The fields derived from them and from the test set's labels are
+  recomputed with the runner's own code: the expected outcome and card
+  range, Stage 1 correctness, which samples are scored in Stage 2, the
+  card count check, and the source check.
+- `run.json` records the new rubric and test set versions and hashes, and
+  `recomputed_from` gives the versions the run was originally made under.
+- Recomputing is only valid if the run's notes haven't changed, which is
+  why `source_text` is never edited. Each run records a `source_text_hash`
+  of its samples' IDs and notes, and the script refuses to recompute a run
+  whose hash no longer matches. Runs made before the hash existed can't be
+  checked this way, and the script prints a note saying so.
+- If the current test set has samples the run didn't cover, the
+  recomputed run is marked partial.
+
+The script imports the runner's code, so it has the same startup delay
+(see [Setup](#setup)), but it never calls the API.
+
+Rerunning it rewrites those four files, but never a scores file, so scores
+saved in the recomputed folder are kept. The hand-scored criteria aren't
+recomputed. Rescore them under the new rubric, by hand or with a validated
+judge, save the scores as `scores.csv` in the recomputed folder (a copy of
+the earlier `scores.csv` is a good starting point), and run
+`score_run.py` on that folder.
 
 ## Run validity
 
@@ -268,3 +373,6 @@ not interrupted, and not incomplete. Delete any other run, or fix the cause
 and rerun it. Partial runs are already excluded by `.gitignore`, but
 interrupted and incomplete runs are written to `eval/runs/` alongside valid
 ones, so check `run.json` or the top of `summary.md` before committing.
+
+Commit a run's `rescored/` folders along with it, so each row in
+`results_log.md` can be traced back to its files.

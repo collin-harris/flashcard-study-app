@@ -1,8 +1,8 @@
 # Evaluation Rubric: AI Flashcard Generation
 
 **Project:** Flashcard & Spaced Repetition Study App
-**Rubric Version:** 1.4
-**Last Updated:** September 2026
+**Rubric Version:** 1.5
+**Last Updated:** October 2026
 **Status:** Active
 
 ---
@@ -17,7 +17,9 @@ than what a particular model happens to produce.
 The test set and this rubric stay fixed across evaluation runs. What changes
 between runs is the system under test: the prompt, the model, or the
 pipeline design. Holding the test set and rubric constant is what makes
-scores comparable from one run to the next.
+scores comparable from one run to the next. Both are versioned (see
+"Versioning" below, and `eval/README.md` for the test set), and each run
+records the versions it was scored under.
 
 ---
 
@@ -88,6 +90,15 @@ Each card receives a pass or fail on each of the following four criteria.
 >
 > **Exception:** an answer that lists a **closed set of six or fewer
 > items** (a fixed group the question itself defines) counts as atomic.
+>
+> **Closed set test:** items are a closed set when the notes say the same
+> thing about all of them. They are separate facts when the notes say
+> something different about each. Splitting a closed set would produce
+> cards that differ only by position ("What was the first principle?",
+> "What was the second?").
+>
+> A closed list and the reason behind it are still separate facts, so a
+> card that asks for both fails.
 
 **Why it matters:** SM-2 schedules each card from a single 0–5 rating. If a
 card contains several facts and the student remembers only some of them,
@@ -110,13 +121,29 @@ card.
   5' to 3'.
   → **Pass.** One idea, even though the answer is a full sentence.
 
+- **Source:** "GDP = market value of final goods/services... not used
+  goods, not intermediate (avoid double count)."
+  **Q:** Which two kinds of goods are excluded from GDP, and why?
+  **A:** Used goods and intermediate goods, to avoid double counting.
+  → **Fail.** The two kinds of goods are a closed set, since the notes say
+  the same thing about both, but the reason they're excluded is a
+  separate fact.
+
 #### 2. Supported
 
 > A card is **supported** if every claim in its question and answer is
-> explicitly stated in the source text. Rewording is allowed. Combining
-> facts that are each stated in the source is allowed. Adding facts from
-> outside the source, or drawing conclusions the source does not state,
-> fails.
+> stated in the source text, or clearly established elsewhere in the same
+> notes. Rewording is allowed. Combining facts that are each stated in the
+> source is allowed. Adding facts from outside the source, or drawing
+> conclusions the source does not state, fails.
+>
+> **Context rule:** notes often set context once and rely on it
+> afterward, such as a year at the top of a timeline that applies to the
+> entries below it. A claim that applies context the notes clearly
+> establish is supported, even if no single sentence states it. A
+> conclusion the notes never state still fails, even if it follows
+> logically, and so does a fact from outside the notes, even if it is
+> true.
 
 **Why it matters:** the goal is zero hallucination. This rule also keeps
 scoring practical: each card is checked against the source text, not
@@ -143,6 +170,13 @@ fact-checked against the outside world.
   **A:** It is spent on metabolism and lost as heat.
   → **Pass.** The answer rewords the source without adding anything new.
 
+- **Source:** Lecture notes that open with "Estates General called
+  1789..." and later list "Bastille stormed July 14".
+  **Q:** On what date was the Bastille stormed?
+  **A:** July 14, 1789.
+  → **Pass.** No single line pairs the date with the year, but the notes
+  establish 1789 earlier in the same timeline (the context rule).
+
 #### 3. No Answer Leakage
 
 > A card **leaks** if its answer can be found in, or directly deduced from,
@@ -150,6 +184,10 @@ fact-checked against the outside world.
 >
 > **Test:** could someone answer correctly using only the words in the
 > question?
+>
+> **Yes/no and either/or questions fail.** The question reveals the whole
+> answer space (yes or no, or the options it names), so a student can
+> answer correctly by guessing.
 
 **Examples:**
 
@@ -162,6 +200,18 @@ fact-checked against the outside world.
   cell's ATP?
   **A:** Oxidative phosphorylation.
   → **Pass.** The question gives no clue to the answer.
+
+- **Q:** Did the United States join the League of Nations?
+  **A:** No.
+  → **Fail.** A yes/no question. A guess is right half the time.
+
+- **Q:** Which major power never joined the League of Nations?
+  **A:** The United States.
+  → **Pass.** The same fact, worded as a real recall question.
+
+The fact behind a yes/no or either/or question may still deserve a card.
+It should be worded as a real recall question instead, as in the last
+example.
 
 #### 4. Unambiguous
 
@@ -223,6 +273,11 @@ deterministic app feature rather than model output.
 
 > A batch passes if the number of generated cards falls within the
 > sample's `expected_card_range`, inclusive.
+
+Ranges count one card per distinct fact worth studying. A closed set of
+six or fewer items (see "Atomic") counts as one fact, and framing or
+transition sentences, such as a heading or "next, we turn to...", don't
+count.
 
 ---
 
@@ -383,6 +438,7 @@ Each run in `eval/runs/` records at minimum:
 
 - Run ID and date
 - Rubric version used for scoring
+- Test set version and hash
 - Model and prompt version
 - Gate approach (separate call, single call, pre-checks, or none)
 - All metrics listed above
@@ -401,9 +457,29 @@ Any change to a definition, threshold, or metric increments the rubric
 version. Past runs keep the version they were scored under. Runs scored
 under different rubric versions are not directly comparable; if a
 comparison is needed, rescore the earlier run under the current version.
+The same applies to test set versions. A run's automated metrics can be
+recomputed offline from its recorded outputs (see `eval/README.md`), but
+the hand-scored criteria must be rescored, by hand or by a validated
+judge.
 
 ### Changelog
 
+- **1.5:** Supported: a claim is also supported when the notes clearly
+  establish it elsewhere, such as a year set at the top of a timeline
+  (the context rule). No leakage: yes/no and either/or questions fail,
+  since the question reveals the whole answer space. Atomic: added the
+  closed set test (items are a closed set when the notes say the same
+  thing about all of them), and stated that a closed list and the reason
+  behind it are separate facts. Card count: stated that ranges count
+  distinct facts worth studying, excluding framing and transition
+  sentences; the test set's ranges were recounted on that basis in test
+  set version 2. Added the test set version to the run record. Run 1
+  (`2026-10-02_215109`) was rescored under 1.5, and its 1.4 results are
+  kept. While rescoring, `sample_004-c01`, `sample_004-c05`, and
+  `sample_021-c01` were changed to fail "atomic" for consistency with
+  `sample_017-c01` and `sample_009-c06`, which were scored the same way
+  under 1.4. Those three changes correct scoring errors and are not
+  caused by a rule change.
 - **1.4:** An excerpt must be non-empty after normalizing whitespace to
   match, since an empty excerpt would otherwise appear in any source text.
   Defined what normalizing whitespace means. This matches how the runner

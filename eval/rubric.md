@@ -1,7 +1,7 @@
 # Evaluation Rubric: AI Flashcard Generation
 
 **Project:** Flashcard & Spaced Repetition Study App
-**Rubric Version:** 1.5
+**Rubric Version:** 1.6
 **Last Updated:** October 2026
 **Status:** Active
 
@@ -242,6 +242,10 @@ example.
 
 > Two cards are **near-duplicates** if they test the same fact, regardless
 > of wording or direction, **including reversed term/definition pairs**.
+>
+> A card is also a near-duplicate if the fact it tests is already contained
+> in an earlier card's answer, even if the earlier card also tests other
+> facts.
 
 When a card duplicates an earlier card in the batch, the later card is
 counted as a duplicate.
@@ -264,6 +268,14 @@ counted as a duplicate.
 - **Card 1 Q:** In what year was the Magna Carta sealed?
   **Card 2 Q:** What did the Magna Carta place limits on?
   → **Not a duplicate.** Same topic, but the cards test different facts.
+
+- **Card 1 Q:** What were the main causes of the Dust Bowl?
+  **A:** Severe drought, over-plowing of the prairie, and strong winds.
+  **Card 2 Q:** What farming practice contributed to the Dust Bowl?
+  **A:** Over-plowing of the prairie.
+  → **Duplicate.** Card 2's fact is already part of Card 1's answer, so a
+  student reviewing Card 1 is already tested on it. Card 1 also fails
+  "atomic" on its own.
 
 Reversed pairs are counted as duplicates because `expected_card_range`
 values assume one card per fact. Reversal, if offered, is intended as a
@@ -464,6 +476,16 @@ judge.
 
 ### Changelog
 
+- **1.6:** No near-duplicates: a card is also a duplicate when the fact it
+  tests is already contained in an earlier card's answer, even if the
+  earlier card also tests other facts. This states how Run 1's three
+  existing duplicates (`sample_001-c04`, `sample_001-c05`, and
+  `sample_021-c02`) were scored under 1.5. It also changes one Run 1
+  score: `sample_005-c07` is now a duplicate of `sample_005-c01`. The rule
+  and that score change were both made before the LLM judge produced any
+  output, since the judge reads its criteria from this file. Runs
+  `2026-10-02_215109` and `2026-10-02_215610` were recomputed under 1.6,
+  and all of Run 1's other 1.5 hand scores were carried over unchanged.
 - **1.5:** Supported: a claim is also supported when the notes clearly
   establish it elsewhere, such as a year set at the top of a timeline
   (the context rule). No leakage: yes/no and either/or questions fail,

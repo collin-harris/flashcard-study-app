@@ -1,0 +1,2 @@
+﻿date,card_id,field,old,new,prompted_by,rubric_rule,reason
+2026-10-12,sample_005-c07,duplicate_of,,sample_005-c01,pre-judge,"Rubric 1.6, No Near-Duplicates: a card is also a near-duplicate if the fact it tests is already contained in an earlier card's answer","sample_005-c01's answer (""Energy flows through ecosystems while matter is repeatedly recycled"") already contains the fact that energy is not recycled the way matter is. Applies the rubric 1.6 rule; made before any judge output."

@@ -232,3 +232,7 @@ build/
 
 # Evaluation smoke-test runs (--samples)
 eval/runs/partial/
+
+# LLM judge smoke-test runs (--samples, --seeds)
+eval/runs/**/judge/partial/
+eval/judge/seeded_runs/partial/

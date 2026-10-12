@@ -16,6 +16,14 @@ gets shipped. It computes the automated metrics defined in
   current rubric and test set, without calling the API
 - `score_run.py`: Turns a run's hand scores into final metrics and records
   the run in `results_log.md`
+- `run_judge.py`: Scores a run's judgment-based criteria with the LLM
+  judge. See [LLM judge](#llm-judge)
+- `validate_judge.py`: Compares judge runs with the hand scores and decides
+  whether the judge is validated
+- `judge/`: The judge prompt (`judge_prompt_v1.txt`), the seeded examples
+  (`seeded_examples.json`), judge runs on the seeded examples
+  (`seeded_runs/`), and validation reports (`validation/`)
+- `tests/`: Offline tests for the judge, using a stubbed client
 - `results_log.md`: The shipping criteria, and one row per valid run,
   rubric and test set version, and scorer, for comparing runs
 - `requirements.txt`: The runner's dependencies: `backend/requirements.txt`
@@ -340,6 +348,154 @@ recomputed. Rescore them under the new rubric, by hand or with a validated
 judge, save the scores as `scores.csv` in the recomputed folder (a copy of
 the earlier `scores.csv` is a good starting point), and run
 `score_run.py` on that folder.
+
+## LLM judge
+
+`run_judge.py` scores the judgment-based criteria (atomic, supported, no
+leakage, unambiguous, and near-duplicates) with Claude Opus 5.5, so a run
+doesn't need full hand scoring. The input gate, card count, and source
+check are already computed by code, so the judge doesn't score them. Until
+the judge is [validated](#validating-the-judge), its scores don't count
+toward the shipping criteria.
+
+- **One call per sample,** with the sample's notes and all of its cards,
+  since duplicates can only be judged across the whole batch.
+- **Blind:** the judge never sees the hand scores or their notes, the
+  automated source check, or the cards' source excerpts. Cards are
+  renumbered `c01`, `c02`, ... so sample and seed IDs don't reach it either.
+- **Settings:** effort `low` (Opus 5.5 always thinks, so effort is the only
+  control), the system prompt cached after the first call, a summary of the
+  judge's thinking saved with each result, and no fallback model: a refusal
+  is recorded as an errored sample. The model is different from both
+  candidate generators, so a generator is never graded by its own model.
+- **Versioned:** the instructions are in `judge/judge_prompt_v1.txt`. The
+  rubric's criteria, from "Per-card criteria" up to "Card Count", are
+  loaded from `rubric.md` at run time, so they can't drift from the
+  rubric. Each judge run records a judge hash covering the prompt, the
+  loaded criteria, the output format, the model, and the effort level.
+
+### Running the judge
+
+The judge needs `ANTHROPIC_API_KEY`, found the same way as for the
+[runner](#api-key). It only judges a valid run made or recomputed under
+the current rubric and test set versions. Smoke test it on a couple of
+samples first:
+
+```bash
+.venv/bin/python eval/run_judge.py --samples sample_001,sample_018 eval/runs/2026-10-02_215109/rescored/rubric-1.6_test-set-2
+```
+
+Then judge the whole run, and, for validation, the seeded examples:
+
+```bash
+.venv/bin/python eval/run_judge.py eval/runs/2026-10-02_215109/rescored/rubric-1.6_test-set-2
+.venv/bin/python eval/run_judge.py --seeded eval/runs/2026-10-02_215109/rescored/rubric-1.6_test-set-2
+```
+
+At Opus 5.5's rates, a full judge run of Run 1 is estimated at $0.40 to
+$1.20 and a seeded run at $0.35 to $1.00, mostly depending on how much the
+judge thinks. Each judge run records its actual cost.
+
+Each judge run writes its own folder. Judge runs of a run go inside that
+run's folder, in `judge/<judge_run_id>/`; seeded runs go in
+`judge/seeded_runs/<judge_run_id>/`. A `--samples` or `--seeds` run is
+partial and goes in a `partial/` folder, which is excluded by `.gitignore`.
+Each folder contains:
+
+- `judge_run.json`: Settings (judge model, prompt version, judge hash,
+  effort, token limit), the run judged, the partial, interrupted, and
+  incomplete flags, errored samples, and cost and latency
+- `judge_results.json`: One record per call: the grades and reasons, the
+  raw output, the thinking summary, tokens, cost, and any error or warning
+- `judge_summary.md`: The grades and reasons as readable tables
+- `judge_scores.csv`: Only for a complete judge run of every card. The same
+  format as `scores.csv`, with the judge's reasons in `notes`
+
+The judge never writes `scores.csv`. To record a judge run in the results
+log, once the judge is validated:
+
+```bash
+.venv/bin/python eval/score_run.py --scorer judge:opus-5.5:v1 \
+    --scores eval/runs/<run>/judge/<judge_run_id>/judge_scores.csv eval/runs/<run>
+```
+
+### Seeded examples
+
+Run 1 has too few real failures to test some criteria (2 for supported, 4
+duplicates), so `judge/seeded_examples.json` holds 26 cards, each a Run 1
+card changed to have exactly one known defect, or none for a control. Each
+seed lists its criterion, how subtle the defect is, the card it replaces
+or is inserted after, and its expected labels. A seeded judge run puts one
+seed into a copy of its sample's batch per call, and only the seed's own
+card is compared. Seeds are kept apart from the test set, and none appear
+in the judge prompt.
+
+### Validating the judge
+
+A judge counts as **validated** only if, in each of two judge runs on Run 1
+(`2026-10-02_215109`, rubric 1.6, test set 2), compared with the hand
+scores in `rescored/rubric-1.6_test-set-2/scores.csv`, all of the following
+hold:
+
+- Unambiguous: catches at least 10 of the 12 hand-scored failures
+- Atomic: catches at least 9 of 11
+- No leakage: catches at least 5 of 6
+- Every criterion, including duplicates: false alarm rate at most 5%
+- Clean card rate within ±3 points of the hand-scored 86.0%
+- Seeded examples, in each of two seeded judge runs: correct on at least 4
+  of 5 per criterion, and at least 5 of 6 for duplicates
+
+Supported and duplicates have no catch threshold because Run 1 has too few
+real failures (2 and 4); they rely on the seeded examples and the false
+alarm rate. The duplicate seeds went from 5 to 6, with the threshold raised
+from 4 of 5 to 5 of 6, on 2026-10-12, before the judge produced any output.
+A judge stays validated only while its judge hash is unchanged. Changing
+the prompt, the rubric criteria it loads, the model, or the effort level
+means validating again.
+
+If a hand score is corrected (see below), each catch threshold keeps the
+same number of allowed misses (2 for unambiguous, 2 for atomic, 1 for no
+leakage), and the clean card rate is compared with the corrected hand
+rate.
+
+```bash
+.venv/bin/python eval/validate_judge.py \
+    --runs <judge_run_A> <judge_run_B> --seeded <seeded_run_A> <seeded_run_B>
+```
+
+The report is written to `judge/validation/judge_opus-5.5_v1.md`. It
+shows each threshold for both runs; catch and false alarm rates per
+criterion, with the counts behind them; the judge's clean card rate against
+the hand score's; every seed and whether the judge caught it;
+self-consistency between the two runs; and every card where the judge and
+the hand scores differ, with the judge's reason and the hand-scoring note
+side by side. Like `score_run.py`, it uses only the standard library and
+makes no API calls.
+
+### Correcting hand scores
+
+Reviewing disagreements may show that a hand score was wrong. No script
+ever changes hand scores. A person changes one in the run's `scores.csv`
+only when the judge's reason points to a specific rubric rule that was
+misapplied, and records every change in `score_changes.csv` beside it: the
+date, card ID, field, old and new value, what prompted it (a judge run ID,
+or `pre-judge` for a change made before any judge output), the rubric rule,
+and the reason.
+
+Correcting only the cards the judge disagrees with moves the hand scores
+toward the judge, so the report compares the judge with both the original
+scores (every judge-prompted change reverted) and the corrected ones. The
+verdict is decided on the corrected scores, and if the two verdicts differ,
+the report says so at the top. Changes marked `pre-judge` are part of both.
+
+### Tests
+
+The judge's tests run offline with a stubbed client, so they make no API
+calls. They judge a copy of Run 1 in a temporary folder:
+
+```bash
+.venv/bin/python -m unittest discover -s eval/tests -v
+```
 
 ## Run validity
 

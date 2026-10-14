@@ -405,11 +405,21 @@ Each folder contains:
 - `judge_run.json`: Settings (judge model, prompt version, judge hash,
   effort, token limit), the run judged, the partial, interrupted, and
   incomplete flags, errored samples, and cost and latency
-- `judge_results.json`: One record per call: the grades and reasons, the
-  raw output, the thinking summary, tokens, cost, and any error or warning
+- `judge_results.json`: One record per sample: the grades and reasons, the
+  raw output, the thinking summary, tokens, cost, any error or warning,
+  and how many attempts it took, with any retried attempt's error, output,
+  and cost
 - `judge_summary.md`: The grades and reasons as readable tables
 - `judge_scores.csv`: Only for a complete judge run of every card. The same
   format as `scores.csv`, with the judge's reasons in `notes`
+
+A response that doesn't match the batch, such as a grade list that stops
+before the last card, is retried once. If the retry fails too, the sample
+errors and the judge run is incomplete. API errors (already retried by the
+SDK), truncated responses, and refusals aren't retried. Each judge run
+records its total API calls and retries, and its cost includes every
+attempt. The retry belongs to the runner, not the judge, so the judge hash
+doesn't cover it.
 
 The judge never writes `scores.csv`. To record a judge run in the results
 log, once the judge is validated:
@@ -463,13 +473,19 @@ rate.
     --runs <judge_run_A> <judge_run_B> --seeded <seeded_run_A> <seeded_run_B>
 ```
 
+Add `--discarded <judge_run>...` for any incomplete or interrupted judge run
+of the same judge that was set aside, so its API calls, dropped outputs,
+and cost are still counted. A discarded run is never graded or compared.
+
 The report is written to `judge/validation/judge_opus-5.5_v1.md`. It
 shows each threshold for both runs; catch and false alarm rates per
 criterion, with the counts behind them; the judge's clean card rate against
 the hand score's; every seed and whether the judge caught it;
-self-consistency between the two runs; and every card where the judge and
-the hand scores differ, with the judge's reason and the hand-scoring note
-side by side. Like `score_run.py`, it uses only the standard library and
+self-consistency between the two runs; retries, the drop rate (responses
+that didn't match the batch, as a share of API calls), and the total spent,
+all including discarded runs; and every card where the judge and the hand
+scores differ, with the judge's reason and the hand-scoring note side by
+side. Like `score_run.py`, it uses only the standard library and
 makes no API calls.
 
 ### Correcting hand scores

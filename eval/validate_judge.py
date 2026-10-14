@@ -82,6 +82,34 @@ def load_judge_run(path: Path, mode: str) -> tuple[dict, dict]:
     return info, grades
 
 
+def retry_stats(name: str, path: Path, discarded: bool = False) -> dict:
+    """API calls, retries, invalid outputs, and cost for one judge run."""
+    info = load_json(path / "judge_run.json")
+    results = load_json(path / "judge_results.json")
+    # A retried attempt is in failed_attempts; a sample's last attempt is
+    # its top-level error (only in an incomplete run, or one made before
+    # retries were added).
+    invalid = []
+    for r in results:
+        for attempt in [*r.get("failed_attempts", []), r]:
+            if attempt["error"] and attempt["error"]["kind"] == "invalid_output":
+                invalid.append({"id": r["id"], "message": attempt["error"]["message"]})
+    flags = [flag for flag in ("incomplete", "interrupted") if info.get(flag) is not False]
+    return {
+        "pass": name,
+        "judge_run_id": info["judge_run_id"],
+        "discarded": discarded,
+        "status": f"discarded ({', '.join(flags) or 'complete'})" if discarded else "",
+        # A run made before retries were added has no attempts field and
+        # made one call per sample.
+        "api_calls": sum(r.get("attempts", 1) for r in results),
+        "retries": sum(r.get("attempts", 1) - 1 for r in results),
+        "invalid_outputs": invalid,
+        "recorded_retries": all("attempts" in r for r in results),
+        "cost_usd": info["metrics"]["total_cost_usd"],
+    }
+
+
 def label_of(scores: dict, key: str):
     # The value compared for each label: Y or N, or the card a duplicate
     # points to (None for a card that isn't a duplicate).
@@ -291,6 +319,9 @@ def write_report(path: Path, data: dict) -> None:
         f"- **Judge runs:** A = {data['runs'][0]}, B = {data['runs'][1]}",
         f"- **Seeded runs:** A = {data['seeded_runs'][0]}, B = {data['seeded_runs'][1]}",
         f"- **Judge cost:** " + ", ".join(f"${c:.4f}" for c in data["costs"]) + " (runs A, B, seeded A, seeded B)",
+        f"- **Total spent, including discarded runs:** ${data['total_spent_usd']:.4f}",
+        f"- **Retries:** {data['retries']['total_retries']}; drop rate "
+        f"{format_rate(data['retries']['drop_rate'])} of API calls, including discarded runs (see [Retries](#retries))",
         f"- **Score changes:** {len(data['score_changes']) - len(judge_prompted)} pre-judge, "
         f"{len(judge_prompted)} prompted by the judge (see [Score changes](#score-changes))",
         "",
@@ -376,6 +407,33 @@ def write_report(path: Path, data: dict) -> None:
         r = data["consistency"]["seeded"][key]
         lines.append(f"| {LABEL_NAMES[key]} | {format_rate(r['agreement'])} | {', '.join(r['flips']) or '—'} |")
 
+    retries = data["retries"]
+    lines += [
+        "",
+        "## Retries",
+        "",
+        "A response that doesn't match the batch, such as a grade list that stops short, is retried once. "
+        "The drop rate is those responses as a share of every API call, including discarded runs. "
+        "Discarded runs are never graded or compared.",
+        "",
+        "| Pass | Judge run | Status | API calls | Retries | Dropped outputs | Cost |",
+        "|---|---|---|---|---|---|---|",
+    ]
+    for p in retries["passes"]:
+        status = p["status"] or ("used" if p["recorded_retries"] else "used; run before retries existed, so it had none")
+        lines.append(
+            f"| {p['pass']} | {p['judge_run_id']} | {status} | {p['api_calls']} | {p['retries']} "
+            f"| {len(p['invalid_outputs'])} | ${p['cost_usd']:.4f} |"
+        )
+    lines.append(
+        f"| **Total** | | | {retries['drop_rate']['total']} | {retries['total_retries']} "
+        f"| {retries['drop_rate']['count']} | ${data['total_spent_usd']:.4f} |"
+    )
+    lines += ["", f"**Drop rate:** {format_rate(retries['drop_rate'])}", ""]
+    for p in retries["passes"]:
+        for d in p["invalid_outputs"]:
+            lines.append(f"- {p['pass']}, {d['id']}: {cell(d['message'])}")
+
     lines += ["", "## Score changes", ""]
     if data["score_changes"]:
         lines += [
@@ -452,12 +510,19 @@ def list_disagreements(hand: dict, notes: dict, grades: list[dict], cards: dict,
 # Entry point
 # ---------------------------------------------------------------------------
 
-def validate(run_paths: list[Path], seeded_paths: list[Path], output_dir: Path = VALIDATION_DIR) -> dict:
+def validate(run_paths: list[Path], seeded_paths: list[Path], output_dir: Path = VALIDATION_DIR,
+             discarded_paths: list[Path] = ()) -> dict:
     runs = [load_judge_run(p, "run") for p in run_paths]
     seeded_runs = [load_judge_run(p, "seeded") for p in seeded_paths]
     infos = [info for info, _ in runs + seeded_runs]
 
     problems = []
+    for path in discarded_paths:
+        discarded = load_json(path / "judge_run.json")
+        if discarded["judge_hash"] != infos[0]["judge_hash"]:
+            problems.append(f"Discarded run {discarded['judge_run_id']} was made with a different judge hash.")
+        if discarded.get("incomplete") is False and discarded.get("interrupted") is False:
+            problems.append(f"Discarded run {discarded['judge_run_id']} is complete; only incomplete or interrupted runs are discarded.")
     if len({info["judge_hash"] for info in infos}) != 1:
         problems.append("The judge runs don't all have the same judge hash, so they aren't the same judge.")
     if run_paths[0].resolve() == run_paths[1].resolve() or seeded_paths[0].resolve() == seeded_paths[1].resolve():
@@ -511,12 +576,30 @@ def validate(run_paths: list[Path], seeded_paths: list[Path], output_dir: Path =
     }
     checks = {name: build_checks(comparisons[name], seed_counts) for name in comparisons}
     seed_ids = [s["id"] for s in seeds]
+    # Discarded runs count toward API calls, the drop rate, and money spent,
+    # and toward nothing else: they're never graded or compared.
+    passes = [
+        retry_stats(name, path)
+        for name, path in zip(("Run A", "Run B", "Seeded A", "Seeded B"), [*run_paths, *seeded_paths])
+    ] + [
+        retry_stats(f"Discarded {n}", path, discarded=True) for n, path in enumerate(discarded_paths, start=1)
+    ]
+    calls = sum(p["api_calls"] for p in passes)
     data = {
         "judge": {k: infos[0][k] for k in ("scorer", "judge_model", "judge_prompt_version", "effort", "judge_hash")},
         "hand_scores_file": infos[0]["base_run_dir"] + "/scores.csv",
         "runs": [info["judge_run_id"] for info, _ in runs],
         "seeded_runs": [info["judge_run_id"] for info, _ in seeded_runs],
         "costs": [info["metrics"]["total_cost_usd"] for info in infos],
+        "retries": {
+            "passes": passes,
+            "total_retries": sum(p["retries"] for p in passes),
+            # Responses that didn't match the batch (such as a grade list
+            # that stops short), as a share of every API call, including
+            # discarded runs.
+            "drop_rate": rate(sum(len(p["invalid_outputs"]) for p in passes), calls),
+        },
+        "total_spent_usd": sum(p["cost_usd"] for p in passes),
         "score_changes": changes,
         "validated": {name: is_validated(checks[name]) for name in checks},
         "checks": checks,
@@ -544,14 +627,21 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Compare LLM judge runs with the hand scores and decide whether the judge is validated.")
     parser.add_argument("--runs", nargs=2, required=True, metavar=("RUN_A", "RUN_B"), help="two judge run folders on Run 1")
     parser.add_argument("--seeded", nargs=2, required=True, metavar=("SEEDED_A", "SEEDED_B"), help="two seeded judge run folders")
+    parser.add_argument(
+        "--discarded", nargs="+", default=[], metavar="RUN",
+        help="incomplete or interrupted judge runs of the same judge; counted toward API calls, "
+        "the drop rate, and money spent, never graded",
+    )
     args = parser.parse_args()
 
-    data = validate([Path(p) for p in args.runs], [Path(p) for p in args.seeded])
+    data = validate([Path(p) for p in args.runs], [Path(p) for p in args.seeded],
+                    discarded_paths=[Path(p) for p in args.discarded])
     corrected, original = data["validated"]["corrected"], data["validated"]["original"]
     if corrected != original:
         print(f"NOTE: the verdict differs: {verdict_text(corrected)} against the corrected scores, "
               f"{verdict_text(original)} against the original ones.")
     print(f"Verdict (corrected hand scores): {verdict_text(corrected)}")
+    print(f"Retries: {data['retries']['total_retries']}, drop rate {format_rate(data['retries']['drop_rate'])}")
     for check in data["checks"]["corrected"]:
         if not all(check["passed"]):
             print(f"  FAIL {check['check']}: {', '.join(check['values'])} (needs {check['threshold']})")

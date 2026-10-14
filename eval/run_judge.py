@@ -88,6 +88,13 @@ CARDS_SUFFIX = "\n</cards>"
 
 REASON_KEYS = [*CRITERIA, "duplicate"]
 ERROR_KINDS = ("api_error", "truncated", "refusal", "invalid_output", "unexpected_error")
+# A response that doesn't match the batch (for example, a grade list that
+# stops before the last card) is retried once. API errors are already
+# retried by the SDK, and a truncated or refused response isn't retried.
+# These settings belong to the runner, not the judge, so the judge hash
+# doesn't cover them; each judge run records them instead.
+MAX_ATTEMPTS = 2
+RETRIED_ERROR_KINDS = ("invalid_output",)
 
 
 def _nullable_string() -> dict:
@@ -338,11 +345,18 @@ def judge_batch(client, notes: str, cards: list[dict]) -> dict:
 
 
 def judge_item(client, item_id: str, notes: str, cards: list[dict]) -> dict:
-    """Grades one batch and returns its record for judge_results.json."""
+    """Grades one batch and returns its record for judge_results.json.
+
+    The record's top-level fields describe the last attempt. An earlier
+    attempt that was retried is kept in failed_attempts, with its error,
+    output, and cost.
+    """
     record = {
         "id": item_id,
         "outcome": None,  # "judged" or "error"
         "error": None,
+        "attempts": 0,
+        "failed_attempts": [],
         "card_ids": [card["card_id"] for card in cards],
         "grades": [],
         "warnings": [],
@@ -350,20 +364,33 @@ def judge_item(client, item_id: str, notes: str, cards: list[dict]) -> dict:
         "thinking": None,
         "metadata": None,
     }
-    try:
-        result = judge_batch(client, notes, cards)
-    except JudgeError as e:
-        record.update(outcome="error", error={"kind": e.kind, "message": str(e)},
-                      raw_text=e.raw_text, thinking=e.thinking, metadata=e.metadata)
-        return record
-    except Exception as e:
-        # Most likely a bug, but one bad sample shouldn't throw away the
-        # results (and cost) of the rest of the run.
-        record.update(outcome="error", error={"kind": "unexpected_error", "message": repr(e)})
-        return record
-    record.update(outcome="judged", grades=result["grades"], warnings=result["warnings"],
-                  raw_text=result["raw_text"], thinking=result["thinking"], metadata=result["metadata"])
-    return record
+    for attempt in range(1, MAX_ATTEMPTS + 1):
+        record["attempts"] = attempt
+        try:
+            result = judge_batch(client, notes, cards)
+        except JudgeError as e:
+            failure = {"error": {"kind": e.kind, "message": str(e)},
+                       "raw_text": e.raw_text, "thinking": e.thinking, "metadata": e.metadata}
+        except Exception as e:
+            # Most likely a bug, but one bad sample shouldn't throw away the
+            # results (and cost) of the rest of the run.
+            failure = {"error": {"kind": "unexpected_error", "message": repr(e)},
+                       "raw_text": None, "thinking": None, "metadata": None}
+        else:
+            record.update(outcome="judged", grades=result["grades"], warnings=result["warnings"],
+                          raw_text=result["raw_text"], thinking=result["thinking"], metadata=result["metadata"])
+            return record
+        if failure["error"]["kind"] not in RETRIED_ERROR_KINDS or attempt == MAX_ATTEMPTS:
+            record.update(outcome="error", **failure)
+            return record
+        record["failed_attempts"].append(failure)
+
+
+def call_metadata(record: dict) -> list[dict]:
+    # Every attempt that got a response was billed, including retried ones.
+    # Records from before retries were added have no failed_attempts.
+    attempts = [*record.get("failed_attempts", []), record]
+    return [a["metadata"] for a in attempts if a["metadata"]]
 
 
 # ---------------------------------------------------------------------------
@@ -486,21 +513,25 @@ def build_seeded_batch(seed: dict, batch: list[dict]) -> list[dict]:
 # ---------------------------------------------------------------------------
 
 def compute_judge_metrics(items: list[dict]) -> dict:
-    with_response = [r for r in items if r["metadata"]]
-    total_cost = sum(r["metadata"]["cost_usd"] for r in with_response)
-    total_latency = sum(r["metadata"]["latency_seconds"] for r in with_response)
+    calls = [m for r in items for m in call_metadata(r)]
+    total_cost = sum(m["cost_usd"] for m in calls)
+    total_latency = sum(m["latency_seconds"] for m in calls)
     return {
-        "calls": len(items),
+        "samples": len(items),
+        # Every attempt, including retries.
+        "api_calls": sum(r["attempts"] for r in items),
+        "retries": sum(r["attempts"] - 1 for r in items),
+        "retried": [r["id"] for r in items if r["attempts"] > 1],
         "error_rate": rate(sum(r["outcome"] == "error" for r in items), len(items)),
         "cards_judged": sum(len(r["grades"]) for r in items),
         "warnings": sum(len(r["warnings"]) for r in items),
-        "total_input_tokens": sum(r["metadata"]["input_tokens"] for r in with_response),
-        "total_cache_write_tokens": sum(r["metadata"]["cache_write_tokens"] for r in with_response),
-        "total_cache_read_tokens": sum(r["metadata"]["cache_read_tokens"] for r in with_response),
-        "total_output_tokens": sum(r["metadata"]["output_tokens"] for r in with_response),
+        "total_input_tokens": sum(m["input_tokens"] for m in calls),
+        "total_cache_write_tokens": sum(m["cache_write_tokens"] for m in calls),
+        "total_cache_read_tokens": sum(m["cache_read_tokens"] for m in calls),
+        "total_output_tokens": sum(m["output_tokens"] for m in calls),
         "total_cost_usd": total_cost,
         "average_cost_usd": total_cost / len(items) if items else None,
-        "average_latency_seconds": total_latency / len(with_response) if with_response else None,
+        "average_latency_seconds": total_latency / len(calls) if calls else None,
     }
 
 
@@ -547,8 +578,9 @@ def write_judge_summary(path: Path, judge_info: dict, items: list[dict], cards_b
         f"- **Incomplete:** {'Yes' if judge_info['incomplete'] else 'No'} "
         f"(error rate {format_rate(metrics['error_rate'])})",
         f"- **Cost:** ${metrics['total_cost_usd']:.4f} total, "
-        f"${metrics['average_cost_usd'] or 0:.4f} per call",
-        f"- **Average latency:** {metrics['average_latency_seconds'] or 0:.1f}s",
+        f"${metrics['average_cost_usd'] or 0:.4f} per sample (including retries)",
+        f"- **API calls:** {metrics['api_calls']}, of which {metrics['retries']} retries",
+        f"- **Average latency:** {metrics['average_latency_seconds'] or 0:.1f}s per call",
         f"- **Tokens:** {metrics['total_input_tokens']} input, {metrics['total_cache_write_tokens']} cache write, "
         f"{metrics['total_cache_read_tokens']} cache read, {metrics['total_output_tokens']} output (includes thinking)",
         "",
@@ -557,8 +589,13 @@ def write_judge_summary(path: Path, judge_info: dict, items: list[dict], cards_b
     ]
     errored = [r for r in items if r["outcome"] == "error"]
     if errored:
-        lines += ["## Errors", "", "| Item | Kind | Message |", "|---|---|---|"]
-        lines += [f"| {r['id']} | {r['error']['kind']} | {cell(r['error']['message'])} |" for r in errored]
+        lines += ["## Errors", "", "| Item | Attempts | Kind | Message |", "|---|---|---|---|"]
+        lines += [f"| {r['id']} | {r['attempts']} | {r['error']['kind']} | {cell(r['error']['message'])} |" for r in errored]
+        lines.append("")
+    retried = [(r["id"], f) for r in items for f in r["failed_attempts"]]
+    if retried:
+        lines += ["## Retried attempts", "", "| Item | Kind | Message |", "|---|---|---|"]
+        lines += [f"| {item_id} | {f['error']['kind']} | {cell(f['error']['message'])} |" for item_id, f in retried]
         lines.append("")
     warnings = [w for r in items for w in r["warnings"]]
     if warnings:
@@ -651,6 +688,8 @@ def run_judge(client, run_dir: Path, seeded: bool = False, selected=None, output
         "max_tokens": MAX_TOKENS,
         "request_timeout_seconds": REQUEST_TIMEOUT_SECONDS,
         "max_retries": MAX_RETRIES,
+        "max_attempts": MAX_ATTEMPTS,
+        "retried_error_kinds": list(RETRIED_ERROR_KINDS),
         "anthropic_sdk_version": anthropic.__version__,
         "rubric_version": run_info["rubric_version"],
         "test_set_version": run_info["test_set_version"],
@@ -680,8 +719,10 @@ def run_judge(client, run_dir: Path, seeded: bool = False, selected=None, output
                 fails = sum(g[c] == "N" for g in record["grades"] for c in CRITERIA)
                 duplicates = sum(bool(g["duplicate_of"]) for g in record["grades"])
                 status = f"{len(record['grades'])} cards, {fails} N, {duplicates} duplicate(s)"
-            cost = f" ${record['metadata']['cost_usd']:.4f}" if record["metadata"] else ""
-            print(f"[{i}/{len(items)}] {item['id']}: {status}{cost}")
+            if record["attempts"] > 1:
+                status += f" after {record['attempts']} attempts"
+            cost = sum(m["cost_usd"] for m in call_metadata(record))
+            print(f"[{i}/{len(items)}] {item['id']}: {status} ${cost:.4f}")
     except KeyboardInterrupt:
         interrupted = True
         print(f"\nInterrupted after {len(results)} of {len(items)} items. Writing results for those.")
@@ -712,6 +753,7 @@ def run_judge(client, run_dir: Path, seeded: bool = False, selected=None, output
     print()
     print(f"Error rate: {format_rate(metrics['error_rate'])}")
     print(f"Cards judged: {metrics['cards_judged']}, warnings: {metrics['warnings']}")
+    print(f"API calls: {metrics['api_calls']}, retries: {metrics['retries']}")
     print(f"Total cost: ${metrics['total_cost_usd']:.4f}")
     print(f"Results written to {out_dir}")
     if interrupted or judge_info["incomplete"]:

@@ -120,6 +120,25 @@ def oracle_for(run_dir: Path, overrides: dict | None = None) -> Oracle:
     return Oracle(labels, texts)
 
 
+SAMPLE_005_NOTES = "In ecology, energy flows through ecosystems"
+
+
+def short_list_first(respond, marker: str, times: int = 1):
+    """Wraps a responder so the first `times` requests containing `marker` grade only the first card."""
+    shortened = {"count": 0}
+
+    def wrapped(request):
+        response = respond(request)
+        if marker in request["messages"][0]["content"] and shortened["count"] < times:
+            shortened["count"] += 1
+            data = json.loads(response.content[1].text)
+            data["cards"] = data["cards"][:1]
+            return make_response(json.dumps(data))
+        return response
+
+    return wrapped
+
+
 def quiet(fn, *args, **kwargs):
     with contextlib.redirect_stdout(io.StringIO()):
         return fn(*args, **kwargs)
@@ -280,6 +299,37 @@ class JudgeBatchTests(unittest.TestCase):
             run_judge.judge_batch(FakeClient(fail), "notes", CARDS)
         self.assertEqual(caught.exception.kind, "api_error")
 
+    def test_short_grade_list_is_retried_once(self):
+        full = [grade("c01"), grade("c02"), grade("c03")]
+        client = FakeClient(short_list_first(respond_with(full), "What is X?"))
+        record = run_judge.judge_item(client, "s", "notes", CARDS)
+        self.assertEqual(len(client.calls), 2)
+        self.assertEqual((record["outcome"], record["attempts"]), ("judged", 2))
+        self.assertEqual(len(record["grades"]), 3)
+        [failed] = record["failed_attempts"]
+        self.assertEqual(failed["error"]["kind"], "invalid_output")
+        self.assertIn("No grade for c02, c03", failed["error"]["message"])
+        self.assertIsNotNone(failed["metadata"])  # the failed attempt's cost is kept
+        self.assertEqual(len(run_judge.call_metadata(record)), 2)
+
+    def test_other_errors_are_not_retried(self):
+        ok = [grade("c01"), grade("c02"), grade("c03")]
+
+        def fail(request):
+            raise anthropic.APIConnectionError(request=httpx2.Request("POST", "https://api.anthropic.com/v1/messages"))
+
+        for respond, kind in (
+            (respond_with(ok, stop_reason="max_tokens"), "truncated"),
+            (respond_with(ok, stop_reason="refusal"), "refusal"),
+            (fail, "api_error"),
+        ):
+            with self.subTest(kind):
+                client = FakeClient(respond)
+                record = run_judge.judge_item(client, "s", "notes", CARDS)
+                self.assertEqual(len(client.calls), 1)
+                self.assertEqual((record["outcome"], record["attempts"], record["error"]["kind"]), ("error", 1, kind))
+                self.assertEqual(record["failed_attempts"], [])
+
     def test_missing_reason_is_a_warning(self):
         no_reason = grade("c02", unambiguous="N")
         no_reason["reasons"]["unambiguous"] = None
@@ -354,6 +404,38 @@ class RunJudgeTests(unittest.TestCase):
         self.assertEqual([e["id"] for e in info["errored"]], ["sample_016"])
         self.assertFalse((out_dir / "judge_scores.csv").exists())
 
+    def test_retried_sample_completes_the_run(self):
+        client = FakeClient(short_list_first(oracle_for(RUN1_DIR), SAMPLE_005_NOTES))
+        out_dir = quiet(run_judge.run_judge, client, RUN1_DIR, output_root=self.tmp)
+        self.assertEqual(len(client.calls), 31)
+        info = json.loads((out_dir / "judge_run.json").read_text(encoding="utf-8"))
+        self.assertEqual((info["incomplete"], info["interrupted"]), (False, False))
+        self.assertEqual((info["metrics"]["api_calls"], info["metrics"]["retries"]), (31, 1))
+        self.assertEqual(info["metrics"]["retried"], ["sample_005"])
+        self.assertEqual(info["max_attempts"], 2)
+        # Cost covers every call, including the retried one.
+        per_call = run_judge.estimate_cost(600, 0, 4500, 900)
+        self.assertAlmostEqual(info["metrics"]["total_cost_usd"], 31 * per_call)
+        self.assertTrue((out_dir / "judge_scores.csv").exists())
+        results = {r["id"]: r for r in json.loads((out_dir / "judge_results.json").read_text(encoding="utf-8"))}
+        self.assertEqual(results["sample_005"]["attempts"], 2)
+        self.assertEqual(results["sample_001"]["attempts"], 1)
+        self.assertIn("## Retried attempts", (out_dir / "judge_summary.md").read_text(encoding="utf-8"))
+
+    def test_both_attempts_failing_makes_the_run_incomplete(self):
+        client = FakeClient(short_list_first(oracle_for(RUN1_DIR), SAMPLE_005_NOTES, times=2))
+        out_dir = quiet(run_judge.run_judge, client, RUN1_DIR, output_root=self.tmp)
+        self.assertEqual(len(client.calls), 31)  # one retry, then it gives up
+        info = json.loads((out_dir / "judge_run.json").read_text(encoding="utf-8"))
+        self.assertTrue(info["incomplete"])
+        self.assertEqual([e["id"] for e in info["errored"]], ["sample_005"])
+        self.assertEqual(info["metrics"]["retries"], 1)
+        self.assertFalse((out_dir / "judge_scores.csv").exists())
+        results = {r["id"]: r for r in json.loads((out_dir / "judge_results.json").read_text(encoding="utf-8"))}
+        record = results["sample_005"]
+        self.assertEqual((record["outcome"], record["attempts"], len(record["failed_attempts"])), ("error", 2, 1))
+        self.assertEqual(record["error"]["kind"], "invalid_output")
+
     def test_refuses_a_run_under_an_older_rubric(self):
         with self.assertRaises(JudgeSetupError):
             run_judge.run_judge(FakeClient(oracle_for(RUN1_DIR)), RUN1_V15_DIR, output_root=self.tmp)
@@ -405,11 +487,13 @@ class ValidateTests(unittest.TestCase):
         self.run_dir = self.tmp / "run"
         shutil.copytree(RUN1_DIR, self.run_dir)
 
-    def judge_all(self, overrides=None, seeded_overrides=None):
-        runs = [
-            quiet(run_judge.run_judge, FakeClient(oracle_for(self.run_dir, overrides)), self.run_dir, output_root=self.tmp / f"run_{n}")
-            for n in "ab"
-        ]
+    def judge_all(self, overrides=None, seeded_overrides=None, wrap_run_a=None):
+        runs = []
+        for n in "ab":
+            respond = oracle_for(self.run_dir, overrides)
+            if n == "a" and wrap_run_a:
+                respond = wrap_run_a(respond)
+            runs.append(quiet(run_judge.run_judge, FakeClient(respond), self.run_dir, output_root=self.tmp / f"run_{n}"))
         seeded = [
             quiet(run_judge.run_judge, FakeClient(oracle_for(self.run_dir, seeded_overrides)), self.run_dir, seeded=True,
                   output_root=self.tmp / f"seeded_{n}")
@@ -431,6 +515,51 @@ class ValidateTests(unittest.TestCase):
         # The pre-judge change is part of the ground truth, not reverted.
         self.assertIn("pre-judge", self.report())
         self.assertEqual(data["comparisons"]["original"][0]["labels"]["duplicate"]["catch"]["total"], 4)
+
+    def test_retries_and_drop_rate_are_reported(self):
+        data = self.validate(*self.judge_all(wrap_run_a=lambda r: short_list_first(r, SAMPLE_005_NOTES)))
+        self.assertTrue(data["validated"]["corrected"])  # a retried sample's grades count as usual
+        retries = data["retries"]
+        self.assertEqual(retries["total_retries"], 1)
+        self.assertEqual([p["api_calls"] for p in retries["passes"]], [31, 30, 26, 26])
+        self.assertEqual((retries["drop_rate"]["count"], retries["drop_rate"]["total"]), (1, 113))
+        report = self.report()
+        self.assertIn("**Drop rate:** 0.9% (1/113)", report)
+        self.assertIn("- Run A, sample_005: Output did not match the batch: No grade for c02", report)
+
+    def test_discarded_run_counts_toward_drop_rate_and_cost_only(self):
+        runs, seeded = self.judge_all()
+        # Like the discarded run B: incomplete, made before retries were
+        # added, with one invalid output as a sample's final error.
+        client = FakeClient(short_list_first(oracle_for(self.run_dir), SAMPLE_005_NOTES, times=2))
+        discarded = quiet(run_judge.run_judge, client, self.run_dir, output_root=self.tmp / "discarded")
+        results_path = discarded / "judge_results.json"
+        results = json.loads(results_path.read_text(encoding="utf-8"))
+        for r in results:
+            del r["attempts"], r["failed_attempts"]
+        results_path.write_text(json.dumps(results), encoding="utf-8")
+
+        without = validate_judge.validate(runs, seeded, output_dir=self.tmp / "without")
+        data = self.validate_with_discarded(runs, seeded, [discarded])
+        # Never graded or compared: every check and comparison is unchanged.
+        for key in ("validated", "checks", "comparisons", "consistency", "seeded"):
+            self.assertEqual(data[key], without[key], key)
+        self.assertEqual((without["retries"]["drop_rate"]["count"], without["retries"]["drop_rate"]["total"]), (0, 112))
+        self.assertEqual((data["retries"]["drop_rate"]["count"], data["retries"]["drop_rate"]["total"]), (1, 142))
+        discarded_cost = json.loads((discarded / "judge_run.json").read_text(encoding="utf-8"))["metrics"]["total_cost_usd"]
+        self.assertAlmostEqual(data["total_spent_usd"], without["total_spent_usd"] + discarded_cost)
+        report = self.report()
+        self.assertIn("| discarded (incomplete) |", report)
+        self.assertIn("Total spent, including discarded runs", report)
+        self.assertIn("- Discarded 1, sample_005: Output did not match the batch: No grade for c02", report)
+
+    def test_a_complete_run_cant_be_discarded(self):
+        runs, seeded = self.judge_all()
+        with self.assertRaises(SystemExit):
+            quiet(self.validate_with_discarded, runs, seeded, [runs[0]])
+
+    def validate_with_discarded(self, runs, seeded, discarded):
+        return validate_judge.validate(runs, seeded, output_dir=self.tmp / "validation", discarded_paths=discarded)
 
     def test_too_many_misses_fail(self):
         # The judge passes three of the twelve unambiguous failures; two misses are allowed.

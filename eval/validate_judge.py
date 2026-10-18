@@ -26,7 +26,7 @@ import re
 import sys
 from pathlib import Path
 
-from score_run import CRITERIA, format_rate, load_json, rate, read_scores, write_json
+from score_run import CRITERIA, PRE_JUDGE, format_rate, load_json, rate, read_scores, write_json
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 EVAL_DIR = REPO_ROOT / "eval"
@@ -55,7 +55,6 @@ LABEL_NAMES = {
     "atomic": "Atomic", "supported": "Supported", "no_leakage": "No leakage",
     "unambiguous": "Unambiguous", "duplicate": "Duplicates",
 }
-PRE_JUDGE = "pre-judge"
 
 
 # ---------------------------------------------------------------------------
@@ -437,13 +436,13 @@ def write_report(path: Path, data: dict) -> None:
     lines += ["", "## Score changes", ""]
     if data["score_changes"]:
         lines += [
-            "| Date | Card | Field | Old | New | Prompted by | Rubric rule | Reason |",
-            "|---|---|---|---|---|---|---|---|",
+            "| Date | Card | Field | Old | New | Prompted by | Provenance | Rubric rule | Reason |",
+            "|---|---|---|---|---|---|---|---|---|",
         ]
         for c in data["score_changes"]:
             lines.append(
                 f"| {c['date']} | {c['card_id']} | {c['field']} | {cell(c['old'])} | {cell(c['new'])} "
-                f"| {c['prompted_by']} | {cell(c['rubric_rule'])} | {cell(c['reason'])} |"
+                f"| {c['prompted_by']} | {cell(c.get('provenance'))} | {cell(c['rubric_rule'])} | {cell(c['reason'])} |"
             )
     else:
         lines.append("None.")

@@ -41,11 +41,19 @@ The table is rewritten by the script, so don't edit its rows by hand.
 Rerunning the script on a run updates that run's row for the same versions
 and scorer.
 
+A `hand:corrected:<judge>` row is a run's hand scores after corrections made
+while validating that judge, rescored from its `scores.csv`; each change is
+logged in the run folder's `score_changes.csv`. The `hand` row beside it is
+the scoring as first made and is kept. Run 2026-10-02_215109 under rubric 1.6
+was corrected after the judge v1 review on 2026-10-17 (27 changes); its
+original clean card rate is 86.0% (160/186).
+
 | Run ID | Date | Model | Prompt | Prompt hash | Rubric | Test set | Scorer | Clean card | Atomic | Supported | No leakage | Unambiguous | Duplicate-free | False rejection | False acceptance | Card count pass | Source match | Avg cost |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 2026-10-02_215109 | 2026-10-02 | claude-haiku-4-5-20251001 | v1 | f5e88f4d8fd8 | 1.4 | 1 | hand | 89.8% (167/186) | 97.3% (181/186) | 97.8% (182/186) | 98.9% (184/186) | 93.5% (174/186) | 98.4% (183/186) | 0.0% (0/30) | 0.0% (0/5) | 53.3% (16/30) | 94.6% (176/186) | $0.0032 |
 | 2026-10-02_215109 | 2026-10-02 | claude-haiku-4-5-20251001 | v1 | f5e88f4d8fd8 | 1.5 | 2 | hand | 86.0% (160/186) | 94.1% (175/186) | 98.9% (184/186) | 96.8% (180/186) | 93.5% (174/186) | 98.4% (183/186) | 0.0% (0/30) | 0.0% (0/5) | 66.7% (20/30) | 94.6% (176/186) | $0.0032 |
 | 2026-10-02_215109 | 2026-10-02 | claude-haiku-4-5-20251001 | v1 | f5e88f4d8fd8 | 1.6 | 2 | hand | 86.0% (160/186) | 94.1% (175/186) | 98.9% (184/186) | 96.8% (180/186) | 93.5% (174/186) | 97.8% (182/186) | 0.0% (0/30) | 0.0% (0/5) | 66.7% (20/30) | 94.6% (176/186) | $0.0032 |
+| 2026-10-02_215109 | 2026-10-02 | claude-haiku-4-5-20251001 | v1 | f5e88f4d8fd8 | 1.6 | 2 | hand:corrected:judge-v1 | 81.7% (152/186) | 89.2% (166/186) | 95.2% (177/186) | 96.8% (180/186) | 97.3% (181/186) | 96.8% (180/186) | 0.0% (0/30) | 0.0% (0/5) | 66.7% (20/30) | 94.6% (176/186) | $0.0032 |
 | 2026-10-02_215610 | 2026-10-02 | claude-haiku-4-5-20251001 | v1 | f5e88f4d8fd8 | 1.4 | 1 | not scored | not scored | not scored | not scored | not scored | not scored | not scored | 0.0% (0/30) | 0.0% (0/5) | 53.3% (16/30) | 94.7% (180/190) | $0.0032 |
 | 2026-10-02_215610 | 2026-10-02 | claude-haiku-4-5-20251001 | v1 | f5e88f4d8fd8 | 1.5 | 2 | not scored | not scored | not scored | not scored | not scored | not scored | not scored | 0.0% (0/30) | 0.0% (0/5) | 66.7% (20/30) | 94.7% (180/190) | $0.0032 |
 | 2026-10-02_215610 | 2026-10-02 | claude-haiku-4-5-20251001 | v1 | f5e88f4d8fd8 | 1.6 | 2 | not scored | not scored | not scored | not scored | not scored | not scored | not scored | 0.0% (0/30) | 0.0% (0/5) | 66.7% (20/30) | 94.7% (180/190) | $0.0032 |

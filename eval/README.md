@@ -494,15 +494,25 @@ Reviewing disagreements may show that a hand score was wrong. No script
 ever changes hand scores. A person changes one in the run's `scores.csv`
 only when the judge's reason points to a specific rubric rule that was
 misapplied, and records every change in `score_changes.csv` beside it: the
-date, card ID, field, old and new value, what prompted it (a judge run ID,
-or `pre-judge` for a change made before any judge output), the rubric rule,
-and the reason.
+date, card ID, field, old and new value, what prompted it (the judge run
+IDs that disagreed, joined with ` + `, or `pre-judge` for a change made
+before any judge output), the rubric rule, the reason, and the provenance:
+`blind` if decided before reading the judge's reason, `after judge` if
+decided after reading it, or `after recheck` if decided after rereading the
+source notes.
 
 Correcting only the cards the judge disagrees with moves the hand scores
 toward the judge, so the report compares the judge with both the original
 scores (every judge-prompted change reverted) and the corrected ones. The
 verdict is decided on the corrected scores, and if the two verdicts differ,
 the report says so at the top. Changes marked `pre-judge` are part of both.
+
+To log the corrected scores, score the run with
+`--scorer hand:corrected:<judge>` (for example `hand:corrected:judge-v1`).
+That adds a row beside the original `hand` row in `results_log.md` rather
+than replacing it. `score_run.py` refuses the plain `hand` scorer on a run
+whose `score_changes.csv` has any change not marked `pre-judge`, since its
+`scores.csv` is no longer the original scoring.
 
 ### Tests
 

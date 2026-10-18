@@ -53,6 +53,9 @@ SCORED_METRICS = [
 
 DEFAULT_SCORER = "hand"
 NOT_SCORED = "not scored"
+# How score_changes.csv marks a hand score change made before any judge
+# output. Any other change means scores.csv is no longer the original scoring.
+PRE_JUDGE = "pre-judge"
 # Runs made before the test set was versioned used version 1.
 UNVERSIONED_TEST_SET = "1"
 
@@ -162,6 +165,26 @@ def check_run_validity(run_info: dict, records: list[dict]) -> list[str]:
     if errored:
         problems.append(f"{len(errored)} sample(s) errored in results.json: {', '.join(errored)}.")
     return problems
+
+
+def check_original_scores(run_dir: Path) -> list[str]:
+    """Problems with scoring the run as plain 'hand': its scores.csv may hold corrections made after judge output."""
+    path = run_dir / "score_changes.csv"
+    if not path.exists():
+        return []
+    with path.open(encoding="utf-8-sig", newline="") as f:
+        corrected = [row for row in csv.DictReader(f) if (row.get("prompted_by") or "").strip() != PRE_JUDGE]
+    if not corrected:
+        return []
+    # A change both judge runs prompted lists their IDs joined with " + ".
+    prompted_by = sorted({p.strip() for row in corrected for p in row["prompted_by"].split("+")})
+    return [
+        f"{path.name} lists {len(corrected)} score change(s) made after judge output "
+        f"(prompted by {', '.join(prompted_by)}), so scores.csv no longer holds the original hand scores. "
+        f"Scoring it as '{DEFAULT_SCORER}' would replace the original row in results_log.md. "
+        f"Score the corrected file with --scorer {DEFAULT_SCORER}:corrected:<judge> instead, "
+        "for example hand:corrected:judge-v1."
+    ]
 
 
 def describe(card_id: str, cards: dict) -> str:
@@ -448,6 +471,8 @@ def main() -> None:
         scores_path = Path(args.scores) if args.scores else run_dir / "scores.csv"
         scores, score_problems = read_scores(scores_path, cards)
         problems += score_problems
+        if scorer == DEFAULT_SCORER:
+            problems += check_original_scores(run_dir)
 
     if problems:
         sys.exit(f"Validation failed with {len(problems)} problem(s). Nothing was written.\n\n"

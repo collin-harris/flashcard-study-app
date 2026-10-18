@@ -1,4 +1,5 @@
-"""Offline tests for the LLM judge (run_judge.py) and its validation (validate_judge.py).
+"""Offline tests for the LLM judge (run_judge.py), its validation (validate_judge.py), and
+scoring corrected hand scores (score_run.py).
 
 Every test uses a stubbed client in place of the Anthropic client, so no API
 call is ever made. The end-to-end tests judge a copy of Run 1 (rubric 1.6) in
@@ -18,6 +19,7 @@ import tempfile
 import unittest
 from pathlib import Path
 from types import SimpleNamespace
+from unittest import mock
 
 EVAL_DIR = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(EVAL_DIR))
@@ -26,6 +28,7 @@ import anthropic  # noqa: E402
 import httpx2  # noqa: E402  (the HTTP library anthropic 1.x uses)
 
 import run_judge  # noqa: E402
+import score_run  # noqa: E402
 import validate_judge  # noqa: E402
 from run_judge import CRITERIA, JUDGE_MODEL, JudgeError, JudgeSetupError  # noqa: E402
 
@@ -105,6 +108,41 @@ def load_run(run_dir: Path):
         for i, card in enumerate(r["cards"])
     }
     return records, cards
+
+
+def rewind_to_pre_judge(run_dir: Path) -> None:
+    """Reverts the real judge-prompted score changes in a copy of a run, keeping its pre-judge ones.
+
+    The validation tests are written against the scores before any judge
+    review, so later corrections to the real scores don't change them.
+    """
+    _, cards = load_run(run_dir)
+    corrected, _ = validate_judge.load_hand_scores(run_dir, cards)
+    changes = validate_judge.load_score_changes(run_dir)
+    original = validate_judge.rebuild_original(corrected, changes)
+
+    fields, rows = read_csv(run_dir / "scores.csv")
+    for row in rows:
+        labels = original[row["card_id"]]
+        row.update({k: labels[k] for k in CRITERIA}, duplicate_of=labels["duplicate_of"] or "")
+    write_csv(run_dir / "scores.csv", fields, rows)
+
+    fields, rows = read_csv(run_dir / "score_changes.csv")
+    write_csv(run_dir / "score_changes.csv", fields,
+              [row for row in rows if row["prompted_by"].strip() == validate_judge.PRE_JUDGE])
+
+
+def read_csv(path: Path) -> tuple[list[str], list[dict]]:
+    with path.open(encoding="utf-8-sig", newline="") as f:
+        reader = csv.DictReader(f)
+        return reader.fieldnames, list(reader)
+
+
+def write_csv(path: Path, fields: list[str], rows: list[dict]) -> None:
+    with path.open("w", encoding="utf-8-sig", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=fields)
+        writer.writeheader()
+        writer.writerows(rows)
 
 
 def oracle_for(run_dir: Path, overrides: dict | None = None) -> Oracle:
@@ -486,6 +524,7 @@ class ValidateTests(unittest.TestCase):
         # A copy, so score corrections in these tests never touch the real scores.
         self.run_dir = self.tmp / "run"
         shutil.copytree(RUN1_DIR, self.run_dir)
+        rewind_to_pre_judge(self.run_dir)
 
     def judge_all(self, overrides=None, seeded_overrides=None, wrap_run_a=None):
         runs = []
@@ -625,6 +664,71 @@ class ValidateTests(unittest.TestCase):
         info_path.write_text(json.dumps(info), encoding="utf-8")
         with self.assertRaises(SystemExit):
             quiet(self.validate, runs, seeded)
+
+
+# ---------------------------------------------------------------------------
+# Scoring corrected hand scores
+# ---------------------------------------------------------------------------
+
+class ScoreCorrectedRunTests(unittest.TestCase):
+    def setUp(self):
+        self.tmp = Path(tempfile.mkdtemp())
+        self.addCleanup(shutil.rmtree, self.tmp)
+        self.run_dir = self.tmp / "run"
+        shutil.copytree(RUN1_DIR, self.run_dir)
+        # A copy of the log, so the real one is never written to.
+        self.log = self.tmp / "results_log.md"
+        shutil.copy(score_run.RESULTS_LOG_PATH, self.log)
+        # The copy may carry the real judge-prompted changes; these tests set their own.
+        rewind_to_pre_judge(self.run_dir)
+
+    def score(self, *args):
+        argv = ["score_run.py", *args, str(self.run_dir)]
+        # REPO_ROOT too, since the script prints the log's path relative to it.
+        with mock.patch.object(sys, "argv", argv), mock.patch.object(score_run, "RESULTS_LOG_PATH", self.log), \
+                mock.patch.object(score_run, "REPO_ROOT", self.tmp):
+            quiet(score_run.main)
+
+    def add_judge_prompted_change(self):
+        with (self.run_dir / "score_changes.csv").open("a", newline="", encoding="utf-8") as f:
+            csv.writer(f).writerow(["2026-10-17", "sample_011-c10", "unambiguous", "N", "Y", "some-judge-run",
+                                    "Rubric 1.6, Unambiguous", "Test correction", "blind"])
+
+    def test_plain_hand_is_refused_after_judge_prompted_changes(self):
+        self.add_judge_prompted_change()
+        log_before = file_hash(self.log)
+        hand_before = file_hash(self.run_dir / "hand_scores.json")
+        with self.assertRaises(SystemExit) as raised:
+            self.score()
+        message = str(raised.exception.code)
+        self.assertIn("1 score change(s) made after judge output", message)
+        self.assertIn("--scorer hand:corrected:<judge>", message)
+        # Nothing is written: the original row and its scores file stay as they were.
+        self.assertEqual(file_hash(self.log), log_before)
+        self.assertEqual(file_hash(self.run_dir / "hand_scores.json"), hand_before)
+
+    def test_plain_hand_is_allowed_with_only_pre_judge_changes(self):
+        (self.run_dir / "hand_scores.json").unlink()
+        self.score()
+        self.assertEqual(self.clean_count("hand_scores.json"), 160)
+        self.assertIn("| 1.6 | 2 | hand | 86.0% (160/186) |", self.log.read_text(encoding="utf-8"))
+
+    def clean_count(self, name: str) -> int:
+        record = json.loads((self.run_dir / name).read_text(encoding="utf-8"))
+        return record["metrics"]["scored"]["clean_card_rate"]["count"]
+
+    def test_corrected_label_adds_a_row_beside_the_original(self):
+        self.add_judge_prompted_change()
+        scores = self.run_dir / "scores.csv"
+        text = scores.read_text(encoding="utf-8-sig")
+        old_row = next(line for line in text.splitlines() if line.startswith("sample_011-c10,"))
+        scores.write_text(text.replace(old_row, old_row.replace(",Y,Y,Y,N,,", ",Y,Y,Y,Y,,", 1)), encoding="utf-8-sig")
+
+        self.score("--scorer", "hand:corrected:judge-v1")
+        log = self.log.read_text(encoding="utf-8")
+        self.assertIn("| 1.6 | 2 | hand | 86.0% (160/186) |", log)
+        self.assertIn("| 1.6 | 2 | hand:corrected:judge-v1 | 86.6% (161/186) |", log)
+        self.assertEqual(self.clean_count("hand_corrected_judge-v1_scores.json"), 161)
 
 
 if __name__ == "__main__":

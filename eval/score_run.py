@@ -281,7 +281,18 @@ def compute_scored_metrics(card_scores: list[dict]) -> dict:
     }
 
 
-def build_scores_record(run_info: dict, scorer: str, scores_path: Path, records: list[dict], scores: dict) -> dict:
+def relative_to_run(path: Path, run_dir: Path) -> str:
+    # Relative to the run folder, so scores files in different subfolders
+    # (judge/<id>/, split/<id>/) can be told apart. A file outside the run
+    # folder keeps the path it was given.
+    try:
+        return path.resolve().relative_to(run_dir.resolve()).as_posix()
+    except ValueError:
+        return str(path)
+
+
+def build_scores_record(run_info: dict, scorer: str, scores_path: Path, run_dir: Path, records: list[dict],
+                        scores: dict) -> dict:
     # Per-card rates are pooled across every card in the scored batches. A
     # sample counts toward every tag it carries, as in run_eval.py.
     by_tag = defaultdict(list)
@@ -299,7 +310,7 @@ def build_scores_record(run_info: dict, scorer: str, scores_path: Path, records:
         "test_set_version": run_info.get("test_set_version", UNVERSIONED_TEST_SET),
         "test_set_hash": run_info.get("test_set_hash"),
         "scorer": scorer,
-        "scores_file": scores_path.name,
+        "scores_file": relative_to_run(scores_path, run_dir),
         "metrics": {
             "scored": compute_scored_metrics(list(scores.values())),
             "automated": run_info["metrics"],
@@ -484,7 +495,7 @@ def main() -> None:
 
     scored_metrics = None
     if scores is not None:
-        record = build_scores_record(run_info, scorer, scores_path, records, scores)
+        record = build_scores_record(run_info, scorer, scores_path, run_dir, records, scores)
         scored_metrics = record["metrics"]["scored"]
 
     rows, action = upsert_log_row(rows, build_log_row(run_info, scorer, scored_metrics))

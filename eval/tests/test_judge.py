@@ -225,6 +225,12 @@ class PromptTests(unittest.TestCase):
         self.assertNotEqual(base, run_judge.compute_judge_hash(prompt, "claude-sonnet-5", "low"))
         self.assertNotEqual(base, run_judge.compute_judge_hash(prompt + " ", JUDGE_MODEL, "low"))
 
+    def test_judge_v1_is_unchanged(self):
+        # Split scoring uses judge v1's grades only while its hash is
+        # d21413e84dec (README, "Split scoring"). Editing the prompt, the
+        # rubric criteria it loads, the model, or the effort fails this.
+        self.assertEqual(run_judge.get_judge_hash(), "d21413e84dec")
+
     def test_user_message_is_blind(self):
         notes = "int main() { return 0; }"
         cards = [

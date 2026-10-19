@@ -20,6 +20,9 @@ gets shipped. It computes the automated metrics defined in
   judge. See [LLM judge](#llm-judge)
 - `validate_judge.py`: Compares judge runs with the hand scores and decides
   whether the judge is validated
+- `split_scores.py`: Builds the sheets for split scoring and merges the
+  judge's grades with the hand-scored unambiguous column. See
+  [Split scoring](#split-scoring)
 - `judge/`: The judge prompt (`judge_prompt_v1.txt`), the seeded examples
   (`seeded_examples.json`), judge runs on the seeded examples
   (`seeded_runs/`), and validation reports (`validation/`)
@@ -67,6 +70,12 @@ current version first.
 - **Duplicates are under-tested.** No sample repeats content, so the
   duplicate criterion only catches the model restating a fact in a new
   way, never notes that repeat themselves.
+- **No mixed-content documents.** Every sample is study notes and nothing
+  else. Real pastes often include text that shouldn't become cards:
+  asides, instructions, citations, end-of-chapter questions, and
+  summaries. The test set can't show whether the model skips them. A
+  future test set version is planned with samples like these, and a
+  "relevant" criterion in the rubric to score them.
 
 ## Setup
 
@@ -260,8 +269,8 @@ Windows doesn't allow them in file names).
 ### Scores file
 
 By default the script reads `scores.csv` in the run folder. `--scores`
-reads a different file instead, and its name is recorded in the output as
-`scores_file`:
+reads a different file instead, and its path relative to the run folder is
+recorded in the output as `scores_file`:
 
 ```bash
 .venv/bin/python eval/score_run.py --scores path/to/scores.csv <run_folder>
@@ -354,9 +363,9 @@ the earlier `scores.csv` is a good starting point), and run
 `run_judge.py` scores the judgment-based criteria (atomic, supported, no
 leakage, unambiguous, and near-duplicates) with Claude Opus 5.5, so a run
 doesn't need full hand scoring. The input gate, card count, and source
-check are already computed by code, so the judge doesn't score them. Until
-the judge is [validated](#validating-the-judge), its scores don't count
-toward the shipping criteria.
+check are already computed by code, so the judge doesn't score them. Judge
+v1 isn't validated, so only some of its grades count toward the shipping
+criteria; see [Split scoring](#split-scoring).
 
 - **One call per sample,** with the sample's notes and all of its cards,
   since duplicates can only be judged across the whole batch.
@@ -421,13 +430,16 @@ records its total API calls and retries, and its cost includes every
 attempt. The retry belongs to the runner, not the judge, so the judge hash
 doesn't cover it.
 
-The judge never writes `scores.csv`. To record a judge run in the results
-log, once the judge is validated:
+The judge never writes `scores.csv`. A validated judge's run is recorded in
+the results log like this:
 
 ```bash
 .venv/bin/python eval/score_run.py --scorer judge:opus-5.5:v1 \
     --scores eval/runs/<run>/judge/<judge_run_id>/judge_scores.csv eval/runs/<run>
 ```
+
+Judge v1 isn't validated, so its runs are logged through
+[split scoring](#split-scoring) instead.
 
 ### Seeded examples
 
@@ -519,6 +531,96 @@ That adds a row beside the original `hand` row in `results_log.md` rather
 than replacing it. `score_run.py` refuses the plain `hand` scorer on a run
 whose `score_changes.csv` has any change not marked `pre-judge`, since its
 `scores.csv` is no longer the original scoring.
+
+### Split scoring
+
+Judge v1 (judge hash `d21413e84dec`) is not validated. Against the
+corrected hand scores it failed one threshold, unambiguous catches in run
+A (3 of 6, needs 4), and met every other one in both runs, including every
+seeded example. On 2026-10-18, after seeing that verdict, scoring was split
+for runs under rubric 1.6 and test set 2:
+
+- **Judge v1** scores atomic, supported, no leakage, and duplicates, the
+  criteria where it met every threshold.
+- **A person** scores unambiguous, the criterion it failed. The judge
+  still grades unambiguous, because changing its prompt would change its
+  hash, but that column is never used.
+
+The split was chosen after the result was known, so it isn't the
+pre-committed test the validation definition was meant to be. The evidence
+for the four criteria has limits too. The disagreement review moved the
+corrected hand scores toward the judge: against the original scores,
+atomic and supported false alarms were just over 5%. Supported and
+duplicates also have no catch threshold. The rubric stays at 1.6 and the
+test set at 2 until prompt v2 is measured against Run 1. Judge v2 and
+rubric 1.7 come after that.
+
+A split-scored run goes through four steps, in this order:
+
+1. **Score unambiguous by hand.** `split_scores.py sheet <run>` writes
+   `split/unambiguous_sheet.csv` with `card_id`, `question`, `answer`, a
+   blank `unambiguous`, and `note`. Score it from the question and answer
+   alone, without the notes: the rubric's test for unambiguous is to hide
+   the source text. The sheet has no hand-scoring notes and no judge
+   grades. The judge's own files show its unambiguous grades and reasons,
+   so finish this sheet before opening any judge output. The safest way
+   is to finish it before running the judge.
+2. **Run the judge** with `run_judge.py`, as above.
+3. **Review the judge.** `split_scores.py review --judge-run <judge_run>
+   <run>` refuses to run until every unambiguous score is filled in. Then
+   it writes two sheets to `split/<judge_run_id>/`:
+   - `review_fails.csv`: every card+criterion pair the judge failed
+     (atomic, supported, or no leakage `N`, or a duplicate), with its
+     reason. Fill in `decision` (`keep` or `change`) and `decision_reason`.
+   - `review_passes.csv`: a random sample of the pairs it passed, on any
+     card and any of its four criteria, 5 per criterion, with no judge
+     grades. A card that fails one criterion still has its other passes
+     in the pool: a miss there lowers that criterion's rate, and a card
+     that fails something is where the judge is most likely to be wrong
+     elsewhere. Score each one blind: `Y` or `N`, or for duplicates the
+     earlier card's ID or `none`. The seed is recorded in
+     `review_passes.md`; `--seed` sets it, and otherwise one is drawn at
+     random. The sample is there to catch a judge that does badly on new
+     kinds of cards. It doesn't measure how often the judge misses,
+     because 20 pairs can't pin down a low miss rate.
+
+   Neither `sheet` nor `review` overwrites an existing sheet.
+   `--decisions-from-hand` fills in both sheets' decisions and the change
+   log from the run's corrected `scores.csv`, with provenance
+   `from hand scores`. It works only on the validation run (Run 1), where
+   every card is already hand-scored.
+
+   Record every change in `split/<judge_run_id>/score_changes.csv`. It has
+   the same columns as the hand-score log (see
+   [Correcting hand scores](#correcting-hand-scores)), with `prompted_by`
+   set to `review`. These changes are to judge grades, not hand scores, so
+   they're kept out of the run's own `score_changes.csv`, which
+   `validate_judge.py` reads.
+4. **Merge and log.** `split_scores.py merge --judge-run <judge_run> <run>`
+   writes `split/<judge_run_id>/split_scores.csv`. It holds the judge's
+   atomic, supported, no leakage, and `duplicate_of` with the review
+   changes applied, plus the hand-scored unambiguous column.
+   `split_scores.json` beside it records the inputs and their hashes.
+   `--unambiguous <csv>` reads the hand scores from any file with
+   `card_id` and `unambiguous` columns, such as an existing `scores.csv`.
+   The merge refuses to run if:
+   - the judge run isn't complete
+   - its judge hash isn't `d21413e84dec`
+   - any unambiguous score or review decision is blank
+   - the pass sheet doesn't match the sample drawn from its recorded seed
+   - the review sheets and the change log don't match
+
+   Then log it:
+
+   ```bash
+   .venv/bin/python eval/score_run.py --scorer judge:opus-5.5:v1+hand \
+       --scores eval/runs/<run>/split/<judge_run_id>/split_scores.csv eval/runs/<run>
+   ```
+
+The scorer label `judge:opus-5.5:v1+hand` gives split scoring its own row in
+the results log, beside any `hand` row. A run has one split row per rubric
+and test set version, so merging a second judge run of it replaces the
+first. `scores_file` in the output records which judge run was used.
 
 ### Tests
 

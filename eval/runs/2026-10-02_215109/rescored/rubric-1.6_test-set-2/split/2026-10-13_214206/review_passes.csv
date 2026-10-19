@@ -1,0 +1,21 @@
+﻿card_id,criterion,question,answer,decision,decision_reason
+sample_002-c01,atomic,What does photosynthesis convert light energy into?,Chemical energy stored in organic molecules,Y,From the corrected hand score in scores.csv.
+sample_006-c10,atomic,Who led the Committee of Public Safety during the Reign of Terror?,Robespierre,Y,From the corrected hand score in scores.csv.
+sample_009-c04,atomic,What is the function of primase during DNA replication?,To put RNA primer,Y,From the corrected hand score in scores.csv.
+sample_010-c12,atomic,On what date did Japan formally surrender?,September 2,Y,From the corrected hand score in scores.csv.
+sample_013-c03,atomic,What is the building block of proteins?,Amino acid,Y,From the corrected hand score in scores.csv.
+sample_012-c02,supported,What is the main economic use of hematite?,Iron production,Y,From the corrected hand score in scores.csv.
+sample_016-c04,supported,"What does nums[::2] return for nums = [10, 20, 30, 40, 50]?","[10, 30, 50]",Y,From the corrected hand score in scores.csv.
+sample_024-c01,supported,What term describes the value of the next-best alternative forgone when a choice is made?,Opportunity cost,Y,From the corrected hand score in scores.csv.
+sample_026-c01,supported,What is photosynthesis?,The process by which light energy is converted into chemical energy.,Y,From the corrected hand score in scores.csv.
+sample_026-c02,supported,What is the function of chlorophyll in photosynthetic organisms?,It absorbs light.,Y,From the corrected hand score in scores.csv.
+sample_006-c06,no_leakage,In what year and at what location did Louis XVI attempt to escape Paris?,1791 at Varennes,Y,From the corrected hand score in scores.csv.
+sample_007-c04,no_leakage,What causes repolarization of the neuronal membrane?,"Sodium channels close/inactivate and potassium channels open, allowing potassium ions to flow out",Y,From the corrected hand score in scores.csv.
+sample_012-c02,no_leakage,What is the main economic use of hematite?,Iron production,Y,From the corrected hand score in scores.csv.
+sample_014-c15,no_leakage,Which planet is the largest?,Jupiter,Y,From the corrected hand score in scores.csv.
+sample_030-c02,no_leakage,What term describes the process in which one tectonic plate moves beneath another?,Subduction,Y,From the corrected hand score in scores.csv.
+sample_002-c08,duplicate,What two molecules does the Calvin cycle use to incorporate carbon dioxide into carbohydrates?,ATP and NADPH,none,From the corrected hand score in scores.csv.
+sample_005-c01,duplicate,What are two things that flow through ecosystems in different ways?,Energy flows through ecosystems while matter is repeatedly recycled,none,From the corrected hand score in scores.csv.
+sample_016-c05,duplicate,"In Python, what does a negative index like nums[-1] refer to?",The last element in the list,none,From the corrected hand score in scores.csv.
+sample_018-c03,duplicate,"In the SQL query shown, what does the WHERE clause do?",It keeps only active employees (where active = 1),none,From the corrected hand score in scores.csv.
+sample_028-c02,duplicate,What term describes a positively charged ion?,Cation,none,From the corrected hand score in scores.csv.

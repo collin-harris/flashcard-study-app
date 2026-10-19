@@ -1,0 +1,8 @@
+﻿date,card_id,field,old,new,prompted_by,rubric_rule,reason,provenance
+2026-10-19,sample_002-c10,no_leakage,N,Y,review,"Rubric 1.6, No Answer Leakage",From the corrected hand score in scores.csv: Y.,from hand scores
+2026-10-19,sample_006-c03,supported,N,Y,review,"Rubric 1.6, Supported",From the corrected hand score in scores.csv: Y.,from hand scores
+2026-10-19,sample_013-c02,atomic,N,Y,review,"Rubric 1.6, Atomic",From the corrected hand score in scores.csv: Y.,from hand scores
+2026-10-19,sample_013-c04,atomic,N,Y,review,"Rubric 1.6, Atomic",From the corrected hand score in scores.csv: Y.,from hand scores
+2026-10-19,sample_013-c05,supported,N,Y,review,"Rubric 1.6, Supported",From the corrected hand score in scores.csv: Y.,from hand scores
+2026-10-19,sample_013-c06,atomic,N,Y,review,"Rubric 1.6, Atomic",From the corrected hand score in scores.csv: Y.,from hand scores
+2026-10-19,sample_016-c05,supported,N,Y,review,"Rubric 1.6, Supported",From the corrected hand score in scores.csv: Y.,from hand scores

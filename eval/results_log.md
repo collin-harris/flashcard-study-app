@@ -11,9 +11,17 @@ rubric 1.6 and test set 2 meets all of these:
 - Card count pass rate ≥ 90%
 - Supported rate ≥ 98%
 - Zero false rejections and zero false acceptances
-- Scored by a validated judge (see "Validating the judge" in
-  [`README.md`](README.md#validating-the-judge)), with a hand review of
-  every card the judge fails and a random sample of the cards it passes
+- Split-scored (see "Split scoring" in
+  [`README.md`](README.md#split-scoring)): judge v1 (judge hash
+  `d21413e84dec`) scores atomic, supported, no leakage, and duplicates,
+  and unambiguous is scored by hand. Every card the judge fails is
+  reviewed by hand, along with a seeded random sample of the cards it
+  passes, and corrections are applied before scoring.
+
+The last criterion changed on 2026-10-18. It used to say "scored by a
+validated judge", and judge v1 wasn't validated: it failed only on
+unambiguous catches. The split was adopted after seeing that result. The
+other criteria are unchanged.
 
 If the rubric or test set version changes, review these criteria before
 applying them to runs under the new versions.
@@ -49,12 +57,21 @@ was corrected while validating judge v1 (28 changes: 27 from the
 disagreement review on 2026-10-17, 1 from the agreement check on
 2026-10-18); its original clean card rate is 86.0% (160/186).
 
+A `judge:opus-5.5:v1+hand` row is split-scored (see "Split scoring" in
+[`README.md`](README.md#split-scoring)). For run 2026-10-02_215109 under
+rubric 1.6, it uses judge run 2026-10-13_214206 (run A) and the corrected
+unambiguous scores. Its review decisions come from the corrected hand
+scores, which already cover every card. Judge run B gives the same reviewed
+clean card rate. Before review, A gives 78.0% (145/186) and B 78.5%
+(146/186).
+
 | Run ID | Date | Model | Prompt | Prompt hash | Rubric | Test set | Scorer | Clean card | Atomic | Supported | No leakage | Unambiguous | Duplicate-free | False rejection | False acceptance | Card count pass | Source match | Avg cost |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 2026-10-02_215109 | 2026-10-02 | claude-haiku-4-5-20251001 | v1 | f5e88f4d8fd8 | 1.4 | 1 | hand | 89.8% (167/186) | 97.3% (181/186) | 97.8% (182/186) | 98.9% (184/186) | 93.5% (174/186) | 98.4% (183/186) | 0.0% (0/30) | 0.0% (0/5) | 53.3% (16/30) | 94.6% (176/186) | $0.0032 |
 | 2026-10-02_215109 | 2026-10-02 | claude-haiku-4-5-20251001 | v1 | f5e88f4d8fd8 | 1.5 | 2 | hand | 86.0% (160/186) | 94.1% (175/186) | 98.9% (184/186) | 96.8% (180/186) | 93.5% (174/186) | 98.4% (183/186) | 0.0% (0/30) | 0.0% (0/5) | 66.7% (20/30) | 94.6% (176/186) | $0.0032 |
 | 2026-10-02_215109 | 2026-10-02 | claude-haiku-4-5-20251001 | v1 | f5e88f4d8fd8 | 1.6 | 2 | hand | 86.0% (160/186) | 94.1% (175/186) | 98.9% (184/186) | 96.8% (180/186) | 93.5% (174/186) | 97.8% (182/186) | 0.0% (0/30) | 0.0% (0/5) | 66.7% (20/30) | 94.6% (176/186) | $0.0032 |
 | 2026-10-02_215109 | 2026-10-02 | claude-haiku-4-5-20251001 | v1 | f5e88f4d8fd8 | 1.6 | 2 | hand:corrected:judge-v1 | 81.2% (151/186) | 89.2% (166/186) | 95.2% (177/186) | 96.8% (180/186) | 96.8% (180/186) | 96.8% (180/186) | 0.0% (0/30) | 0.0% (0/5) | 66.7% (20/30) | 94.6% (176/186) | $0.0032 |
+| 2026-10-02_215109 | 2026-10-02 | claude-haiku-4-5-20251001 | v1 | f5e88f4d8fd8 | 1.6 | 2 | judge:opus-5.5:v1+hand | 81.7% (152/186) | 89.2% (166/186) | 95.2% (177/186) | 97.3% (181/186) | 96.8% (180/186) | 96.8% (180/186) | 0.0% (0/30) | 0.0% (0/5) | 66.7% (20/30) | 94.6% (176/186) | $0.0032 |
 | 2026-10-02_215610 | 2026-10-02 | claude-haiku-4-5-20251001 | v1 | f5e88f4d8fd8 | 1.4 | 1 | not scored | not scored | not scored | not scored | not scored | not scored | not scored | 0.0% (0/30) | 0.0% (0/5) | 53.3% (16/30) | 94.7% (180/190) | $0.0032 |
 | 2026-10-02_215610 | 2026-10-02 | claude-haiku-4-5-20251001 | v1 | f5e88f4d8fd8 | 1.5 | 2 | not scored | not scored | not scored | not scored | not scored | not scored | not scored | 0.0% (0/30) | 0.0% (0/5) | 66.7% (20/30) | 94.7% (180/190) | $0.0032 |
 | 2026-10-02_215610 | 2026-10-02 | claude-haiku-4-5-20251001 | v1 | f5e88f4d8fd8 | 1.6 | 2 | not scored | not scored | not scored | not scored | not scored | not scored | not scored | 0.0% (0/30) | 0.0% (0/5) | 66.7% (20/30) | 94.7% (180/190) | $0.0032 |

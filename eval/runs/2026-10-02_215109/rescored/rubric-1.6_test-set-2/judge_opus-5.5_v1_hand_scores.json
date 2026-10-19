@@ -1,0 +1,622 @@
+{
+  "run_id": "2026-10-02_215109",
+  "date": "2026-10-02T21:51:09",
+  "model": "claude-haiku-4-5-20251001",
+  "prompt_version": "v1",
+  "prompt_hash": "f5e88f4d8fd8",
+  "rubric_version": "1.6",
+  "test_set_version": "2",
+  "test_set_hash": "dc07b494d8f7",
+  "scorer": "judge:opus-5.5:v1+hand",
+  "scores_file": "split/2026-10-13_214206/split_scores.csv",
+  "metrics": {
+    "scored": {
+      "cards_scored": 186,
+      "clean_card_rate": {
+        "count": 152,
+        "total": 186,
+        "rate": 0.8172043010752689
+      },
+      "atomic_rate": {
+        "count": 166,
+        "total": 186,
+        "rate": 0.8924731182795699
+      },
+      "supported_rate": {
+        "count": 177,
+        "total": 186,
+        "rate": 0.9516129032258065
+      },
+      "no_leakage_rate": {
+        "count": 181,
+        "total": 186,
+        "rate": 0.9731182795698925
+      },
+      "unambiguous_rate": {
+        "count": 180,
+        "total": 186,
+        "rate": 0.967741935483871
+      },
+      "duplicate_free_rate": {
+        "count": 180,
+        "total": 186,
+        "rate": 0.967741935483871
+      }
+    },
+    "automated": {
+      "samples_run": 35,
+      "error_rate": {
+        "count": 0,
+        "total": 35,
+        "rate": 0.0
+      },
+      "stage1": {
+        "false_rejection_rate": {
+          "count": 0,
+          "total": 30,
+          "rate": 0.0
+        },
+        "false_acceptance_rate": {
+          "count": 0,
+          "total": 5,
+          "rate": 0.0
+        }
+      },
+      "stage2": {
+        "batches_scored": 30,
+        "cards_scored": 186,
+        "card_count_pass_rate": {
+          "count": 20,
+          "total": 30,
+          "rate": 0.6666666666666666
+        },
+        "source_match_rate": {
+          "count": 176,
+          "total": 186,
+          "rate": 0.946236559139785
+        }
+      },
+      "operational": {
+        "total_input_tokens": 60104,
+        "total_output_tokens": 10196,
+        "total_cost_usd": 0.11108400000000003,
+        "average_cost_usd": 0.0031738285714285725,
+        "average_latency_seconds": 2.9422710911713823
+      }
+    }
+  },
+  "metrics_by_category": {
+    "already_list_like": {
+      "scored": {
+        "cards_scored": 22,
+        "clean_card_rate": {
+          "count": 22,
+          "total": 22,
+          "rate": 1.0
+        },
+        "atomic_rate": {
+          "count": 22,
+          "total": 22,
+          "rate": 1.0
+        },
+        "supported_rate": {
+          "count": 22,
+          "total": 22,
+          "rate": 1.0
+        },
+        "no_leakage_rate": {
+          "count": 22,
+          "total": 22,
+          "rate": 1.0
+        },
+        "unambiguous_rate": {
+          "count": 22,
+          "total": 22,
+          "rate": 1.0
+        },
+        "duplicate_free_rate": {
+          "count": 22,
+          "total": 22,
+          "rate": 1.0
+        }
+      },
+      "automated": {
+        "samples_run": 5,
+        "error_rate": {
+          "count": 0,
+          "total": 5,
+          "rate": 0.0
+        },
+        "stage1": {
+          "false_rejection_rate": {
+            "count": 0,
+            "total": 5,
+            "rate": 0.0
+          },
+          "false_acceptance_rate": {
+            "count": 0,
+            "total": 0,
+            "rate": null
+          }
+        },
+        "stage2": {
+          "batches_scored": 5,
+          "cards_scored": 22,
+          "card_count_pass_rate": {
+            "count": 5,
+            "total": 5,
+            "rate": 1.0
+          },
+          "source_match_rate": {
+            "count": 22,
+            "total": 22,
+            "rate": 1.0
+          }
+        },
+        "operational": {
+          "total_input_tokens": 8473,
+          "total_output_tokens": 1118,
+          "total_cost_usd": 0.014062999999999999,
+          "average_cost_usd": 0.0028125999999999997,
+          "average_latency_seconds": 2.2610697233998507
+        }
+      }
+    },
+    "code_content": {
+      "scored": {
+        "cards_scored": 23,
+        "clean_card_rate": {
+          "count": 18,
+          "total": 23,
+          "rate": 0.782608695652174
+        },
+        "atomic_rate": {
+          "count": 22,
+          "total": 23,
+          "rate": 0.9565217391304348
+        },
+        "supported_rate": {
+          "count": 23,
+          "total": 23,
+          "rate": 1.0
+        },
+        "no_leakage_rate": {
+          "count": 22,
+          "total": 23,
+          "rate": 0.9565217391304348
+        },
+        "unambiguous_rate": {
+          "count": 20,
+          "total": 23,
+          "rate": 0.8695652173913043
+        },
+        "duplicate_free_rate": {
+          "count": 22,
+          "total": 23,
+          "rate": 0.9565217391304348
+        }
+      },
+      "automated": {
+        "samples_run": 5,
+        "error_rate": {
+          "count": 0,
+          "total": 5,
+          "rate": 0.0
+        },
+        "stage1": {
+          "false_rejection_rate": {
+            "count": 0,
+            "total": 5,
+            "rate": 0.0
+          },
+          "false_acceptance_rate": {
+            "count": 0,
+            "total": 0,
+            "rate": null
+          }
+        },
+        "stage2": {
+          "batches_scored": 5,
+          "cards_scored": 23,
+          "card_count_pass_rate": {
+            "count": 1,
+            "total": 5,
+            "rate": 0.2
+          },
+          "source_match_rate": {
+            "count": 21,
+            "total": 23,
+            "rate": 0.9130434782608695
+          }
+        },
+        "operational": {
+          "total_input_tokens": 8769,
+          "total_output_tokens": 1372,
+          "total_cost_usd": 0.015629,
+          "average_cost_usd": 0.0031258,
+          "average_latency_seconds": 3.022075004600265
+        }
+      }
+    },
+    "dense_textbook_prose": {
+      "scored": {
+        "cards_scored": 37,
+        "clean_card_rate": {
+          "count": 26,
+          "total": 37,
+          "rate": 0.7027027027027027
+        },
+        "atomic_rate": {
+          "count": 29,
+          "total": 37,
+          "rate": 0.7837837837837838
+        },
+        "supported_rate": {
+          "count": 37,
+          "total": 37,
+          "rate": 1.0
+        },
+        "no_leakage_rate": {
+          "count": 34,
+          "total": 37,
+          "rate": 0.918918918918919
+        },
+        "unambiguous_rate": {
+          "count": 36,
+          "total": 37,
+          "rate": 0.972972972972973
+        },
+        "duplicate_free_rate": {
+          "count": 34,
+          "total": 37,
+          "rate": 0.918918918918919
+        }
+      },
+      "automated": {
+        "samples_run": 5,
+        "error_rate": {
+          "count": 0,
+          "total": 5,
+          "rate": 0.0
+        },
+        "stage1": {
+          "false_rejection_rate": {
+            "count": 0,
+            "total": 5,
+            "rate": 0.0
+          },
+          "false_acceptance_rate": {
+            "count": 0,
+            "total": 0,
+            "rate": null
+          }
+        },
+        "stage2": {
+          "batches_scored": 5,
+          "cards_scored": 37,
+          "card_count_pass_rate": {
+            "count": 3,
+            "total": 5,
+            "rate": 0.6
+          },
+          "source_match_rate": {
+            "count": 37,
+            "total": 37,
+            "rate": 1.0
+          }
+        },
+        "operational": {
+          "total_input_tokens": 8788,
+          "total_output_tokens": 2149,
+          "total_cost_usd": 0.019533000000000002,
+          "average_cost_usd": 0.0039066000000000005,
+          "average_latency_seconds": 3.685941965999882
+        }
+      }
+    },
+    "sloppy_bullets": {
+      "scored": {
+        "cards_scored": 47,
+        "clean_card_rate": {
+          "count": 32,
+          "total": 47,
+          "rate": 0.6808510638297872
+        },
+        "atomic_rate": {
+          "count": 37,
+          "total": 47,
+          "rate": 0.7872340425531915
+        },
+        "supported_rate": {
+          "count": 39,
+          "total": 47,
+          "rate": 0.8297872340425532
+        },
+        "no_leakage_rate": {
+          "count": 46,
+          "total": 47,
+          "rate": 0.9787234042553191
+        },
+        "unambiguous_rate": {
+          "count": 46,
+          "total": 47,
+          "rate": 0.9787234042553191
+        },
+        "duplicate_free_rate": {
+          "count": 46,
+          "total": 47,
+          "rate": 0.9787234042553191
+        }
+      },
+      "automated": {
+        "samples_run": 5,
+        "error_rate": {
+          "count": 0,
+          "total": 5,
+          "rate": 0.0
+        },
+        "stage1": {
+          "false_rejection_rate": {
+            "count": 0,
+            "total": 5,
+            "rate": 0.0
+          },
+          "false_acceptance_rate": {
+            "count": 0,
+            "total": 0,
+            "rate": null
+          }
+        },
+        "stage2": {
+          "batches_scored": 5,
+          "cards_scored": 47,
+          "card_count_pass_rate": {
+            "count": 2,
+            "total": 5,
+            "rate": 0.4
+          },
+          "source_match_rate": {
+            "count": 47,
+            "total": 47,
+            "rate": 1.0
+          }
+        },
+        "operational": {
+          "total_input_tokens": 8778,
+          "total_output_tokens": 2429,
+          "total_cost_usd": 0.020923,
+          "average_cost_usd": 0.0041846,
+          "average_latency_seconds": 4.703718328399918
+        }
+      }
+    },
+    "table_data": {
+      "scored": {
+        "cards_scored": 47,
+        "clean_card_rate": {
+          "count": 46,
+          "total": 47,
+          "rate": 0.9787234042553191
+        },
+        "atomic_rate": {
+          "count": 47,
+          "total": 47,
+          "rate": 1.0
+        },
+        "supported_rate": {
+          "count": 47,
+          "total": 47,
+          "rate": 1.0
+        },
+        "no_leakage_rate": {
+          "count": 47,
+          "total": 47,
+          "rate": 1.0
+        },
+        "unambiguous_rate": {
+          "count": 46,
+          "total": 47,
+          "rate": 0.9787234042553191
+        },
+        "duplicate_free_rate": {
+          "count": 47,
+          "total": 47,
+          "rate": 1.0
+        }
+      },
+      "automated": {
+        "samples_run": 5,
+        "error_rate": {
+          "count": 0,
+          "total": 5,
+          "rate": 0.0
+        },
+        "stage1": {
+          "false_rejection_rate": {
+            "count": 0,
+            "total": 5,
+            "rate": 0.0
+          },
+          "false_acceptance_rate": {
+            "count": 0,
+            "total": 0,
+            "rate": null
+          }
+        },
+        "stage2": {
+          "batches_scored": 5,
+          "cards_scored": 47,
+          "card_count_pass_rate": {
+            "count": 4,
+            "total": 5,
+            "rate": 0.8
+          },
+          "source_match_rate": {
+            "count": 39,
+            "total": 47,
+            "rate": 0.8297872340425532
+          }
+        },
+        "operational": {
+          "total_input_tokens": 8641,
+          "total_output_tokens": 2223,
+          "total_cost_usd": 0.019756000000000003,
+          "average_cost_usd": 0.0039512,
+          "average_latency_seconds": 3.515252388599947
+        }
+      }
+    },
+    "too_short": {
+      "scored": {
+        "cards_scored": 10,
+        "clean_card_rate": {
+          "count": 8,
+          "total": 10,
+          "rate": 0.8
+        },
+        "atomic_rate": {
+          "count": 9,
+          "total": 10,
+          "rate": 0.9
+        },
+        "supported_rate": {
+          "count": 9,
+          "total": 10,
+          "rate": 0.9
+        },
+        "no_leakage_rate": {
+          "count": 10,
+          "total": 10,
+          "rate": 1.0
+        },
+        "unambiguous_rate": {
+          "count": 10,
+          "total": 10,
+          "rate": 1.0
+        },
+        "duplicate_free_rate": {
+          "count": 9,
+          "total": 10,
+          "rate": 0.9
+        }
+      },
+      "automated": {
+        "samples_run": 5,
+        "error_rate": {
+          "count": 0,
+          "total": 5,
+          "rate": 0.0
+        },
+        "stage1": {
+          "false_rejection_rate": {
+            "count": 0,
+            "total": 5,
+            "rate": 0.0
+          },
+          "false_acceptance_rate": {
+            "count": 0,
+            "total": 0,
+            "rate": null
+          }
+        },
+        "stage2": {
+          "batches_scored": 5,
+          "cards_scored": 10,
+          "card_count_pass_rate": {
+            "count": 5,
+            "total": 5,
+            "rate": 1.0
+          },
+          "source_match_rate": {
+            "count": 10,
+            "total": 10,
+            "rate": 1.0
+          }
+        },
+        "operational": {
+          "total_input_tokens": 8294,
+          "total_output_tokens": 624,
+          "total_cost_usd": 0.011413999999999999,
+          "average_cost_usd": 0.0022827999999999998,
+          "average_latency_seconds": 2.013989329999822
+        }
+      }
+    },
+    "unusable_input": {
+      "scored": {
+        "cards_scored": 0,
+        "clean_card_rate": {
+          "count": 0,
+          "total": 0,
+          "rate": null
+        },
+        "atomic_rate": {
+          "count": 0,
+          "total": 0,
+          "rate": null
+        },
+        "supported_rate": {
+          "count": 0,
+          "total": 0,
+          "rate": null
+        },
+        "no_leakage_rate": {
+          "count": 0,
+          "total": 0,
+          "rate": null
+        },
+        "unambiguous_rate": {
+          "count": 0,
+          "total": 0,
+          "rate": null
+        },
+        "duplicate_free_rate": {
+          "count": 0,
+          "total": 0,
+          "rate": null
+        }
+      },
+      "automated": {
+        "samples_run": 5,
+        "error_rate": {
+          "count": 0,
+          "total": 5,
+          "rate": 0.0
+        },
+        "stage1": {
+          "false_rejection_rate": {
+            "count": 0,
+            "total": 0,
+            "rate": null
+          },
+          "false_acceptance_rate": {
+            "count": 0,
+            "total": 5,
+            "rate": 0.0
+          }
+        },
+        "stage2": {
+          "batches_scored": 0,
+          "cards_scored": 0,
+          "card_count_pass_rate": {
+            "count": 0,
+            "total": 0,
+            "rate": null
+          },
+          "source_match_rate": {
+            "count": 0,
+            "total": 0,
+            "rate": null
+          }
+        },
+        "operational": {
+          "total_input_tokens": 8361,
+          "total_output_tokens": 281,
+          "total_cost_usd": 0.009766,
+          "average_cost_usd": 0.0019532,
+          "average_latency_seconds": 1.3938508971999908
+        }
+      }
+    }
+  }
+}

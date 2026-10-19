@@ -163,6 +163,24 @@ cost as it goes. At Claude Haiku 4.5's rates, a two-sample smoke test costs
 about half a cent and a full run about $0.15. These are estimates, and each
 run records its actual cost.
 
+`--model` runs a different model without changing the app's, which stays
+`MODEL` in `card_generation.py`:
+
+```bash
+.venv/bin/python eval/run_eval.py --model claude-sonnet-5-5
+```
+
+Only models with rates in `PRICING` in `card_generation.py` are accepted,
+so a run's cost is never computed at the wrong rates. Every model generates
+without extended thinking, as Haiku 4.5 does by default, so a comparison is
+model against model. Sonnet 5.5 rejects `thinking: {type: "disabled"}`, so
+it's sent `{type: "between_tools"}`, its documented lowest setting, with
+effort `high`, the API default, set explicitly. These settings are in
+`REQUEST_OPTIONS` beside `PRICING`. At Sonnet 5.5's rates ($2 / $10 per
+million tokens) a full run costs about twice as much as with Haiku 4.5. A
+refusal is recorded as an errored sample, with no fallback to another
+model.
+
 A sample that fails (API error, truncated output, refusal, invalid output,
 or an unexpected error) is recorded as an error and the run continues.
 
@@ -184,7 +202,8 @@ Each run writes to its own folder, where the run ID is the local start time
 Each folder contains:
 
 - `run.json`: Run metadata (date, rubric version, test set version and
-  hash, source text hash, model, prompt version and hash, max tokens,
+  hash, source text hash, model requested, the thinking and effort settings
+  sent with it, prompt version and hash, max tokens,
   request timeout, max retries, gate approach, SDK version, partial,
   interrupted, and incomplete flags, test set size), the
   list of errored samples, and every automated metric, overall and per

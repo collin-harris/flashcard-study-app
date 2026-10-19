@@ -12,19 +12,37 @@ from pydantic import BaseModel, Field, TypeAdapter, ValidationError
 
 # Every evaluation run records these settings in its run.json, so changing
 # any of them means the results are no longer comparable with earlier runs.
+# MODEL is the app's model; the eval runner can pass another model from
+# PRICING to generate_cards().
 MODEL = "claude-haiku-4-5-20251001"
-PROMPT_VERSION = "v1"
+PROMPT_VERSION = "v2"
 MAX_TOKENS = 4096
 REQUEST_TIMEOUT_SECONDS = 60
 # The SDK's own default, set explicitly so retry behavior is a deliberate
 # setting and a future SDK default change can't alter it silently.
 MAX_RETRIES = 2
 
-# Haiku 4.5 base rates in USD per million tokens, from
-# https://platform.claude.com/docs/en/about-claude/pricing (checked 2026-09-29).
-# Prompt caching isn't used, so cache read/write rates don't apply.
-INPUT_COST_PER_MTOK = 1.00
-OUTPUT_COST_PER_MTOK = 5.00
+# Base rates in USD per million tokens, from
+# https://platform.claude.com/docs/en/about-claude/pricing (Haiku 4.5 checked
+# 2026-09-29, Sonnet 5.5 checked 2026-10-19). Prompt caching isn't used, so
+# cache read/write rates don't apply. A model without rates here can't be
+# used, so a run's cost is never computed at the wrong rates.
+PRICING = {
+    "claude-haiku-4-5-20251001": {"input": 1.00, "output": 5.00},
+    "claude-sonnet-5-5": {"input": 2.00, "output": 10.00},
+}
+
+# Extra request settings per model, so every model generates without
+# extended thinking, as Haiku 4.5 does by default. Sonnet 5.5 thinks by
+# default and rejects {"type": "disabled"} with a 400; "between_tools" is its
+# documented lowest setting, with no extended thinking, and is accepted only
+# at effort "high" or below. Effort is set to "high", the API default,
+# explicitly so a future default change can't alter it silently. Haiku 4.5
+# rejects the effort setting, so it gets neither.
+REQUEST_OPTIONS = {
+    "claude-haiku-4-5-20251001": {},
+    "claude-sonnet-5-5": {"thinking": {"type": "between_tools"}, "effort": "high"},
+}
 
 PROMPTS_DIR = Path(__file__).parent.parent / "prompts"
 
@@ -138,11 +156,14 @@ def get_prompt_hash() -> str:
     return hashlib.sha256(encoded.encode("utf-8")).hexdigest()[:12]
 
 
-def _estimate_cost(input_tokens: int, output_tokens: int) -> float:
-    return (input_tokens * INPUT_COST_PER_MTOK + output_tokens * OUTPUT_COST_PER_MTOK) / 1_000_000
+def _estimate_cost(model: str, input_tokens: int, output_tokens: int) -> float:
+    rates = PRICING[model]
+    return (input_tokens * rates["input"] + output_tokens * rates["output"]) / 1_000_000
 
 
-def generate_cards(notes: str) -> GenerationResult:
+def generate_cards(notes: str, model: str = MODEL) -> GenerationResult:
+    if model not in PRICING:
+        raise ValueError(f"No pricing for model {model!r}. Add its rates to PRICING before using it.")
     # Checked here rather than at import so the app and test suite can run
     # without the key.
     api_key = os.environ.get("ANTHROPIC_API_KEY")
@@ -153,18 +174,24 @@ def generate_cards(notes: str) -> GenerationResult:
         )
 
     client = anthropic.Anthropic(api_key=api_key, timeout=REQUEST_TIMEOUT_SECONDS, max_retries=MAX_RETRIES)
+    options = REQUEST_OPTIONS[model]
+    output_config = {"format": {"type": "json_schema", "schema": OUTPUT_SCHEMA}}
+    if "effort" in options:
+        output_config["effort"] = options["effort"]
+    extra = {"thinking": options["thinking"]} if "thinking" in options else {}
 
     # Latency covers the whole call, including any automatic SDK retries.
     start = time.perf_counter()
     try:
         response = client.messages.create(
-            model=MODEL,
+            model=model,
             max_tokens=MAX_TOKENS,
             system=_load_system_prompt(),
             messages=[
                 {"role": "user", "content": USER_MESSAGE_PREFIX + notes + USER_MESSAGE_SUFFIX}
             ],
-            output_config={"format": {"type": "json_schema", "schema": OUTPUT_SCHEMA}},
+            output_config=output_config,
+            **extra,
         )
     except anthropic.APITimeoutError as e:
         raise CardGenerationError("api_error", f"Request timed out: {e}") from e
@@ -182,7 +209,7 @@ def generate_cards(notes: str) -> GenerationResult:
         prompt_hash=get_prompt_hash(),
         input_tokens=response.usage.input_tokens,
         output_tokens=response.usage.output_tokens,
-        cost_usd=_estimate_cost(response.usage.input_tokens, response.usage.output_tokens),
+        cost_usd=_estimate_cost(model, response.usage.input_tokens, response.usage.output_tokens),
         latency_seconds=latency,
     )
     raw_text = "".join(block.text for block in response.content if block.type == "text")

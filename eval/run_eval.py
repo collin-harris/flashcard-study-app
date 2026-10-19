@@ -15,6 +15,7 @@ repo's .env file, and the eval dependencies installed into .venv
 Usage:
     .venv/bin/python eval/run_eval.py
     .venv/bin/python eval/run_eval.py --samples sample_001,sample_031
+    .venv/bin/python eval/run_eval.py --model claude-sonnet-5-5
 """
 import argparse
 import csv
@@ -107,7 +108,7 @@ def excerpt_matches(excerpt: str, normalized_source: str) -> bool:
     return bool(normalized) and normalized in normalized_source
 
 
-def run_sample(sample: dict) -> dict:
+def run_sample(sample: dict, model: str) -> dict:
     record = {
         "id": sample["id"],
         "tags": sample["tags"],
@@ -126,7 +127,7 @@ def run_sample(sample: dict) -> dict:
     }
 
     try:
-        result = generate_cards(sample["source_text"])
+        result = generate_cards(sample["source_text"], model=model)
     except CardGenerationError as e:
         record["outcome"] = "error"
         record["error"] = {"kind": e.kind, "message": str(e)}
@@ -517,6 +518,13 @@ def load_api_key() -> None:
 def main() -> None:
     parser = argparse.ArgumentParser(description="Run the card generation evaluation.")
     parser.add_argument("--samples", help="comma-separated sample IDs to run (default: all)")
+    # Only models with rates in card_generation.PRICING, so a run's cost is
+    # never computed at the wrong rates. The app's own model stays
+    # card_generation.MODEL whatever is passed here.
+    parser.add_argument(
+        "--model", choices=sorted(card_generation.PRICING), default=card_generation.MODEL,
+        help=f"the model to generate with (default: the app's model, {card_generation.MODEL})",
+    )
     args = parser.parse_args()
 
     # Checked up front so a missing key fails once, not once per sample.
@@ -547,7 +555,13 @@ def main() -> None:
         "test_set_version": read_test_set_version(),
         "test_set_hash": get_test_set_hash(all_samples),
         "source_text_hash": get_source_text_hash(samples),
-        "model": card_generation.MODEL,
+        # The model requested; each sample's metadata records the model the
+        # API reports.
+        "model": args.model,
+        # The extra request settings sent for this model (none for Haiku 4.5).
+        # "between_tools" is Sonnet 5.5's setting without extended thinking.
+        "thinking": card_generation.REQUEST_OPTIONS[args.model].get("thinking"),
+        "effort": card_generation.REQUEST_OPTIONS[args.model].get("effort"),
         "prompt_version": card_generation.PROMPT_VERSION,
         "prompt_hash": card_generation.get_prompt_hash(),
         "max_tokens": card_generation.MAX_TOKENS,
@@ -572,7 +586,7 @@ def main() -> None:
     interrupted = False
     try:
         for i, sample in enumerate(samples, start=1):
-            record = run_sample(sample)
+            record = run_sample(sample, args.model)
             records.append(record)
             # Saved after every sample, so an interrupted run keeps the
             # samples that finished.

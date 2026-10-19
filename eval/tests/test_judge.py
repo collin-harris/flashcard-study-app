@@ -656,6 +656,39 @@ class ValidateTests(unittest.TestCase):
         with self.assertRaises(SystemExit):
             quiet(self.validate, runs, seeded)
 
+    def write_agreement_sample(self, decisions: dict) -> Path:
+        path = self.tmp / "agreement_sample.csv"
+        write_csv(path, ["card_id", "criterion", "question", "answer", "decision", "decision_reason"], [
+            {"card_id": card_id, "criterion": key, "question": "", "answer": "", "decision": decision,
+             "decision_reason": f"Recheck of {card_id}"}
+            for (card_id, key), decision in decisions.items()
+        ])
+        path.with_suffix(".md").write_text("- **Random seed:** 7\n", encoding="utf-8")
+        return path
+
+    def test_agreement_sample_reports_shared_errors(self):
+        runs, seeded = self.judge_all()
+        sample = self.write_agreement_sample({
+            ("sample_015-c05", "unambiguous"): "N",  # agreed Y: a shared error
+            ("sample_001-c01", "atomic"): "Y",
+        })
+        data = validate_judge.validate(runs, seeded, output_dir=self.tmp / "validation", agreement_path=sample)
+        self.assertEqual((data["agreement"]["matched"], data["agreement"]["seed"]), (1, 7))
+        self.assertTrue(data["validated"]["corrected"])  # reported, never part of the verdict
+        report = self.report()
+        self.assertIn("- **Agreement check:** 1 of 2 matched, 1 shared error", report)
+        self.assertIn("**1 of 2 matched; 1 shared error.**", report)
+        self.assertIn("| sample_015-c05 | unambiguous | Y | N | Recheck of sample_015-c05 |", report)
+        self.assertIn("rate this sample can't pin down (1/2), and the unambiguous result is likely optimistic.", report)
+
+    def test_agreement_sample_with_a_disagreed_pair_is_refused(self):
+        # The judge fails a card the hand scores pass, so it isn't an agreed pair.
+        runs, seeded = self.judge_all(overrides={"sample_001-c01": {"atomic": "N"}})
+        sample = self.write_agreement_sample({("sample_001-c01", "atomic"): "Y"})
+        with self.assertRaises(SystemExit) as raised:
+            quiet(validate_judge.validate, runs, seeded, output_dir=self.tmp / "validation", agreement_path=sample)
+        self.assertIn("isn't an agreed pair", str(raised.exception.code))
+
     def test_different_judges_are_refused(self):
         runs, seeded = self.judge_all()
         info_path = runs[1] / "judge_run.json"

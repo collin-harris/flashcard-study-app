@@ -129,7 +129,7 @@ sample_015-c01,sample_015,table_data,What event in 1929 contributed to the onset
 sample_015-c02,sample_015,table_data,What did the First New Deal measures in 1933 accomplish?,Expanded federal involvement in economic relief and recovery,Y,Y,Y,Y,,
 sample_015-c03,sample_015,table_data,What did the Social Security Act of 1935 establish?,Old-age pensions and related programs,Y,Y,Y,Y,,
 sample_015-c04,sample_015,table_data,What was the significance of the U.S. entering World War II in 1941?,Wartime production greatly expanded employment and output,Y,Y,Y,Y,,
-sample_015-c05,sample_015,table_data,What position did the U.S. emerge as following the end of World War II in 1945?,A major global economic and military power,Y,Y,Y,Y,,
+sample_015-c05,sample_015,table_data,What position did the U.S. emerge as following the end of World War II in 1945?,A major global economic and military power,Y,Y,Y,N,,
 sample_016-c01,sample_016,code_content,"In Python list slicing with sequence[start:stop:step], is the stop index included or excluded?",Excluded,Y,Y,N,Y,,"Batch-level note: Run produced 6 flashcards. This could have been expanded to 8 or 9. Missing questions: slice sequence, negative indexes count from the end, negative step reverses traversal. On the negative indexes and step topic, the model produced flashcards for the examples but not for the general rule. v1.5: no_leakage Y to N: either/or question."
 sample_016-c02,sample_016,code_content,"What does nums[1:4] return for nums = [10, 20, 30, 40, 50]?","[20, 30, 40]",Y,Y,Y,Y,,
 sample_016-c03,sample_016,code_content,"What does nums[:3] return for nums = [10, 20, 30, 40, 50]?","[10, 20, 30]",Y,Y,Y,Y,,

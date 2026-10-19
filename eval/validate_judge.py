@@ -16,7 +16,8 @@ calls.
 
 Usage:
     .venv/bin/python eval/validate_judge.py \\
-        --runs <judge_run_A> <judge_run_B> --seeded <seeded_run_A> <seeded_run_B>
+        --runs <judge_run_A> <judge_run_B> --seeded <seeded_run_A> <seeded_run_B> \\
+        [--discarded <judge_run>...] [--agreement-sample <agreement_sample.csv>]
 """
 import argparse
 import csv
@@ -165,6 +166,46 @@ def rebuild_original(corrected: dict, changes: list[dict]) -> dict:
     return original
 
 
+def check_agreement_sample(path: Path, original: dict, run_grades: list[dict]) -> dict:
+    """A blind recheck of pairs where the original hand score and both judge runs agreed.
+
+    A pair whose recheck differs is a shared error: the hand score and both
+    runs were wrong together, which no catch or false alarm check can see.
+    The random seed is read from the sample's .md file beside it.
+    """
+    with path.open(encoding="utf-8-sig", newline="") as f:
+        rows = [{k: (v or "").strip() for k, v in row.items()} for row in csv.DictReader(f)]
+    notes_path = path.with_suffix(".md")
+    seed = re.search(r"\*\*Random seed:\*\*\s*(\d+)", notes_path.read_text(encoding="utf-8")) if notes_path.exists() else None
+    problems = [] if seed else [f"{notes_path} doesn't record the sample's random seed (a '**Random seed:** <n>' line)."]
+    pairs = []
+    for row in rows:
+        card_id, key = row["card_id"], row["criterion"]
+        if card_id not in original or key not in CRITERIA:
+            problems.append(f"{path.name}: unknown card or criterion ({card_id}, {key}).")
+            continue
+        agreed = {original[card_id][key], *(g[card_id][key] for g in run_grades)}
+        if len(agreed) != 1:
+            problems.append(f"{path.name}: {card_id} {key} isn't an agreed pair; the original hand score and the judge runs differ.")
+            continue
+        if row["decision"].upper() not in ("Y", "N"):
+            problems.append(f"{path.name}: {card_id} {key} has no Y or N decision.")
+            continue
+        pairs.append({"card_id": card_id, "criterion": key, "agreed": agreed.pop(),
+                      "recheck": row["decision"].upper(), "reason": row["decision_reason"]})
+    if problems:
+        sys.exit("\n".join(problems))
+    shared = [p for p in pairs if p["recheck"] != p["agreed"]]
+    return {
+        "file": path.resolve().relative_to(REPO_ROOT).as_posix() if path.resolve().is_relative_to(REPO_ROOT) else str(path),
+        "seed": int(seed.group(1)),
+        "per_criterion": {key: sum(p["criterion"] == key for p in pairs) for key in CRITERIA},
+        "pairs": pairs,
+        "matched": len(pairs) - len(shared),
+        "shared_errors": shared,
+    }
+
+
 # ---------------------------------------------------------------------------
 # Comparing
 # ---------------------------------------------------------------------------
@@ -296,6 +337,46 @@ def checks_table(checks: list[dict]) -> list[str]:
     return lines
 
 
+def agreement_summary(agreement: dict | None) -> list[str]:
+    if agreement is None:
+        return []
+    shared = len(agreement["shared_errors"])
+    return [
+        f"- **Agreement check:** {agreement['matched']} of {len(agreement['pairs'])} matched, "
+        f"{shared} shared error{'' if shared == 1 else 's'} (see [Agreement check](#agreement-check))"
+    ]
+
+
+def agreement_section(agreement: dict | None) -> list[str]:
+    lines = ["## Agreement check", ""]
+    if agreement is None:
+        return lines + ["No agreement sample was given (`--agreement-sample`)."]
+    n, shared = len(agreement["pairs"]), agreement["shared_errors"]
+    per = ", ".join(f"{count} {LABEL_NAMES[key].lower()}" for key, count in agreement["per_criterion"].items())
+    lines += [
+        f"A blind recheck of {n} card+criterion pairs where the original hand score and both judge runs agreed: "
+        f"{agreement['file']}, random seed {agreement['seed']}, {per}. A pair whose recheck differs is a shared "
+        "error, where the hand score and both runs were wrong together. Until it's corrected in scores.csv, no "
+        "catch or false alarm check can see it. The check is reported only; it isn't part of the verdict.",
+        "",
+        f"**{agreement['matched']} of {n} matched; {len(shared)} shared error{'' if len(shared) == 1 else 's'}.**",
+        "",
+    ]
+    if not shared:
+        return lines + [f"No shared errors in this sample, which doesn't rule them out: {n} pairs can't pin down a low rate."]
+    lines += ["| Card | Criterion | Agreed | Recheck | Reason |", "|---|---|---|---|---|"]
+    for p in shared:
+        lines.append(f"| {p['card_id']} | {p['criterion']} | {p['agreed']} | {p['recheck']} | {cell(p['reason'])} |")
+    criteria = sorted({p["criterion"] for p in shared}, key=CRITERIA.index)
+    names = " and ".join(LABEL_NAMES[k].lower() for k in criteria)
+    lines += [
+        "",
+        f"**Caveat:** shared errors exist at a rate this sample can't pin down ({len(shared)}/{n}), and the "
+        f"{names} result{'s are' if len(criteria) > 1 else ' is'} likely optimistic.",
+    ]
+    return lines
+
+
 def write_report(path: Path, data: dict) -> None:
     info = data["judge"]
     corrected_ok, original_ok = data["validated"]["corrected"], data["validated"]["original"]
@@ -323,6 +404,7 @@ def write_report(path: Path, data: dict) -> None:
         f"{format_rate(data['retries']['drop_rate'])} of API calls, including discarded runs (see [Retries](#retries))",
         f"- **Score changes:** {len(data['score_changes']) - len(judge_prompted)} pre-judge, "
         f"{len(judge_prompted)} prompted by the judge (see [Score changes](#score-changes))",
+        *agreement_summary(data["agreement"]),
         "",
         "Every threshold must hold in both runs. Catch thresholds allow a fixed number of misses "
         "(unambiguous 2, atomic 2, no leakage 1), so they still apply if a hand score is corrected.",
@@ -433,6 +515,8 @@ def write_report(path: Path, data: dict) -> None:
         for d in p["invalid_outputs"]:
             lines.append(f"- {p['pass']}, {d['id']}: {cell(d['message'])}")
 
+    lines += ["", *agreement_section(data["agreement"])]
+
     lines += ["", "## Score changes", ""]
     if data["score_changes"]:
         lines += [
@@ -510,7 +594,7 @@ def list_disagreements(hand: dict, notes: dict, grades: list[dict], cards: dict,
 # ---------------------------------------------------------------------------
 
 def validate(run_paths: list[Path], seeded_paths: list[Path], output_dir: Path = VALIDATION_DIR,
-             discarded_paths: list[Path] = ()) -> dict:
+             discarded_paths: list[Path] = (), agreement_path: Path | None = None) -> dict:
     runs = [load_judge_run(p, "run") for p in run_paths]
     seeded_runs = [load_judge_run(p, "seeded") for p in seeded_paths]
     infos = [info for info, _ in runs + seeded_runs]
@@ -613,6 +697,7 @@ def validate(run_paths: list[Path], seeded_paths: list[Path], output_dir: Path =
             ),
         },
         "disagreements": list_disagreements(corrected, notes, run_grades, cards, corrected_ids),
+        "agreement": check_agreement_sample(Path(agreement_path), original, run_grades) if agreement_path else None,
     }
 
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -631,10 +716,16 @@ def main() -> None:
         help="incomplete or interrupted judge runs of the same judge; counted toward API calls, "
         "the drop rate, and money spent, never graded",
     )
+    parser.add_argument(
+        "--agreement-sample", metavar="CSV",
+        help="a blind recheck of pairs where the hand score and both judge runs agreed, with its seed in the "
+        ".md file beside it; reported, never part of the verdict",
+    )
     args = parser.parse_args()
 
     data = validate([Path(p) for p in args.runs], [Path(p) for p in args.seeded],
-                    discarded_paths=[Path(p) for p in args.discarded])
+                    discarded_paths=[Path(p) for p in args.discarded],
+                    agreement_path=Path(args.agreement_sample) if args.agreement_sample else None)
     corrected, original = data["validated"]["corrected"], data["validated"]["original"]
     if corrected != original:
         print(f"NOTE: the verdict differs: {verdict_text(corrected)} against the corrected scores, "

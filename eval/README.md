@@ -477,6 +477,12 @@ Add `--discarded <judge_run>...` for any incomplete or interrupted judge run
 of the same judge that was set aside, so its API calls, dropped outputs,
 and cost are still counted. A discarded run is never graded or compared.
 
+Add `--agreement-sample <csv>` to report a blind recheck of pairs where the
+original hand score and both judge runs agreed (such as
+`judge/validation/agreement_sample_v1.csv`, with its random seed in the `.md`
+file beside it). A recheck that differs is a shared error. The report lists
+each one with a caveat, and the check isn't part of the verdict.
+
 The report is written to `judge/validation/judge_opus-5.5_v1.md`. It
 shows each threshold for both runs; catch and false alarm rates per
 criterion, with the counts behind them; the judge's clean card rate against

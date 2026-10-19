@@ -1,21 +1,21 @@
 ﻿card_id,criterion,question,answer,decision,decision_reason
-sample_001-c08,atomic,How did German resentment toward the Treaty of Versailles relate to the rise of the Nazi movement?,It became an important factor exploited by Adolf Hitler and the Nazi movement,,
-sample_007-c01,atomic,What is the resting membrane potential of a neuron?,-70 mV,,
-sample_010-c10,atomic,On what date was the atomic bomb dropped on Nagasaki?,August 9,,
-sample_014-c15,atomic,Which planet is the largest?,Jupiter,,
-sample_030-c02,atomic,What term describes the process in which one tectonic plate moves beneath another?,Subduction,,
-sample_005-c03,supported,How do primary consumers obtain energy?,By eating producers,,
-sample_016-c04,supported,"What does nums[::2] return for nums = [10, 20, 30, 40, 50]?","[10, 30, 50]",,
-sample_018-c04,supported,"In the SQL query shown, what does the HAVING clause do?",It keeps only departments with at least 5 active employees,,
-sample_019-c01,supported,What do JavaScript promises represent?,The eventual result of an asynchronous operation,,
-sample_019-c02,supported,What are the three possible states of a promise?,"Pending, fulfilled, or rejected",,
-sample_006-c12,no_leakage,What political system followed the Reign of Terror?,The Directory,,
-sample_011-c04,no_leakage,What is an example of meiosis?,Formation of gametes,,
-sample_018-c04,no_leakage,"In the SQL query shown, what does the HAVING clause do?",It keeps only departments with at least 5 active employees,,
-sample_019-c01,no_leakage,What do JavaScript promises represent?,The eventual result of an asynchronous operation,,
-sample_020-c04,no_leakage,What value does the provided binary_search function return when the target is not found?,-1,,
-sample_013-c07,unambiguous,What is the building block of nucleic acids?,Nucleotide,,
-sample_015-c05,unambiguous,What position did the U.S. emerge as following the end of World War II in 1945?,A major global economic and military power,,
-sample_017-c04,unambiguous,What is the purpose of the `const` keyword in a const reference parameter in C++?,It prevents the function from changing the referred-to object through that parameter.,,
-sample_019-c05,unambiguous,How do promise callbacks behave relative to the rest of the program?,They run later rather than blocking the rest of the program,,
-sample_021-c01,unambiguous,What is the mitochondrion?,An organelle involved in aerobic cellular respiration that produces much of a eukaryotic cell's ATP through oxidative phosphorylation,,
+sample_001-c08,atomic,How did German resentment toward the Treaty of Versailles relate to the rise of the Nazi movement?,It became an important factor exploited by Adolf Hitler and the Nazi movement,Y,The question asks a single question with a single distinct answer.
+sample_007-c01,atomic,What is the resting membrane potential of a neuron?,-70 mV,Y,The question asks a single question with a single distinct answer being the membrane potential.
+sample_010-c10,atomic,On what date was the atomic bomb dropped on Nagasaki?,9-Aug,Y,The question asks a single question with a single distinct answer being the date.
+sample_014-c15,atomic,Which planet is the largest?,Jupiter,Y,The question asks a single question with a single distinct answer bing the planet name.
+sample_030-c02,atomic,What term describes the process in which one tectonic plate moves beneath another?,Subduction,Y,The question asks for a single term that satisfies the definition.
+sample_005-c03,supported,How do primary consumers obtain energy?,By eating producers,Y,The information in the flashcard is supported directly by the source notes.
+sample_016-c04,supported,"What does nums[::2] return for nums = [10, 20, 30, 40, 50]?","[10, 30, 50]",Y,The information in the flashcard is supported directly by the source notes.
+sample_018-c04,supported,"In the SQL query shown, what does the HAVING clause do?",It keeps only departments with at least 5 active employees,Y,The information in the flashcard is supported directly by the source notes.
+sample_019-c01,supported,What do JavaScript promises represent?,The eventual result of an asynchronous operation,Y,The information in the flashcard is supported directly by the source notes.
+sample_019-c02,supported,What are the three possible states of a promise?,"Pending, fulfilled, or rejected",Y,The information in the flashcard is supported directly by the source notes.
+sample_006-c12,no_leakage,What political system followed the Reign of Terror?,The Directory,Y,The question does not give away the answer.
+sample_011-c04,no_leakage,What is an example of meiosis?,Formation of gametes,Y,The question does not give away the answer.
+sample_018-c04,no_leakage,"In the SQL query shown, what does the HAVING clause do?",It keeps only departments with at least 5 active employees,Y,"The question doesn't give enough information to even answer the question (because it is ambiguous), so it certainly does not leak the answer."
+sample_019-c01,no_leakage,What do JavaScript promises represent?,The eventual result of an asynchronous operation,Y,The question does not give away the answer.
+sample_020-c04,no_leakage,What value does the provided binary_search function return when the target is not found?,-1,Y,"The question doesn't give enough information to even answer the question (because it is ambiguous), so it certainly does not leak the answer."
+sample_013-c07,unambiguous,What is the building block of nucleic acids?,Nucleotide,Y,The question is clear with a single correct answer.
+sample_015-c05,unambiguous,What position did the U.S. emerge as following the end of World War II in 1945?,A major global economic and military power,N,The question is bit ambiguous in its wording. 'Position' could mean many things and results in many answers potentially being correct.
+sample_017-c04,unambiguous,What is the purpose of the `const` keyword in a const reference parameter in C++?,It prevents the function from changing the referred-to object through that parameter.,Y,The question is clear and sufficient knowledge of the material should elicit the correct answer.
+sample_019-c05,unambiguous,How do promise callbacks behave relative to the rest of the program?,They run later rather than blocking the rest of the program,Y,The question is clear and sufficient knowledge of the material should elicit the correct answer.
+sample_021-c01,unambiguous,What is the mitochondrion?,An organelle involved in aerobic cellular respiration that produces much of a eukaryotic cell's ATP through oxidative phosphorylation,Y,The question is clear. It asks the student to define a term.

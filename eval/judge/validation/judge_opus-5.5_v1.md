@@ -9,7 +9,7 @@
 - **Judge cost:** $0.5550, $0.5751, $0.5380, $0.5407 (runs A, B, seeded A, seeded B)
 - **Total spent, including discarded runs:** $2.7309
 - **Retries:** 1; drop rate 1.4% (2/143) of API calls, including discarded runs (see [Retries](#retries))
-- **Score changes:** 1 pre-judge, 28 prompted by the judge (see [Score changes](#score-changes))
+- **Score changes:** 1 pre-judge, 27 from the judge review, 1 from the agreement check, 4 from the consistency check (see [Score changes](#score-changes))
 - **Agreement check:** 19 of 20 matched, 1 shared error (see [Agreement check](#agreement-check))
 
 Every threshold must hold in both runs. Catch thresholds allow a fixed number of misses (unambiguous 2, atomic 2, no leakage 1), so they still apply if a hand score is corrected.
@@ -18,15 +18,15 @@ Every threshold must hold in both runs. Catch thresholds allow a fixed number of
 
 | Check | Threshold | Run A | Run B | Result |
 |---|---|---|---|---|
-| Unambiguous: catches | ≥ 4 of 6 | **50.0% (3/6)** | 66.7% (4/6) | **FAIL** |
+| Unambiguous: catches | ≥ 8 of 10 | **30.0% (3/10)** | **40.0% (4/10)** | **FAIL** |
 | Atomic: catches | ≥ 18 of 20 | 100.0% (20/20) | 95.0% (19/20) | pass |
 | No leakage: catches | ≥ 5 of 6 | 83.3% (5/6) | 83.3% (5/6) | pass |
 | Atomic: false alarm rate | ≤ 5% | 1.8% (3/166) | 0.6% (1/166) | pass |
 | Supported: false alarm rate | ≤ 5% | 1.7% (3/177) | 2.3% (4/177) | pass |
 | No leakage: false alarm rate | ≤ 5% | 0.6% (1/180) | 1.1% (2/180) | pass |
-| Unambiguous: false alarm rate | ≤ 5% | 0.0% (0/180) | 0.0% (0/180) | pass |
+| Unambiguous: false alarm rate | ≤ 5% | 0.0% (0/176) | 0.0% (0/176) | pass |
 | Duplicates: false alarm rate | ≤ 5% | 0.0% (0/180) | 0.6% (1/180) | pass |
-| Clean card rate | within ±3 points of 81.2% (151/186) | 79.0% (147/186) | 79.6% (148/186) | pass |
+| Clean card rate | within ±3 points of 79.6% (148/186) | 79.0% (147/186) | 79.6% (148/186) | pass |
 | Seeded supported: correct | ≥ 4 of 5 | 5 of 5 | 5 of 5 | pass |
 | Seeded atomic: correct | ≥ 4 of 5 | 5 of 5 | 5 of 5 | pass |
 | Seeded no leakage: correct | ≥ 4 of 5 | 5 of 5 | 5 of 5 | pass |
@@ -62,8 +62,8 @@ Every threshold must hold in both runs. Catch thresholds allow a fixed number of
 | Supported | B | 9 | 8 | 88.9% (8/9) | 177 | 4 | 2.3% (4/177) |
 | No leakage | A | 6 | 5 | 83.3% (5/6) | 180 | 1 | 0.6% (1/180) |
 | No leakage | B | 6 | 5 | 83.3% (5/6) | 180 | 2 | 1.1% (2/180) |
-| Unambiguous | A | 6 | 3 | 50.0% (3/6) | 180 | 0 | 0.0% (0/180) |
-| Unambiguous | B | 6 | 4 | 66.7% (4/6) | 180 | 0 | 0.0% (0/180) |
+| Unambiguous | A | 10 | 3 | 30.0% (3/10) | 176 | 0 | 0.0% (0/176) |
+| Unambiguous | B | 10 | 4 | 40.0% (4/10) | 176 | 0 | 0.0% (0/176) |
 | Duplicates | A | 6 | 6 | 100.0% (6/6) | 180 | 0 | 0.0% (0/180) |
 | Duplicates | B | 6 | 6 | 100.0% (6/6) | 180 | 1 | 0.6% (1/180) |
 
@@ -73,7 +73,7 @@ Duplicates both of us flagged, with a different original card: none.
 
 | Scorer | Clean card rate |
 |---|---|
-| Hand (corrected) | 81.2% (151/186) |
+| Hand (corrected) | 79.6% (148/186) |
 | Hand (original) | 86.0% (160/186) |
 | Judge run A | 79.0% (147/186) |
 | Judge run B | 79.6% (148/186) |
@@ -198,10 +198,14 @@ A blind recheck of 20 card+criterion pairs where the original hand score and bot
 | 2026-10-17 | sample_007-c03 | duplicate_of | — | sample_007-c02 | 2026-10-13_214206 + 2026-10-13_222522 | after recheck | Rubric 1.6, No near-duplicates: fact already contained in an earlier card's answer | [after recheck] Based on rubric 1.6 criteria this is technically a duplicate. However, we may need to change the rubric because the questions are distinct. If the flashcards are very similar in their answers, but the questions are distinct it should probably not be a duplicate and this is a perfect example of why. |
 | 2026-10-17 | sample_017-c04 | duplicate_of | — | sample_017-c02 | 2026-10-13_214206 + 2026-10-13_222522 | after recheck | Rubric 1.6, No near-duplicates: fact already contained in an earlier card's answer | [after recheck] This is borderline. Both questions are about a similar topic however one is asking a definition the other is asking purpose within a specified context. The fact is already in c02’s answer (the 1.6 rule). |
 | 2026-10-18 | sample_015-c05 | unambiguous | Y | N | agreement_sample_v1 | agreement check | Rubric 1.6, Unambiguous | The question is bit ambiguous in its wording. 'Position' could mean many things and results in many answers potentially being correct. |
+| 2026-10-20 | sample_010-c02 | unambiguous | Y | N | v2 unambiguous scoring | consistency check | Rubric 1.6, Unambiguous | Significance question: several different answers would be correct. Aligned with the standard applied when scoring prompt v2's unambiguous sheet (v2 scored first, 2026-10-20). |
+| 2026-10-20 | sample_010-c04 | unambiguous | Y | N | v2 unambiguous scoring | consistency check | Rubric 1.6, Unambiguous | Significance question: several different answers would be correct. Aligned with the standard applied when scoring prompt v2's unambiguous sheet (v2 scored first, 2026-10-20). |
+| 2026-10-20 | sample_015-c04 | unambiguous | Y | N | v2 unambiguous scoring | consistency check | Rubric 1.6, Unambiguous | Significance question: several different answers would be correct. Aligned with the standard applied when scoring prompt v2's unambiguous sheet (v2 scored first, 2026-10-20). |
+| 2026-10-20 | sample_022-c03 | unambiguous | Y | N | v2 unambiguous scoring | consistency check | Rubric 1.6, Unambiguous | Significance question: several different answers would be correct. Aligned with the standard applied when scoring prompt v2's unambiguous sheet (v2 scored first, 2026-10-20). |
 
 ## Disagreements (corrected hand scores)
 
-Every card where either judge run differs from the corrected hand score. Cards whose hand score was corrected because of the judge are marked †.
+Every card where either judge run differs from the corrected hand score. A card is marked † where its hand score for that criterion was corrected in the judge review.
 
 ### Atomic (5)
 
@@ -228,17 +232,21 @@ Every card where either judge run differs from the corrected hand score. Cards w
 
 | Card | Question | Answer | Mine | Run A | Run B | Judge's reason | My note |
 |---|---|---|---|---|---|---|---|
-| sample_001-c08 † | How did German resentment toward the Treaty of Versailles relate to the rise of the Nazi movement? | It became an important factor exploited by Adolf Hitler and the Nazi movement | N | Y | Y | — | Question is essentially the answer as a question. Could be perceived as ambiguous if a student thought it was looking for a deeper answer. |
+| sample_001-c08 | How did German resentment toward the Treaty of Versailles relate to the rise of the Nazi movement? | It became an important factor exploited by Adolf Hitler and the Nazi movement | N | Y | Y | — | Question is essentially the answer as a question. Could be perceived as ambiguous if a student thought it was looking for a deeper answer. |
 | sample_002-c06 | What molecule is reduced by electrons from light-dependent reactions to form NADPH? | NADP+ | Y | Y | N | B: The question's phrase 'reduced... to form NADPH' makes the answer 'NADP+' directly deducible from the question text. | — |
 | sample_002-c10 | How does the Calvin cycle depend on light-dependent reactions if it does not directly require photons? | It depends on products generated by the light-dependent reactions | Y | N | N | A: The question 'depend on light-dependent reactions' gives away the answer 'depends on products generated by the light-dependent reactions'. / B: The question names 'light-dependent reactions' and the answer 'products generated by the light-dependent reactions' adds little beyond what the question supplies. | Batch level note: This run produced 10 flashcards for this sample. I identified 10-11 distinct facts so this is a good range for this sample. |
 
-### Unambiguous (3)
+### Unambiguous (7)
 
 | Card | Question | Answer | Mine | Run A | Run B | Judge's reason | My note |
 |---|---|---|---|---|---|---|---|
 | sample_008-c05 † | What are limitations of using GDP per capita as a measure? | It does not tell the distribution of output/income, unpaid work, or environmental costs | N | Y | N | — | Closed set example. |
-| sample_015-c05 † | What position did the U.S. emerge as following the end of World War II in 1945? | A major global economic and military power | N | Y | Y | — | — |
+| sample_010-c02 | What was the significance of the US victory at Midway? | Four Japanese carriers were lost and it was a big turning point | N | Y | Y | — | — |
+| sample_010-c04 | What was the significance of the Battle of Guadalcanal? | It was the first big Allied offensive in the Pacific | N | Y | Y | — | — |
+| sample_015-c04 | What was the significance of the U.S. entering World War II in 1941? | Wartime production greatly expanded employment and output | N | Y | Y | — | — |
+| sample_015-c05 | What position did the U.S. emerge as following the end of World War II in 1945? | A major global economic and military power | N | Y | Y | — | — |
 | sample_020-c04 | What value does the provided binary_search function return when the target is not found? | -1 | N | Y | Y | — | Question does not show the code snippet in question. It says "provided binary search function" without showing the function. The code snippet should be included in the question to avoid ambiguity. |
+| sample_022-c03 | What historical significance did the Magna Carta have in the development of government? | It became an important symbol in the development of constitutional government. | N | Y | Y | — | — |
 
 ### Duplicates (1)
 

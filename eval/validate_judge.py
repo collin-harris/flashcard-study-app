@@ -57,6 +57,17 @@ LABEL_NAMES = {
     "unambiguous": "Unambiguous", "duplicate": "Duplicates",
 }
 
+# What made each change in score_changes.csv, read from its provenance (and
+# prompted_by for a pre-judge change). Only a judge review change was
+# prompted by the judge: decided while reviewing its disagreements, blind
+# (before reading its reason), after reading it, or after rereading the notes.
+JUDGE_REVIEW_PROVENANCES = ("blind", "after judge", "after recheck")
+CHANGE_KINDS = ["pre-judge", "judge review", "agreement check", "consistency check"]
+CHANGE_KIND_TEXT = {
+    "pre-judge": "pre-judge", "judge review": "from the judge review",
+    "agreement check": "from the agreement check", "consistency check": "from the consistency check",
+}
+
 
 # ---------------------------------------------------------------------------
 # Loading
@@ -131,16 +142,34 @@ def load_hand_scores(run_dir: Path, cards: dict) -> tuple[dict, dict]:
     return labels, notes
 
 
+def change_kind(change: dict) -> str | None:
+    if change["prompted_by"] == PRE_JUDGE:
+        return "pre-judge"
+    provenance = change.get("provenance", "")
+    if provenance in JUDGE_REVIEW_PROVENANCES:
+        return "judge review"
+    return provenance if provenance in CHANGE_KINDS else None
+
+
 def load_score_changes(run_dir: Path) -> list[dict]:
     path = run_dir / "score_changes.csv"
     if not path.exists():
         return []
     with path.open(encoding="utf-8-sig", newline="") as f:
-        return [{k: (v or "").strip() for k, v in row.items()} for row in csv.DictReader(f)]
+        changes = [{k: (v or "").strip() for k, v in row.items() if k is not None} for row in csv.DictReader(f)]
+    # Every change is counted and marked by what made it, so one without a
+    # known provenance is refused rather than guessed.
+    unknown = [c for c in changes if change_kind(c) is None]
+    if unknown:
+        known = ", ".join(f"'{p}'" for p in (*JUDGE_REVIEW_PROVENANCES, *CHANGE_KINDS[2:]))
+        sys.exit(f"{path} has {len(unknown)} change(s) with an unknown provenance (expected {known}, "
+                 f"or prompted_by '{PRE_JUDGE}'):\n"
+                 + "\n".join(f"- {c['card_id']} {c['field']}: '{c.get('provenance', '')}'" for c in unknown))
+    return changes
 
 
 def rebuild_original(corrected: dict, changes: list[dict]) -> dict:
-    """Reverts every judge-prompted change, newest first, to get the scores before any of them."""
+    """Reverts every change not marked pre-judge, newest first, to get the scores as first made."""
     original = {card_id: dict(labels) for card_id, labels in corrected.items()}
     problems = []
     for change in reversed(changes):
@@ -380,7 +409,9 @@ def agreement_section(agreement: dict | None) -> list[str]:
 def write_report(path: Path, data: dict) -> None:
     info = data["judge"]
     corrected_ok, original_ok = data["validated"]["corrected"], data["validated"]["original"]
-    judge_prompted = [c for c in data["score_changes"] if c["prompted_by"] != PRE_JUDGE]
+    counts = data["score_change_counts"]
+    later_changes = sum(n for kind, n in counts.items() if kind != "pre-judge")
+    change_summary = ", ".join(f"{counts[k]} {CHANGE_KIND_TEXT[k]}" for k in CHANGE_KINDS if counts[k]) or "none"
     lines = [f"# Judge Validation: {info['scorer']}", ""]
     if corrected_ok != original_ok:
         lines += [
@@ -402,8 +433,7 @@ def write_report(path: Path, data: dict) -> None:
         f"- **Total spent, including discarded runs:** ${data['total_spent_usd']:.4f}",
         f"- **Retries:** {data['retries']['total_retries']}; drop rate "
         f"{format_rate(data['retries']['drop_rate'])} of API calls, including discarded runs (see [Retries](#retries))",
-        f"- **Score changes:** {len(data['score_changes']) - len(judge_prompted)} pre-judge, "
-        f"{len(judge_prompted)} prompted by the judge (see [Score changes](#score-changes))",
+        f"- **Score changes:** {change_summary} (see [Score changes](#score-changes))",
         *agreement_summary(data["agreement"]),
         "",
         "Every threshold must hold in both runs. Catch thresholds allow a fixed number of misses "
@@ -416,10 +446,10 @@ def write_report(path: Path, data: dict) -> None:
         "## Checks against the original hand scores",
         "",
     ]
-    if judge_prompted:
+    if later_changes:
         lines += [*checks_table(data["checks"]["original"]), ""]
     else:
-        lines += ["No score has been changed because of the judge, so these are the same as above.", ""]
+        lines += ["No score has been changed since it was first made, so these are the same as above.", ""]
 
     lines += [
         "## Per criterion (corrected hand scores)",
@@ -536,7 +566,7 @@ def write_report(path: Path, data: dict) -> None:
         "## Disagreements (corrected hand scores)",
         "",
         "Every card where either judge run differs from the corrected hand score. "
-        "Cards whose hand score was corrected because of the judge are marked †.",
+        "A card is marked † where its hand score for that criterion was corrected in the judge review.",
         "",
     ]
     for key in LABELS:
@@ -558,7 +588,7 @@ def write_report(path: Path, data: dict) -> None:
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
-def list_disagreements(hand: dict, notes: dict, grades: list[dict], cards: dict, corrected_ids: set) -> dict:
+def list_disagreements(hand: dict, notes: dict, grades: list[dict], cards: dict, corrected_pairs: set) -> dict:
     result = {}
     for key in LABELS:
         reason_key = key
@@ -583,7 +613,9 @@ def list_disagreements(hand: dict, notes: dict, grades: list[dict], cards: dict,
                 "run_b": values[1],
                 "reason": " / ".join(shown) if shown else None,
                 "note": notes.get(card_id),
-                "corrected": card_id in corrected_ids,
+                # Marked per criterion, so a card corrected on one criterion
+                # isn't marked under another.
+                "corrected": (card_id, "duplicate_of" if key == "duplicate" else key) in corrected_pairs,
             })
         result[key] = rows
     return result
@@ -642,7 +674,9 @@ def validate(run_paths: list[Path], seeded_paths: list[Path], output_dir: Path =
     corrected, notes = load_hand_scores(run_dir, cards)
     changes = load_score_changes(run_dir)
     original = rebuild_original(corrected, changes)
-    corrected_ids = {c["card_id"] for c in changes if c["prompted_by"] != PRE_JUDGE}
+    # Only judge review changes were prompted by the judge, so only they are
+    # marked in the disagreements.
+    corrected_pairs = {(c["card_id"], c["field"]) for c in changes if change_kind(c) == "judge review"}
 
     run_grades = [grades for _, grades in runs]
     for name, grades in zip("AB", run_grades):
@@ -684,6 +718,7 @@ def validate(run_paths: list[Path], seeded_paths: list[Path], output_dir: Path =
         },
         "total_spent_usd": sum(p["cost_usd"] for p in passes),
         "score_changes": changes,
+        "score_change_counts": {kind: sum(change_kind(c) == kind for c in changes) for kind in CHANGE_KINDS},
         "validated": {name: is_validated(checks[name]) for name in checks},
         "checks": checks,
         "comparisons": comparisons,
@@ -696,7 +731,7 @@ def validate(run_paths: list[Path], seeded_paths: list[Path], output_dir: Path =
                 {s: seeded_grades[0][s] for s in seed_ids}, {s: seeded_grades[1][s] for s in seed_ids}, seed_ids
             ),
         },
-        "disagreements": list_disagreements(corrected, notes, run_grades, cards, corrected_ids),
+        "disagreements": list_disagreements(corrected, notes, run_grades, cards, corrected_pairs),
         "agreement": check_agreement_sample(Path(agreement_path), original, run_grades) if agreement_path else None,
     }
 

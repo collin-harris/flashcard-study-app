@@ -533,16 +533,22 @@ only when the judge's reason points to a specific rubric rule that was
 misapplied, and records every change in `score_changes.csv` beside it: the
 date, card ID, field, old and new value, what prompted it (the judge run
 IDs that disagreed, joined with ` + `, or `pre-judge` for a change made
-before any judge output), the rubric rule, the reason, and the provenance:
-`blind` if decided before reading the judge's reason, `after judge` if
-decided after reading it, or `after recheck` if decided after rereading the
-source notes.
+before any judge output), the rubric rule, the reason, and the provenance.
+A change from the judge review has provenance `blind` if decided before
+reading the judge's reason, `after judge` if decided after reading it, or
+`after recheck` if decided after rereading the source notes. A change from
+a blind recheck of agreed pairs has `agreement check`, and one made to
+apply a scoring standard consistently across runs has `consistency check`.
+`validate_judge.py` refuses any other provenance.
 
 Correcting only the cards the judge disagrees with moves the hand scores
 toward the judge, so the report compares the judge with both the original
-scores (every judge-prompted change reverted) and the corrected ones. The
-verdict is decided on the corrected scores, and if the two verdicts differ,
-the report says so at the top. Changes marked `pre-judge` are part of both.
+scores (every change not marked `pre-judge` reverted) and the corrected
+ones. The verdict is decided on the corrected scores, and if the two
+verdicts differ, the report says so at the top. Changes marked `pre-judge`
+are part of both. The report counts the changes by provenance. In its
+disagreements, it marks † only a card whose score for that criterion was
+corrected in the judge review.
 
 To log the corrected scores, score the run with
 `--scorer hand:corrected:<judge>` (for example `hand:corrected:judge-v1`).

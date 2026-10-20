@@ -172,7 +172,7 @@ class SplitScoresTests(unittest.TestCase):
         self.review("--decisions-from-hand")
         self.assertEqual(len(read_rows(self.split_dir / "score_changes.csv")), 7)
         self.merge()
-        self.assertEqual(self.merged_clean(), 152)
+        self.assertEqual(self.merged_clean(), 149)
         info = json.loads((self.split_dir / "split_scores.json").read_text(encoding="utf-8"))
         self.assertEqual(info["scorer"], "judge:opus-5.5:v1+hand")
         self.assertEqual(info["review_changes"], 7)
@@ -191,7 +191,7 @@ class SplitScoresTests(unittest.TestCase):
         merged = {r["card_id"]: r["unambiguous"] for r in read_rows(self.split_dir / "split_scores.csv")}
         hand = {r["card_id"]: r["unambiguous"] for r in read_rows(self.run_dir / "scores.csv")}
         self.assertEqual(merged, hand)
-        self.assertEqual(self.merged_clean(), 145)
+        self.assertEqual(self.merged_clean(), 142)
 
     def test_other_judges_and_unusable_runs_are_refused(self):
         self.review()

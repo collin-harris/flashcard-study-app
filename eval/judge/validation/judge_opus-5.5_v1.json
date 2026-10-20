@@ -416,8 +416,58 @@
       "rubric_rule": "Rubric 1.6, Unambiguous",
       "reason": "The question is bit ambiguous in its wording. 'Position' could mean many things and results in many answers potentially being correct.",
       "provenance": "agreement check"
+    },
+    {
+      "date": "2026-10-20",
+      "card_id": "sample_010-c02",
+      "field": "unambiguous",
+      "old": "Y",
+      "new": "N",
+      "prompted_by": "v2 unambiguous scoring",
+      "rubric_rule": "Rubric 1.6, Unambiguous",
+      "reason": "Significance question: several different answers would be correct. Aligned with the standard applied when scoring prompt v2's unambiguous sheet (v2 scored first, 2026-10-20).",
+      "provenance": "consistency check"
+    },
+    {
+      "date": "2026-10-20",
+      "card_id": "sample_010-c04",
+      "field": "unambiguous",
+      "old": "Y",
+      "new": "N",
+      "prompted_by": "v2 unambiguous scoring",
+      "rubric_rule": "Rubric 1.6, Unambiguous",
+      "reason": "Significance question: several different answers would be correct. Aligned with the standard applied when scoring prompt v2's unambiguous sheet (v2 scored first, 2026-10-20).",
+      "provenance": "consistency check"
+    },
+    {
+      "date": "2026-10-20",
+      "card_id": "sample_015-c04",
+      "field": "unambiguous",
+      "old": "Y",
+      "new": "N",
+      "prompted_by": "v2 unambiguous scoring",
+      "rubric_rule": "Rubric 1.6, Unambiguous",
+      "reason": "Significance question: several different answers would be correct. Aligned with the standard applied when scoring prompt v2's unambiguous sheet (v2 scored first, 2026-10-20).",
+      "provenance": "consistency check"
+    },
+    {
+      "date": "2026-10-20",
+      "card_id": "sample_022-c03",
+      "field": "unambiguous",
+      "old": "Y",
+      "new": "N",
+      "prompted_by": "v2 unambiguous scoring",
+      "rubric_rule": "Rubric 1.6, Unambiguous",
+      "reason": "Significance question: several different answers would be correct. Aligned with the standard applied when scoring prompt v2's unambiguous sheet (v2 scored first, 2026-10-20).",
+      "provenance": "consistency check"
     }
   ],
+  "score_change_counts": {
+    "pre-judge": 1,
+    "judge review": 27,
+    "agreement check": 1,
+    "consistency check": 4
+  },
   "validated": {
     "corrected": false,
     "original": false
@@ -426,14 +476,14 @@
     "corrected": [
       {
         "check": "Unambiguous: catches",
-        "threshold": "≥ 4 of 6",
+        "threshold": "≥ 8 of 10",
         "values": [
-          "50.0% (3/6)",
-          "66.7% (4/6)"
+          "30.0% (3/10)",
+          "40.0% (4/10)"
         ],
         "passed": [
           false,
-          true
+          false
         ]
       },
       {
@@ -500,8 +550,8 @@
         "check": "Unambiguous: false alarm rate",
         "threshold": "≤ 5%",
         "values": [
-          "0.0% (0/180)",
-          "0.0% (0/180)"
+          "0.0% (0/176)",
+          "0.0% (0/176)"
         ],
         "passed": [
           true,
@@ -522,7 +572,7 @@
       },
       {
         "check": "Clean card rate",
-        "threshold": "within ±3 points of 81.2% (151/186)",
+        "threshold": "within ±3 points of 79.6% (148/186)",
         "values": [
           "79.0% (147/186)",
           "79.6% (148/186)"
@@ -825,18 +875,22 @@
           "unambiguous": {
             "catch": {
               "count": 3,
-              "total": 6,
-              "rate": 0.5
+              "total": 10,
+              "rate": 0.3
             },
             "false_alarm": {
               "count": 0,
-              "total": 180,
+              "total": 176,
               "rate": 0.0
             },
             "missed": [
               "sample_008-c05",
+              "sample_010-c02",
+              "sample_010-c04",
+              "sample_015-c04",
               "sample_015-c05",
-              "sample_020-c04"
+              "sample_020-c04",
+              "sample_022-c03"
             ],
             "false_alarms": []
           },
@@ -857,9 +911,9 @@
           }
         },
         "clean_hand": {
-          "count": 151,
+          "count": 148,
           "total": 186,
-          "rate": 0.8118279569892473
+          "rate": 0.7956989247311828
         },
         "clean_judge": {
           "count": 147,
@@ -930,17 +984,21 @@
           "unambiguous": {
             "catch": {
               "count": 4,
-              "total": 6,
-              "rate": 0.6666666666666666
+              "total": 10,
+              "rate": 0.4
             },
             "false_alarm": {
               "count": 0,
-              "total": 180,
+              "total": 176,
               "rate": 0.0
             },
             "missed": [
+              "sample_010-c02",
+              "sample_010-c04",
+              "sample_015-c04",
               "sample_015-c05",
-              "sample_020-c04"
+              "sample_020-c04",
+              "sample_022-c03"
             ],
             "false_alarms": []
           },
@@ -963,9 +1021,9 @@
           }
         },
         "clean_hand": {
-          "count": 151,
+          "count": 148,
           "total": 186,
-          "rate": 0.8118279569892473
+          "rate": 0.7956989247311828
         },
         "clean_judge": {
           "count": 148,
@@ -2247,7 +2305,7 @@
         "run_b": "Y",
         "reason": null,
         "note": "Question is essentially the answer as a question. Could be perceived as ambiguous if a student thought it was looking for a deeper answer.",
-        "corrected": true
+        "corrected": false
       },
       {
         "card_id": "sample_002-c06",
@@ -2285,6 +2343,39 @@
         "corrected": true
       },
       {
+        "card_id": "sample_010-c02",
+        "question": "What was the significance of the US victory at Midway?",
+        "answer": "Four Japanese carriers were lost and it was a big turning point",
+        "mine": "N",
+        "run_a": "Y",
+        "run_b": "Y",
+        "reason": null,
+        "note": "",
+        "corrected": false
+      },
+      {
+        "card_id": "sample_010-c04",
+        "question": "What was the significance of the Battle of Guadalcanal?",
+        "answer": "It was the first big Allied offensive in the Pacific",
+        "mine": "N",
+        "run_a": "Y",
+        "run_b": "Y",
+        "reason": null,
+        "note": "",
+        "corrected": false
+      },
+      {
+        "card_id": "sample_015-c04",
+        "question": "What was the significance of the U.S. entering World War II in 1941?",
+        "answer": "Wartime production greatly expanded employment and output",
+        "mine": "N",
+        "run_a": "Y",
+        "run_b": "Y",
+        "reason": null,
+        "note": "",
+        "corrected": false
+      },
+      {
         "card_id": "sample_015-c05",
         "question": "What position did the U.S. emerge as following the end of World War II in 1945?",
         "answer": "A major global economic and military power",
@@ -2293,7 +2384,7 @@
         "run_b": "Y",
         "reason": null,
         "note": "",
-        "corrected": true
+        "corrected": false
       },
       {
         "card_id": "sample_020-c04",
@@ -2304,6 +2395,17 @@
         "run_b": "Y",
         "reason": null,
         "note": "Question does not show the code snippet in question. It says \"provided binary search function\" without showing the function. The code snippet should be included in the question to avoid ambiguity.",
+        "corrected": false
+      },
+      {
+        "card_id": "sample_022-c03",
+        "question": "What historical significance did the Magna Carta have in the development of government?",
+        "answer": "It became an important symbol in the development of constitutional government.",
+        "mine": "N",
+        "run_a": "Y",
+        "run_b": "Y",
+        "reason": null,
+        "note": "",
         "corrected": false
       }
     ],

@@ -25,7 +25,7 @@
     },
     "unambiguous": {
       "path": "eval/runs/2026-10-02_215109/rescored/rubric-1.6_test-set-2/scores.csv",
-      "sha256": "1f8b5d0ef9c9"
+      "sha256": "04b14a40ae23"
     },
     "review_fails": {
       "path": "eval/runs/2026-10-02_215109/rescored/rubric-1.6_test-set-2/split/2026-10-13_214206/review_fails.csv",
@@ -40,5 +40,5 @@
       "sha256": "8423d9939dc9"
     }
   },
-  "merged_at": "2026-10-19T18:16:36"
+  "merged_at": "2026-10-20T17:53:25"
 }

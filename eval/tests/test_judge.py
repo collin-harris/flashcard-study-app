@@ -644,7 +644,7 @@ class ValidateTests(unittest.TestCase):
         scores.write_text(text.replace(old_row, new_row), encoding="utf-8-sig")
         with (self.run_dir / "score_changes.csv").open("a", newline="", encoding="utf-8") as f:
             csv.writer(f).writerow(["2026-10-13", "sample_011-c10", "unambiguous", "N", "Y", runs[0].name,
-                                    "Notes are the only source of truth", "Test correction"])
+                                    "Notes are the only source of truth", "Test correction", "after judge"])
 
         data = self.validate(runs, seeded)
         self.assertEqual(data["validated"], {"corrected": True, "original": False})
@@ -658,9 +658,66 @@ class ValidateTests(unittest.TestCase):
     def test_score_log_out_of_sync_is_refused(self):
         runs, seeded = self.judge_all()
         with (self.run_dir / "score_changes.csv").open("a", newline="", encoding="utf-8") as f:
-            csv.writer(f).writerow(["2026-10-13", "sample_011-c10", "unambiguous", "N", "Y", "some-run", "rule", "reason"])
-        with self.assertRaises(SystemExit):
+            csv.writer(f).writerow(["2026-10-13", "sample_011-c10", "unambiguous", "N", "Y", "some-run", "rule", "reason",
+                                    "blind"])
+        with self.assertRaises(SystemExit) as raised:
             quiet(self.validate, runs, seeded)
+        self.assertIn("out of sync", str(raised.exception.code))
+
+    def add_change(self, card_id: str, prompted_by: str, provenance: str) -> None:
+        # Flips a card's unambiguous score and logs the change.
+        scores = self.run_dir / "scores.csv"
+        text = scores.read_text(encoding="utf-8-sig")
+        old_row = next(line for line in text.splitlines() if line.startswith(card_id + ","))
+        new_row = old_row.replace(",Y,Y,Y,Y,,", ",Y,Y,Y,N,,", 1)
+        self.assertNotEqual(old_row, new_row)
+        scores.write_text(text.replace(old_row, new_row), encoding="utf-8-sig")
+        with (self.run_dir / "score_changes.csv").open("a", newline="", encoding="utf-8") as f:
+            csv.writer(f).writerow(["2026-10-20", card_id, "unambiguous", "Y", "N", prompted_by,
+                                    "Rubric 1.6, Unambiguous", "Test correction", provenance])
+
+    def test_changes_are_counted_and_marked_by_provenance(self):
+        runs, seeded = self.judge_all()
+        self.add_change("sample_010-c04", runs[0].name, "after recheck")
+        self.add_change("sample_015-c04", "agreement_sample_v1", "agreement check")
+        self.add_change("sample_022-c03", "v2 unambiguous scoring", "consistency check")
+        data = self.validate(runs, seeded)
+        self.assertEqual(data["score_change_counts"],
+                         {"pre-judge": 1, "judge review": 1, "agreement check": 1, "consistency check": 1})
+        report = self.report()
+        self.assertIn("- **Score changes:** 1 pre-judge, 1 from the judge review, 1 from the agreement check, "
+                      "1 from the consistency check (see", report)
+        # Every change after the first scoring is reverted for the original
+        # scores, but only the judge review change is marked.
+        self.assertIn("| sample_010-c04 † |", report)
+        self.assertIn("| sample_015-c04 |", report)
+        self.assertIn("| sample_022-c03 |", report)
+        self.assertNotIn("sample_015-c04 †", report)
+        self.assertNotIn("sample_022-c03 †", report)
+
+    def test_mark_is_per_criterion(self):
+        # sample_011-c10 is corrected on unambiguous in the judge review, and
+        # also disagrees on atomic; only its unambiguous row is marked.
+        runs, seeded = self.judge_all(overrides={"sample_011-c10": {"atomic": "N"}})
+        scores = self.run_dir / "scores.csv"
+        text = scores.read_text(encoding="utf-8-sig")
+        old_row = next(line for line in text.splitlines() if line.startswith("sample_011-c10,"))
+        scores.write_text(text.replace(old_row, old_row.replace(",Y,Y,Y,N,,", ",Y,Y,Y,Y,,", 1)), encoding="utf-8-sig")
+        with (self.run_dir / "score_changes.csv").open("a", newline="", encoding="utf-8") as f:
+            csv.writer(f).writerow(["2026-10-13", "sample_011-c10", "unambiguous", "N", "Y", runs[0].name,
+                                    "Rubric 1.6, Unambiguous", "Test correction", "blind"])
+        data = self.validate(runs, seeded)
+        marks = {key: [r["corrected"] for r in rows if r["card_id"] == "sample_011-c10"]
+                 for key, rows in data["disagreements"].items()}
+        self.assertEqual(marks["atomic"], [False])
+        self.assertEqual(marks["unambiguous"], [True])
+
+    def test_unknown_provenance_is_refused(self):
+        runs, seeded = self.judge_all()
+        self.add_change("sample_022-c03", "some review", "")
+        with self.assertRaises(SystemExit) as raised:
+            quiet(self.validate, runs, seeded)
+        self.assertIn("unknown provenance", str(raised.exception.code))
 
     def write_agreement_sample(self, decisions: dict) -> Path:
         path = self.tmp / "agreement_sample.csv"

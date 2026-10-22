@@ -170,12 +170,12 @@ class SplitScoresTests(unittest.TestCase):
     def test_run_1_from_hand_scores(self):
         log_before = file_hash(self.run_dir / "score_changes.csv")
         self.review("--decisions-from-hand")
-        self.assertEqual(len(read_rows(self.split_dir / "score_changes.csv")), 7)
+        self.assertEqual(len(read_rows(self.split_dir / "score_changes.csv")), 8)
         self.merge()
         self.assertEqual(self.merged_clean(), 149)
         info = json.loads((self.split_dir / "split_scores.json").read_text(encoding="utf-8"))
         self.assertEqual(info["scorer"], "judge:opus-5.5:v1+hand")
-        self.assertEqual(info["review_changes"], 7)
+        self.assertEqual(info["review_changes"], 8)
         # The run's own change log, which validate_judge.py reads, is never touched.
         self.assertEqual(file_hash(self.run_dir / "score_changes.csv"), log_before)
 

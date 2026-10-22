@@ -55,11 +55,15 @@ logged in the run folder's `score_changes.csv`. The `hand` row beside it is
 the scoring as first made and is kept. Run 2026-10-02_215109 under rubric 1.6
 was corrected while validating judge v1 (28 changes: 27 from the
 disagreement review on 2026-10-17, 1 from the agreement check on
-2026-10-18), then 4 more in a consistency check on 2026-10-20, for 32 in
-all. The consistency check scored "significance" questions as failing
+2026-10-18), then 5 more in consistency checks, for 33 in all. The check
+on 2026-10-20 (4 changes) scored "significance" questions as failing
 unambiguous, since several different answers would be correct, to match
 the standard used for prompt v2's unambiguous sheet, which was scored
-first. Its original clean card rate is 86.0% (160/186).
+first. The check on 2026-10-21 (1 change) removed sample_007-c03's
+duplicate mark, added in the disagreement review: the fact it tests, what
+the term depolarization means, isn't in sample_007-c02's answer, which
+matches the decision on the same pair in prompt v2's review. Its original
+clean card rate is 86.0% (160/186).
 
 A `judge:opus-5.5:v1+hand` row is split-scored (see "Split scoring" in
 [`README.md`](README.md#split-scoring)). For run 2026-10-02_215109 under
@@ -74,8 +78,9 @@ clean card rate. Before review, A gives 76.3% (142/186) and B 76.9%
 | 2026-10-02_215109 | 2026-10-02 | claude-haiku-4-5-20251001 | v1 | f5e88f4d8fd8 | 1.4 | 1 | hand | 89.8% (167/186) | 97.3% (181/186) | 97.8% (182/186) | 98.9% (184/186) | 93.5% (174/186) | 98.4% (183/186) | 0.0% (0/30) | 0.0% (0/5) | 53.3% (16/30) | 94.6% (176/186) | $0.0032 |
 | 2026-10-02_215109 | 2026-10-02 | claude-haiku-4-5-20251001 | v1 | f5e88f4d8fd8 | 1.5 | 2 | hand | 86.0% (160/186) | 94.1% (175/186) | 98.9% (184/186) | 96.8% (180/186) | 93.5% (174/186) | 98.4% (183/186) | 0.0% (0/30) | 0.0% (0/5) | 66.7% (20/30) | 94.6% (176/186) | $0.0032 |
 | 2026-10-02_215109 | 2026-10-02 | claude-haiku-4-5-20251001 | v1 | f5e88f4d8fd8 | 1.6 | 2 | hand | 86.0% (160/186) | 94.1% (175/186) | 98.9% (184/186) | 96.8% (180/186) | 93.5% (174/186) | 97.8% (182/186) | 0.0% (0/30) | 0.0% (0/5) | 66.7% (20/30) | 94.6% (176/186) | $0.0032 |
-| 2026-10-02_215109 | 2026-10-02 | claude-haiku-4-5-20251001 | v1 | f5e88f4d8fd8 | 1.6 | 2 | hand:corrected:judge-v1 | 79.6% (148/186) | 89.2% (166/186) | 95.2% (177/186) | 96.8% (180/186) | 94.6% (176/186) | 96.8% (180/186) | 0.0% (0/30) | 0.0% (0/5) | 66.7% (20/30) | 94.6% (176/186) | $0.0032 |
-| 2026-10-02_215109 | 2026-10-02 | claude-haiku-4-5-20251001 | v1 | f5e88f4d8fd8 | 1.6 | 2 | judge:opus-5.5:v1+hand | 80.1% (149/186) | 89.2% (166/186) | 95.2% (177/186) | 97.3% (181/186) | 94.6% (176/186) | 96.8% (180/186) | 0.0% (0/30) | 0.0% (0/5) | 66.7% (20/30) | 94.6% (176/186) | $0.0032 |
+| 2026-10-02_215109 | 2026-10-02 | claude-haiku-4-5-20251001 | v1 | f5e88f4d8fd8 | 1.6 | 2 | hand:corrected:judge-v1 | 79.6% (148/186) | 89.2% (166/186) | 95.2% (177/186) | 96.8% (180/186) | 94.6% (176/186) | 97.3% (181/186) | 0.0% (0/30) | 0.0% (0/5) | 66.7% (20/30) | 94.6% (176/186) | $0.0032 |
+| 2026-10-02_215109 | 2026-10-02 | claude-haiku-4-5-20251001 | v1 | f5e88f4d8fd8 | 1.6 | 2 | judge:opus-5.5:v1+hand | 80.1% (149/186) | 89.2% (166/186) | 95.2% (177/186) | 97.3% (181/186) | 94.6% (176/186) | 97.3% (181/186) | 0.0% (0/30) | 0.0% (0/5) | 66.7% (20/30) | 94.6% (176/186) | $0.0032 |
 | 2026-10-02_215610 | 2026-10-02 | claude-haiku-4-5-20251001 | v1 | f5e88f4d8fd8 | 1.4 | 1 | not scored | not scored | not scored | not scored | not scored | not scored | not scored | 0.0% (0/30) | 0.0% (0/5) | 53.3% (16/30) | 94.7% (180/190) | $0.0032 |
 | 2026-10-02_215610 | 2026-10-02 | claude-haiku-4-5-20251001 | v1 | f5e88f4d8fd8 | 1.5 | 2 | not scored | not scored | not scored | not scored | not scored | not scored | not scored | 0.0% (0/30) | 0.0% (0/5) | 66.7% (20/30) | 94.7% (180/190) | $0.0032 |
 | 2026-10-02_215610 | 2026-10-02 | claude-haiku-4-5-20251001 | v1 | f5e88f4d8fd8 | 1.6 | 2 | not scored | not scored | not scored | not scored | not scored | not scored | not scored | 0.0% (0/30) | 0.0% (0/5) | 66.7% (20/30) | 94.7% (180/190) | $0.0032 |
+| 2026-10-19_190307 | 2026-10-19 | claude-haiku-4-5-20251001 | v2 | a24b2d79f726 | 1.6 | 2 | judge:opus-5.5:v1+hand | 78.1% (157/201) | 92.5% (186/201) | 92.0% (185/201) | 98.5% (198/201) | 91.5% (184/201) | 99.0% (199/201) | 0.0% (0/30) | 0.0% (0/5) | 70.0% (21/30) | 99.5% (200/201) | $0.0037 |

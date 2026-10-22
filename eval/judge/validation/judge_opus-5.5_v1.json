@@ -460,13 +460,24 @@
       "rubric_rule": "Rubric 1.6, Unambiguous",
       "reason": "Significance question: several different answers would be correct. Aligned with the standard applied when scoring prompt v2's unambiguous sheet (v2 scored first, 2026-10-20).",
       "provenance": "consistency check"
+    },
+    {
+      "date": "2026-10-21",
+      "card_id": "sample_007-c03",
+      "field": "duplicate_of",
+      "old": "sample_007-c02",
+      "new": "",
+      "prompted_by": "v2 review",
+      "rubric_rule": "Rubric 1.6, No near-duplicates: fact already contained in an earlier card's answer",
+      "reason": "The fact it tests (what the term depolarization means) isn't in sample_007-c02's answer. Aligned with the decision on the same pair in prompt v2's review (2026-10-21).",
+      "provenance": "consistency check"
     }
   ],
   "score_change_counts": {
     "pre-judge": 1,
     "judge review": 27,
     "agreement check": 1,
-    "consistency check": 4
+    "consistency check": 5
   },
   "validated": {
     "corrected": false,
@@ -562,8 +573,8 @@
         "check": "Duplicates: false alarm rate",
         "threshold": "≤ 5%",
         "values": [
-          "0.0% (0/180)",
-          "0.6% (1/180)"
+          "0.6% (1/181)",
+          "1.1% (2/181)"
         ],
         "passed": [
           true,
@@ -896,17 +907,19 @@
           },
           "duplicate": {
             "catch": {
-              "count": 6,
-              "total": 6,
+              "count": 5,
+              "total": 5,
               "rate": 1.0
             },
             "false_alarm": {
-              "count": 0,
-              "total": 180,
-              "rate": 0.0
+              "count": 1,
+              "total": 181,
+              "rate": 0.0055248618784530384
             },
             "missed": [],
-            "false_alarms": [],
+            "false_alarms": [
+              "sample_007-c03"
+            ],
             "different_original": []
           }
         },
@@ -1004,18 +1017,19 @@
           },
           "duplicate": {
             "catch": {
-              "count": 6,
-              "total": 6,
+              "count": 5,
+              "total": 5,
               "rate": 1.0
             },
             "false_alarm": {
-              "count": 1,
-              "total": 180,
-              "rate": 0.005555555555555556
+              "count": 2,
+              "total": 181,
+              "rate": 0.011049723756906077
             },
             "missed": [],
             "false_alarms": [
-              "sample_002-c10"
+              "sample_002-c10",
+              "sample_007-c03"
             ],
             "different_original": []
           }
@@ -2419,6 +2433,17 @@
         "run_b": "sample_002-c09",
         "reason": "B: The question states 'it does not directly require photons', which is the same fact c09 tests.",
         "note": "Batch level note: This run produced 10 flashcards for this sample. I identified 10-11 distinct facts so this is a good range for this sample.",
+        "corrected": false
+      },
+      {
+        "card_id": "sample_007-c03",
+        "question": "What is depolarization?",
+        "answer": "The influx of sodium ions into the neuron",
+        "mine": null,
+        "run_a": "sample_007-c02",
+        "run_b": "sample_007-c02",
+        "reason": "A: The fact that sodium flows into the cell, which the notes call depolarization, is already contained in c02's answer 'allowing sodium ions to flow into the cell'. / B: The fact that sodium flows into the cell, the answer here, is already contained in c02's answer 'allowing sodium ions to flow into the cell'.",
+        "note": "This was marked as a clean flashcard because it is the best answer based on the context in the notes. However, it is not necessarily the best answer to the question given outside context.",
         "corrected": false
       }
     ]

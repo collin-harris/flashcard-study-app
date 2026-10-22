@@ -1,0 +1,11 @@
+﻿date,card_id,field,old,new,prompted_by,rubric_rule,reason,provenance
+2026-10-21,sample_002-c11,duplicate_of,sample_002-c08,,review,"Rubric 1.6, No Near-Duplicates","These cards both discuss products of the light-dependent reactions, but one is a asking the relationship to the Calvin Cycle and the other is asking to name the products. They are distinct and are both good cards. No Duplicate.",blind
+2026-10-21,sample_006-c01,atomic,N,Y,review,"Rubric 1.6, Atomic",[after recheck] Source notes say the same thing about both cards. Closed set.,after recheck
+2026-10-21,sample_007-c03,duplicate_of,sample_007-c02,,review,"Rubric 1.6, No Near-Duplicates",Both answers include inward flow of sodium ions but questions are entirely different and one would not be able to know the second flashcard necessarily because they knew the first.,blind
+2026-10-21,sample_007-c09,duplicate_of,sample_007-c08,,review,"Rubric 1.6, No Near-Duplicates",One defines Nodes of Ranvier and other Saltatory conduction. They are very closely related so wording is reused but I would not classify these as duplicates.,blind
+2026-10-21,sample_010-c05,supported,N,Y,review,"Rubric 1.6, Supported",[after recheck] This is supported by source notes. There are two different statements that discuss island hopping. This combines them.,after recheck
+2026-10-21,sample_013-c02,atomic,N,Y,review,"Rubric 1.6, Atomic",Closed set.,blind
+2026-10-21,sample_013-c04,atomic,N,Y,review,"Rubric 1.6, Atomic",Closed set.,blind
+2026-10-21,sample_013-c05,supported,N,Y,review,"Rubric 1.6, Supported",[after recheck] Answer is supported by notes and dropping qualifier does not overstate.,after recheck
+2026-10-21,sample_013-c06,atomic,N,Y,review,"Rubric 1.6, Atomic",Closed set.,blind
+2026-10-21,sample_016-c07,supported,N,Y,review,"Rubric 1.6, Supported",This is supported. Example is not shown but is stated to be the case.,blind

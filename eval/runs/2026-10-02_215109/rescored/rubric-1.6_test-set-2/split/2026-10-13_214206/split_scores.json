@@ -17,7 +17,7 @@
   "pass_sample_seed": 39116060,
   "failed_pairs": 47,
   "sampled_pass_pairs": 20,
-  "review_changes": 7,
+  "review_changes": 8,
   "inputs": {
     "judge_results": {
       "path": "eval/runs/2026-10-02_215109/rescored/rubric-1.6_test-set-2/judge/2026-10-13_214206/judge_results.json",
@@ -25,11 +25,11 @@
     },
     "unambiguous": {
       "path": "eval/runs/2026-10-02_215109/rescored/rubric-1.6_test-set-2/scores.csv",
-      "sha256": "04b14a40ae23"
+      "sha256": "5a6d45cad37c"
     },
     "review_fails": {
       "path": "eval/runs/2026-10-02_215109/rescored/rubric-1.6_test-set-2/split/2026-10-13_214206/review_fails.csv",
-      "sha256": "cfc510777ad8"
+      "sha256": "ff9061f4de59"
     },
     "review_passes": {
       "path": "eval/runs/2026-10-02_215109/rescored/rubric-1.6_test-set-2/split/2026-10-13_214206/review_passes.csv",
@@ -37,8 +37,8 @@
     },
     "score_changes": {
       "path": "eval/runs/2026-10-02_215109/rescored/rubric-1.6_test-set-2/split/2026-10-13_214206/score_changes.csv",
-      "sha256": "8423d9939dc9"
+      "sha256": "6829a98f9d6d"
     }
   },
-  "merged_at": "2026-10-20T17:53:25"
+  "merged_at": "2026-10-21T22:41:33"
 }

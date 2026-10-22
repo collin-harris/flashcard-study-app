@@ -547,8 +547,9 @@ scores (every change not marked `pre-judge` reverted) and the corrected
 ones. The verdict is decided on the corrected scores, and if the two
 verdicts differ, the report says so at the top. Changes marked `pre-judge`
 are part of both. The report counts the changes by provenance. In its
-disagreements, it marks † only a card whose score for that criterion was
-corrected in the judge review.
+disagreements, it marks † only a card whose latest change for that
+criterion came from the judge review, so a judge review change that a later
+check replaced isn't marked.
 
 To log the corrected scores, score the run with
 `--scorer hand:corrected:<judge>` (for example `hand:corrected:judge-v1`).

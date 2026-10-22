@@ -712,6 +712,22 @@ class ValidateTests(unittest.TestCase):
         self.assertEqual(marks["atomic"], [False])
         self.assertEqual(marks["unambiguous"], [True])
 
+    def test_judge_review_change_replaced_later_is_not_marked(self):
+        # sample_011-c10 is corrected N -> Y in the judge review, then put back
+        # to N by a consistency check. The judge says Y, so it's still a
+        # disagreement, but its score no longer reflects the judge.
+        runs, seeded = self.judge_all(overrides={"sample_011-c10": {"unambiguous": "Y"}})
+        with (self.run_dir / "score_changes.csv").open("a", newline="", encoding="utf-8") as f:
+            writer = csv.writer(f)
+            writer.writerow(["2026-10-13", "sample_011-c10", "unambiguous", "N", "Y", runs[0].name,
+                             "Rubric 1.6, Unambiguous", "Test correction", "blind"])
+            writer.writerow(["2026-10-21", "sample_011-c10", "unambiguous", "Y", "N", "a later check",
+                             "Rubric 1.6, Unambiguous", "Test reversal", "consistency check"])
+        data = self.validate(runs, seeded)
+        rows = [r for r in data["disagreements"]["unambiguous"] if r["card_id"] == "sample_011-c10"]
+        self.assertEqual([(r["mine"], r["corrected"]) for r in rows], [("N", False)])
+        self.assertNotIn("sample_011-c10 †", self.report())
+
     def test_unknown_provenance_is_refused(self):
         runs, seeded = self.judge_all()
         self.add_change("sample_022-c03", "some review", "")

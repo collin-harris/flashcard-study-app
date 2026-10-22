@@ -566,7 +566,8 @@ def write_report(path: Path, data: dict) -> None:
         "## Disagreements (corrected hand scores)",
         "",
         "Every card where either judge run differs from the corrected hand score. "
-        "A card is marked † where its hand score for that criterion was corrected in the judge review.",
+        "A card is marked † where the latest change to its hand score for that criterion came from the "
+        "judge review.",
         "",
     ]
     for key in LABELS:
@@ -675,8 +676,13 @@ def validate(run_paths: list[Path], seeded_paths: list[Path], output_dir: Path =
     changes = load_score_changes(run_dir)
     original = rebuild_original(corrected, changes)
     # Only judge review changes were prompted by the judge, so only they are
-    # marked in the disagreements.
-    corrected_pairs = {(c["card_id"], c["field"]) for c in changes if change_kind(c) == "judge review"}
+    # marked in the disagreements, and only where the latest change to that
+    # card+criterion is one: a later change (a consistency check, say) that
+    # replaced it means the score no longer reflects the judge.
+    latest_kind = {}
+    for c in changes:  # in the order they were logged
+        latest_kind[(c["card_id"], c["field"])] = change_kind(c)
+    corrected_pairs = {pair for pair, kind in latest_kind.items() if kind == "judge review"}
 
     run_grades = [grades for _, grades in runs]
     for name, grades in zip("AB", run_grades):

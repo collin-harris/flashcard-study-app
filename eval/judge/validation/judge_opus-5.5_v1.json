@@ -471,13 +471,57 @@
       "rubric_rule": "Rubric 1.6, No near-duplicates: fact already contained in an earlier card's answer",
       "reason": "The fact it tests (what the term depolarization means) isn't in sample_007-c02's answer. Aligned with the decision on the same pair in prompt v2's review (2026-10-21).",
       "provenance": "consistency check"
+    },
+    {
+      "date": "2026-10-27",
+      "card_id": "sample_020-c04",
+      "field": "supported",
+      "old": "Y",
+      "new": "N",
+      "prompted_by": "Sonnet review standards",
+      "rubric_rule": "Rubric 1.6, Supported",
+      "reason": "Supported standard (2026-10-27): a claim about code passes only if the notes state it, in prose or in a code comment; it fails if it has to be worked out by reading or running the code. Returning -1 when the target isn't found appears only as `return -1` in the code.",
+      "provenance": "consistency check"
+    },
+    {
+      "date": "2026-10-27",
+      "card_id": "sample_002-c06",
+      "field": "no_leakage",
+      "old": "Y",
+      "new": "N",
+      "prompted_by": "Sonnet review standards",
+      "rubric_rule": "Rubric 1.6, No Answer Leakage",
+      "reason": "No-leakage standard (2026-10-27): a card fails if a code snippet, formula or name in the question spells out the answer. The name NADPH in the question spells out the answer, NADP+.",
+      "provenance": "consistency check"
+    },
+    {
+      "date": "2026-10-27",
+      "card_id": "sample_008-c03",
+      "field": "atomic",
+      "old": "Y",
+      "new": "N",
+      "prompted_by": "Sonnet review standards",
+      "rubric_rule": "Rubric 1.6, Atomic",
+      "reason": "Atomic standard (2026-10-27): a card fails if it splits naturally into separate questions; a closed set passes only when the notes say the same thing about each item and the list is complete. Real GDP adjusting for price changes and nominal GDP not adjusting are separate facts that split naturally into two questions.",
+      "provenance": "consistency check"
+    },
+    {
+      "date": "2026-10-27",
+      "card_id": "sample_020-c03",
+      "field": "atomic",
+      "old": "Y",
+      "new": "N",
+      "prompted_by": "Sonnet review standards",
+      "rubric_rule": "Rubric 1.6, Atomic",
+      "reason": "Atomic standard (2026-10-27): a card fails if it splits naturally into separate questions; a closed set passes only when the notes say the same thing about each item and the list is complete. Comparing the target with the middle element and discarding half of the remaining interval split naturally into two questions.",
+      "provenance": "consistency check"
     }
   ],
   "score_change_counts": {
     "pre-judge": 1,
     "judge review": 27,
     "agreement check": 1,
-    "consistency check": 5
+    "consistency check": 9
   },
   "validated": {
     "corrected": false,
@@ -499,25 +543,25 @@
       },
       {
         "check": "Atomic: catches",
-        "threshold": "≥ 18 of 20",
+        "threshold": "≥ 20 of 22",
         "values": [
-          "100.0% (20/20)",
-          "95.0% (19/20)"
+          "90.9% (20/22)",
+          "86.4% (19/22)"
         ],
         "passed": [
           true,
-          true
+          false
         ]
       },
       {
         "check": "No leakage: catches",
-        "threshold": "≥ 5 of 6",
+        "threshold": "≥ 6 of 7",
         "values": [
-          "83.3% (5/6)",
-          "83.3% (5/6)"
+          "71.4% (5/7)",
+          "85.7% (6/7)"
         ],
         "passed": [
-          true,
+          false,
           true
         ]
       },
@@ -525,8 +569,8 @@
         "check": "Atomic: false alarm rate",
         "threshold": "≤ 5%",
         "values": [
-          "1.8% (3/166)",
-          "0.6% (1/166)"
+          "1.8% (3/164)",
+          "0.6% (1/164)"
         ],
         "passed": [
           true,
@@ -537,8 +581,8 @@
         "check": "Supported: false alarm rate",
         "threshold": "≤ 5%",
         "values": [
-          "1.7% (3/177)",
-          "2.3% (4/177)"
+          "1.7% (3/176)",
+          "2.3% (4/176)"
         ],
         "passed": [
           true,
@@ -549,8 +593,8 @@
         "check": "No leakage: false alarm rate",
         "threshold": "≤ 5%",
         "values": [
-          "0.6% (1/180)",
-          "1.1% (2/180)"
+          "0.6% (1/179)",
+          "0.6% (1/179)"
         ],
         "passed": [
           true,
@@ -583,7 +627,7 @@
       },
       {
         "check": "Clean card rate",
-        "threshold": "within ±3 points of 79.6% (148/186)",
+        "threshold": "within ±3 points of 78.0% (145/186)",
         "values": [
           "79.0% (147/186)",
           "79.6% (148/186)"
@@ -832,15 +876,18 @@
           "atomic": {
             "catch": {
               "count": 20,
-              "total": 20,
-              "rate": 1.0
+              "total": 22,
+              "rate": 0.9090909090909091
             },
             "false_alarm": {
               "count": 3,
-              "total": 166,
-              "rate": 0.018072289156626505
+              "total": 164,
+              "rate": 0.018292682926829267
             },
-            "missed": [],
+            "missed": [
+              "sample_008-c03",
+              "sample_020-c03"
+            ],
             "false_alarms": [
               "sample_013-c02",
               "sample_013-c04",
@@ -850,15 +897,17 @@
           "supported": {
             "catch": {
               "count": 9,
-              "total": 9,
-              "rate": 1.0
+              "total": 10,
+              "rate": 0.9
             },
             "false_alarm": {
               "count": 3,
-              "total": 177,
-              "rate": 0.01694915254237288
+              "total": 176,
+              "rate": 0.017045454545454544
             },
-            "missed": [],
+            "missed": [
+              "sample_020-c04"
+            ],
             "false_alarms": [
               "sample_006-c03",
               "sample_013-c05",
@@ -868,16 +917,17 @@
           "no_leakage": {
             "catch": {
               "count": 5,
-              "total": 6,
-              "rate": 0.8333333333333334
+              "total": 7,
+              "rate": 0.7142857142857143
             },
             "false_alarm": {
               "count": 1,
-              "total": 180,
-              "rate": 0.005555555555555556
+              "total": 179,
+              "rate": 0.00558659217877095
             },
             "missed": [
-              "sample_001-c08"
+              "sample_001-c08",
+              "sample_002-c06"
             ],
             "false_alarms": [
               "sample_002-c10"
@@ -924,9 +974,9 @@
           }
         },
         "clean_hand": {
-          "count": 148,
+          "count": 145,
           "total": 186,
-          "rate": 0.7956989247311828
+          "rate": 0.7795698924731183
         },
         "clean_judge": {
           "count": 147,
@@ -939,16 +989,18 @@
           "atomic": {
             "catch": {
               "count": 19,
-              "total": 20,
-              "rate": 0.95
+              "total": 22,
+              "rate": 0.8636363636363636
             },
             "false_alarm": {
               "count": 1,
-              "total": 166,
-              "rate": 0.006024096385542169
+              "total": 164,
+              "rate": 0.006097560975609756
             },
             "missed": [
-              "sample_007-c05"
+              "sample_007-c05",
+              "sample_008-c03",
+              "sample_020-c03"
             ],
             "false_alarms": [
               "sample_006-c01"
@@ -957,16 +1009,17 @@
           "supported": {
             "catch": {
               "count": 8,
-              "total": 9,
-              "rate": 0.8888888888888888
+              "total": 10,
+              "rate": 0.8
             },
             "false_alarm": {
               "count": 4,
-              "total": 177,
-              "rate": 0.022598870056497175
+              "total": 176,
+              "rate": 0.022727272727272728
             },
             "missed": [
-              "sample_006-c06"
+              "sample_006-c06",
+              "sample_020-c04"
             ],
             "false_alarms": [
               "sample_002-c04",
@@ -977,20 +1030,19 @@
           },
           "no_leakage": {
             "catch": {
-              "count": 5,
-              "total": 6,
-              "rate": 0.8333333333333334
+              "count": 6,
+              "total": 7,
+              "rate": 0.8571428571428571
             },
             "false_alarm": {
-              "count": 2,
-              "total": 180,
-              "rate": 0.011111111111111112
+              "count": 1,
+              "total": 179,
+              "rate": 0.00558659217877095
             },
             "missed": [
               "sample_001-c08"
             ],
             "false_alarms": [
-              "sample_002-c06",
               "sample_002-c10"
             ]
           },
@@ -1035,9 +1087,9 @@
           }
         },
         "clean_hand": {
-          "count": 148,
+          "count": 145,
           "total": 186,
-          "rate": 0.7956989247311828
+          "rate": 0.7795698924731183
         },
         "clean_judge": {
           "count": 148,
@@ -2208,6 +2260,17 @@
         "corrected": true
       },
       {
+        "card_id": "sample_008-c03",
+        "question": "What is the difference between nominal GDP and real GDP?",
+        "answer": "Real GDP adjusts for price changes, while nominal GDP does not",
+        "mine": "N",
+        "run_a": "Y",
+        "run_b": "Y",
+        "reason": null,
+        "note": "",
+        "corrected": false
+      },
+      {
         "card_id": "sample_013-c02",
         "question": "What are the major functions of carbohydrates?",
         "answer": "Quick energy; structural support",
@@ -2238,6 +2301,17 @@
         "run_b": "Y",
         "reason": "A: The answer 'Energy storage; membranes' lists separate functions a student could partially recall, not a closed set the question itself defines.",
         "note": "Closed set example.",
+        "corrected": false
+      },
+      {
+        "card_id": "sample_020-c03",
+        "question": "How does binary search reduce the search space at each iteration?",
+        "answer": "By comparing the target with the middle element and discarding half of the remaining search interval",
+        "mine": "N",
+        "run_a": "Y",
+        "run_b": "Y",
+        "reason": null,
+        "note": "",
         "corrected": false
       }
     ],
@@ -2307,6 +2381,17 @@
         "reason": "A: The answer 'The last element in the list' is never stated; the notes only say nums[-1] returns 50 and that negative indexes count from the end. / B: The answer 'The last element in the list' generalizes beyond the notes, which only state that nums[-1] returns 50 and that negative indexes count from the end.",
         "note": "",
         "corrected": false
+      },
+      {
+        "card_id": "sample_020-c04",
+        "question": "What value does the provided binary_search function return when the target is not found?",
+        "answer": "-1",
+        "mine": "N",
+        "run_a": "Y",
+        "run_b": "Y",
+        "reason": null,
+        "note": "Question does not show the code snippet in question. It says \"provided binary search function\" without showing the function. The code snippet should be included in the question to avoid ambiguity.",
+        "corrected": false
       }
     ],
     "no_leakage": [
@@ -2325,10 +2410,10 @@
         "card_id": "sample_002-c06",
         "question": "What molecule is reduced by electrons from light-dependent reactions to form NADPH?",
         "answer": "NADP+",
-        "mine": "Y",
+        "mine": "N",
         "run_a": "Y",
         "run_b": "N",
-        "reason": "B: The question's phrase 'reduced... to form NADPH' makes the answer 'NADP+' directly deducible from the question text.",
+        "reason": null,
         "note": "",
         "corrected": false
       },

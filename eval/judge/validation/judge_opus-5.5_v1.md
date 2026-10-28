@@ -9,7 +9,7 @@
 - **Judge cost:** $0.5550, $0.5751, $0.5380, $0.5407 (runs A, B, seeded A, seeded B)
 - **Total spent, including discarded runs:** $2.7309
 - **Retries:** 1; drop rate 1.4% (2/143) of API calls, including discarded runs (see [Retries](#retries))
-- **Score changes:** 1 pre-judge, 27 from the judge review, 1 from the agreement check, 5 from the consistency check (see [Score changes](#score-changes))
+- **Score changes:** 1 pre-judge, 27 from the judge review, 1 from the agreement check, 9 from the consistency check (see [Score changes](#score-changes))
 - **Agreement check:** 19 of 20 matched, 1 shared error (see [Agreement check](#agreement-check))
 
 Every threshold must hold in both runs. Catch thresholds allow a fixed number of misses (unambiguous 2, atomic 2, no leakage 1), so they still apply if a hand score is corrected.
@@ -19,14 +19,14 @@ Every threshold must hold in both runs. Catch thresholds allow a fixed number of
 | Check | Threshold | Run A | Run B | Result |
 |---|---|---|---|---|
 | Unambiguous: catches | ≥ 8 of 10 | **30.0% (3/10)** | **40.0% (4/10)** | **FAIL** |
-| Atomic: catches | ≥ 18 of 20 | 100.0% (20/20) | 95.0% (19/20) | pass |
-| No leakage: catches | ≥ 5 of 6 | 83.3% (5/6) | 83.3% (5/6) | pass |
-| Atomic: false alarm rate | ≤ 5% | 1.8% (3/166) | 0.6% (1/166) | pass |
-| Supported: false alarm rate | ≤ 5% | 1.7% (3/177) | 2.3% (4/177) | pass |
-| No leakage: false alarm rate | ≤ 5% | 0.6% (1/180) | 1.1% (2/180) | pass |
+| Atomic: catches | ≥ 20 of 22 | 90.9% (20/22) | **86.4% (19/22)** | **FAIL** |
+| No leakage: catches | ≥ 6 of 7 | **71.4% (5/7)** | 85.7% (6/7) | **FAIL** |
+| Atomic: false alarm rate | ≤ 5% | 1.8% (3/164) | 0.6% (1/164) | pass |
+| Supported: false alarm rate | ≤ 5% | 1.7% (3/176) | 2.3% (4/176) | pass |
+| No leakage: false alarm rate | ≤ 5% | 0.6% (1/179) | 0.6% (1/179) | pass |
 | Unambiguous: false alarm rate | ≤ 5% | 0.0% (0/176) | 0.0% (0/176) | pass |
 | Duplicates: false alarm rate | ≤ 5% | 0.6% (1/181) | 1.1% (2/181) | pass |
-| Clean card rate | within ±3 points of 79.6% (148/186) | 79.0% (147/186) | 79.6% (148/186) | pass |
+| Clean card rate | within ±3 points of 78.0% (145/186) | 79.0% (147/186) | 79.6% (148/186) | pass |
 | Seeded supported: correct | ≥ 4 of 5 | 5 of 5 | 5 of 5 | pass |
 | Seeded atomic: correct | ≥ 4 of 5 | 5 of 5 | 5 of 5 | pass |
 | Seeded no leakage: correct | ≥ 4 of 5 | 5 of 5 | 5 of 5 | pass |
@@ -56,12 +56,12 @@ Every threshold must hold in both runs. Catch thresholds allow a fixed number of
 
 | Criterion | Run | My fails | Caught | Catch rate | My passes | False alarms | False alarm rate |
 |---|---|---|---|---|---|---|---|
-| Atomic | A | 20 | 20 | 100.0% (20/20) | 166 | 3 | 1.8% (3/166) |
-| Atomic | B | 20 | 19 | 95.0% (19/20) | 166 | 1 | 0.6% (1/166) |
-| Supported | A | 9 | 9 | 100.0% (9/9) | 177 | 3 | 1.7% (3/177) |
-| Supported | B | 9 | 8 | 88.9% (8/9) | 177 | 4 | 2.3% (4/177) |
-| No leakage | A | 6 | 5 | 83.3% (5/6) | 180 | 1 | 0.6% (1/180) |
-| No leakage | B | 6 | 5 | 83.3% (5/6) | 180 | 2 | 1.1% (2/180) |
+| Atomic | A | 22 | 20 | 90.9% (20/22) | 164 | 3 | 1.8% (3/164) |
+| Atomic | B | 22 | 19 | 86.4% (19/22) | 164 | 1 | 0.6% (1/164) |
+| Supported | A | 10 | 9 | 90.0% (9/10) | 176 | 3 | 1.7% (3/176) |
+| Supported | B | 10 | 8 | 80.0% (8/10) | 176 | 4 | 2.3% (4/176) |
+| No leakage | A | 7 | 5 | 71.4% (5/7) | 179 | 1 | 0.6% (1/179) |
+| No leakage | B | 7 | 6 | 85.7% (6/7) | 179 | 1 | 0.6% (1/179) |
 | Unambiguous | A | 10 | 3 | 30.0% (3/10) | 176 | 0 | 0.0% (0/176) |
 | Unambiguous | B | 10 | 4 | 40.0% (4/10) | 176 | 0 | 0.0% (0/176) |
 | Duplicates | A | 5 | 5 | 100.0% (5/5) | 181 | 1 | 0.6% (1/181) |
@@ -73,7 +73,7 @@ Duplicates both of us flagged, with a different original card: none.
 
 | Scorer | Clean card rate |
 |---|---|
-| Hand (corrected) | 79.6% (148/186) |
+| Hand (corrected) | 78.0% (145/186) |
 | Hand (original) | 86.0% (160/186) |
 | Judge run A | 79.0% (147/186) |
 | Judge run B | 79.6% (148/186) |
@@ -203,22 +203,28 @@ A blind recheck of 20 card+criterion pairs where the original hand score and bot
 | 2026-10-20 | sample_015-c04 | unambiguous | Y | N | v2 unambiguous scoring | consistency check | Rubric 1.6, Unambiguous | Significance question: several different answers would be correct. Aligned with the standard applied when scoring prompt v2's unambiguous sheet (v2 scored first, 2026-10-20). |
 | 2026-10-20 | sample_022-c03 | unambiguous | Y | N | v2 unambiguous scoring | consistency check | Rubric 1.6, Unambiguous | Significance question: several different answers would be correct. Aligned with the standard applied when scoring prompt v2's unambiguous sheet (v2 scored first, 2026-10-20). |
 | 2026-10-21 | sample_007-c03 | duplicate_of | sample_007-c02 | — | v2 review | consistency check | Rubric 1.6, No near-duplicates: fact already contained in an earlier card's answer | The fact it tests (what the term depolarization means) isn't in sample_007-c02's answer. Aligned with the decision on the same pair in prompt v2's review (2026-10-21). |
+| 2026-10-27 | sample_020-c04 | supported | Y | N | Sonnet review standards | consistency check | Rubric 1.6, Supported | Supported standard (2026-10-27): a claim about code passes only if the notes state it, in prose or in a code comment; it fails if it has to be worked out by reading or running the code. Returning -1 when the target isn't found appears only as `return -1` in the code. |
+| 2026-10-27 | sample_002-c06 | no_leakage | Y | N | Sonnet review standards | consistency check | Rubric 1.6, No Answer Leakage | No-leakage standard (2026-10-27): a card fails if a code snippet, formula or name in the question spells out the answer. The name NADPH in the question spells out the answer, NADP+. |
+| 2026-10-27 | sample_008-c03 | atomic | Y | N | Sonnet review standards | consistency check | Rubric 1.6, Atomic | Atomic standard (2026-10-27): a card fails if it splits naturally into separate questions; a closed set passes only when the notes say the same thing about each item and the list is complete. Real GDP adjusting for price changes and nominal GDP not adjusting are separate facts that split naturally into two questions. |
+| 2026-10-27 | sample_020-c03 | atomic | Y | N | Sonnet review standards | consistency check | Rubric 1.6, Atomic | Atomic standard (2026-10-27): a card fails if it splits naturally into separate questions; a closed set passes only when the notes say the same thing about each item and the list is complete. Comparing the target with the middle element and discarding half of the remaining interval split naturally into two questions. |
 
 ## Disagreements (corrected hand scores)
 
 Every card where either judge run differs from the corrected hand score. A card is marked † where the latest change to its hand score for that criterion came from the judge review.
 
-### Atomic (5)
+### Atomic (7)
 
 | Card | Question | Answer | Mine | Run A | Run B | Judge's reason | My note |
 |---|---|---|---|---|---|---|---|
 | sample_006-c01 | What event triggered the calling of the Estates General in 1789? | A financial crisis and bad harvests | Y | Y | N | B: The answer 'A financial crisis and bad harvests' gives two separate causes, so a student could recall one and forget the other. | — |
 | sample_007-c05 † | What is hyperpolarization? | The condition that occurs when potassium channels stay open too long, causing the membrane potential to become more negative than the resting level | N | N | Y | — | The answer gives the correct answer based on the context of the flashcard, then infers based on prior context after the comma in the answer. This is good behavior but not explicity allowed by the rubric. |
+| sample_008-c03 | What is the difference between nominal GDP and real GDP? | Real GDP adjusts for price changes, while nominal GDP does not | N | Y | Y | — | — |
 | sample_013-c02 | What are the major functions of carbohydrates? | Quick energy; structural support | Y | N | Y | A: The answer 'Quick energy; structural support' lists separate functions a student could partially recall, not a closed set the question itself defines. | Closed set example. |
 | sample_013-c04 | What are the major functions of proteins? | Enzymes; transport; structure | Y | N | Y | A: The answer 'Enzymes; transport; structure' lists separate functions a student could partially recall, not a closed set the question itself defines. | Closed set example. |
 | sample_013-c06 | What are the major functions of lipids? | Energy storage; membranes | Y | N | Y | A: The answer 'Energy storage; membranes' lists separate functions a student could partially recall, not a closed set the question itself defines. | Closed set example. |
+| sample_020-c03 | How does binary search reduce the search space at each iteration? | By comparing the target with the middle element and discarding half of the remaining search interval | N | Y | Y | — | — |
 
-### Supported (6)
+### Supported (7)
 
 | Card | Question | Answer | Mine | Run A | Run B | Judge's reason | My note |
 |---|---|---|---|---|---|---|---|
@@ -228,13 +234,14 @@ Every card where either judge run differs from the corrected hand score. A card 
 | sample_007-c07 | What is saltatory conduction? | A method of action potential propagation along myelinated axons where the action potential jumps from node to node | Y | Y | N | B: The answer says 'along myelinated axons', but the notes never mention axons. | Another exellent example of the model taking a messy bullet point and rewording it into a clean flashcard. |
 | sample_013-c05 | What is the building block of lipids? | Glycerol + fatty acids | Y | N | N | A: The card presents 'Glycerol + fatty acids' as 'the building block of lipids', dropping the notes' qualifier '(common form)'. / B: The card presents 'Glycerol + fatty acids' as the building block of lipids, dropping the notes' qualifier '(common form)' and so overstating the claim. | Closed set example. |
 | sample_016-c05 | In Python, what does a negative index like nums[-1] refer to? | The last element in the list | Y | N | N | A: The answer 'The last element in the list' is never stated; the notes only say nums[-1] returns 50 and that negative indexes count from the end. / B: The answer 'The last element in the list' generalizes beyond the notes, which only state that nums[-1] returns 50 and that negative indexes count from the end. | — |
+| sample_020-c04 | What value does the provided binary_search function return when the target is not found? | -1 | N | Y | Y | — | Question does not show the code snippet in question. It says "provided binary search function" without showing the function. The code snippet should be included in the question to avoid ambiguity. |
 
 ### No leakage (3)
 
 | Card | Question | Answer | Mine | Run A | Run B | Judge's reason | My note |
 |---|---|---|---|---|---|---|---|
 | sample_001-c08 | How did German resentment toward the Treaty of Versailles relate to the rise of the Nazi movement? | It became an important factor exploited by Adolf Hitler and the Nazi movement | N | Y | Y | — | Question is essentially the answer as a question. Could be perceived as ambiguous if a student thought it was looking for a deeper answer. |
-| sample_002-c06 | What molecule is reduced by electrons from light-dependent reactions to form NADPH? | NADP+ | Y | Y | N | B: The question's phrase 'reduced... to form NADPH' makes the answer 'NADP+' directly deducible from the question text. | — |
+| sample_002-c06 | What molecule is reduced by electrons from light-dependent reactions to form NADPH? | NADP+ | N | Y | N | — | — |
 | sample_002-c10 | How does the Calvin cycle depend on light-dependent reactions if it does not directly require photons? | It depends on products generated by the light-dependent reactions | Y | N | N | A: The question 'depend on light-dependent reactions' gives away the answer 'depends on products generated by the light-dependent reactions'. / B: The question names 'light-dependent reactions' and the answer 'products generated by the light-dependent reactions' adds little beyond what the question supplies. | Batch level note: This run produced 10 flashcards for this sample. I identified 10-11 distinct facts so this is a good range for this sample. |
 
 ### Unambiguous (7)

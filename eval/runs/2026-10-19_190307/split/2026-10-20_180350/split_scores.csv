@@ -62,11 +62,11 @@ sample_007-c09,sample_007,sloppy_bullets,What are Nodes of Ranvier?,The gaps in 
 sample_008-c01,sample_008,sloppy_bullets,What is GDP?,The market value of final goods and services produced inside a country in a given period,Y,Y,Y,Y,,
 sample_008-c02,sample_008,sloppy_bullets,Why are used goods not included in GDP calculations?,To avoid counting sales of goods that were already counted as final goods in a previous period,Y,N,Y,Y,,
 sample_008-c03,sample_008,sloppy_bullets,Why are intermediate goods not included in GDP calculations?,To avoid double counting,Y,Y,Y,Y,,
-sample_008-c04,sample_008,sloppy_bullets,What is the difference between nominal GDP and real GDP?,"Real GDP adjusts for price changes, while nominal GDP does not",Y,Y,Y,Y,,
+sample_008-c04,sample_008,sloppy_bullets,What is the difference between nominal GDP and real GDP?,"Real GDP adjusts for price changes, while nominal GDP does not",N,Y,Y,Y,,changed in consistency check: atomic
 sample_008-c05,sample_008,sloppy_bullets,What is the formula for the GDP deflator?,GDP deflator = (nominal GDP / real GDP) × 100,Y,Y,Y,Y,,
 sample_008-c06,sample_008,sloppy_bullets,What does GDP per capita measure?,Average output or income-like measure per person,Y,Y,Y,Y,,
 sample_008-c07,sample_008,sloppy_bullets,What are limitations of using GDP per capita as a measure of well-being?,"It does not tell income distribution, unpaid work, or environmental costs",N,N,Y,N,,
-sample_008-c08,sample_008,sloppy_bullets,How do exports and imports affect GDP?,Exports add to GDP and imports subtract from GDP,Y,Y,Y,Y,,
+sample_008-c08,sample_008,sloppy_bullets,How do exports and imports affect GDP?,Exports add to GDP and imports subtract from GDP,N,Y,Y,Y,,changed in consistency check: atomic
 sample_008-c09,sample_008,sloppy_bullets,What is the formula for net exports (NX)?,NX = X - M (where X is exports and M is imports),Y,Y,Y,Y,,
 sample_009-c01,sample_009,sloppy_bullets,In which direction is the new DNA strand synthesized during replication?,5' to 3',Y,Y,Y,Y,,
 sample_009-c02,sample_009,sloppy_bullets,What is the role of helicase during DNA replication?,It unzips the double helix,Y,Y,Y,Y,,
@@ -146,7 +146,7 @@ sample_016-c03,sample_016,code_content,"What does the expression `nums[:3]` retu
 sample_016-c04,sample_016,code_content,"What does the expression `nums[::2]` return when `nums = [10, 20, 30, 40, 50]`?","[10, 30, 50]",Y,Y,Y,Y,,
 sample_016-c05,sample_016,code_content,"In Python list indexing, what does a negative index represent?",A position counted from the end of the list,Y,Y,Y,Y,,
 sample_016-c06,sample_016,code_content,"What does the expression `nums[-1]` return when `nums = [10, 20, 30, 40, 50]`?",50,Y,Y,Y,Y,,
-sample_016-c07,sample_016,code_content,"What does the expression `nums[::-1]` return when `nums = [10, 20, 30, 40, 50]`?","[50, 40, 30, 20, 10]",Y,Y,Y,Y,,changed in review: supported
+sample_016-c07,sample_016,code_content,"What does the expression `nums[::-1]` return when `nums = [10, 20, 30, 40, 50]`?","[50, 40, 30, 20, 10]",Y,N,Y,Y,,changed in review: supported; changed in consistency check: supported
 sample_017-c01,sample_017,code_content,"In C++, what is a reference?","An alias for an existing object, commonly used to avoid copying when passing arguments",N,Y,Y,Y,,
 sample_017-c02,sample_017,code_content,What does a const reference allow a function to do with an object?,Read the object without modifying it,Y,Y,Y,Y,,
 sample_017-c03,sample_017,code_content,"In the C++ function parameter `const std::string& s`, what does the `&` symbol declare?",A reference,Y,Y,Y,Y,,
@@ -161,7 +161,7 @@ FROM employees
 WHERE active = 1
 GROUP BY department
 HAVING COUNT(*) >= 5;
-```",It keeps only active employees before grouping,Y,Y,Y,Y,,
+```",It keeps only active employees before grouping,Y,Y,N,Y,,changed in consistency check: no_leakage
 sample_018-c04,sample_018,code_content,"In the query shown, what does the `HAVING COUNT(*) >= 5` clause do?
 
 ```sql
@@ -170,19 +170,19 @@ FROM employees
 WHERE active = 1
 GROUP BY department
 HAVING COUNT(*) >= 5;
-```",It keeps only departments with at least five active employees,Y,Y,Y,Y,,
+```",It keeps only departments with at least five active employees,Y,Y,N,Y,,changed in consistency check: no_leakage
 sample_019-c01,sample_019,code_content,What do JavaScript promises represent?,The eventual result of an asynchronous operation,Y,Y,Y,Y,,
 sample_019-c02,sample_019,code_content,What are the three possible states of a promise?,"Pending, fulfilled, or rejected",Y,Y,Y,Y,,
 sample_019-c03,sample_019,code_content,What does the `.then()` method do in a promise chain?,Registers a callback for successful completion,Y,Y,Y,Y,,
 sample_019-c04,sample_019,code_content,What does the `.catch()` method do in a promise chain?,Handles rejection or an error propagated through the chain,Y,Y,Y,Y,,
 sample_019-c05,sample_019,code_content,How do promise callbacks behave relative to the rest of the program?,They run later rather than blocking the rest of the program,Y,Y,Y,Y,,
-sample_020-c01,sample_020,code_content,How does binary search narrow down the search interval?,By repeatedly comparing the target with the middle element and discarding half of the remaining search interval.,Y,Y,Y,Y,,
+sample_020-c01,sample_020,code_content,How does binary search narrow down the search interval?,By repeatedly comparing the target with the middle element and discarding half of the remaining search interval.,N,Y,Y,Y,,changed in consistency check: atomic
 sample_020-c02,sample_020,code_content,What is the time complexity of binary search?,O(log n),Y,Y,Y,Y,,
 sample_020-c03,sample_020,code_content,What must be true about the input sequence for binary search to work correctly?,It must be sorted.,Y,Y,Y,Y,,
-sample_020-c04,sample_020,code_content,What does the binary_search function return when the target is found?,The index of the target element.,Y,Y,Y,N,,
-sample_020-c05,sample_020,code_content,What does the binary_search function return when the target is not found?,-1,Y,Y,Y,N,,
-sample_020-c06,sample_020,code_content,"In the binary_search function, what happens to the variable lo when a[mid] < target?",It is set to mid + 1.,Y,Y,Y,N,,
-sample_020-c07,sample_020,code_content,"In the binary_search function, what happens to the variable hi when a[mid] is greater than the target?",It is set to mid - 1.,Y,Y,Y,N,,
+sample_020-c04,sample_020,code_content,What does the binary_search function return when the target is found?,The index of the target element.,Y,N,Y,N,,changed in consistency check: supported
+sample_020-c05,sample_020,code_content,What does the binary_search function return when the target is not found?,-1,Y,N,Y,N,,changed in consistency check: supported
+sample_020-c06,sample_020,code_content,"In the binary_search function, what happens to the variable lo when a[mid] < target?",It is set to mid + 1.,Y,N,Y,N,,changed in consistency check: supported
+sample_020-c07,sample_020,code_content,"In the binary_search function, what happens to the variable hi when a[mid] is greater than the target?",It is set to mid - 1.,Y,N,Y,N,,changed in consistency check: supported
 sample_021-c01,sample_021,too_short,What organelle is involved in aerobic cellular respiration?,The mitochondrion,Y,Y,Y,Y,,
 sample_021-c02,sample_021,too_short,Through what process does the mitochondrion produce much of a eukaryotic cell's ATP?,Oxidative phosphorylation,Y,Y,Y,Y,,
 sample_022-c01,sample_022,too_short,In what year was the Magna Carta sealed?,1215,Y,Y,Y,Y,,

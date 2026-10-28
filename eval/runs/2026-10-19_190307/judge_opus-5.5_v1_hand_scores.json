@@ -13,24 +13,24 @@
     "scored": {
       "cards_scored": 201,
       "clean_card_rate": {
-        "count": 157,
+        "count": 151,
         "total": 201,
-        "rate": 0.7810945273631841
+        "rate": 0.7512437810945274
       },
       "atomic_rate": {
-        "count": 186,
+        "count": 183,
         "total": 201,
-        "rate": 0.9253731343283582
+        "rate": 0.9104477611940298
       },
       "supported_rate": {
-        "count": 185,
+        "count": 180,
         "total": 201,
-        "rate": 0.9203980099502488
+        "rate": 0.8955223880597015
       },
       "no_leakage_rate": {
-        "count": 198,
+        "count": 196,
         "total": 201,
-        "rate": 0.9850746268656716
+        "rate": 0.9751243781094527
       },
       "unambiguous_rate": {
         "count": 184,
@@ -166,24 +166,24 @@
       "scored": {
         "cards_scored": 27,
         "clean_card_rate": {
-          "count": 21,
+          "count": 17,
           "total": 27,
-          "rate": 0.7777777777777778
+          "rate": 0.6296296296296297
         },
         "atomic_rate": {
+          "count": 24,
+          "total": 27,
+          "rate": 0.8888888888888888
+        },
+        "supported_rate": {
+          "count": 22,
+          "total": 27,
+          "rate": 0.8148148148148148
+        },
+        "no_leakage_rate": {
           "count": 25,
           "total": 27,
           "rate": 0.9259259259259259
-        },
-        "supported_rate": {
-          "count": 27,
-          "total": 27,
-          "rate": 1.0
-        },
-        "no_leakage_rate": {
-          "count": 27,
-          "total": 27,
-          "rate": 1.0
         },
         "unambiguous_rate": {
           "count": 23,
@@ -318,14 +318,14 @@
       "scored": {
         "cards_scored": 54,
         "clean_card_rate": {
-          "count": 33,
+          "count": 31,
           "total": 54,
-          "rate": 0.6111111111111112
+          "rate": 0.5740740740740741
         },
         "atomic_rate": {
-          "count": 46,
+          "count": 44,
           "total": 54,
-          "rate": 0.8518518518518519
+          "rate": 0.8148148148148148
         },
         "supported_rate": {
           "count": 41,

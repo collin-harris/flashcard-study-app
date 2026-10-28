@@ -12,7 +12,7 @@ sample_002-c02,sample_002,dense_textbook_prose,Where do light-dependent reaction
 sample_002-c03,sample_002,dense_textbook_prose,What role does chlorophyll play in light-dependent reactions?,It absorbs photons and drives electron transport,N,Y,Y,Y,,
 sample_002-c04,sample_002,dense_textbook_prose,What products are released when water is split during light-dependent reactions?,"Oxygen, electrons, and protons",N,Y,Y,Y,,
 sample_002-c05,sample_002,dense_textbook_prose,What powers ATP synthase during light-dependent reactions?,The proton gradient,Y,Y,Y,Y,,
-sample_002-c06,sample_002,dense_textbook_prose,What molecule is reduced by electrons from light-dependent reactions to form NADPH?,NADP+,Y,Y,Y,Y,,
+sample_002-c06,sample_002,dense_textbook_prose,What molecule is reduced by electrons from light-dependent reactions to form NADPH?,NADP+,Y,Y,N,Y,,changed in consistency check: no_leakage
 sample_002-c07,sample_002,dense_textbook_prose,Where does the Calvin cycle occur?,In the chloroplast stroma,Y,Y,Y,Y,,
 sample_002-c08,sample_002,dense_textbook_prose,What two molecules does the Calvin cycle use to incorporate carbon dioxide into carbohydrates?,ATP and NADPH,Y,Y,Y,Y,,
 sample_002-c09,sample_002,dense_textbook_prose,Does the Calvin cycle directly require photons?,"No, it does not directly require photons",Y,Y,N,Y,,
@@ -58,7 +58,7 @@ sample_007-c07,sample_007,sloppy_bullets,What is saltatory conduction?,A method 
 sample_007-c08,sample_007,sloppy_bullets,What are the Nodes of Ranvier?,The gaps between myelin sheaths where saltatory conduction occurs during action potential propagation,Y,N,Y,Y,,
 sample_008-c01,sample_008,sloppy_bullets,What does GDP measure?,The market value of final goods and services produced inside a country in a given period,Y,Y,Y,Y,,
 sample_008-c02,sample_008,sloppy_bullets,Why are used goods and intermediate goods excluded from GDP?,Used goods are not included because they were counted in a previous period; intermediate goods are excluded to avoid double counting,N,N,Y,Y,,
-sample_008-c03,sample_008,sloppy_bullets,What is the difference between nominal GDP and real GDP?,"Real GDP adjusts for price changes, while nominal GDP does not",Y,Y,Y,Y,,
+sample_008-c03,sample_008,sloppy_bullets,What is the difference between nominal GDP and real GDP?,"Real GDP adjusts for price changes, while nominal GDP does not",N,Y,Y,Y,,changed in consistency check: atomic
 sample_008-c04,sample_008,sloppy_bullets,What is the formula for the GDP deflator?,GDP deflator = (nominal GDP / real GDP) × 100,Y,Y,Y,Y,,
 sample_008-c05,sample_008,sloppy_bullets,What are limitations of using GDP per capita as a measure?,"It does not tell the distribution of output/income, unpaid work, or environmental costs",N,Y,Y,N,,
 sample_008-c06,sample_008,sloppy_bullets,How do exports and imports affect GDP?,"Exports add to GDP and imports subtract from GDP, calculated as net exports (NX = X - M)",N,Y,Y,Y,,
@@ -151,8 +151,8 @@ sample_019-c04,sample_019,code_content,What does the `.catch()` method do in a p
 sample_019-c05,sample_019,code_content,How do promise callbacks behave relative to the rest of the program?,They run later rather than blocking the rest of the program,Y,Y,Y,Y,,
 sample_020-c01,sample_020,code_content,What is the time complexity of binary search?,O(log n),Y,Y,Y,Y,,
 sample_020-c02,sample_020,code_content,What is the key requirement for binary search to work correctly?,The input must be sorted,Y,Y,Y,Y,,
-sample_020-c03,sample_020,code_content,How does binary search reduce the search space at each iteration?,By comparing the target with the middle element and discarding half of the remaining search interval,Y,Y,Y,Y,,
-sample_020-c04,sample_020,code_content,What value does the provided binary_search function return when the target is not found?,-1,Y,Y,Y,N,,
+sample_020-c03,sample_020,code_content,How does binary search reduce the search space at each iteration?,By comparing the target with the middle element and discarding half of the remaining search interval,N,Y,Y,Y,,changed in consistency check: atomic
+sample_020-c04,sample_020,code_content,What value does the provided binary_search function return when the target is not found?,-1,Y,N,Y,N,,changed in consistency check: supported
 sample_021-c01,sample_021,too_short,What is the mitochondrion?,An organelle involved in aerobic cellular respiration that produces much of a eukaryotic cell's ATP through oxidative phosphorylation,N,Y,Y,Y,,
 sample_021-c02,sample_021,too_short,Through what process does the mitochondrion produce most of a eukaryotic cell's ATP?,Oxidative phosphorylation,Y,N,Y,Y,sample_021-c01,
 sample_022-c01,sample_022,too_short,In what year was the Magna Carta sealed?,1215,Y,Y,Y,Y,,

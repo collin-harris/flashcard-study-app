@@ -18,6 +18,7 @@
   "failed_pairs": 46,
   "sampled_pass_pairs": 20,
   "review_changes": 10,
+  "consistency_changes": 10,
   "inputs": {
     "judge_results": {
       "path": "eval/runs/2026-10-19_190307/judge/2026-10-20_180350/judge_results.json",
@@ -37,8 +38,8 @@
     },
     "score_changes": {
       "path": "eval/runs/2026-10-19_190307/split/2026-10-20_180350/score_changes.csv",
-      "sha256": "c00f0b28d078"
+      "sha256": "ff62bb0fdfe6"
     }
   },
-  "merged_at": "2026-10-21T22:53:52"
+  "merged_at": "2026-10-27T22:19:47"
 }

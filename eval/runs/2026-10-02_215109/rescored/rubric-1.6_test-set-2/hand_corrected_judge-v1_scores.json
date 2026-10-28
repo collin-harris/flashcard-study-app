@@ -13,24 +13,24 @@
     "scored": {
       "cards_scored": 186,
       "clean_card_rate": {
-        "count": 148,
+        "count": 145,
         "total": 186,
-        "rate": 0.7956989247311828
+        "rate": 0.7795698924731183
       },
       "atomic_rate": {
-        "count": 166,
+        "count": 164,
         "total": 186,
-        "rate": 0.8924731182795699
+        "rate": 0.8817204301075269
       },
       "supported_rate": {
-        "count": 177,
+        "count": 176,
         "total": 186,
-        "rate": 0.9516129032258065
+        "rate": 0.946236559139785
       },
       "no_leakage_rate": {
-        "count": 180,
+        "count": 179,
         "total": 186,
-        "rate": 0.967741935483871
+        "rate": 0.9623655913978495
       },
       "unambiguous_rate": {
         "count": 176,
@@ -166,19 +166,19 @@
       "scored": {
         "cards_scored": 23,
         "clean_card_rate": {
-          "count": 18,
+          "count": 17,
           "total": 23,
-          "rate": 0.782608695652174
+          "rate": 0.7391304347826086
         },
         "atomic_rate": {
+          "count": 21,
+          "total": 23,
+          "rate": 0.9130434782608695
+        },
+        "supported_rate": {
           "count": 22,
           "total": 23,
           "rate": 0.9565217391304348
-        },
-        "supported_rate": {
-          "count": 23,
-          "total": 23,
-          "rate": 1.0
         },
         "no_leakage_rate": {
           "count": 22,
@@ -242,9 +242,9 @@
       "scored": {
         "cards_scored": 37,
         "clean_card_rate": {
-          "count": 25,
+          "count": 24,
           "total": 37,
-          "rate": 0.6756756756756757
+          "rate": 0.6486486486486487
         },
         "atomic_rate": {
           "count": 29,
@@ -257,9 +257,9 @@
           "rate": 1.0
         },
         "no_leakage_rate": {
-          "count": 33,
+          "count": 32,
           "total": 37,
-          "rate": 0.8918918918918919
+          "rate": 0.8648648648648649
         },
         "unambiguous_rate": {
           "count": 36,
@@ -318,14 +318,14 @@
       "scored": {
         "cards_scored": 47,
         "clean_card_rate": {
-          "count": 31,
+          "count": 30,
           "total": 47,
-          "rate": 0.6595744680851063
+          "rate": 0.6382978723404256
         },
         "atomic_rate": {
-          "count": 37,
+          "count": 36,
           "total": 47,
-          "rate": 0.7872340425531915
+          "rate": 0.7659574468085106
         },
         "supported_rate": {
           "count": 39,

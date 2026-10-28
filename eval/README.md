@@ -629,6 +629,12 @@ A split-scored run goes through four steps, in this order:
    `split_scores.json` beside it records the inputs and their hashes.
    `--unambiguous <csv>` reads the hand scores from any file with
    `card_id` and `unambiguous` columns, such as an existing `scores.csv`.
+   A change with provenance `consistency check` applies a scoring standard
+   consistently across runs. It can change any pair the judge graded, not
+   only one in the review sheets. It's applied in log order after every
+   review change, and its old value must be the score at that point. Review
+   changes keep every check below.
+
    The merge refuses to run if:
    - the judge run isn't complete
    - its judge hash isn't `d21413e84dec`

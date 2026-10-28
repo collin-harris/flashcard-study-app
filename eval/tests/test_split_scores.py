@@ -233,6 +233,72 @@ class SplitScoresTests(unittest.TestCase):
         write_rows(self.split_dir / "review_passes.csv", rows)
         self.assertIn("doesn't match the sample drawn from the seed", self.merge_refused())
 
+    # --- consistency checks ---------------------------------------------
+
+    def consistency_row(self, card_id, field, old, new):
+        return {"date": "2026-10-27", "card_id": card_id, "field": field, "old": old, "new": new,
+                "prompted_by": "Sonnet review standards", "rubric_rule": "Rubric 1.6", "reason": "test",
+                "provenance": "consistency check"}
+
+    def merged_row(self, card_id):
+        return next(r for r in read_rows(self.split_dir / "split_scores.csv") if r["card_id"] == card_id)
+
+    def test_consistency_change_outside_the_sheets_applies(self):
+        self.review("--decisions-from-hand")
+        sheets = {r["card_id"] for n in ("review_fails.csv", "review_passes.csv") for r in read_rows(self.split_dir / n)}
+        self.merge()
+        card_id = next(r["card_id"] for r in read_rows(self.split_dir / "split_scores.csv")
+                       if r["card_id"] not in sheets and r["supported"] == "Y")
+        changes = read_rows(self.split_dir / "score_changes.csv")
+        write_rows(self.split_dir / "score_changes.csv", changes + [self.consistency_row(card_id, "supported", "Y", "N")])
+        self.merge()
+        row = self.merged_row(card_id)
+        self.assertEqual(row["supported"], "N")
+        self.assertIn("changed in consistency check: supported", row["notes"])
+        info = json.loads((self.split_dir / "split_scores.json").read_text(encoding="utf-8"))
+        self.assertEqual((info["review_changes"], info["consistency_changes"]), (8, 1))
+
+    def test_consistency_change_starts_from_the_reviewed_score(self):
+        # sample_013-c02 atomic is a review change, N to Y. A later consistency
+        # check must start from Y, not from the judge's N.
+        self.review("--decisions-from-hand")
+        changes = read_rows(self.split_dir / "score_changes.csv")
+        self.assertIn(("sample_013-c02", "atomic", "N", "Y"), [(r["card_id"], r["field"], r["old"], r["new"]) for r in changes])
+        write_rows(self.split_dir / "score_changes.csv", changes + [self.consistency_row("sample_013-c02", "atomic", "N", "Y")])
+        self.assertIn("isn't the score at that point ('Y')", self.merge_refused())
+        write_rows(self.split_dir / "score_changes.csv", changes + [self.consistency_row("sample_013-c02", "atomic", "Y", "N")])
+        self.merge()
+        self.assertEqual(self.merged_row("sample_013-c02")["atomic"], "N")
+
+    def test_consistency_changes_apply_in_log_order(self):
+        self.review("--decisions-from-hand")
+        changes = read_rows(self.split_dir / "score_changes.csv")
+        # Y to N, then N back to Y: valid only in this order.
+        pair = [self.consistency_row("sample_001-c01", "supported", "Y", "N"),
+                self.consistency_row("sample_001-c01", "supported", "N", "Y")]
+        write_rows(self.split_dir / "score_changes.csv", changes + pair[::-1])
+        self.assertIn("isn't the score at that point", self.merge_refused())
+        write_rows(self.split_dir / "score_changes.csv", changes + pair)
+        self.merge()
+        self.assertEqual(self.merged_row("sample_001-c01")["supported"], "Y")
+
+    def test_bad_consistency_change_is_refused(self):
+        self.review("--decisions-from-hand")
+        changes = read_rows(self.split_dir / "score_changes.csv")
+        for bad, message in ((self.consistency_row("sample_001-c01", "supported", "Y", "Y"), "doesn't change anything"),
+                             (self.consistency_row("sample_001-c01", "supported", "Y", "maybe"), "expected Y or N"),
+                             (self.consistency_row("sample_001-c01", "unambiguous", "Y", "N"), "isn't one of the judge's criteria")):
+            write_rows(self.split_dir / "score_changes.csv", changes + [bad])
+            self.assertIn(message, self.merge_refused())
+        self.assertFalse((self.split_dir / "split_scores.csv").exists())
+
+    def test_review_change_outside_the_sheets_is_still_refused(self):
+        self.review("--decisions-from-hand")
+        changes = read_rows(self.split_dir / "score_changes.csv")
+        row = {**self.consistency_row("sample_001-c01", "supported", "Y", "N"), "prompted_by": "review", "provenance": "blind"}
+        write_rows(self.split_dir / "score_changes.csv", changes + [row])
+        self.assertIn("isn't in either review sheet", self.merge_refused())
+
     def test_changed_duplicate_must_be_an_earlier_card(self):
         self.review()
         self.agree_with_judge()

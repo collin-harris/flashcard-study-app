@@ -50,6 +50,11 @@ PASS_SAMPLE_PER_LABEL = 5
 NOT_DUPLICATE = "none"
 REVIEW_PROMPTED_BY = "review"
 FROM_HAND_PROVENANCE = "from hand scores"
+# A change that applies a scoring standard consistently across runs. Unlike a
+# review change, it can touch any pair the judge graded, not only one in the
+# review sheets, and it's applied in log order after every review change, so
+# its old value is the score at that point rather than the judge's grade.
+CONSISTENCY_PROVENANCE = "consistency check"
 
 SPLIT_DIR = "split"
 UNAMBIGUOUS_SHEET = "unambiguous_sheet.csv"
@@ -422,6 +427,36 @@ def check_review(fails: list[dict], passes: list[dict], sample: list, changes: l
     return problems
 
 
+def is_consistency(row: dict) -> bool:
+    return row.get("provenance", "") == CONSISTENCY_PROVENANCE
+
+
+def apply_consistency(rows: list[dict], labels: dict, cards: dict) -> tuple[list[str], dict]:
+    """Applies consistency changes to labels in log order. Returns problems and the fields changed by card."""
+    problems, changed = [], {}
+    for row in rows:
+        card_id, field = row["card_id"], row["field"]
+        label = next((label for label, f in FIELDS.items() if f == field), None)
+        where = f"{CHANGE_LOG}: {card_id} {field} (consistency check)"
+        if label is None:
+            problems.append(f"{where}: '{field}' isn't one of the judge's criteria.")
+        elif card_id not in labels:
+            problems.append(f"{where}: not a card scored in Stage 2.")
+        elif row["old"] != labels[card_id][label]:
+            problems.append(f"{where}: old value '{row['old']}' isn't the score at that point "
+                            f"('{labels[card_id][label]}').")
+        elif row["new"] == row["old"]:
+            problems.append(f"{where}: doesn't change anything.")
+        elif label != "duplicate" and row["new"] not in ("Y", "N"):
+            problems.append(f"{where}: new value is '{row['new']}', expected Y or N.")
+        elif label == "duplicate" and row["new"] and row["new"] not in cards:
+            problems.append(f"{where}: '{row['new']}' is not a card scored in Stage 2.")
+        else:
+            labels[card_id][label] = row["new"]
+            changed.setdefault(card_id, []).append(field)
+    return problems, changed
+
+
 def cmd_merge(args) -> None:
     run_dir = Path(args.run_dir)
     run_info, cards = load_run(run_dir)
@@ -438,22 +473,35 @@ def cmd_merge(args) -> None:
 
     labels = {c: {label: judge_value(grades[c], label) for label in JUDGE_LABELS} for c in cards}
     sample = draw_pass_sample(seed, passed_pairs(grades, cards))
+    # Review changes keep every check against the sheets; consistency changes
+    # are applied after them, in log order.
+    review_changes = [row for row in changes if not is_consistency(row)]
+    consistency_changes = [row for row in changes if is_consistency(row)]
     problems = check_review(read_csv(out_dir / REVIEW_FAILS), read_csv(out_dir / REVIEW_PASSES), sample,
-                            changes, labels, grades, cards)
+                            review_changes, labels, grades, cards)
+    changed = {}
+    if not problems:
+        for row in review_changes:
+            label = next(label for label, field in FIELDS.items() if field == row["field"])
+            labels[row["card_id"]][label] = row["new"]
+            changed.setdefault(row["card_id"], []).append(row["field"])
+        problems, checked = apply_consistency(consistency_changes, labels, cards)
     if problems:
         sys.exit(f"Can't merge ({len(problems)} problem(s)). Nothing was written.\n"
                  + "\n".join(f"- {p}" for p in problems))
 
-    changed = {}
-    for row in changes:
-        label = next(label for label, field in FIELDS.items() if field == row["field"])
-        labels[row["card_id"]][label] = row["new"]
-        changed.setdefault(row["card_id"], []).append(row["field"])
+    def note(card_id: str) -> str:
+        parts = []
+        if card_id in changed:
+            parts.append(f"changed in review: {', '.join(changed[card_id])}")
+        if card_id in checked:
+            parts.append(f"changed in consistency check: {', '.join(checked[card_id])}")
+        return "; ".join(parts)
+
     rows = [
         [card_id, card["sample_id"], ", ".join(card["tags"]), card["question"], card["answer"],
          labels[card_id]["atomic"], labels[card_id]["supported"], labels[card_id]["no_leakage"],
-         unambiguous[card_id], labels[card_id]["duplicate"],
-         f"changed in review: {', '.join(changed[card_id])}" if card_id in changed else ""]
+         unambiguous[card_id], labels[card_id]["duplicate"], note(card_id)]
         for card_id, card in cards.items()
     ]
     # Checked with score_run.py's own validator before it replaces anything,
@@ -487,11 +535,13 @@ def cmd_merge(args) -> None:
         "pass_sample_seed": seed,
         "failed_pairs": len(failed_pairs(grades, cards)),
         "sampled_pass_pairs": len(sample),
-        "review_changes": len(changes),
+        "review_changes": len(review_changes),
+        "consistency_changes": len(consistency_changes),
         "inputs": {name: {"path": display(path), "sha256": file_hash(path)} for name, path in inputs.items()},
         "merged_at": datetime.now().isoformat(timespec="seconds"),
     })
-    print(f"Merged {len(cards)} cards with {len(changes)} review change(s) into {display(scores_path)}")
+    print(f"Merged {len(cards)} cards with {len(review_changes)} review change(s) and {len(consistency_changes)} "
+          f"consistency change(s) into {display(scores_path)}")
     print("Log it with:")
     print(f"  .venv/bin/python eval/score_run.py --scorer {scorer} \\\n"
           f"      --scores {display(scores_path)} {display(run_dir)}")

@@ -14,7 +14,7 @@ from pydantic import BaseModel, Field, TypeAdapter, ValidationError
 # any of them means the results are no longer comparable with earlier runs.
 # MODEL is the app's model; the eval runner can pass another model from
 # PRICING to generate_cards().
-MODEL = "claude-haiku-4-5-20251001"
+MODEL = "claude-sonnet-5-5"
 PROMPT_VERSION = "v2"
 MAX_TOKENS = 4096
 REQUEST_TIMEOUT_SECONDS = 60

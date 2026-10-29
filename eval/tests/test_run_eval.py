@@ -63,14 +63,14 @@ class ModelSettingsTests(unittest.TestCase):
         self.assertEqual(set(card_generation.PRICING), set(card_generation.REQUEST_OPTIONS))
         self.assertIn(card_generation.MODEL, card_generation.PRICING)
 
-    def test_app_default_is_haiku_without_thinking_or_effort(self):
-        self.assertEqual(card_generation.MODEL, HAIKU)
+    def test_app_default_is_sonnet_with_between_tools_thinking_and_high_effort(self):
+        self.assertEqual(card_generation.MODEL, SONNET)
         result = card_generation.generate_cards("notes")
         request = self.calls[0]
-        self.assertEqual(request["model"], HAIKU)
-        self.assertNotIn("thinking", request)
-        self.assertEqual(list(request["output_config"]), ["format"])
-        self.assertAlmostEqual(result.metadata.cost_usd, 1.00 + 5.00)  # one million tokens each way
+        self.assertEqual(request["model"], SONNET)
+        self.assertEqual(request["thinking"], {"type": "between_tools"})
+        self.assertEqual(request["output_config"]["effort"], "high")
+        self.assertAlmostEqual(result.metadata.cost_usd, 2.00 + 10.00)  # one million tokens each way
 
     def test_sonnet_is_sent_without_extended_thinking_at_its_own_rates(self):
         result = card_generation.generate_cards("notes", model=SONNET)
@@ -112,21 +112,23 @@ class ModelFlagTests(unittest.TestCase):
 
     def test_default_run_uses_the_app_model(self):
         info = self.run_eval()
-        self.assertEqual(info["model"], HAIKU)
-        self.assertIsNone(info["thinking"])
-        self.assertIsNone(info["effort"])
-        self.assertEqual(info["prompt_version"], "v2")
-        self.assertEqual(self.calls[0]["model"], HAIKU)
-
-    def test_model_flag_records_the_requested_model_and_settings(self):
-        info = self.run_eval("--model", SONNET)
         self.assertEqual(info["model"], SONNET)
         self.assertEqual(info["thinking"], {"type": "between_tools"})
         self.assertEqual(info["effort"], "high")
-        self.assertEqual([c["model"] for c in self.calls], [SONNET])
+        self.assertEqual(info["prompt_version"], "v2")
+        self.assertEqual(self.calls[0]["model"], SONNET)
+
+    def test_model_flag_records_the_requested_model_and_settings(self):
+        info = self.run_eval("--model", HAIKU)
+        self.assertEqual(info["model"], HAIKU)
+        self.assertIsNone(info["thinking"])
+        self.assertIsNone(info["effort"])
+        self.assertNotIn("thinking", self.calls[0])
+        self.assertEqual(list(self.calls[0]["output_config"]), ["format"])
+        self.assertEqual([c["model"] for c in self.calls], [HAIKU])
         self.assertFalse(info["incomplete"])
         # The app's own model is untouched.
-        self.assertEqual(card_generation.MODEL, HAIKU)
+        self.assertEqual(card_generation.MODEL, SONNET)
 
     def test_unknown_model_is_refused_before_any_run(self):
         with mock.patch.object(sys, "argv", ["run_eval.py", "--model", "claude-sonnet-5"]), \

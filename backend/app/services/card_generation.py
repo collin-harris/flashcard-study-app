@@ -13,7 +13,8 @@ from pydantic import BaseModel, Field, TypeAdapter, ValidationError
 # Every evaluation run records these settings in its run.json, so changing
 # any of them means the results are no longer comparable with earlier runs.
 # MODEL is the app's model; the eval runner can pass another model from
-# PRICING to generate_cards().
+# PRICING to generate_cards(). The app's generate endpoint passes its own
+# timeout and retry count; the eval always uses the defaults below.
 MODEL = "claude-sonnet-5-5"
 PROMPT_VERSION = "v2"
 MAX_TOKENS = 4096
@@ -135,6 +136,12 @@ class CardGenerationError(Exception):
         self.metadata = metadata
 
 
+# Raised when the service isn't configured to make a call at all, so callers
+# can tell a deployment problem apart from a failed generation.
+class CardGenerationSetupError(RuntimeError):
+    pass
+
+
 @lru_cache(maxsize=1)
 def _load_system_prompt() -> str:
     # Loaded on first use, not at import, so importing this module never
@@ -161,19 +168,26 @@ def _estimate_cost(model: str, input_tokens: int, output_tokens: int) -> float:
     return (input_tokens * rates["input"] + output_tokens * rates["output"]) / 1_000_000
 
 
-def generate_cards(notes: str, model: str = MODEL) -> GenerationResult:
+def generate_cards(
+    notes: str,
+    model: str = MODEL,
+    *,
+    timeout: float = REQUEST_TIMEOUT_SECONDS,
+    max_retries: int = MAX_RETRIES,
+) -> GenerationResult:
     if model not in PRICING:
         raise ValueError(f"No pricing for model {model!r}. Add its rates to PRICING before using it.")
     # Checked here rather than at import so the app and test suite can run
     # without the key.
     api_key = os.environ.get("ANTHROPIC_API_KEY")
     if not api_key:
-        raise RuntimeError(
+        raise CardGenerationSetupError(
             "ANTHROPIC_API_KEY environment variable is not set. "
             "Card generation needs it to call the Anthropic API."
         )
 
-    client = anthropic.Anthropic(api_key=api_key, timeout=REQUEST_TIMEOUT_SECONDS, max_retries=MAX_RETRIES)
+    # The SDK applies the timeout to each attempt, not to the call as a whole.
+    client = anthropic.Anthropic(api_key=api_key, timeout=timeout, max_retries=max_retries)
     options = REQUEST_OPTIONS[model]
     output_config = {"format": {"type": "json_schema", "schema": OUTPUT_SCHEMA}}
     if "effort" in options:

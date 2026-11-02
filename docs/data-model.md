@@ -10,7 +10,7 @@
 
 This document describes the relational database schema for the flashcard study app. The database is implemented in PostgreSQL using SQLAlchemy as the ORM layer.
 
-The schema consists of four tables: `User`, `Deck`, `Flashcard`, and `CardReview`. The core design goal is to support the SM-2 spaced repetition algorithm, which requires tracking each user's review history on a per-card basis.
+The schema consists of five tables: `User`, `Deck`, `Flashcard`, `CardReview`, and `GenerationRequest`. The core design goal is to support the SM-2 spaced repetition algorithm, which requires tracking each user's review history on a per-card basis. `GenerationRequest` supports the AI card generation feature's usage limits and cost tracking.
 
 ---
 
@@ -95,6 +95,36 @@ Tracks the SM-2 spaced repetition state for a specific user and card pair. This 
 
 ---
 
+### GenerationRequest
+
+One row per AI card generation request that passed validation and the ownership check. Rows are counted to enforce the generation limits and record each request's cost. A row holds no notes or generated cards.
+
+| Column | Type | Constraints | Description |
+|---|---|---|---|
+| generation_id | Serial | Primary Key | Unique identifier for the request |
+| user_id | Integer | Foreign Key → User, nullable | The user who made the request; set to NULL if the user is deleted |
+| created_at | TIMESTAMPTZ | NOT NULL, default `now()` | When the request was made, by the database's clock |
+| model | String | NOT NULL | The model requested, e.g. `claude-sonnet-5-5` |
+| prompt_version | String | NOT NULL | The prompt version used, e.g. `v2` |
+| prompt_hash | String | NOT NULL | Hash of the prompt, wrapper text, and output schema, as recorded by eval runs |
+| status | String | NOT NULL | `pending`, `ok`, `rejected`, an error kind (`api_error`, `truncated`, `refusal`, `invalid_output`), `setup_error`, or `internal_error` |
+| input_chars | Integer | NOT NULL | Length of the notes after whitespace stripping |
+| input_tokens | Integer | nullable | Input tokens billed; NULL when no response came back |
+| output_tokens | Integer | nullable | Output tokens billed; NULL when no response came back |
+| cost_usd | NUMERIC(10, 6) | nullable | Estimated cost in USD; NULL when no response came back |
+| latency_seconds | FLOAT | nullable | Time for the whole call, including retries; NULL when no response came back |
+
+**Indexes:** (`user_id`, `created_at`) for per-user counts, and (`created_at`) for the global count.
+
+**Relationships:**
+- Belongs to one `User` (many-to-one); deleting the user sets `user_id` to NULL rather than deleting the row
+
+> **Design note:** A row is inserted as `pending` before the API is called, and updated with the outcome afterward. Every row created in the last 24 hours counts toward the limits, pending rows included, except `setup_error` rows. Those mean the server is misconfigured, and counting them would keep users locked out for a day after the fix.
+
+> **Design note:** `user_id` uses `SET NULL` rather than `CASCADE`, unlike `CardReview`. A row holds only usage and cost, so keeping it after the user is deleted keeps the global limit and the spend history accurate.
+
+---
+
 ## Entity Relationship Diagram
 
 ```
@@ -111,9 +141,11 @@ Flashcard
  │ one-to-many
  ▼
 CardReview ◄─── many-to-one ── User
+
+User ── one-to-many ──► GenerationRequest
 ```
 
-One user owns many decks. Each deck contains many flashcards. Each flashcard has one CardReview record per user who studies it. CardReview is jointly owned by User and Flashcard.
+One user owns many decks. Each deck contains many flashcards. Each flashcard has one CardReview record per user who studies it. CardReview is jointly owned by User and Flashcard. Each user has one GenerationRequest row per AI generation request.
 
 ---
 
@@ -126,6 +158,7 @@ One user owns many decks. Each deck contains many flashcards. Each flashcard has
 | Derived values | Not stored (e.g. card count) | Avoids synchronization bugs; compute from the data at query time |
 | Review history | Not stored | SM-2 only needs current state; full history logging is a future enhancement |
 | Password storage | Hashed via bcrypt | Plaintext passwords must never be stored; the hash is one-way and salted |
+| Generation request content | Not stored | Rows hold usage and cost only; the user's notes and the generated cards are never written to the database |
 
 ---
 
@@ -150,4 +183,4 @@ The following were considered during design and intentionally deferred:
 - **Review history log** — a separate table recording every individual review event with timestamp and result, enabling analytics and progress charts
 - **Shared/public decks** — allowing multiple users to study the same deck, requiring a many-to-many relationship between users and decks
 - **Card tagging** — cross-deck organization via tags, requiring a many-to-many relationship between cards and tags
-- **User account deletion** — no `DELETE /users` endpoint exists yet; if added, `Deck.user_id` would need an `ondelete="CASCADE"` foreign key (or equivalent cleanup logic) to avoid orphaned decks, matching the cascade behavior already used for `Flashcard.deck_id` and both `CardReview` foreign keys
+- **User account deletion** — no `DELETE /users` endpoint exists yet; if added, `Deck.user_id` would need an `ondelete="CASCADE"` foreign key (or equivalent cleanup logic) to avoid orphaned decks, matching the cascade behavior already used for `Flashcard.deck_id` and both `CardReview` foreign keys. `GenerationRequest.user_id` already handles deletion, with `SET NULL`

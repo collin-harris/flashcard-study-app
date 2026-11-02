@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from app.models.deck import Deck
 from app.models.flashcard import Flashcard
-from app.schemas.card import CardCreate, CardUpdate, CardResponse
+from app.schemas.card import CardBulkCreate, CardCreate, CardUpdate, CardResponse
 from app.routers.auth import get_db, get_current_user
 
 router = APIRouter()
@@ -70,6 +70,35 @@ def create_card(
     db.refresh(new_card)
 
     return new_card
+
+
+@router.post("/decks/{deck_id}/cards/bulk", response_model=list[CardResponse], status_code=201)
+def create_cards_bulk(
+    deck_id: int,
+    bulk_data: CardBulkCreate,
+    db: Session = Depends(get_db),
+    current_user = Depends(get_current_user)
+):
+    # Confirm the deck exists and belongs to the current user
+    deck = db.query(Deck).filter(Deck.deck_id == deck_id).first()
+    if deck is None:
+        raise HTTPException(status_code=404, detail="Deck not found")
+    if deck.user_id != current_user.user_id:
+        raise HTTPException(status_code=403, detail="Not authorized")
+
+    # Persist every card in one transaction, so either all are saved or none
+    new_cards = [
+        Flashcard(deck_id=deck_id, question=card.question, answer=card.answer)
+        for card in bulk_data.cards
+    ]
+    db.add_all(new_cards)
+    db.flush()
+    # Built before the commit, which would expire every card and make each
+    # one reload separately
+    response = [CardResponse.model_validate(card) for card in new_cards]
+    db.commit()
+
+    return response
 
 
 @router.patch("/decks/{deck_id}/cards/{card_id}", response_model=CardResponse)

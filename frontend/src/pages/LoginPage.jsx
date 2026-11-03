@@ -1,6 +1,6 @@
-import { useState } from 'react'
-import { Link, useNavigate } from 'react-router'
-import { loginUser, saveToken } from '../api'
+import { useState, useEffect } from 'react'
+import { Link, useLocation, useNavigate } from 'react-router'
+import { clearToken, loginUser, saveToken } from '../api'
 import { isValidEmail } from '../validation'
 import PasswordInput from '../components/PasswordInput'
 import './LoginPage.css'
@@ -10,6 +10,14 @@ function LoginPage() {
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const navigate = useNavigate()
+  const location = useLocation()
+
+  // Logout navigates here and leaves clearing the token to this page
+  useEffect(() => {
+    if (location.state?.loggedOut) {
+      clearToken()
+    }
+  }, [location.state])
 
   async function handleSubmit(e) {
     e.preventDefault()

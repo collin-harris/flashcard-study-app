@@ -1,13 +1,14 @@
 import { Link, useNavigate } from 'react-router'
-import { clearToken } from '../api'
 import './Header.css'
 
 function Header() {
   const navigate = useNavigate()
 
+  // The login page clears the token once it's reached. Clearing it here
+  // would log the user out even when a page blocks the navigation and they
+  // choose to stay.
   function handleLogout() {
-    clearToken()
-    navigate('/login')
+    navigate('/login', { state: { loggedOut: true } })
   }
 
   return (

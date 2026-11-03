@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Link, useParams, useNavigate } from 'react-router'
+import { Link, useLocation, useParams, useNavigate } from 'react-router'
 import {
   getDeck,
   updateDeck,
@@ -14,6 +14,10 @@ import './DeckDetailPage.css'
 function DeckDetailPage() {
   const { deckId } = useParams()
   const navigate = useNavigate()
+  const location = useLocation()
+  // Set by the generate page after saving. Read once, so the message stays
+  // after the history entry's state is cleared below.
+  const [addedCount] = useState(location.state?.addedCount ?? null)
   const [deck, setDeck] = useState(null)
   const [cards, setCards] = useState([])
   const [loading, setLoading] = useState(true)
@@ -50,6 +54,14 @@ function DeckDetailPage() {
 
     loadDeck()
   }, [deckId])
+
+  // Clear the added-cards state from this history entry, so reloading or
+  // coming back to the page doesn't show the message again
+  useEffect(() => {
+    if (location.state?.addedCount) {
+      navigate(location.pathname, { replace: true, state: null })
+    }
+  }, [location, navigate])
 
   async function handleCreateCard(e) {
     e.preventDefault()
@@ -169,6 +181,11 @@ function DeckDetailPage() {
         )}
       </div>
 
+      {addedCount && (
+        <p className="success-message">
+          Added {addedCount} {addedCount === 1 ? 'card' : 'cards'} to this deck.
+        </p>
+      )}
       {editError && <p className="error-message">{editError}</p>}
       {deleteError && <p className="error-message">{deleteError}</p>}
 
@@ -242,7 +259,10 @@ function DeckDetailPage() {
             </div>
           </form>
         ) : (
-          <button className="add-card-trigger" onClick={() => setIsAddingCard(true)}>+ Add a card</button>
+          <div className="add-card-actions">
+            <button className="add-card-trigger" onClick={() => setIsAddingCard(true)}>+ Add a card</button>
+            <Link to={`/decks/${deckId}/generate`} className="add-card-trigger">Generate from notes</Link>
+          </div>
         )}
       </div>
     </div>

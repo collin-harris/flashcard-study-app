@@ -1,9 +1,19 @@
-from pydantic import BaseModel
+from typing import Annotated
+from pydantic import AfterValidator, BaseModel
+
+
+def normalize_email(email: str) -> str:
+    return email.strip().lower()
+
+
+# Emails are compared case-insensitively, so they're stored and looked up in
+# one normalized form
+NormalizedEmail = Annotated[str, AfterValidator(normalize_email)]
 
 
 class UserCreate(BaseModel):
     name: str
-    email: str
+    email: NormalizedEmail
     password: str
 
 
@@ -14,7 +24,7 @@ class UserResponse(BaseModel):
 
 
 class LoginRequest(BaseModel):
-    email: str
+    email: NormalizedEmail
     password: str
 
 

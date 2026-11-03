@@ -7,6 +7,7 @@ from sqlalchemy import func
 from app import config
 from app.models.generation_request import GenerationRequest
 from app.models.user import User
+from app.routers import auth
 from app.routers import generation as generation_router
 from app.services.card_generation import (
     Card,
@@ -422,6 +423,25 @@ def test_remaining_for_the_demo_account(client, register_and_login):
     headers = register_and_login(email=config.DEMO_ACCOUNT_EMAIL)
 
     assert client.get("/generations/remaining", headers=headers).json() == {"remaining": 20, "limit": 20}
+
+
+def test_demo_setting_matches_regardless_of_capitalization(client, register_and_login, monkeypatch):
+    monkeypatch.setattr(config, "DEMO_ACCOUNT_EMAIL", " Demo@FlashcardApp.com ")
+    headers = register_and_login(email="demo@flashcardapp.com")
+
+    assert client.get("/generations/remaining", headers=headers).json()["limit"] == 20
+
+
+def test_demo_account_saved_before_normalization_still_matches(client, register_and_login, db_session):
+    # Saved directly with capitals, as an account registered before emails
+    # were normalized. Logging in finds it case-insensitively.
+    db_session.add(User(
+        name="Demo User", email="Demo@FlashcardApp.com", password_hash=auth.pwd_context.hash("testpass123")
+    ))
+    db_session.commit()
+    headers = register_and_login(email="demo@flashcardapp.com")
+
+    assert client.get("/generations/remaining", headers=headers).json()["limit"] == 20
 
 
 def test_remaining_reflects_the_global_cap_when_it_is_closer(client, register_and_login, db_session):

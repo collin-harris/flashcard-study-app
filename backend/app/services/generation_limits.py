@@ -7,6 +7,7 @@ from sqlalchemy.orm import Session
 from app import config
 from app.models.generation_request import GenerationRequest
 from app.models.user import User
+from app.schemas.user import normalize_email
 from app.services import card_generation
 
 WINDOW = datetime.timedelta(hours=24)
@@ -31,7 +32,9 @@ class GenerationLimitReached(Exception):
 
 
 def is_demo_account(user: User) -> bool:
-    return user.email == config.DEMO_ACCOUNT_EMAIL
+    # Normalized on both sides, so neither the setting's capitalization nor an
+    # account saved before emails were normalized can break the match
+    return normalize_email(user.email) == normalize_email(config.DEMO_ACCOUNT_EMAIL)
 
 
 def user_limit(user: User) -> int:

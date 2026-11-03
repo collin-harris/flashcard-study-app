@@ -4,6 +4,9 @@ import datetime
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.security import OAuth2PasswordBearer
 from jose import jwt, JWTError
+from psycopg2.errors import UniqueViolation
+from sqlalchemy import func
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 from passlib.context import CryptContext
 
@@ -61,8 +64,9 @@ def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(
 # Register
 @router.post("/auth/register", response_model=UserResponse, status_code=201)
 def register_user(user_data: UserCreate, db: Session = Depends(get_db)):
-    # Check if email exists
-    existing_user = db.query(User).filter(User.email == user_data.email).first()
+    # Check if email exists. Compared case-insensitively so accounts saved
+    # before emails were normalized still count.
+    existing_user = db.query(User).filter(func.lower(User.email) == user_data.email).first()
     if existing_user:
         raise HTTPException(status_code=400, detail="User already registered")
 
@@ -72,9 +76,16 @@ def register_user(user_data: UserCreate, db: Session = Depends(get_db)):
     # Create new user instance
     new_user = User(name=user_data.name, email=user_data.email, password_hash=password_hash)
 
-    # Add to db
+    # Add to db. A registration for the same email that commits between the
+    # check above and this commit fails the unique constraint here instead.
     db.add(new_user)
-    db.commit()
+    try:
+        db.commit()
+    except IntegrityError as e:
+        db.rollback()
+        if isinstance(e.orig, UniqueViolation):
+            raise HTTPException(status_code=400, detail="User already registered")
+        raise
     db.refresh(new_user)
 
     return new_user
@@ -83,8 +94,9 @@ def register_user(user_data: UserCreate, db: Session = Depends(get_db)):
 # Login
 @router.post("/auth/login", response_model=TokenResponse)
 def login_user(login_data: LoginRequest, db: Session = Depends(get_db)):
-    # Find user by email
-    user = db.query(User).filter(User.email == login_data.email).first()
+    # Find user by email, case-insensitively so accounts saved before emails
+    # were normalized can still log in
+    user = db.query(User).filter(func.lower(User.email) == login_data.email).first()
 
     # Verify user and password
     if not user or not pwd_context.verify(login_data.password, user.password_hash):

@@ -19,6 +19,16 @@ function apiError(message, status) {
   return error
 }
 
+function capitalize(text) {
+  return text.charAt(0).toUpperCase() + text.slice(1)
+}
+
+// Pydantic's "too short" errors, for a minimum length of 1, mean the field
+// was empty (or only whitespace, which the API strips first)
+function isEmptyFieldError(item) {
+  return (item.type === 'string_too_short' || item.type === 'too_short') && item.ctx?.min_length === 1
+}
+
 // The API sends a string detail for the errors it raises itself, and a list
 // of validation errors for a 422. Each item's loc ends with the field's name,
 // e.g. ["body", "cards", 1, "answer"].
@@ -30,7 +40,11 @@ export function formatErrorDetail(detail) {
     return detail
       .map((item) => {
         const field = item.loc?.[item.loc.length - 1]
-        return typeof field === 'string' && field !== 'body' ? `${field}: ${item.msg}` : item.msg
+        if (typeof field !== 'string' || field === 'body') {
+          return item.msg
+        }
+        const fieldName = capitalize(field)
+        return isEmptyFieldError(item) ? `${fieldName} can't be empty` : `${fieldName}: ${item.msg}`
       })
       .join('; ')
   }

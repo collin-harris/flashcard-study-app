@@ -1,10 +1,10 @@
-import { screen, waitFor, within } from '@testing-library/react'
+import { act, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { describe, expect, it, vi } from 'vitest'
 import { deferred, jsonResponse, mockApi, renderApp } from '../test/helpers'
 
 const DECK = { deck_id: 1, user_id: 1, name: 'Biology' }
-const WAIT_MESSAGE = 'This usually takes a few seconds, but can take up to a minute or two.'
+const WAIT_MESSAGE = 'Generating cards. This usually takes 10 to 20 seconds.'
 const LEAVE_MESSAGE = "Leave this page? Your generated cards haven't been saved and will be lost."
 
 function card(n) {
@@ -25,16 +25,17 @@ function sequence(...responses) {
   return () => responses[Math.min(index++, responses.length - 1)]
 }
 
-async function loadPage(routes = {}) {
+// `history` is the list of entries to start with, ending on the generate page
+async function loadPage(routes = {}, history = ['/decks/1/generate']) {
   const calls = mockApi({
     'GET /decks/1': jsonResponse(200, DECK),
     'GET /generations/remaining': jsonResponse(200, { remaining: 3, limit: 5 }),
     'GET /decks/1/cards': jsonResponse(200, []),
     ...routes,
   })
-  const router = renderApp('/decks/1/generate')
+  const router = renderApp(history)
   const user = userEvent.setup()
-  await screen.findByRole('heading', { name: 'Generate cards from notes' })
+  await screen.findByRole('heading', { name: 'Generate Cards from Notes' })
   return { calls, router, user }
 }
 
@@ -62,29 +63,30 @@ function countCalls(calls, method, path) {
 }
 
 describe('notes input', () => {
-  it('shows the remaining count and an empty character counter', async () => {
+  it('shows the remaining count next to Generate and an empty character counter', async () => {
     await loadPage()
 
-    expect(await screen.findByText('3 of 5 left')).toBeInTheDocument()
-    expect(screen.getByText('0 / 2,000')).toBeInTheDocument()
+    const actions = generateButton().parentElement
+    expect(await within(actions).findByText('3 of 5 generations left')).toBeInTheDocument()
+    expect(screen.getByText('0 / 2,000 characters')).toBeInTheDocument()
     expect(generateButton()).toBeDisabled()
   })
 
   it('disables Generate for whitespace-only or over-long notes, counting as the API does', async () => {
     const { user } = await loadPage()
-    await screen.findByText('3 of 5 left')
+    await screen.findByText('3 of 5 generations left')
 
     await enterNotes(user, '   \n\t ')
-    expect(screen.getByText('0 / 2,000')).toBeInTheDocument()
+    expect(screen.getByText('0 / 2,000 characters')).toBeInTheDocument()
     expect(generateButton()).toBeDisabled()
 
     await enterNotes(user, 'a'.repeat(2001))
-    expect(screen.getByText('2,001 / 2,000')).toBeInTheDocument()
+    expect(screen.getByText('2,001 / 2,000 characters')).toBeInTheDocument()
     expect(generateButton()).toBeDisabled()
 
     // Surrounding whitespace isn't counted, as the API strips it
     await enterNotes(user, `  ${'a'.repeat(2000)}\n`)
-    expect(screen.getByText('2,000 / 2,000')).toBeInTheDocument()
+    expect(screen.getByText('2,000 / 2,000 characters')).toBeInTheDocument()
     expect(generateButton()).toBeEnabled()
   })
 
@@ -92,7 +94,7 @@ describe('notes input', () => {
     const { user } = await loadPage({
       'GET /generations/remaining': jsonResponse(200, { remaining: 0, limit: 5 }),
     })
-    await screen.findByText('0 of 5 left')
+    await screen.findByText('0 of 5 generations left')
 
     await enterNotes(user, 'Some notes')
 
@@ -105,7 +107,8 @@ describe('notes input', () => {
       'GET /generations/remaining': jsonResponse(500, { detail: 'Server error' }),
     })
 
-    expect(await screen.findByText("Couldn't load your remaining generations.")).toBeInTheDocument()
+    const actions = generateButton().parentElement
+    expect(await within(actions).findByText("Couldn't load your remaining generations.")).toBeInTheDocument()
     await enterNotes(user, 'Some notes')
     expect(generateButton()).toBeEnabled()
   })
@@ -120,7 +123,7 @@ describe('generating', () => {
     await user.dblClick(generateButton())
 
     expect(countCalls(calls, 'POST', '/decks/1/cards/generate')).toBe(1)
-    expect(screen.getByText(new RegExp(WAIT_MESSAGE.replace(/\./g, '\\.')))).toBeInTheDocument()
+    expect(screen.getByText(WAIT_MESSAGE)).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Generating...' })).toBeDisabled()
 
     pending.resolve(generated([card(1)]))
@@ -139,7 +142,7 @@ describe('generating', () => {
     expect(answers.map((box) => box.value)).toEqual(['Answer 1', 'Answer 2'])
     expect(screen.getByText('Excerpt 1')).toBeInTheDocument()
     expect(screen.getByText('Excerpt 2')).toBeInTheDocument()
-    expect(screen.getByText('2 of 5 left')).toBeInTheDocument()
+    expect(screen.getByText('2 of 5 generations left')).toBeInTheDocument()
     expect(calls.find((call) => call.method === 'POST').body).toEqual({ notes: 'Mitochondria produce ATP.' })
   })
 
@@ -150,7 +153,7 @@ describe('generating', () => {
 
     await screen.findByRole('heading', { name: 'Review 1 card' })
     expect(notesBox()).toHaveValue('')
-    expect(screen.getByText('0 / 2,000')).toBeInTheDocument()
+    expect(screen.getByText('0 / 2,000 characters')).toBeInTheDocument()
   })
 
   it('appends a second generation below the existing drafts', async () => {
@@ -165,7 +168,7 @@ describe('generating', () => {
     expect(await screen.findByRole('heading', { name: 'Review 3 cards' })).toBeInTheDocument()
     const questions = screen.getAllByRole('textbox', { name: 'Question' }).map((box) => box.value)
     expect(questions).toEqual(['Question 1', 'Question 2', 'Question 3'])
-    expect(screen.getByText('1 of 5 left')).toBeInTheDocument()
+    expect(screen.getByText('1 of 5 generations left')).toBeInTheDocument()
   })
 
   it('shows the reason for a rejection and keeps the notes', async () => {
@@ -182,7 +185,7 @@ describe('generating', () => {
     expect(await screen.findByText("These notes don't contain study material.")).toBeInTheDocument()
     expect(screen.getByText('No cards were generated.')).toBeInTheDocument()
     expect(notesBox()).toHaveValue('Buy milk')
-    expect(screen.getByText('2 of 5 left')).toBeInTheDocument()
+    expect(screen.getByText('2 of 5 generations left')).toBeInTheDocument()
     expect(screen.queryByRole('heading', { name: /^Review/ })).not.toBeInTheDocument()
   })
 
@@ -199,13 +202,13 @@ describe('generating', () => {
       ),
       'POST /decks/1/cards/generate': jsonResponse(status, { detail }),
     })
-    await screen.findByText('3 of 5 left')
+    await screen.findByText('3 of 5 generations left')
 
     await generateFrom(user, 'Some notes')
 
     expect(await screen.findByText(detail)).toBeInTheDocument()
     expect(notesBox()).toHaveValue('Some notes')
-    expect(await screen.findByText('2 of 5 left')).toBeInTheDocument()
+    expect(await screen.findByText('2 of 5 generations left')).toBeInTheDocument()
     expect(countCalls(calls, 'GET', '/generations/remaining')).toBe(2)
   })
 })
@@ -287,6 +290,24 @@ describe('reviewing and saving', () => {
         { question: 'Question 2', answer: 'Answer 2' },
       ],
     })
+  })
+
+  it('replaces the generate page in history after saving', async () => {
+    const { router, user } = await loadPage(
+      {
+        'POST /decks/1/cards/generate': generated(cards(1)),
+        'POST /decks/1/cards/bulk': jsonResponse(201, []),
+      },
+      ['/decks/1', '/decks/1/generate']
+    )
+    await generateFrom(user)
+    await user.click(await screen.findByRole('button', { name: 'Save 1 card' }))
+    await screen.findByText('Added 1 card to this deck.')
+
+    // Back skips the finished generate page
+    await act(() => router.navigate(-1))
+
+    expect(router.state.location.pathname).toBe('/decks/1')
   })
 
   it('keeps the drafts and shows the error when saving fails', async () => {

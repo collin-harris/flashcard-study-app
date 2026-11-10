@@ -14,7 +14,7 @@ function CreateDeckPage() {
 
     try {
       await createDeck(name)
-      navigate('/dashboard')
+      navigate('/dashboard', { replace: true })
     } catch (err) {
       setError(err.message)
     }

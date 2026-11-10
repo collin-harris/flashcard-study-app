@@ -41,6 +41,10 @@
   color: var(--color-text-secondary);
 }
 
+.not-found .empty-message {
+  margin: 0 0 8px;
+}
+
 .button-primary {
   padding: 10px 16px;
   background-color: var(--color-accent);

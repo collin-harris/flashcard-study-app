@@ -8,7 +8,7 @@ function Header() {
   // would log the user out even when a page blocks the navigation and they
   // choose to stay.
   function handleLogout() {
-    navigate('/login', { state: { loggedOut: true } })
+    navigate('/login', { replace: true, state: { loggedOut: true } })
   }
 
   return (

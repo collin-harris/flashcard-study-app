@@ -52,10 +52,6 @@
 }
 
 .notes-form__meta {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 4px 16px;
   font-size: 0.875rem;
   color: var(--color-text-secondary);
 }
@@ -71,10 +67,17 @@
   color: var(--color-text-secondary);
 }
 
+/* Wraps the generations count below a full-width button on a narrow screen */
 .generate-page__actions {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 16px;
+  gap: 8px 16px;
+}
+
+.generate-page__remaining {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
 }
 
 .generate-page__status,

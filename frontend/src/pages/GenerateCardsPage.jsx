@@ -170,7 +170,7 @@ function GenerateCardsPage() {
       const cards = drafts.map(({ question, answer }) => ({ question, answer }))
       await createCardsBulk(deckId, cards)
       leavingRef.current = true
-      navigate(`/decks/${deckId}`, { state: { addedCount: cards.length } })
+      navigate(`/decks/${deckId}`, { replace: true, state: { addedCount: cards.length } })
     } catch (err) {
       setSaveError(err.message)
       savingRef.current = false
@@ -192,7 +192,7 @@ function GenerateCardsPage() {
     <div className="generate-page">
       <div className="generate-page__header">
         <Link to={`/decks/${deckId}`} className="generate-page__back">Back to {deck.name}</Link>
-        <h1>Generate cards from notes</h1>
+        <h1>Generate Cards from Notes</h1>
       </div>
 
       <form onSubmit={handleGenerate} className="notes-form">
@@ -212,17 +212,8 @@ function GenerateCardsPage() {
               notesLength > MAX_NOTES_LENGTH ? 'notes-form__counter notes-form__counter--over' : 'notes-form__counter'
             }
           >
-            {notesLength.toLocaleString('en-US')} / {MAX_NOTES_LENGTH.toLocaleString('en-US')}
+            {notesLength.toLocaleString('en-US')} / {MAX_NOTES_LENGTH.toLocaleString('en-US')} characters
           </span>
-          {remainingError ? (
-            <span className="notes-form__remaining">{remainingError}</span>
-          ) : (
-            limit !== null && (
-              <span className="notes-form__remaining">
-                {remaining} of {limit} left
-              </span>
-            )
-          )}
         </div>
 
         {remaining === 0 && (
@@ -235,13 +226,22 @@ function GenerateCardsPage() {
           <button type="submit" className="button-primary" disabled={!canGenerate}>
             {isGenerating ? 'Generating...' : 'Generate'}
           </button>
+          {remainingError ? (
+            <span className="generate-page__remaining">{remainingError}</span>
+          ) : (
+            limit !== null && (
+              <span className="generate-page__remaining">
+                {remaining} of {limit} generations left
+              </span>
+            )
+          )}
         </div>
       </form>
 
       <div aria-live="polite">
         {isGenerating && (
           <p className="generate-page__status">
-            Generating cards. This usually takes a few seconds, but can take up to a minute or two.
+            Generating cards. This usually takes 10 to 20 seconds.
           </p>
         )}
         {rejectionReason && (

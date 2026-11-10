@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Link, useLocation, useParams, useNavigate } from 'react-router'
 import {
   getDeck,
@@ -9,6 +9,7 @@ import {
   updateCard,
   deleteCard,
 } from '../api'
+import { validateCard } from '../validation'
 import './DeckDetailPage.css'
 
 function DeckDetailPage() {
@@ -22,12 +23,14 @@ function DeckDetailPage() {
   const [cards, setCards] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+  const [notFound, setNotFound] = useState(false)
   const [deleteError, setDeleteError] = useState('')
 
   const [isAddingCard, setIsAddingCard] = useState(false)
   const [question, setQuestion] = useState('')
   const [answer, setAnswer] = useState('')
   const [createError, setCreateError] = useState('')
+  const questionInputRef = useRef(null)
 
   const [editingName, setEditingName] = useState(false)
   const [name, setName] = useState('')
@@ -46,7 +49,11 @@ function DeckDetailPage() {
         setDeck(deckData)
         setCards(cardsData)
       } catch (err) {
-        setError(err.message)
+        if (err.status === 404) {
+          setNotFound(true)
+        } else {
+          setError(err.message)
+        }
       } finally {
         setLoading(false)
       }
@@ -67,17 +74,25 @@ function DeckDetailPage() {
     e.preventDefault()
     setCreateError('')
 
+    const problem = validateCard(question, answer)
+    if (problem) {
+      setCreateError(problem)
+      return
+    }
+
     try {
       const newCard = await createCard(deckId, question, answer)
       setCards([...cards, newCard])
       setQuestion('')
       setAnswer('')
+      // Ready for the next card
+      questionInputRef.current?.focus()
     } catch (err) {
       setCreateError(err.message)
     }
   }
 
-  function cancelAddCard() {
+  function closeAddCard() {
     setIsAddingCard(false)
     setQuestion('')
     setAnswer('')
@@ -114,6 +129,12 @@ function DeckDetailPage() {
     e.preventDefault()
     setCardEditError('')
 
+    const problem = validateCard(editQuestion, editAnswer)
+    if (problem) {
+      setCardEditError(problem)
+      return
+    }
+
     try {
       const updatedCard = await updateCard(deckId, editingCardId, editQuestion, editAnswer)
       setCards(cards.map((c) => (c.card_id === updatedCard.card_id ? updatedCard : c)))
@@ -131,7 +152,7 @@ function DeckDetailPage() {
 
     try {
       await deleteDeck(deckId)
-      navigate('/dashboard')
+      navigate('/dashboard', { replace: true })
     } catch (err) {
       setDeleteError(err.message)
     }
@@ -153,6 +174,15 @@ function DeckDetailPage() {
 
   if (loading) {
     return <p>Loading...</p>
+  }
+
+  if (notFound) {
+    return (
+      <div className="not-found">
+        <p className="empty-message">This deck no longer exists.</p>
+        <Link to="/dashboard">Back to dashboard</Link>
+      </div>
+    )
   }
 
   if (error) {
@@ -243,7 +273,7 @@ function DeckDetailPage() {
           <form onSubmit={handleCreateCard} className="add-card-form">
             <label>
               Question
-              <input value={question} onChange={(e) => setQuestion(e.target.value)} />
+              <input ref={questionInputRef} value={question} onChange={(e) => setQuestion(e.target.value)} />
             </label>
 
             <label>
@@ -255,7 +285,7 @@ function DeckDetailPage() {
 
             <div className="form-actions">
               <button type="submit" className="button-primary">Add Card</button>
-              <button type="button" className="button-secondary" onClick={cancelAddCard}>Cancel</button>
+              <button type="button" className="button-secondary" onClick={closeAddCard}>Done</button>
             </div>
           </form>
         ) : (

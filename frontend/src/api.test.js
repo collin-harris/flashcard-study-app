@@ -7,15 +7,54 @@ describe('formatErrorDetail', () => {
     expect(formatErrorDetail('Deck not found')).toBe('Deck not found')
   })
 
-  it('names the field for each validation error in a list', () => {
+  it('names the field, capitalized, for each validation error in a list', () => {
     const detail = [
-      { loc: ['body', 'cards', 1, 'answer'], msg: 'String should have at least 1 character', input: '' },
-      { loc: ['body', 'notes'], msg: 'String should have at most 2000 characters', input: 'long notes' },
+      { type: 'string_too_long', loc: ['body', 'notes'], msg: 'String should have at most 2000 characters' },
+      { type: 'missing', loc: ['body', 'cards', 0, 'question'], msg: 'Field required' },
     ]
 
-    expect(formatErrorDetail(detail)).toBe(
-      'answer: String should have at least 1 character; notes: String should have at most 2000 characters'
-    )
+    expect(formatErrorDetail(detail)).toBe('Notes: String should have at most 2000 characters; Question: Field required')
+  })
+
+  it('says a field can\'t be empty for a "too short" error with a minimum of 1', () => {
+    const detail = [
+      {
+        type: 'string_too_short',
+        loc: ['body', 'question'],
+        msg: 'String should have at least 1 character',
+        input: '  ',
+        ctx: { min_length: 1 },
+      },
+      {
+        type: 'string_too_short',
+        loc: ['body', 'cards', 1, 'answer'],
+        msg: 'String should have at least 1 character',
+        input: '',
+        ctx: { min_length: 1 },
+      },
+      {
+        type: 'too_short',
+        loc: ['body', 'cards'],
+        msg: 'List should have at least 1 item after validation, not 0',
+        input: [],
+        ctx: { field_type: 'List', min_length: 1, actual_length: 0 },
+      },
+    ]
+
+    expect(formatErrorDetail(detail)).toBe("Question can't be empty; Answer can't be empty; Cards can't be empty")
+  })
+
+  it('keeps the message for a "too short" error with a higher minimum', () => {
+    const detail = [
+      {
+        type: 'string_too_short',
+        loc: ['body', 'password'],
+        msg: 'String should have at least 8 characters',
+        ctx: { min_length: 8 },
+      },
+    ]
+
+    expect(formatErrorDetail(detail)).toBe('Password: String should have at least 8 characters')
   })
 
   it('leaves out a field name that is a list index or the whole body', () => {
@@ -40,13 +79,13 @@ describe('request errors', () => {
   it('shows a 422 list as a readable message with its status', async () => {
     mockApi({
       'GET /decks/1': jsonResponse(422, {
-        detail: [{ loc: ['body', 'question'], msg: 'String should have at least 1 character' }],
+        detail: [{ loc: ['body', 'notes'], msg: 'String should have at most 2000 characters' }],
       }),
     })
 
     const error = await getDeck(1).catch((err) => err)
 
-    expect(error.message).toBe('question: String should have at least 1 character')
+    expect(error.message).toBe('Notes: String should have at most 2000 characters')
     expect(error.status).toBe(422)
   })
 

@@ -34,10 +34,12 @@ export function mockApi(routes) {
   return calls
 }
 
-// Renders the app's real route tree at `path`, logged in
+// Renders the app's real route tree at `path`, logged in. A list of paths
+// starts with that history, on its last entry.
 export function renderApp(path) {
   localStorage.setItem('token', 'test-token')
-  const router = createMemoryRouter(createRoutesFromElements(appRoutes), { initialEntries: [path] })
+  const initialEntries = Array.isArray(path) ? path : [path]
+  const router = createMemoryRouter(createRoutesFromElements(appRoutes), { initialEntries })
   render(<RouterProvider router={router} />)
   return router
 }

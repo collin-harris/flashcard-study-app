@@ -67,6 +67,9 @@
   text-align: center;
 }
 
+/* The color keeps a link styled as a button white on hover, over the
+   global a:hover */
 .button-primary:hover {
   background-color: var(--color-accent-hover);
+  color: var(--color-surface);
 }

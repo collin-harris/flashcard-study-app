@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 import { Link, useParams, useNavigate, useBlocker, useBeforeUnload } from 'react-router'
 import { getDeck, getRemainingGenerations, generateCards, createCardsBulk } from '../api'
 import DraftCard from '../components/DraftCard'
+import DeckNotFound from '../components/DeckNotFound'
 import './GenerateCardsPage.css'
 
 const MAX_NOTES_LENGTH = 2000
@@ -20,6 +21,7 @@ function GenerateCardsPage() {
   const [deck, setDeck] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+  const [notFound, setNotFound] = useState(false)
 
   const [remaining, setRemaining] = useState(null)
   const [limit, setLimit] = useState(null)
@@ -50,7 +52,11 @@ function GenerateCardsPage() {
         const deckData = await getDeck(deckId)
         setDeck(deckData)
       } catch (err) {
-        setError(err.message)
+        if (err.status === 404) {
+          setNotFound(true)
+        } else {
+          setError(err.message)
+        }
       } finally {
         setLoading(false)
       }
@@ -180,6 +186,10 @@ function GenerateCardsPage() {
 
   if (loading) {
     return <p>Loading...</p>
+  }
+
+  if (notFound) {
+    return <DeckNotFound />
   }
 
   if (error) {

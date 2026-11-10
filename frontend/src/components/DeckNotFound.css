@@ -1,0 +1,4 @@
+.deck-not-found p {
+  margin: 0 0 8px;
+  color: var(--color-text-secondary);
+}

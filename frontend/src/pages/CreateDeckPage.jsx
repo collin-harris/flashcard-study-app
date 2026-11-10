@@ -13,8 +13,8 @@ function CreateDeckPage() {
     setError('')
 
     try {
-      await createDeck(name)
-      navigate('/dashboard', { replace: true })
+      const deck = await createDeck(name)
+      navigate(`/decks/${deck.deck_id}`, { replace: true })
     } catch (err) {
       setError(err.message)
     }

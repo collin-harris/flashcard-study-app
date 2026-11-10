@@ -62,6 +62,28 @@ describe('DeckDetailPage', () => {
     expect(screen.queryByText(/to this deck\./)).not.toBeInTheDocument()
   })
 
+  it('puts Generate, then Add a card, in one row above the card list', async () => {
+    mockDeckApi()
+    renderApp('/decks/1')
+
+    const generate = await screen.findByRole('link', { name: 'Generate from notes' })
+    const add = screen.getByRole('button', { name: '+ Add a card' })
+    const count = screen.getByText('1 card')
+
+    expect(generate.parentElement).toBe(add.parentElement)
+    expect(generate.compareDocumentPosition(add) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
+    expect(add.compareDocumentPosition(count) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
+  })
+
+  it('points to both ways of adding cards on an empty deck', async () => {
+    mockDeckApi({ 'GET /decks/1/cards': jsonResponse(200, []) })
+    renderApp('/decks/1')
+
+    expect(
+      await screen.findByText('This deck has no cards yet. Generate them from your notes, or add one by hand.')
+    ).toBeInTheDocument()
+  })
+
   it('says when the deck no longer exists, with a link to the dashboard', async () => {
     mockDeckApi({
       'GET /decks/1': jsonResponse(404, { detail: 'Deck not found' }),
@@ -143,6 +165,18 @@ describe('adding a card', () => {
     expect(await screen.findByText("Answer can't be empty")).toBeInTheDocument()
   })
 
+  it('opens the form under the row, hiding Add a card but keeping Generate', async () => {
+    mockDeckApi()
+    renderApp('/decks/1')
+    const user = userEvent.setup()
+
+    await openAddCardForm(user)
+
+    expect(screen.queryByRole('button', { name: '+ Add a card' })).not.toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'Generate from notes' })).toBeInTheDocument()
+    expect(screen.getByRole('textbox', { name: 'Question' })).toHaveFocus()
+  })
+
   it('clears the form and moves focus back to the question after adding a card', async () => {
     mockDeckApi({ 'POST /decks/1/cards': jsonResponse(201, { card_id: 2, deck_id: 1, question: 'Q2', answer: 'A2' }) })
     renderApp('/decks/1')
@@ -155,22 +189,44 @@ describe('adding a card', () => {
     await user.click(screen.getByRole('button', { name: 'Add Card' }))
 
     expect(await screen.findByText('Q2')).toBeInTheDocument()
+    expect(screen.getByText('Card added.')).toBeInTheDocument()
     expect(questionBox).toHaveValue('')
     expect(screen.getByRole('textbox', { name: 'Answer' })).toHaveValue('')
     expect(questionBox).toHaveFocus()
   })
 
-  it('closes the form with Done', async () => {
-    mockDeckApi()
+  it('clears "Card added" once the next card is typed', async () => {
+    mockDeckApi({ 'POST /decks/1/cards': jsonResponse(201, { card_id: 2, deck_id: 1, question: 'Q2', answer: 'A2' }) })
     renderApp('/decks/1')
     const user = userEvent.setup()
     await openAddCardForm(user)
+
+    await user.type(screen.getByRole('textbox', { name: 'Question' }), 'Q2')
+    await user.type(screen.getByRole('textbox', { name: 'Answer' }), 'A2')
+    await user.click(screen.getByRole('button', { name: 'Add Card' }))
+    await screen.findByText('Card added.')
+
+    await user.keyboard('Q')
+
+    expect(screen.queryByText('Card added.')).not.toBeInTheDocument()
+  })
+
+  it('closes the form with Done, clearing "Card added" and returning focus to Add a card', async () => {
+    mockDeckApi({ 'POST /decks/1/cards': jsonResponse(201, { card_id: 2, deck_id: 1, question: 'Q2', answer: 'A2' }) })
+    renderApp('/decks/1')
+    const user = userEvent.setup()
+    await openAddCardForm(user)
+    await user.type(screen.getByRole('textbox', { name: 'Question' }), 'Q2')
+    await user.type(screen.getByRole('textbox', { name: 'Answer' }), 'A2')
+    await user.click(screen.getByRole('button', { name: 'Add Card' }))
+    await screen.findByText('Card added.')
 
     expect(screen.queryByRole('button', { name: 'Cancel' })).not.toBeInTheDocument()
     await user.click(screen.getByRole('button', { name: 'Done' }))
 
     expect(screen.queryByRole('textbox', { name: 'Question' })).not.toBeInTheDocument()
-    expect(screen.getByRole('button', { name: '+ Add a card' })).toBeInTheDocument()
+    expect(screen.queryByText('Card added.')).not.toBeInTheDocument()
+    expect(screen.getByRole('button', { name: '+ Add a card' })).toHaveFocus()
   })
 })
 

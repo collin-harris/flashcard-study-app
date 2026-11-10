@@ -62,6 +62,24 @@ function countCalls(calls, method, path) {
   return calls.filter((call) => call.method === method && call.path === path).length
 }
 
+describe('loading', () => {
+  it('says when the deck no longer exists, with a link to the dashboard', async () => {
+    mockApi({
+      'GET /decks/1': jsonResponse(404, { detail: 'Deck not found' }),
+      'GET /generations/remaining': jsonResponse(200, { remaining: 3, limit: 5 }),
+      'GET /decks': jsonResponse(200, []),
+    })
+    const router = renderApp('/decks/1/generate')
+    const user = userEvent.setup()
+
+    expect(await screen.findByText('This deck no longer exists.')).toBeInTheDocument()
+    expect(screen.queryByText('Deck not found')).not.toBeInTheDocument()
+    await user.click(screen.getByRole('link', { name: 'Back to dashboard' }))
+
+    await waitFor(() => expect(router.state.location.pathname).toBe('/dashboard'))
+  })
+})
+
 describe('notes input', () => {
   it('shows the remaining count next to Generate and an empty character counter', async () => {
     await loadPage()

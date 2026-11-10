@@ -10,6 +10,7 @@ import {
   deleteCard,
 } from '../api'
 import { validateCard } from '../validation'
+import DeckNotFound from '../components/DeckNotFound'
 import './DeckDetailPage.css'
 
 function DeckDetailPage() {
@@ -30,7 +31,12 @@ function DeckDetailPage() {
   const [question, setQuestion] = useState('')
   const [answer, setAnswer] = useState('')
   const [createError, setCreateError] = useState('')
+  const [cardAdded, setCardAdded] = useState(false)
   const questionInputRef = useRef(null)
+  const addButtonRef = useRef(null)
+  // Set when the form closes, so focus goes back to the "+ Add a card"
+  // button that reappears, instead of being lost with the form
+  const returnFocusRef = useRef(false)
 
   const [editingName, setEditingName] = useState(false)
   const [name, setName] = useState('')
@@ -62,6 +68,13 @@ function DeckDetailPage() {
     loadDeck()
   }, [deckId])
 
+  useEffect(() => {
+    if (!isAddingCard && returnFocusRef.current) {
+      returnFocusRef.current = false
+      addButtonRef.current?.focus()
+    }
+  }, [isAddingCard])
+
   // Clear the added-cards state from this history entry, so reloading or
   // coming back to the page doesn't show the message again
   useEffect(() => {
@@ -73,6 +86,7 @@ function DeckDetailPage() {
   async function handleCreateCard(e) {
     e.preventDefault()
     setCreateError('')
+    setCardAdded(false)
 
     const problem = validateCard(question, answer)
     if (problem) {
@@ -85,6 +99,7 @@ function DeckDetailPage() {
       setCards([...cards, newCard])
       setQuestion('')
       setAnswer('')
+      setCardAdded(true)
       // Ready for the next card
       questionInputRef.current?.focus()
     } catch (err) {
@@ -93,10 +108,18 @@ function DeckDetailPage() {
   }
 
   function closeAddCard() {
+    returnFocusRef.current = true
     setIsAddingCard(false)
     setQuestion('')
     setAnswer('')
     setCreateError('')
+    setCardAdded(false)
+  }
+
+  // Typing the next card clears the last "Card added"
+  function changeNewCard(setField, value) {
+    setField(value)
+    setCardAdded(false)
   }
 
   function startEditingName() {
@@ -177,12 +200,7 @@ function DeckDetailPage() {
   }
 
   if (notFound) {
-    return (
-      <div className="not-found">
-        <p className="empty-message">This deck no longer exists.</p>
-        <Link to="/dashboard">Back to dashboard</Link>
-      </div>
-    )
+    return <DeckNotFound />
   }
 
   if (error) {
@@ -226,11 +244,54 @@ function DeckDetailPage() {
 
       <hr className="divider" />
 
+      <div className="add-card-section">
+        <div className="add-card-actions">
+          <Link to={`/decks/${deckId}/generate`} className="button-primary">Generate from notes</Link>
+          {!isAddingCard && (
+            <button ref={addButtonRef} className="button-outline" onClick={() => setIsAddingCard(true)}>
+              + Add a card
+            </button>
+          )}
+        </div>
+
+        {isAddingCard && (
+          <form onSubmit={handleCreateCard} className="add-card-form">
+            <label>
+              Question
+              <input
+                ref={questionInputRef}
+                value={question}
+                onChange={(e) => changeNewCard(setQuestion, e.target.value)}
+                autoFocus
+              />
+            </label>
+
+            <label>
+              Answer
+              <input value={answer} onChange={(e) => changeNewCard(setAnswer, e.target.value)} />
+            </label>
+
+            {createError && <p className="error-message">{createError}</p>}
+
+            <div className="form-actions">
+              <button type="submit" className="button-primary">Add Card</button>
+              <button type="button" className="button-secondary" onClick={closeAddCard}>Done</button>
+            </div>
+          </form>
+        )}
+
+        <div aria-live="polite">
+          {cardAdded && <p className="add-card-status">Card added.</p>}
+        </div>
+      </div>
+
       <div className="card-list-section">
         <p className="card-count">{cards.length} {cards.length === 1 ? 'card' : 'cards'}</p>
 
         {cards.length === 0 ? (
-          <p className="empty-message">This deck has no cards yet. Add your first one!</p>
+          <p className="empty-message">
+            This deck has no cards yet. Generate them from your notes, or add one by hand.
+          </p>
         ) : (
           <ul className="card-list">
             {cards.map((card) =>
@@ -263,36 +324,6 @@ function DeckDetailPage() {
               )
             )}
           </ul>
-        )}
-      </div>
-
-      <hr className="divider" />
-
-      <div className="add-card-section">
-        {isAddingCard ? (
-          <form onSubmit={handleCreateCard} className="add-card-form">
-            <label>
-              Question
-              <input ref={questionInputRef} value={question} onChange={(e) => setQuestion(e.target.value)} />
-            </label>
-
-            <label>
-              Answer
-              <input value={answer} onChange={(e) => setAnswer(e.target.value)} />
-            </label>
-
-            {createError && <p className="error-message">{createError}</p>}
-
-            <div className="form-actions">
-              <button type="submit" className="button-primary">Add Card</button>
-              <button type="button" className="button-secondary" onClick={closeAddCard}>Done</button>
-            </div>
-          </form>
-        ) : (
-          <div className="add-card-actions">
-            <button className="add-card-trigger" onClick={() => setIsAddingCard(true)}>+ Add a card</button>
-            <Link to={`/decks/${deckId}/generate`} className="add-card-trigger">Generate from notes</Link>
-          </div>
         )}
       </div>
     </div>

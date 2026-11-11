@@ -38,7 +38,7 @@ function DashboardPage() {
         <Link to="/decks/new" className="button-primary">Create Deck</Link>
       </div>
       {decks.length === 0 ? (
-        <p className="dashboard-page__empty">You have no decks yet. Create your first one!</p>
+        <p className="dashboard-page__empty">You have no decks yet. Create your first one.</p>
       ) : (
         <ul className="deck-list">
           {decks.map((deck) => (

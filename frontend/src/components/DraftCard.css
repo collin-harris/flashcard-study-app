@@ -21,7 +21,9 @@
   color: var(--color-text-secondary);
 }
 
+/* The same size as the "Card N" label beside it */
 .draft-card__remove {
+  font-size: 0.875rem;
   color: var(--color-danger);
   font-weight: 500;
 }

@@ -74,7 +74,7 @@ describe('loading', () => {
 
     expect(await screen.findByText('This deck no longer exists.')).toBeInTheDocument()
     expect(screen.queryByText('Deck not found')).not.toBeInTheDocument()
-    await user.click(screen.getByRole('link', { name: 'Back to dashboard' }))
+    await user.click(screen.getByRole('link', { name: 'Back to Dashboard' }))
 
     await waitFor(() => expect(router.state.location.pathname).toBe('/dashboard'))
   })
@@ -145,7 +145,7 @@ describe('generating', () => {
     expect(screen.getByRole('button', { name: 'Generating...' })).toBeDisabled()
 
     pending.resolve(generated([card(1)]))
-    expect(await screen.findByRole('button', { name: 'Save 1 card' })).toBeInTheDocument()
+    expect(await screen.findByRole('button', { name: 'Save 1 Card' })).toBeInTheDocument()
   })
 
   it('shows the generated cards and their sources for review, and updates the remaining count', async () => {
@@ -235,18 +235,18 @@ describe('reviewing and saving', () => {
   it('removes a card and updates the Save button', async () => {
     const { user } = await loadPage({ 'POST /decks/1/cards/generate': generated(cards(2)) })
     await generateFrom(user)
-    await screen.findByRole('button', { name: 'Save 2 cards' })
+    await screen.findByRole('button', { name: 'Save 2 Cards' })
 
     await user.click(screen.getAllByRole('button', { name: 'Remove' })[0])
 
-    expect(screen.getByRole('button', { name: 'Save 1 card' })).toBeEnabled()
+    expect(screen.getByRole('button', { name: 'Save 1 Card' })).toBeEnabled()
     expect(screen.getAllByRole('textbox', { name: 'Question' }).map((box) => box.value)).toEqual(['Question 2'])
   })
 
   it('removes the Save button once no cards remain', async () => {
     const { user } = await loadPage({ 'POST /decks/1/cards/generate': generated(cards(1)) })
     await generateFrom(user)
-    await screen.findByRole('button', { name: 'Save 1 card' })
+    await screen.findByRole('button', { name: 'Save 1 Card' })
 
     await user.click(screen.getByRole('button', { name: 'Remove' }))
 
@@ -256,7 +256,7 @@ describe('reviewing and saving', () => {
   it('disables Save while any card has an empty or whitespace-only field', async () => {
     const { user } = await loadPage({ 'POST /decks/1/cards/generate': generated(cards(2)) })
     await generateFrom(user)
-    const save = await screen.findByRole('button', { name: 'Save 2 cards' })
+    const save = await screen.findByRole('button', { name: 'Save 2 Cards' })
     const firstAnswer = screen.getAllByRole('textbox', { name: 'Answer' })[0]
 
     await user.clear(firstAnswer)
@@ -274,7 +274,7 @@ describe('reviewing and saving', () => {
     const { user } = await loadPage({ 'POST /decks/1/cards/generate': generated(cards(101)) })
     await generateFrom(user)
 
-    const save = await screen.findByRole('button', { name: 'Save 101 cards' })
+    const save = await screen.findByRole('button', { name: 'Save 101 Cards' })
     expect(save).toBeDisabled()
     expect(
       screen.getByText('You can save at most 100 cards at once. Remove at least 1 to continue.')
@@ -282,7 +282,7 @@ describe('reviewing and saving', () => {
 
     await user.click(screen.getAllByRole('button', { name: 'Remove' })[0])
 
-    expect(screen.getByRole('button', { name: 'Save 100 cards' })).toBeEnabled()
+    expect(screen.getByRole('button', { name: 'Save 100 Cards' })).toBeEnabled()
     expect(screen.queryByText(/You can save at most 100 cards/)).not.toBeInTheDocument()
   })
 
@@ -297,9 +297,9 @@ describe('reviewing and saving', () => {
     await user.clear(firstQuestion)
     await user.type(firstQuestion, 'Edited question')
 
-    await user.click(screen.getByRole('button', { name: 'Save 2 cards' }))
+    await user.click(screen.getByRole('button', { name: 'Save 2 Cards' }))
 
-    expect(await screen.findByText('Added 2 cards to this deck.')).toBeInTheDocument()
+    expect(await screen.findByText('2 cards added.')).toBeInTheDocument()
     expect(router.state.location.pathname).toBe('/decks/1')
     expect(confirm).not.toHaveBeenCalled()
     expect(calls.find((call) => call.path === '/decks/1/cards/bulk').body).toEqual({
@@ -319,8 +319,8 @@ describe('reviewing and saving', () => {
       ['/decks/1', '/decks/1/generate']
     )
     await generateFrom(user)
-    await user.click(await screen.findByRole('button', { name: 'Save 1 card' }))
-    await screen.findByText('Added 1 card to this deck.')
+    await user.click(await screen.findByRole('button', { name: 'Save 1 Card' }))
+    await screen.findByText('1 card added.')
 
     // Back skips the finished generate page
     await act(() => router.navigate(-1))
@@ -335,10 +335,10 @@ describe('reviewing and saving', () => {
     })
     await generateFrom(user)
 
-    await user.click(await screen.findByRole('button', { name: 'Save 1 card' }))
+    await user.click(await screen.findByRole('button', { name: 'Save 1 Card' }))
 
     expect(await screen.findByText('Service unavailable')).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: 'Save 1 card' })).toBeEnabled()
+    expect(screen.getByRole('button', { name: 'Save 1 Card' })).toBeEnabled()
     expect(router.state.location.pathname).toBe('/decks/1/generate')
   })
 })
@@ -348,13 +348,13 @@ describe('leaving with unsaved work', () => {
     const confirm = vi.spyOn(window, 'confirm').mockReturnValue(false)
     const { router, user } = await loadPage({ 'POST /decks/1/cards/generate': generated(cards(1)) })
     await generateFrom(user)
-    await screen.findByRole('button', { name: 'Save 1 card' })
+    await screen.findByRole('button', { name: 'Save 1 Card' })
 
     await user.click(screen.getByRole('link', { name: 'Back to Biology' }))
 
     expect(confirm).toHaveBeenCalledWith(LEAVE_MESSAGE)
     expect(router.state.location.pathname).toBe('/decks/1/generate')
-    expect(screen.getByRole('button', { name: 'Save 1 card' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Save 1 Card' })).toBeInTheDocument()
 
     confirm.mockReturnValue(true)
     await user.click(screen.getByRole('link', { name: 'Back to Biology' }))
@@ -374,7 +374,7 @@ describe('leaving with unsaved work', () => {
     expect(router.state.location.pathname).toBe('/decks/1/generate')
 
     pending.resolve(generated([card(1)]))
-    await screen.findByRole('button', { name: 'Save 1 card' })
+    await screen.findByRole('button', { name: 'Save 1 Card' })
   })
 
   it('leaves without asking when there is nothing unsaved', async () => {
@@ -391,7 +391,7 @@ describe('leaving with unsaved work', () => {
     const confirm = vi.spyOn(window, 'confirm').mockReturnValue(false)
     const { router, user } = await loadPage({ 'POST /decks/1/cards/generate': generated(cards(1)) })
     await generateFrom(user)
-    await screen.findByRole('button', { name: 'Save 1 card' })
+    await screen.findByRole('button', { name: 'Save 1 Card' })
     const logout = within(screen.getByRole('banner')).getByRole('button', { name: 'Logout' })
 
     await user.click(logout)
@@ -415,7 +415,7 @@ describe('leaving with unsaved work', () => {
     expect(before.defaultPrevented).toBe(false)
 
     await generateFrom(user)
-    await screen.findByRole('button', { name: 'Save 1 card' })
+    await screen.findByRole('button', { name: 'Save 1 Card' })
 
     const after = new Event('beforeunload', { cancelable: true })
     window.dispatchEvent(after)

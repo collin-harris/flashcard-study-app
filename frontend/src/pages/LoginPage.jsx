@@ -24,7 +24,7 @@ function LoginPage() {
     setError('')
 
     if (!isValidEmail(email)) {
-      setError('Invalid email')
+      setError('Enter a valid email address.')
       return
     }
 

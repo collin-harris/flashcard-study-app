@@ -41,7 +41,20 @@ describe('formatErrorDetail', () => {
       },
     ]
 
-    expect(formatErrorDetail(detail)).toBe("Question can't be empty; Answer can't be empty; Cards can't be empty")
+    expect(formatErrorDetail(detail)).toBe("Question can't be empty. Answer can't be empty. Cards can't be empty.")
+  })
+
+  it('separates a sentence with a space and the API\'s own messages with "; "', () => {
+    const tooShort = { type: 'string_too_short', msg: 'String should have at least 1 character', ctx: { min_length: 1 } }
+    const detail = [
+      { type: 'string_too_long', loc: ['body', 'notes'], msg: 'String should have at most 2000 characters' },
+      { ...tooShort, loc: ['body', 'question'] },
+      { type: 'missing', loc: ['body', 'answer'], msg: 'Field required' },
+    ]
+
+    expect(formatErrorDetail(detail)).toBe(
+      "Notes: String should have at most 2000 characters; Question can't be empty. Answer: Field required"
+    )
   })
 
   it('keeps the message for a "too short" error with a higher minimum', () => {
@@ -101,7 +114,7 @@ describe('request errors', () => {
   it('falls back to the status when the error body is not JSON', async () => {
     mockApi({ 'GET /decks/1': jsonResponse(502, undefined) })
 
-    await expect(getDeck(1)).rejects.toThrow('Request failed (502)')
+    await expect(getDeck(1)).rejects.toThrow('The request failed (502).')
   })
 
   it('explains a network failure', async () => {

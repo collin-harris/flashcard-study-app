@@ -23,6 +23,17 @@ function capitalize(text) {
   return text.charAt(0).toUpperCase() + text.slice(1)
 }
 
+// Joins messages with a space after a full sentence and "; " otherwise, as
+// the API's own validation messages have no period
+function joinMessages(messages) {
+  return messages.reduce((text, message) => {
+    if (!text) {
+      return message
+    }
+    return `${text}${text.endsWith('.') ? ' ' : '; '}${message}`
+  }, '')
+}
+
 // Pydantic's "too short" errors, for a minimum length of 1, mean the field
 // was empty (or only whitespace, which the API strips first)
 function isEmptyFieldError(item) {
@@ -37,16 +48,16 @@ export function formatErrorDetail(detail) {
     return detail
   }
   if (Array.isArray(detail) && detail.length > 0) {
-    return detail
-      .map((item) => {
+    return joinMessages(
+      detail.map((item) => {
         const field = item.loc?.[item.loc.length - 1]
         if (typeof field !== 'string' || field === 'body') {
           return item.msg
         }
         const fieldName = capitalize(field)
-        return isEmptyFieldError(item) ? `${fieldName} can't be empty` : `${fieldName}: ${item.msg}`
+        return isEmptyFieldError(item) ? `${fieldName} can't be empty.` : `${fieldName}: ${item.msg}`
       })
-      .join('; ')
+    )
   }
   return null
 }
@@ -88,7 +99,7 @@ async function request(path, options = {}) {
     } catch {
       // Not JSON, e.g. a proxy's error page
     }
-    throw apiError(detail || `Request failed (${response.status})`, response.status)
+    throw apiError(detail || `The request failed (${response.status}).`, response.status)
   }
 
   if (response.status === 204) {

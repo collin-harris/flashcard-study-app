@@ -23,8 +23,11 @@
   width: 100%;
 }
 
+/* min-width lets the input shrink below its default width, so Save and
+   Cancel fit beside it on a narrow screen */
 .deck-header__edit-form input {
   flex: 1;
+  min-width: 0;
   padding: 8px 12px;
   border: 1px solid var(--color-border);
   border-radius: 6px;
@@ -80,8 +83,13 @@
   margin: 24px 0;
 }
 
+/* A flex box, so a one-line label stays centered when the other button's
+   label wraps onto two lines and both stretch to its height */
 .study-actions__button {
   flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 16px;
   background-color: var(--color-accent);
   color: var(--color-surface);
@@ -116,8 +124,10 @@
   border-top: 1px solid var(--color-border);
 }
 
+/* Wraps only to put a delete error on its own line below the row */
 .card-list__item {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
@@ -125,8 +135,17 @@
   border-bottom: 1px solid var(--color-border);
 }
 
+/* A zero flex basis, so a long question shrinks instead of pushing the
+   actions onto a new line now that the row can wrap */
 .card-list__question {
+  flex: 1;
+  min-width: 0;
   color: var(--color-text-primary);
+}
+
+.card-list__error {
+  flex-basis: 100%;
+  margin: 0;
 }
 
 .card-list__actions {
@@ -143,6 +162,12 @@
   width: 100%;
 }
 
+/* Its own line below the fields, so they keep their full width */
+.card-list__edit-form .error-message {
+  flex-basis: 100%;
+  margin: 0;
+}
+
 .card-list__edit-form input {
   flex: 1;
   min-width: 120px;
@@ -150,12 +175,6 @@
   border: 1px solid var(--color-border);
   border-radius: 6px;
   font-size: 0.95rem;
-}
-
-.success-message {
-  margin: 16px 0 0;
-  color: var(--color-success);
-  font-weight: 500;
 }
 
 .add-card-section {
@@ -197,7 +216,7 @@
 }
 
 .add-card-status {
-  margin: 0;
+  margin: 12px 0 0;
   padding: 0 4px;
   color: var(--color-success);
   font-size: 0.875rem;
@@ -208,7 +227,7 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
-  padding: 16px 4px 12px;
+  padding: 16px 4px 0;
 }
 
 .add-card-form label {

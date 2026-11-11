@@ -294,7 +294,7 @@ function GenerateCardsPage() {
 
           <div className="generate-page__actions">
             <button type="button" className="button-primary" onClick={handleSave} disabled={!canSave}>
-              {isSaving ? 'Saving...' : `Save ${drafts.length} ${cardWord}`}
+              {isSaving ? 'Saving...' : `Save ${drafts.length} ${drafts.length === 1 ? 'Card' : 'Cards'}`}
             </button>
           </div>
         </section>

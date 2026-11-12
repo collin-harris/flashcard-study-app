@@ -1,5 +1,6 @@
 # Flashcard & Spaced Repetition Study App
 
+[![CI](https://github.com/collin-harris/flashcard-study-app/actions/workflows/ci.yml/badge.svg)](https://github.com/collin-harris/flashcard-study-app/actions/workflows/ci.yml)
 ![Python](https://img.shields.io/badge/Python-3.11-blue)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.138-009688)
 ![React](https://img.shields.io/badge/React-19-61DAFB)
@@ -150,6 +151,10 @@ This builds the backend's `test` image stage, starts an isolated `db_test`
 Postgres container, and runs everything in `backend/tests/`. The `--build`
 flag keeps the image in sync with the latest code and dependencies; `--rm`
 cleans up the one-off container afterward.
+
+GitHub Actions (`.github/workflows/ci.yml`) runs the backend tests, the
+frontend tests, lint and build, and the eval unit tests on every push and
+pull request, with throwaway credentials and no Anthropic API key.
 
 ## Seeding the Demo Account
 

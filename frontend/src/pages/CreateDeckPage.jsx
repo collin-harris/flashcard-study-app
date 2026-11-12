@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router'
 import { createDeck } from '../api'
+import { validateDeckName } from '../validation'
 import './CreateDeckPage.css'
 
 function CreateDeckPage() {
@@ -11,6 +12,12 @@ function CreateDeckPage() {
   async function handleSubmit(e) {
     e.preventDefault()
     setError('')
+
+    const problem = validateDeckName(name)
+    if (problem) {
+      setError(problem)
+      return
+    }
 
     try {
       const deck = await createDeck(name)

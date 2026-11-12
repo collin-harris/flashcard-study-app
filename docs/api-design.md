@@ -96,6 +96,8 @@ Create a new user account.
 
 > The password is hashed server-side before storage. The hash is never returned in any response.
 
+**Validation (`422`):** the name is stripped of surrounding whitespace and can't be empty ("Name can't be empty."); the password must be at least 8 characters ("Password must be at least 8 characters.") and at most 72 bytes in UTF-8, the most bcrypt uses. Login applies none of these rules, so accounts created before them can still log in.
+
 ---
 
 #### `POST /auth/login`
@@ -181,6 +183,8 @@ Create a new deck for the authenticated user.
 }
 ```
 
+**Validation (`422`):** the name is stripped of surrounding whitespace and can't be empty ("Deck name can't be empty.").
+
 ---
 
 #### `PATCH /decks/{deck_id}`
@@ -208,6 +212,8 @@ Update the name of an existing deck.
   "user_id": "integer"
 }
 ```
+
+**Validation (`422`):** same as `POST /decks` when a name is given; omitting `name` leaves it unchanged.
 
 ---
 

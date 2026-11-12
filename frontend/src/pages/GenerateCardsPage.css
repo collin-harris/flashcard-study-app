@@ -22,11 +22,20 @@
   gap: 12px;
 }
 
-.notes-form label {
+.notes-form__field {
   display: flex;
   flex-direction: column;
   gap: 6px;
+}
+
+.notes-form label {
   font-size: 0.875rem;
+  color: var(--color-text-secondary);
+}
+
+.notes-form__notice {
+  margin: 0 0 2px;
+  font-size: 0.8125rem;
   color: var(--color-text-secondary);
 }
 

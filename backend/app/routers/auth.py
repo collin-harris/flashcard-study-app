@@ -10,11 +10,14 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 from passlib.context import CryptContext
 
+from app import config
 from app.database import SessionLocal
 from app.models.user import User
 from app.schemas.user import UserCreate, UserResponse, LoginRequest, TokenResponse
 
-SECRET_KEY = os.environ.get("SECRET_KEY")
+# Checked at import, like DATABASE_URL, so the app won't start without a
+# safe key
+SECRET_KEY = config.validate_secret_key(os.environ.get("SECRET_KEY"))
 ALGORITHM = "HS256"
 
 router = APIRouter()

@@ -103,6 +103,14 @@ cp .env.example .env
 cp frontend/.env.example frontend/.env
 ```
 
+Then replace `SECRET_KEY` in `.env` with a random value. The backend
+refuses to start if it's missing, shorter than 32 characters, or still the
+placeholder:
+
+```bash
+python -c "import secrets; print(secrets.token_urlsafe(64))"
+```
+
 3. Start the database and backend:
 
 ```bash
@@ -142,6 +150,20 @@ This builds the backend's `test` image stage, starts an isolated `db_test`
 Postgres container, and runs everything in `backend/tests/`. The `--build`
 flag keeps the image in sync with the latest code and dependencies; `--rm`
 cleans up the one-off container afterward.
+
+## Seeding the Demo Account
+
+`scripts/seed_demo_account.py` resets the demo account: it registers it if
+needed, deletes its decks, and recreates a fixed set of decks with review
+history. It needs `SEED_API_BASE_URL`, the API to seed, and exits without
+doing anything if it isn't set:
+
+```bash
+SEED_API_BASE_URL=http://localhost:8000 python3 scripts/seed_demo_account.py
+```
+
+To reset the live demo, set `SEED_API_BASE_URL` to the deployed backend's
+URL instead.
 
 ## Project Structure
 

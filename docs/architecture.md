@@ -197,7 +197,7 @@ Sensitive configuration is never hardcoded. The following values are stored in a
 | `POSTGRES_PASSWORD` | PostgreSQL password |
 | `POSTGRES_DB` | PostgreSQL database name |
 | `DATABASE_URL` | Full connection string used by SQLAlchemy |
-| `SECRET_KEY` | Secret used for signing JWT authentication tokens |
+| `SECRET_KEY` | Secret used for signing JWT authentication tokens. The backend refuses to start if it is missing, shorter than 32 characters, or the `.env.example` placeholder |
 
 > `.env` is listed in `.gitignore` and must never be committed to the repository. A `.env.example` file with placeholder values should be committed instead so other developers know what variables are required.
 

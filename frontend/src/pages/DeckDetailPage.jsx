@@ -9,7 +9,7 @@ import {
   updateCard,
   deleteCard,
 } from '../api'
-import { NO_CARD_ERRORS, formMessage, hasCardErrors, validateCard } from '../validation'
+import { NO_CARD_ERRORS, formMessage, hasCardErrors, validateCard, validateDeckName } from '../validation'
 import DeckNotFound from '../components/DeckNotFound'
 import './DeckDetailPage.css'
 
@@ -171,6 +171,12 @@ function DeckDetailPage() {
     e.preventDefault()
     setEditError('')
 
+    const problem = validateDeckName(name)
+    if (problem) {
+      setEditError(problem)
+      return
+    }
+
     try {
       const updatedDeck = await updateDeck(deckId, name)
       setDeck(updatedDeck)
@@ -178,6 +184,19 @@ function DeckDetailPage() {
     } catch (err) {
       setEditError(err.message)
     }
+  }
+
+  // Closing a form clears its messages: this one's show outside the form,
+  // so they'd otherwise stay on screen after Cancel
+  function cancelEditingName() {
+    setEditingName(false)
+    setEditError('')
+  }
+
+  function cancelEditingCard() {
+    setEditingCardId(null)
+    setEditFieldErrors(NO_CARD_ERRORS)
+    setCardEditError('')
   }
 
   function startEditingCard(card) {
@@ -259,7 +278,7 @@ function DeckDetailPage() {
           <form onSubmit={handleSaveName} className="deck-header__edit-form">
             <input value={name} onChange={(e) => setName(e.target.value)} />
             <button type="submit" className="button-primary">Save</button>
-            <button type="button" className="button-secondary" onClick={() => setEditingName(false)}>
+            <button type="button" className="button-secondary" onClick={cancelEditingName}>
               Cancel
             </button>
           </form>
@@ -347,7 +366,7 @@ function DeckDetailPage() {
                       onChange={(e) => changeEditedCard('answer', e.target.value)}
                     />
                     <button type="submit" className="button-primary">Save</button>
-                    <button type="button" className="button-secondary" onClick={() => setEditingCardId(null)}>
+                    <button type="button" className="button-secondary" onClick={cancelEditingCard}>
                       Cancel
                     </button>
                     {editMessage && <p className="error-message">{editMessage}</p>}

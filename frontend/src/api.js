@@ -54,6 +54,10 @@ export function formatErrorDetail(detail) {
         if (typeof field !== 'string' || field === 'body') {
           return item.msg
         }
+        // The API's own validators write full sentences, shown as they are
+        if (item.msg?.endsWith('.')) {
+          return item.msg
+        }
         const fieldName = capitalize(field)
         return isEmptyFieldError(item) ? `${fieldName} can't be empty.` : `${fieldName}: ${item.msg}`
       })

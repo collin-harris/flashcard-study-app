@@ -379,3 +379,79 @@ describe('deleting a card', () => {
     expect(screen.queryByText('Server error')).not.toBeInTheDocument()
   })
 })
+
+describe('editing the deck name', () => {
+  it("says the name can't be empty before sending anything, and keeps the old name", async () => {
+    const calls = mockDeckApi()
+    renderApp('/decks/1')
+    const user = userEvent.setup()
+    await user.click(await screen.findByRole('button', { name: 'Edit Deck Name' }))
+    const nameBox = screen.getByDisplayValue('Biology')
+
+    await user.clear(nameBox)
+    await user.type(nameBox, '   ')
+    await user.click(screen.getByRole('button', { name: 'Save' }))
+
+    expect(screen.getByText("Deck name can't be empty.")).toBeInTheDocument()
+    expect(countCalls(calls, 'PATCH')).toBe(0)
+
+    await user.click(screen.getByRole('button', { name: 'Cancel' }))
+
+    expect(screen.getByRole('heading', { name: 'Biology' })).toBeInTheDocument()
+    expect(screen.queryByText("Deck name can't be empty.")).not.toBeInTheDocument()
+  })
+
+  it("shows the API's deck name message", async () => {
+    mockDeckApi({
+      'PATCH /decks/1': jsonResponse(422, {
+        detail: [{ type: 'empty_text', loc: ['body', 'name'], msg: "Deck name can't be empty." }],
+      }),
+    })
+    renderApp('/decks/1')
+    const user = userEvent.setup()
+    await user.click(await screen.findByRole('button', { name: 'Edit Deck Name' }))
+
+    await user.type(screen.getByDisplayValue('Biology'), ' 2')
+    await user.click(screen.getByRole('button', { name: 'Save' }))
+    expect(await screen.findByText("Deck name can't be empty.")).toBeInTheDocument()
+
+    await user.click(screen.getByRole('button', { name: 'Cancel' }))
+
+    expect(screen.queryByText("Deck name can't be empty.")).not.toBeInTheDocument()
+  })
+})
+
+describe('closing a form clears its messages', () => {
+  it('clears the card edit form\'s messages on Cancel, so reopening it shows none', async () => {
+    mockDeckApi()
+    renderApp('/decks/1')
+    const user = userEvent.setup()
+    await user.click(await screen.findByRole('button', { name: 'Edit' }))
+    const [questionBox] = screen.getAllByRole('textbox')
+    await user.clear(questionBox)
+    await user.click(screen.getByRole('button', { name: 'Save' }))
+    expect(screen.getByText("Question can't be empty.")).toBeInTheDocument()
+
+    await user.click(screen.getByRole('button', { name: 'Cancel' }))
+    expect(screen.queryByText(/can't be empty/)).not.toBeInTheDocument()
+
+    await user.click(screen.getByRole('button', { name: 'Edit' }))
+    expect(screen.queryByText(/can't be empty/)).not.toBeInTheDocument()
+  })
+
+  it("clears the add form's messages on Done, so reopening it shows none", async () => {
+    mockDeckApi()
+    renderApp('/decks/1')
+    const user = userEvent.setup()
+    await openAddCardForm(user)
+    await user.click(screen.getByRole('button', { name: 'Add Card' }))
+    expect(screen.getByText("Question can't be empty. Answer can't be empty.")).toBeInTheDocument()
+
+    await user.click(screen.getByRole('button', { name: 'Done' }))
+    expect(screen.queryByText(/can't be empty/)).not.toBeInTheDocument()
+
+    await openAddCardForm(user)
+    expect(screen.queryByText(/can't be empty/)).not.toBeInTheDocument()
+  })
+})
+

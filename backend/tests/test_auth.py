@@ -146,3 +146,79 @@ def test_unique_violation_at_commit_returns_400(client, db_session, monkeypatch)
     assert response.status_code == 400
     assert response.json() == {"detail": "User already registered"}
     assert [user.name for user in db_session.query(User).all()] == ["Someone Else"]
+
+
+def validation_messages(response):
+    return [item["msg"] for item in response.json()["detail"]]
+
+
+@pytest.mark.parametrize("name", ["", "   ", "\t\n"])
+def test_register_rejects_an_empty_name(client, db_session, name):
+    response = register(client, "ada@example.com", name=name)
+
+    assert response.status_code == 422
+    assert validation_messages(response) == ["Name can't be empty."]
+    assert db_session.query(User).count() == 0
+
+
+def test_register_strips_the_name(client):
+    response = register(client, "ada@example.com", name="  Ada Lovelace \n")
+
+    assert response.status_code == 201
+    assert response.json()["name"] == "Ada Lovelace"
+
+
+@pytest.mark.parametrize("password", ["", "short", "seven77"])
+def test_register_rejects_a_password_under_8_characters(client, db_session, password):
+    response = register(client, "ada@example.com", password=password)
+
+    assert response.status_code == 422
+    assert validation_messages(response) == ["Password must be at least 8 characters."]
+    assert db_session.query(User).count() == 0
+
+
+@pytest.mark.parametrize(
+    "password",
+    [
+        "eight888",  # exactly 8 characters
+        "x" * 72,  # exactly 72 bytes
+        "\u00e9" * 36,  # 36 characters, 72 bytes
+    ],
+)
+def test_register_accepts_passwords_at_the_limits(client, password):
+    assert register(client, "ada@example.com", password=password).status_code == 201
+    assert login(client, "ada@example.com", password=password).status_code == 200
+
+
+@pytest.mark.parametrize(
+    "password",
+    [
+        "x" * 73,  # 73 bytes
+        "\u00e9" * 37,  # only 37 characters, but 74 bytes
+        "\U0001F600" * 19,  # 19 emoji, 76 bytes
+    ],
+)
+def test_register_rejects_a_password_over_72_bytes(client, db_session, password):
+    response = register(client, "ada@example.com", password=password)
+
+    assert response.status_code == 422
+    assert validation_messages(response) == [
+        "Password is too long. Use at most 72 characters, or fewer if it includes emoji or accented letters."
+    ]
+    assert db_session.query(User).count() == 0
+
+
+def test_register_reports_every_problem_at_once(client):
+    response = client.post("/auth/register", json={"name": " ", "email": "ada@example.com", "password": "short"})
+
+    assert response.status_code == 422
+    assert validation_messages(response) == ["Name can't be empty.", "Password must be at least 8 characters."]
+
+
+def test_an_existing_account_with_a_short_password_can_still_log_in(client, db_session):
+    # Saved directly, as an account created before the password rules
+    db_session.add(User(name="Ada Lovelace", email="ada@example.com", password_hash=auth.pwd_context.hash("abc")))
+    db_session.commit()
+
+    assert login(client, "ada@example.com", password="abc").status_code == 200
+

@@ -57,6 +57,15 @@ describe('formatErrorDetail', () => {
     )
   })
 
+  it("shows the API's own full-sentence messages as they are, without the field name", () => {
+    const detail = [
+      { type: 'empty_text', loc: ['body', 'name'], msg: "Deck name can't be empty." },
+      { type: 'password_too_short', loc: ['body', 'password'], msg: 'Password must be at least 8 characters.' },
+    ]
+
+    expect(formatErrorDetail(detail)).toBe("Deck name can't be empty. Password must be at least 8 characters.")
+  })
+
   it('keeps the message for a "too short" error with a higher minimum', () => {
     const detail = [
       {

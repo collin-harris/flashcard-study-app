@@ -1,7 +1,7 @@
 # Data Model
 
 **Project:** Flashcard & Spaced Repetition Study App  
-**Last Updated:** 2026
+**Last Updated:** 2026  
 **Status:** Finalized
 
 ---

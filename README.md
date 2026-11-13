@@ -46,6 +46,35 @@ after that is fast.
 - Per-user data isolation — decks and review history are private to
   the account that created them
 
+## AI Flashcard Generation
+
+Paste up to 2,000 characters of study notes into a deck's **Generate from
+Notes** page, and Claude drafts flashcards from them. Each draft shows the
+excerpts of your notes it came from, so you can check it, then edit or
+remove it before saving. Nothing is added to the deck until you save.
+
+**How it was built: evaluation first.** A 35-sample test set and a written
+rubric came before any feature code. The baseline, Claude Haiku 4.5 with
+prompt v1, scored 78.5% clean cards (cards that pass every rubric
+criterion); the shipped setup, Claude Sonnet 5.5 with prompt v2, scored
+87.6%, under the same scoring standards applied to every run. That's below
+the 95% clean-card target set before testing; the mitigation is the review
+step, where you check and edit every card before it's saved. The model and
+the prompt changed together, so the gain isn't credited to the prompt
+alone. The LLM judge didn't pass validation, so its scores were checked by
+hand: every card it failed and a random sample of those it passed, with one
+criterion scored entirely by hand. Per-criterion results and limitations
+are in [`eval/results_log.md`](eval/results_log.md).
+
+**Limits:**
+- 2,000 characters per paste. Quality was measured on notes up to about
+  700 characters.
+- 5 generations per account per 24 hours.
+- All users share a limit of 100 generations a day.
+- The demo account is shared by all visitors: 20 generations a day between
+  them, and any cards saved there are visible to other visitors. Registering
+  a free account gives you your own 5.
+
 ## Tech Stack
 
 **Backend**

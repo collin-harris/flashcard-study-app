@@ -16,7 +16,11 @@ The system consists of three main components:
 - **Backend** — a Python FastAPI server handling business logic and API requests
 - **Database** — a PostgreSQL database storing all persistent data
 
-The backend and database are containerized together using Docker and orchestrated with Docker Compose. The frontend runs locally during development and is built to static files for production deployment.
+One external service is involved: the **Anthropic API**, which the backend calls to draft flashcards from a user's pasted notes. Nothing else depends on it.
+
+In development, the backend and database are containerized together using Docker and orchestrated with Docker Compose, and the frontend runs locally on Vite's dev server.
+
+In production, each component is hosted separately: the frontend is a **Render static site**, the backend is a **Render Docker web service** built from the same `Dockerfile`, and the database is **Neon**, a managed PostgreSQL service.
 
 ---
 
@@ -24,31 +28,34 @@ The backend and database are containerized together using Docker and orchestrate
 
 ```
 ┌─────────────────────────────────────────────────┐
-│                   Browser                        │
-│                                                  │
-│              React Frontend                      │
-│         (Vite dev server / static)               │
+│                   Browser                       │
+│                                                 │
+│              React Frontend                     │
+│         (Vite dev server / static)              │
 └─────────────────┬───────────────────────────────┘
                   │ HTTP requests
                   │ JSON responses
                   ▼
 ┌─────────────────────────────────────────────────┐
-│              Docker Compose                      │
-│                                                  │
+│              Docker Compose                     │
+│                                                 │
 │  ┌───────────────────────────────────────────┐  │
-│  │           FastAPI Backend                 │  │
-│  │         (Python / Uvicorn)                │  │
-│  │                                           │  │
-│  │  routers → services → models              │  │
-│  └──────────────────┬────────────────────────┘  │
-│                     │ SQLAlchemy ORM             │
+│  │           FastAPI Backend                 │  │      ┌───────────────────┐
+│  │         (Python / Uvicorn)                │  │ HTTPS│   Anthropic API   │
+│  │                                           ├──┼─────►│     (Claude)      │
+│  │  routers → services → models              │  │      │  card generation  │
+│  └──────────────────┬────────────────────────┘  │      └───────────────────┘
+│                     │ SQLAlchemy ORM            │
 │  ┌──────────────────▼────────────────────────┐  │
 │  │           PostgreSQL Database             │  │
 │  │                                           │  │
-│  │  users, decks, flashcards, card_reviews   │  │
+│  │  users, decks, flashcards, card_reviews,  │  │
+│  │  generation_requests                      │  │
 │  └───────────────────────────────────────────┘  │
 └─────────────────────────────────────────────────┘
 ```
+
+> The diagram shows local development. In production, the frontend is a Render static site, the backend runs on Render from the same Docker image, and PostgreSQL is hosted on Neon instead of in a container.
 
 ---
 
@@ -62,13 +69,18 @@ The frontend has no direct access to the database. All data is fetched and mutat
 
 **Development:** Vite's local dev server runs on `http://localhost:5173` with hot reloading enabled. The frontend is intentionally kept outside Docker during development to preserve hot reloading performance.
 
-**Production:** React is compiled into a folder of static files via `npm run build`. These files are served by a web server (e.g. Nginx) and require no Node.js runtime to serve.
+**Production:** React is compiled into a folder of static files via `npm run build` and served as a **Render static site**, with no Node.js runtime needed to serve them. The backend's URL is built in from the `VITE_API_BASE_URL` environment variable at build time.
 
 **Key responsibilities:**
 - Render the user interface for deck management, card management, and study sessions
 - Handle routing between pages
 - Manage authentication tokens and attach them to API requests
 - Drive both free study mode and spaced repetition study sessions
+- Let users generate draft cards from their notes, review and edit them, and save the ones they keep
+
+**Routing — a data router:** the route tree is defined once, as `appRoutes` in `App.jsx`. `main.jsx` turns it into a data router with `createBrowserRouter`, and the tests build a memory router from the same tree. A data router is what makes React Router's `useBlocker` available, which the generate page needs to warn before leaving with unsaved drafts.
+
+**Generate page (`/decks/:deckId/generate`):** the user pastes up to 2,000 characters of notes (counted after trimming, as the API counts them) and clicks Generate. A notice above the notes box says the cards are generated by AI and asks users not to include personal or sensitive information. Each generation's cards are appended below as editable drafts (`DraftCard`), each showing the excerpts of the notes it came from. Drafts live only in the browser: nothing is saved until the user clicks Save, which sends every remaining draft in one request. Leaving the page with unsaved drafts, or while a generation is in flight, asks for confirmation first, through `useBlocker` for in-app navigation and `beforeunload` for reloads and closing the tab. After saving, the deck page shows how many cards were added.
 
 ---
 
@@ -76,7 +88,7 @@ The frontend has no direct access to the database. All data is fetched and mutat
 
 The backend is a Python application built with FastAPI, running on the Uvicorn ASGI server inside a Docker container. It is the sole point of communication between the frontend and the database.
 
-**Runs on:** `http://localhost:8000`
+**Runs on:** `http://localhost:8000` in development. In production it runs as a **Render Docker web service**, built from `backend/Dockerfile`'s `production` stage and listening on the port Render assigns through `$PORT`.
 
 **Key responsibilities:**
 - Expose the REST API defined in `api-design.md`
@@ -84,6 +96,7 @@ The backend is a Python application built with FastAPI, running on the Uvicorn A
 - Execute the SM-2 spaced repetition algorithm on study results
 - Read and write data to PostgreSQL via SQLAlchemy
 - Handle authentication and protect routes from unauthorized access
+- Generate draft flashcards from pasted notes through the Anthropic API, within per-user and global usage limits
 
 #### Internal Structure
 
@@ -91,30 +104,43 @@ The backend is a Python application built with FastAPI, running on the Uvicorn A
 backend/
 ├── app/
 │   ├── main.py         # FastAPI app instantiation; router registration
+│   ├── config.py       # Generation limits, demo account email, SECRET_KEY check
 │   ├── database.py     # SQLAlchemy engine and session configuration
 │   ├── models/         # SQLAlchemy ORM models (one file per table)
 │   │   ├── user.py
 │   │   ├── deck.py
 │   │   ├── flashcard.py
-│   │   └── card_review.py
+│   │   ├── card_review.py
+│   │   └── generation_request.py
+│   ├── prompts/        # Versioned system prompts for card generation
+│   │   ├── card_generation_v1.txt
+│   │   └── card_generation_v2.txt
 │   ├── routers/        # API route handlers (one file per resource group)
 │   │   ├── auth.py
 │   │   ├── decks.py
 │   │   ├── cards.py
-│   │   └── study.py
+│   │   ├── study.py
+│   │   └── generation.py
 │   ├── schemas/        # Pydantic request/response models
 │   │   ├── user.py
 │   │   ├── deck.py
 │   │   ├── card.py
-│   │   └── review.py
+│   │   ├── review.py
+│   │   ├── generation.py
+│   │   └── validators.py   # Shared validators, e.g. required (non-empty) text
 │   └── services/       # Business logic decoupled from route handlers
-│       └── sm2.py      # SM-2 spaced repetition algorithm
+│       ├── sm2.py                # SM-2 spaced repetition algorithm
+│       ├── card_generation.py    # Calls the Anthropic API and validates its output
+│       └── generation_limits.py  # Counts and reserves generations against the limits
 ├── tests/              # pytest integration test suite (see Containerization)
 │   ├── conftest.py
 │   ├── test_auth.py
 │   ├── test_decks.py
 │   ├── test_cards.py
-│   └── test_study.py
+│   ├── test_study.py
+│   ├── test_generation.py
+│   ├── test_card_generation.py
+│   └── test_secret_key.py
 ├── Dockerfile
 ├── requirements.txt
 ├── requirements-test.txt
@@ -126,22 +152,53 @@ backend/
 | Layer | Responsibility |
 |---|---|
 | `routers/` | Receive HTTP requests, validate input, return responses |
-| `services/` | Execute business logic (SM-2 algorithm) |
+| `services/` | Execute business logic (SM-2 algorithm, card generation, usage limits) |
 | `models/` | Define database table structure via SQLAlchemy |
 | `schemas/` | Define and validate the shape of API request and response data |
+| `prompts/` | Hold the versioned system prompts the card generation service sends |
+| `config.py` | Read configuration from environment variables and check `SECRET_KEY` |
 | `database.py` | Configure the database connection and provide sessions |
 
 > **Why separate models and schemas?** A SQLAlchemy model maps directly to a database table. A Pydantic schema defines what data is allowed into or out of the API. Keeping them separate means your database structure and your API contract can evolve independently, and sensitive fields (like `password_hash`) can be excluded from responses without special handling.
+
+#### AI Card Generation
+
+Generating cards takes two requests, so nothing reaches a deck before the user has reviewed it:
+
+1. **`POST /decks/{deck_id}/cards/generate`** (`routers/generation.py`) checks that the user owns the deck, reserves a generation against the usage limits, calls the card generation service, records the outcome, and returns either draft cards or a rejection reason, along with the user's remaining generations. It saves no cards.
+2. **`POST /decks/{deck_id}/cards/bulk`** (`routers/cards.py`) saves the cards the user kept, 1 to 100 per request, in a single transaction: either all are saved or none.
+
+`GET /generations/remaining` returns how many generations the user has left and their limit, for the generate page to show.
+
+**Card generation service (`services/card_generation.py`):** sends the notes to the Anthropic API with the system prompt from `prompts/` (currently `claude-sonnet-5-5` with prompt `v2`) and uses structured outputs, so the response must match a JSON schema: either `ok` with cards (question, answer, and the source excerpts each came from) or `rejected` with a reason, for notes that contain no study material. A truncated response, a refusal, or output that doesn't match the schema raises a typed error, as does an API failure. Each call reports its token counts, estimated cost, latency, and a hash of the prompt, the text around the notes, and the output schema. The generate endpoint allows 45 seconds per attempt and one retry. The evaluation in `eval/` calls the same function, so what was measured is what ships.
+
+**Usage limits (`services/generation_limits.py`):** each user gets 5 generations in any rolling 24 hours, the shared demo account gets 20 in place of that, and all users together get 100. The defaults can be changed through environment variables (see Environment Variables). Limits are counted from rows in `generation_requests`, using the database's clock. A row is reserved, as `pending`, before the API is called, under a Postgres advisory lock, so two concurrent requests can't both take the last generation. Every request that passes validation and the ownership check counts, whatever its outcome, except one that fails because the server is misconfigured (`setup_error`), so a deployment mistake doesn't lock users out for a day.
+
+| Outcome | Response |
+|---|---|
+| Cards generated, or notes rejected | `200` with the cards or the reason, and the remaining count |
+| A limit reached | `429` saying which limit applies |
+| An Anthropic API error (timeout, connection failure, rate limit, or error status) | `503` |
+| A truncated, refused, or invalid response, or an unexpected error | `502` asking the user to try again |
+| `ANTHROPIC_API_KEY` not set | `500` |
+
+> **Why reserve before calling the API?** The API call takes several seconds. Counting and inserting under one lock, then committing before the call, keeps the limits exact under concurrent requests without holding a database transaction open while waiting on the API.
+
+**Privacy:** the notes are never stored or logged. A `generation_requests` row holds only the notes' character count, the model and prompt used, and the call's status, tokens, cost, and latency. Log messages carry the row's id and the kind of failure, never an error's text, which could quote the notes.
 
 ---
 
 ### Database — PostgreSQL
 
-PostgreSQL runs in its own Docker container, managed by Docker Compose alongside the backend. It is not exposed to the host machine in production — only the backend container communicates with it directly.
+In development, PostgreSQL runs in its own Docker container, managed by Docker Compose alongside the backend. It is not exposed to the host machine — only the backend container communicates with it directly.
+
+In production, the database is hosted on **Neon**, a managed PostgreSQL service that scales to zero when idle. The backend reaches it through `DATABASE_URL`, and its connection pool checks each connection before use (`pool_pre_ping`) and replaces connections older than five minutes (`pool_recycle`), so a database that Neon suspended between requests doesn't cause errors.
 
 The schema is defined in `docs/data-model.md` and managed in code via SQLAlchemy models. SQLAlchemy creates and manages the tables on application startup.
 
-**Tables:** `users`, `decks`, `flashcards`, `card_reviews`
+**Tables:** `users`, `decks`, `flashcards`, `card_reviews`, `generation_requests`
+
+`generation_requests` has one row per AI card generation request, used to enforce the usage limits and to record each request's cost. When a user is deleted, their rows are kept with `user_id` set to null, so the global limit and the spend history stay accurate.
 
 **Connection:** The backend connects via a `DATABASE_URL` environment variable of the form:
 ```
@@ -162,7 +219,7 @@ The backend `Dockerfile` is multi-stage, with three stages building on each othe
 
 1. **`base`** — starts from an official Python base image, sets the working directory, copies `requirements.txt` and installs dependencies, then copies the application code. Both later stages build on this without repeating any of it.
 2. **`test`** — extends `base`; adds `requirements-test.txt` and `pytest.ini`, installs the test-only dependencies (`pytest`, `httpx`), and copies in `tests/`. This is the stage `docker-compose.test.yml` tells the backend service to build when running the test suite.
-3. **`production`** — extends `base` directly, skipping the `test` stage entirely, and starts the Uvicorn server. Because it branches from `base` rather than `test`, the deployed image never contains `pytest`, `httpx`, or the test suite — not installed-then-ignored, genuinely never copied in. This keeps the deployed container lean and free of dev/test dependencies.
+3. **`production`** — extends `base` directly, skipping the `test` stage entirely, and starts the Uvicorn server. Because it branches from `base` rather than `test`, the deployed image never contains `pytest`, `httpx`, or the test suite — not installed-then-ignored, genuinely never copied in. This keeps the deployed container lean and free of dev/test dependencies. It is the stage Render deploys.
 
 ### Docker Compose
 
@@ -198,8 +255,27 @@ Sensitive configuration is never hardcoded. The following values are stored in a
 | `POSTGRES_DB` | PostgreSQL database name |
 | `DATABASE_URL` | Full connection string used by SQLAlchemy |
 | `SECRET_KEY` | Secret used for signing JWT authentication tokens. The backend refuses to start if it is missing, shorter than 32 characters, or the `.env.example` placeholder |
+| `ANTHROPIC_API_KEY` | API key for card generation. Optional: without it the rest of the app works, and the generate endpoint returns `500` |
+| `GENERATION_LIMIT_PER_USER` | Generations each user gets in any 24 hours (optional; default `5`) |
+| `GENERATION_LIMIT_DEMO` | Generations the demo account gets in any 24 hours, in place of the per-user limit (optional; default `20`) |
+| `GENERATION_LIMIT_GLOBAL` | Generations all users together get in any 24 hours (optional; default `100`) |
+| `DEMO_ACCOUNT_EMAIL` | Email of the shared demo account that gets the demo limit (optional; default `demo@flashcardapp.com`) |
 
 > `.env` is listed in `.gitignore` and must never be committed to the repository. A `.env.example` file with placeholder values should be committed instead so other developers know what variables are required.
+
+---
+
+## Continuous Integration
+
+A GitHub Actions workflow, `.github/workflows/ci.yml`, runs every test suite on every push and every pull request, on all branches. Its three jobs run in parallel:
+
+| Job | What it runs |
+|---|---|
+| Backend tests | `pytest` on Python 3.11 (the Docker image's version), against a Postgres 15 service container set up like `docker-compose.test.yml`'s `db_test` |
+| Frontend tests, lint and build | `npm ci`, `npm test`, `npm run lint` and `npm run build` in `frontend/`, on Node 24.17.0 |
+| Eval unit tests | `python -m unittest discover -s eval/tests`, after installing `eval/requirements.txt` |
+
+The workflow uses no real secrets: the test database credentials and `SECRET_KEY` are throwaway values in the workflow file, and `ANTHROPIC_API_KEY` is never set, so no job can reach the Anthropic API. The Python jobs fail early if an Anthropic credential is somehow present. pip and npm downloads are cached between runs. The README shows the workflow's status as a badge.
 
 ---
 
@@ -215,34 +291,47 @@ flashcard-study-app/
 │   ├── app/
 │   │   ├── __init__.py
 │   │   ├── main.py
+│   │   ├── config.py
 │   │   ├── database.py
 │   │   ├── models/
 │   │   │   ├── __init__.py
 │   │   │   ├── user.py
 │   │   │   ├── deck.py
 │   │   │   ├── flashcard.py
-│   │   │   └── card_review.py
+│   │   │   ├── card_review.py
+│   │   │   └── generation_request.py
+│   │   ├── prompts/
+│   │   │   ├── card_generation_v1.txt
+│   │   │   └── card_generation_v2.txt
 │   │   ├── routers/
 │   │   │   ├── __init__.py
 │   │   │   ├── auth.py
 │   │   │   ├── decks.py
 │   │   │   ├── cards.py
-│   │   │   └── study.py
+│   │   │   ├── study.py
+│   │   │   └── generation.py
 │   │   ├── schemas/
 │   │   │   ├── __init__.py
 │   │   │   ├── user.py
 │   │   │   ├── deck.py
 │   │   │   ├── card.py
-│   │   │   └── review.py
+│   │   │   ├── review.py
+│   │   │   ├── generation.py
+│   │   │   └── validators.py
 │   │   └── services/
 │   │       ├── __init__.py
-│   │       └── sm2.py
+│   │       ├── sm2.py
+│   │       ├── card_generation.py
+│   │       └── generation_limits.py
 │   ├── tests/
 │   │   ├── conftest.py
 │   │   ├── test_auth.py
 │   │   ├── test_decks.py
 │   │   ├── test_cards.py
-│   │   └── test_study.py
+│   │   ├── test_study.py
+│   │   ├── test_generation.py
+│   │   ├── test_card_generation.py
+│   │   └── test_secret_key.py
 │   ├── Dockerfile
 │   ├── requirements.txt
 │   ├── requirements-test.txt
@@ -261,7 +350,13 @@ flashcard-study-app/
 │   │   │   ├── ProtectedLayout.css
 │   │   │   ├── ProtectedRoute.jsx
 │   │   │   ├── PasswordInput.jsx
-│   │   │   └── PasswordInput.css
+│   │   │   ├── PasswordInput.css
+│   │   │   ├── DraftCard.jsx       ← one editable generated card
+│   │   │   ├── DraftCard.css
+│   │   │   ├── EmptyState.jsx      ← shared empty and not-found states
+│   │   │   ├── EmptyState.css
+│   │   │   └── DeckNotFound.jsx
+│   │   ├── test/                   ← Vitest setup and helpers; *.test.js(x) files sit next to the code they test
 │   │   └── pages/
 │   │       ├── HomePage.jsx
 │   │       ├── HomePage.css
@@ -276,11 +371,17 @@ flashcard-study-app/
 │   │       ├── DeckDetailPage.jsx
 │   │       ├── DeckDetailPage.css
 │   │       ├── StudySessionPage.jsx
-│   │       └── StudySessionPage.css
+│   │       ├── StudySessionPage.css
+│   │       ├── GenerateCardsPage.jsx
+│   │       └── GenerateCardsPage.css
 │   ├── index.html
 │   └── package.json
+├── eval/                      ← evaluation of AI card generation (test set, rubric, runners, results)
 ├── scripts/
 │   └── seed_demo_account.py
+├── .github/
+│   └── workflows/
+│       └── ci.yml             ← runs every test suite on each push and pull request
 ├── .env
 ├── .env.example
 ├── .gitignore             ← frontend/ has its own separate .gitignore too
@@ -320,7 +421,11 @@ flashcard-study-app/
 | Environment variables for secrets | `.env` file via Docker Compose | Secrets never hardcoded; `.env` excluded from version control via `.gitignore` |
 | SM-2 logic in `services/` | `sm2.py` | Business logic decoupled from route handlers; easier to test in isolation |
 | Multi-stage Dockerfile | `base` → `test` / `production` | Keeps `pytest`/`httpx` and the test suite out of the deployed image entirely |
-| Co-located CSS per component | One `.css` file per page/component, plus a global `index.css` for shared tokens | Keeps styles tied to the component they affect; avoids orphaned styles and global CSS collisions |
+| Co-located CSS per component | One `.css` file per page/component, plus a global `index.css` for shared tokens | Keeps styles next to the component they affect and avoids orphaned styles. Vite still bundles all CSS into one global stylesheet, so class names must be unique across files; scoping them with CSS Modules is a planned improvement |
+| Evaluation before implementation | `eval/`: a 35-sample test set, a written rubric, and run logs, built before any feature code | Model and prompt changes are measured against a fixed baseline rather than judged by eye; the eval calls the same `generate_cards` function the app uses |
+| Generated cards are drafts until saved | Generate endpoint returns drafts; bulk endpoint saves the kept ones | AI output can be wrong, so the user reviews every card, and a deck never contains a card no one has seen |
+| Usage limits counted in the database | `generation_requests` rows under a Postgres advisory lock | Exact under concurrent requests and across restarts, with no extra infrastructure; the same rows record cost |
+| Data router | `createBrowserRouter` with the route tree in `App.jsx` | Required for `useBlocker`, which protects unsaved drafts; tests reuse the same tree in a memory router |
 
 ---
 
@@ -328,5 +433,5 @@ flashcard-study-app/
 
 - **Frontend containerization** — Dockerfile and Nginx configuration for serving the production React build as a container
 - **Database migrations** — Alembic integration for managing schema changes over time without dropping and recreating tables
-- **CI/CD pipeline** — GitHub Actions workflow to run tests and build Docker images on every push
-- **Production deployment** — deploying the Docker Compose stack to a cloud provider (e.g. Railway, Render, or a VPS)
+- **Docker image builds in CI** — the GitHub Actions workflow now runs the tests on every push (see Continuous Integration); building the Docker images there is still to come
+- **CSS Modules** — scoping each component's styles to that component, so class names no longer need to be unique across files once Vite bundles all CSS into one stylesheet

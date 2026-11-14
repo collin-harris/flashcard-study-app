@@ -66,14 +66,14 @@ hand: every card it failed and a random sample of those it passed, with one
 criterion scored entirely by hand. Per-criterion results and limitations
 are in [`eval/results_log.md`](eval/results_log.md).
 
-**Limits:**
+**Limits** (set low to keep the live demo's costs down):
 - 2,000 characters per paste. Quality was measured on notes up to about
   700 characters.
 - 5 generations per account per 24 hours.
-- All users share a limit of 100 generations a day.
-- The demo account is shared by all visitors: 20 generations a day between
-  them, and any cards saved there are visible to other visitors. Registering
-  a free account gives you your own 5.
+- 10 generations per 24 hours across all users.
+- The demo account is shared by all visitors: 6 generations per 24 hours
+  between them, and any cards saved there are visible to other visitors.
+  Registering a free account gives you up to 5 of your own.
 
 ## Tech Stack
 

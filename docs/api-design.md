@@ -455,7 +455,7 @@ Submit a study result for a flashcard. The backend runs the SM-2 algorithm and u
 
 ### AI Card Generation
 
-Generation is limited over a rolling 24 hours: 5 requests per user, 20 shared by the demo account (in place of the per-user limit), and 100 across all users. Every request that passes validation and the ownership check counts, whatever its outcome, except one that fails because the server is misconfigured. The limits and the demo account's email are configurable through environment variables (see `.env.example`).
+Generation is limited over a rolling 24 hours: 5 requests per user, 6 shared by the demo account (in place of the per-user limit), and 10 across all users. These defaults are set low to keep the live demo's costs down. Every request that passes validation and the ownership check counts, whatever its outcome, except one that fails because the server is misconfigured. The limits and the demo account's email are configurable through environment variables (see `.env.example`).
 
 ---
 
@@ -527,7 +527,7 @@ Retrieve how many generations the user has left, so the UI can show it before th
 }
 ```
 
-> `limit` is the user's own limit (20 for the demo account, 5 otherwise). `remaining` is what the user can actually do: the smaller of what's left under their own limit and what's left under the overall limit.
+> `limit` is the user's own limit (6 for the demo account, 5 otherwise). `remaining` is what the user can actually do: the smaller of what's left under their own limit and what's left under the overall limit.
 
 ---
 

@@ -324,10 +324,10 @@ def test_demo_account_has_its_own_larger_cap(client, register_and_login, db_sess
     deck_id = create_deck(client, headers)
     demo_id = get_user_id(db_session, config.DEMO_ACCOUNT_EMAIL)
 
+    # A regular user would be stopped here, at 5; the demo account's 6th goes through
     add_requests(db_session, demo_id, 5)
     assert generate(client, headers, deck_id).status_code == 200
 
-    add_requests(db_session, demo_id, 14)
     response = generate(client, headers, deck_id)
     assert response.status_code == 429
     assert "shared demo account" in response.json()["detail"]
@@ -337,7 +337,7 @@ def test_global_cap_applies_across_users(client, register_and_login, fake_genera
     headers = register_and_login(email="a@example.com")
     register_and_login(email="b@example.com")
     deck_id = create_deck(client, headers)
-    add_requests(db_session, get_user_id(db_session, "b@example.com"), 100)
+    add_requests(db_session, get_user_id(db_session, "b@example.com"), 10)
 
     response = generate(client, headers, deck_id)
 
@@ -391,13 +391,13 @@ def test_limits_are_read_from_config(client, auth_headers, monkeypatch):
 def test_deleting_a_user_keeps_their_rows_for_the_global_count(client, register_and_login, db_session):
     register_and_login(email="gone@example.com")
     gone_id = get_user_id(db_session, "gone@example.com")
-    add_requests(db_session, gone_id, 100)
+    add_requests(db_session, gone_id, 10)
 
     db_session.query(User).filter(User.user_id == gone_id).delete()
     db_session.commit()
 
     rows = all_requests(db_session)
-    assert len(rows) == 100
+    assert len(rows) == 10
     assert {row.user_id for row in rows} == {None}
     headers = register_and_login(email="a@example.com")
     assert generate(client, headers, create_deck(client, headers)).status_code == 429
@@ -422,14 +422,14 @@ def test_remaining_counts_down(client, auth_headers, db_session):
 def test_remaining_for_the_demo_account(client, register_and_login):
     headers = register_and_login(email=config.DEMO_ACCOUNT_EMAIL)
 
-    assert client.get("/generations/remaining", headers=headers).json() == {"remaining": 20, "limit": 20}
+    assert client.get("/generations/remaining", headers=headers).json() == {"remaining": 6, "limit": 6}
 
 
 def test_demo_setting_matches_regardless_of_capitalization(client, register_and_login, monkeypatch):
     monkeypatch.setattr(config, "DEMO_ACCOUNT_EMAIL", " Demo@FlashcardApp.com ")
     headers = register_and_login(email="demo@flashcardapp.com")
 
-    assert client.get("/generations/remaining", headers=headers).json()["limit"] == 20
+    assert client.get("/generations/remaining", headers=headers).json()["limit"] == 6
 
 
 def test_demo_account_saved_before_normalization_still_matches(client, register_and_login, db_session):
@@ -441,13 +441,13 @@ def test_demo_account_saved_before_normalization_still_matches(client, register_
     db_session.commit()
     headers = register_and_login(email="demo@flashcardapp.com")
 
-    assert client.get("/generations/remaining", headers=headers).json()["limit"] == 20
+    assert client.get("/generations/remaining", headers=headers).json()["limit"] == 6
 
 
 def test_remaining_reflects_the_global_cap_when_it_is_closer(client, register_and_login, db_session):
     headers = register_and_login(email="a@example.com")
     register_and_login(email="b@example.com")
-    add_requests(db_session, get_user_id(db_session, "b@example.com"), 98)
+    add_requests(db_session, get_user_id(db_session, "b@example.com"), 8)
 
     assert client.get("/generations/remaining", headers=headers).json() == {"remaining": 2, "limit": 5}
 

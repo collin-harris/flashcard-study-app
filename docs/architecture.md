@@ -172,7 +172,7 @@ Generating cards takes two requests, so nothing reaches a deck before the user h
 
 **Card generation service (`services/card_generation.py`):** sends the notes to the Anthropic API with the system prompt from `prompts/` (currently `claude-sonnet-5-5` with prompt `v2`) and uses structured outputs, so the response must match a JSON schema: either `ok` with cards (question, answer, and the source excerpts each came from) or `rejected` with a reason, for notes that contain no study material. A truncated response, a refusal, or output that doesn't match the schema raises a typed error, as does an API failure. Each call reports its token counts, estimated cost, latency, and a hash of the prompt, the text around the notes, and the output schema. The generate endpoint allows 45 seconds per attempt and one retry. The evaluation in `eval/` calls the same function, so what was measured is what ships.
 
-**Usage limits (`services/generation_limits.py`):** each user gets 5 generations in any rolling 24 hours, the shared demo account gets 20 in place of that, and all users together get 100. The defaults can be changed through environment variables (see Environment Variables). Limits are counted from rows in `generation_requests`, using the database's clock. A row is reserved, as `pending`, before the API is called, under a Postgres advisory lock, so two concurrent requests can't both take the last generation. Every request that passes validation and the ownership check counts, whatever its outcome, except one that fails because the server is misconfigured (`setup_error`), so a deployment mistake doesn't lock users out for a day.
+**Usage limits (`services/generation_limits.py`):** each user gets 5 generations in any rolling 24 hours, the shared demo account gets 6 in place of that, and all users together get 10. These defaults are set low to keep the live demo's costs down and can be changed through environment variables (see Environment Variables). Limits are counted from rows in `generation_requests`, using the database's clock. A row is reserved, as `pending`, before the API is called, under a Postgres advisory lock, so two concurrent requests can't both take the last generation. Every request that passes validation and the ownership check counts, whatever its outcome, except one that fails because the server is misconfigured (`setup_error`), so a deployment mistake doesn't lock users out for a day.
 
 | Outcome | Response |
 |---|---|
@@ -257,8 +257,8 @@ Sensitive configuration is never hardcoded. The following values are stored in a
 | `SECRET_KEY` | Secret used for signing JWT authentication tokens. The backend refuses to start if it is missing, shorter than 32 characters, or the `.env.example` placeholder |
 | `ANTHROPIC_API_KEY` | API key for card generation. Optional: without it the rest of the app works, and the generate endpoint returns `500` |
 | `GENERATION_LIMIT_PER_USER` | Generations each user gets in any 24 hours (optional; default `5`) |
-| `GENERATION_LIMIT_DEMO` | Generations the demo account gets in any 24 hours, in place of the per-user limit (optional; default `20`) |
-| `GENERATION_LIMIT_GLOBAL` | Generations all users together get in any 24 hours (optional; default `100`) |
+| `GENERATION_LIMIT_DEMO` | Generations the demo account gets in any 24 hours, in place of the per-user limit (optional; default `6`) |
+| `GENERATION_LIMIT_GLOBAL` | Generations all users together get in any 24 hours (optional; default `10`) |
 | `DEMO_ACCOUNT_EMAIL` | Email of the shared demo account that gets the demo limit (optional; default `demo@flashcardapp.com`) |
 
 > `.env` is listed in `.gitignore` and must never be committed to the repository. A `.env.example` file with placeholder values should be committed instead so other developers know what variables are required.

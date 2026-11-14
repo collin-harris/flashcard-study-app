@@ -1,0 +1,4731 @@
+[
+  {
+    "id": "sample_001",
+    "tags": [
+      "dense_textbook_prose"
+    ],
+    "expected_outcome": "accept",
+    "expected_card_range": [
+      4,
+      6
+    ],
+    "outcome": "accept",
+    "stage1_correct": true,
+    "scored_in_stage2": true,
+    "error": null,
+    "raw_text": "{\"status\": \"ok\", \"cards\": [{\"question\": \"What year was the Treaty of Versailles signed?\", \"answer\": \"1919\", \"source\": [\"The Treaty of Versailles, signed in 1919\"]}, {\"question\": \"Which conflict did the Treaty of Versailles formally end?\", \"answer\": \"The state of war between Germany and the Allied powers after World War I\", \"source\": [\"The Treaty of Versailles, signed in 1919, formally ended the state of war between Germany and the Allied powers after World War I\"]}, {\"question\": \"What were the main controversial provisions of the Treaty of Versailles?\", \"answer\": \"Placing responsibility for wartime damage on Germany, requiring substantial reparations, limiting the German military to 100,000 personnel, and prohibiting Germany from maintaining an air force or submarines\", \"source\": [\"Its most controversial provisions placed responsibility for wartime damage on Germany, required substantial reparations, limited the German military to 100,000 personnel, and prohibited Germany from maintaining an air force or submarines\"]}, {\"question\": \"To how many personnel was the German military limited by the Treaty of Versailles?\", \"answer\": \"100,000\", \"source\": [\"limited the German military to 100,000 personnel\"]}, {\"question\": \"What types of military equipment was Germany prohibited from maintaining under the Treaty of Versailles?\", \"answer\": \"Air force and submarines\", \"source\": [\"prohibited Germany from maintaining an air force or submarines\"]}, {\"question\": \"What international organization was established as part of the postwar settlement after World War I?\", \"answer\": \"The League of Nations\", \"source\": [\"The League of Nations was established as part of the postwar settlement\"]}, {\"question\": \"Did the United States join the League of Nations?\", \"answer\": \"No\", \"source\": [\"the United States never joined it\"]}, {\"question\": \"How did German resentment toward the Treaty of Versailles relate to the rise of the Nazi movement?\", \"answer\": \"It became an important factor exploited by Adolf Hitler and the Nazi movement\", \"source\": [\"German resentment toward the treaty later became an important factor exploited by Adolf Hitler and the Nazi movement\"]}]}",
+    "output": {
+      "status": "ok",
+      "cards": [
+        {
+          "question": "What year was the Treaty of Versailles signed?",
+          "answer": "1919",
+          "source": [
+            "The Treaty of Versailles, signed in 1919"
+          ]
+        },
+        {
+          "question": "Which conflict did the Treaty of Versailles formally end?",
+          "answer": "The state of war between Germany and the Allied powers after World War I",
+          "source": [
+            "The Treaty of Versailles, signed in 1919, formally ended the state of war between Germany and the Allied powers after World War I"
+          ]
+        },
+        {
+          "question": "What were the main controversial provisions of the Treaty of Versailles?",
+          "answer": "Placing responsibility for wartime damage on Germany, requiring substantial reparations, limiting the German military to 100,000 personnel, and prohibiting Germany from maintaining an air force or submarines",
+          "source": [
+            "Its most controversial provisions placed responsibility for wartime damage on Germany, required substantial reparations, limited the German military to 100,000 personnel, and prohibited Germany from maintaining an air force or submarines"
+          ]
+        },
+        {
+          "question": "To how many personnel was the German military limited by the Treaty of Versailles?",
+          "answer": "100,000",
+          "source": [
+            "limited the German military to 100,000 personnel"
+          ]
+        },
+        {
+          "question": "What types of military equipment was Germany prohibited from maintaining under the Treaty of Versailles?",
+          "answer": "Air force and submarines",
+          "source": [
+            "prohibited Germany from maintaining an air force or submarines"
+          ]
+        },
+        {
+          "question": "What international organization was established as part of the postwar settlement after World War I?",
+          "answer": "The League of Nations",
+          "source": [
+            "The League of Nations was established as part of the postwar settlement"
+          ]
+        },
+        {
+          "question": "Did the United States join the League of Nations?",
+          "answer": "No",
+          "source": [
+            "the United States never joined it"
+          ]
+        },
+        {
+          "question": "How did German resentment toward the Treaty of Versailles relate to the rise of the Nazi movement?",
+          "answer": "It became an important factor exploited by Adolf Hitler and the Nazi movement",
+          "source": [
+            "German resentment toward the treaty later became an important factor exploited by Adolf Hitler and the Nazi movement"
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "model": "claude-haiku-4-5-20251001",
+      "prompt_version": "v1",
+      "prompt_hash": "f5e88f4d8fd8",
+      "input_tokens": 1757,
+      "output_tokens": 486,
+      "cost_usd": 0.004187,
+      "latency_seconds": 3.811458082000172
+    },
+    "card_count": 8,
+    "card_count_in_range": false,
+    "cards": [
+      {
+        "card_id": "sample_001-c01",
+        "question": "What year was the Treaty of Versailles signed?",
+        "answer": "1919",
+        "source": [
+          "The Treaty of Versailles, signed in 1919"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_001-c02",
+        "question": "Which conflict did the Treaty of Versailles formally end?",
+        "answer": "The state of war between Germany and the Allied powers after World War I",
+        "source": [
+          "The Treaty of Versailles, signed in 1919, formally ended the state of war between Germany and the Allied powers after World War I"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_001-c03",
+        "question": "What were the main controversial provisions of the Treaty of Versailles?",
+        "answer": "Placing responsibility for wartime damage on Germany, requiring substantial reparations, limiting the German military to 100,000 personnel, and prohibiting Germany from maintaining an air force or submarines",
+        "source": [
+          "Its most controversial provisions placed responsibility for wartime damage on Germany, required substantial reparations, limited the German military to 100,000 personnel, and prohibited Germany from maintaining an air force or submarines"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_001-c04",
+        "question": "To how many personnel was the German military limited by the Treaty of Versailles?",
+        "answer": "100,000",
+        "source": [
+          "limited the German military to 100,000 personnel"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_001-c05",
+        "question": "What types of military equipment was Germany prohibited from maintaining under the Treaty of Versailles?",
+        "answer": "Air force and submarines",
+        "source": [
+          "prohibited Germany from maintaining an air force or submarines"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_001-c06",
+        "question": "What international organization was established as part of the postwar settlement after World War I?",
+        "answer": "The League of Nations",
+        "source": [
+          "The League of Nations was established as part of the postwar settlement"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_001-c07",
+        "question": "Did the United States join the League of Nations?",
+        "answer": "No",
+        "source": [
+          "the United States never joined it"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_001-c08",
+        "question": "How did German resentment toward the Treaty of Versailles relate to the rise of the Nazi movement?",
+        "answer": "It became an important factor exploited by Adolf Hitler and the Nazi movement",
+        "source": [
+          "German resentment toward the treaty later became an important factor exploited by Adolf Hitler and the Nazi movement"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      }
+    ]
+  },
+  {
+    "id": "sample_002",
+    "tags": [
+      "dense_textbook_prose"
+    ],
+    "expected_outcome": "accept",
+    "expected_card_range": [
+      4,
+      6
+    ],
+    "outcome": "accept",
+    "stage1_correct": true,
+    "scored_in_stage2": true,
+    "error": null,
+    "raw_text": "{\"status\": \"ok\", \"cards\": [{\"question\": \"What does photosynthesis convert light energy into?\", \"answer\": \"Chemical energy stored in organic molecules\", \"source\": [\"Photosynthesis converts light energy into chemical energy stored in organic molecules.\"]}, {\"question\": \"Where do light-dependent reactions occur in plant cells?\", \"answer\": \"In the thylakoid membranes of chloroplasts\", \"source\": [\"In plants, the light-dependent reactions occur in the thylakoid membranes of chloroplasts\"]}, {\"question\": \"What role does chlorophyll play in light-dependent reactions?\", \"answer\": \"It absorbs photons and drives electron transport\", \"source\": [\"chlorophyll absorbs photons and drives electron transport\"]}, {\"question\": \"What products are released when water is split during light-dependent reactions?\", \"answer\": \"Oxygen, electrons, and protons\", \"source\": [\"Water is split during this process, releasing oxygen and contributing electrons and protons.\"]}, {\"question\": \"What powers ATP synthase during light-dependent reactions?\", \"answer\": \"The proton gradient\", \"source\": [\"The resulting proton gradient powers ATP synthase\"]}, {\"question\": \"What molecule is reduced by electrons from light-dependent reactions to form NADPH?\", \"answer\": \"NADP+\", \"source\": [\"electrons ultimately help reduce NADP+ to NADPH\"]}, {\"question\": \"Where does the Calvin cycle occur?\", \"answer\": \"In the chloroplast stroma\", \"source\": [\"The Calvin cycle takes place in the chloroplast stroma\"]}, {\"question\": \"What two molecules does the Calvin cycle use to incorporate carbon dioxide into carbohydrates?\", \"answer\": \"ATP and NADPH\", \"source\": [\"The Calvin cycle takes place in the chloroplast stroma and uses ATP and NADPH to incorporate carbon dioxide into carbohydrates\"]}, {\"question\": \"Does the Calvin cycle directly require photons?\", \"answer\": \"No, it does not directly require photons\", \"source\": [\"Although the Calvin cycle does not directly require photons\"]}, {\"question\": \"How does the Calvin cycle depend on light-dependent reactions if it does not directly require photons?\", \"answer\": \"It depends on products generated by the light-dependent reactions\", \"source\": [\"it depends on products generated by the light-dependent reactions\"]}]}",
+    "output": {
+      "status": "ok",
+      "cards": [
+        {
+          "question": "What does photosynthesis convert light energy into?",
+          "answer": "Chemical energy stored in organic molecules",
+          "source": [
+            "Photosynthesis converts light energy into chemical energy stored in organic molecules."
+          ]
+        },
+        {
+          "question": "Where do light-dependent reactions occur in plant cells?",
+          "answer": "In the thylakoid membranes of chloroplasts",
+          "source": [
+            "In plants, the light-dependent reactions occur in the thylakoid membranes of chloroplasts"
+          ]
+        },
+        {
+          "question": "What role does chlorophyll play in light-dependent reactions?",
+          "answer": "It absorbs photons and drives electron transport",
+          "source": [
+            "chlorophyll absorbs photons and drives electron transport"
+          ]
+        },
+        {
+          "question": "What products are released when water is split during light-dependent reactions?",
+          "answer": "Oxygen, electrons, and protons",
+          "source": [
+            "Water is split during this process, releasing oxygen and contributing electrons and protons."
+          ]
+        },
+        {
+          "question": "What powers ATP synthase during light-dependent reactions?",
+          "answer": "The proton gradient",
+          "source": [
+            "The resulting proton gradient powers ATP synthase"
+          ]
+        },
+        {
+          "question": "What molecule is reduced by electrons from light-dependent reactions to form NADPH?",
+          "answer": "NADP+",
+          "source": [
+            "electrons ultimately help reduce NADP+ to NADPH"
+          ]
+        },
+        {
+          "question": "Where does the Calvin cycle occur?",
+          "answer": "In the chloroplast stroma",
+          "source": [
+            "The Calvin cycle takes place in the chloroplast stroma"
+          ]
+        },
+        {
+          "question": "What two molecules does the Calvin cycle use to incorporate carbon dioxide into carbohydrates?",
+          "answer": "ATP and NADPH",
+          "source": [
+            "The Calvin cycle takes place in the chloroplast stroma and uses ATP and NADPH to incorporate carbon dioxide into carbohydrates"
+          ]
+        },
+        {
+          "question": "Does the Calvin cycle directly require photons?",
+          "answer": "No, it does not directly require photons",
+          "source": [
+            "Although the Calvin cycle does not directly require photons"
+          ]
+        },
+        {
+          "question": "How does the Calvin cycle depend on light-dependent reactions if it does not directly require photons?",
+          "answer": "It depends on products generated by the light-dependent reactions",
+          "source": [
+            "it depends on products generated by the light-dependent reactions"
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "model": "claude-haiku-4-5-20251001",
+      "prompt_version": "v1",
+      "prompt_hash": "f5e88f4d8fd8",
+      "input_tokens": 1774,
+      "output_tokens": 528,
+      "cost_usd": 0.004414,
+      "latency_seconds": 4.347385875999862
+    },
+    "card_count": 10,
+    "card_count_in_range": false,
+    "cards": [
+      {
+        "card_id": "sample_002-c01",
+        "question": "What does photosynthesis convert light energy into?",
+        "answer": "Chemical energy stored in organic molecules",
+        "source": [
+          "Photosynthesis converts light energy into chemical energy stored in organic molecules."
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_002-c02",
+        "question": "Where do light-dependent reactions occur in plant cells?",
+        "answer": "In the thylakoid membranes of chloroplasts",
+        "source": [
+          "In plants, the light-dependent reactions occur in the thylakoid membranes of chloroplasts"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_002-c03",
+        "question": "What role does chlorophyll play in light-dependent reactions?",
+        "answer": "It absorbs photons and drives electron transport",
+        "source": [
+          "chlorophyll absorbs photons and drives electron transport"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_002-c04",
+        "question": "What products are released when water is split during light-dependent reactions?",
+        "answer": "Oxygen, electrons, and protons",
+        "source": [
+          "Water is split during this process, releasing oxygen and contributing electrons and protons."
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_002-c05",
+        "question": "What powers ATP synthase during light-dependent reactions?",
+        "answer": "The proton gradient",
+        "source": [
+          "The resulting proton gradient powers ATP synthase"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_002-c06",
+        "question": "What molecule is reduced by electrons from light-dependent reactions to form NADPH?",
+        "answer": "NADP+",
+        "source": [
+          "electrons ultimately help reduce NADP+ to NADPH"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_002-c07",
+        "question": "Where does the Calvin cycle occur?",
+        "answer": "In the chloroplast stroma",
+        "source": [
+          "The Calvin cycle takes place in the chloroplast stroma"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_002-c08",
+        "question": "What two molecules does the Calvin cycle use to incorporate carbon dioxide into carbohydrates?",
+        "answer": "ATP and NADPH",
+        "source": [
+          "The Calvin cycle takes place in the chloroplast stroma and uses ATP and NADPH to incorporate carbon dioxide into carbohydrates"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_002-c09",
+        "question": "Does the Calvin cycle directly require photons?",
+        "answer": "No, it does not directly require photons",
+        "source": [
+          "Although the Calvin cycle does not directly require photons"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_002-c10",
+        "question": "How does the Calvin cycle depend on light-dependent reactions if it does not directly require photons?",
+        "answer": "It depends on products generated by the light-dependent reactions",
+        "source": [
+          "it depends on products generated by the light-dependent reactions"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      }
+    ]
+  },
+  {
+    "id": "sample_003",
+    "tags": [
+      "dense_textbook_prose"
+    ],
+    "expected_outcome": "accept",
+    "expected_card_range": [
+      3,
+      5
+    ],
+    "outcome": "accept",
+    "stage1_correct": true,
+    "scored_in_stage2": true,
+    "error": null,
+    "raw_text": "{\"status\": \"ok\", \"cards\": [{\"question\": \"What is an acid according to the Arrhenius model?\", \"answer\": \"A substance that increases the concentration of H+ in aqueous solution\", \"source\": [\"The Arrhenius model defines an acid as a substance that increases the concentration of H+ in aqueous solution\"]}, {\"question\": \"What is a base according to the Arrhenius model?\", \"answer\": \"A substance that increases the concentration of OH− in aqueous solution\", \"source\": [\"a base as one that increases OH− concentration\"]}, {\"question\": \"What is an acid according to the Brønsted–Lowry model?\", \"answer\": \"A proton donor\", \"source\": [\"The Brønsted–Lowry model instead defines acids as proton donors\"]}, {\"question\": \"What is a base according to the Brønsted–Lowry model?\", \"answer\": \"A proton acceptor\", \"source\": [\"and bases as proton acceptors\"]}, {\"question\": \"What advantage does the Brønsted–Lowry model have over the Arrhenius model?\", \"answer\": \"It is applicable to reactions that do not occur entirely in water\", \"source\": [\"making it applicable to reactions that do not occur entirely in water\"]}, {\"question\": \"What is an acid according to the Lewis model?\", \"answer\": \"A substance that accepts an electron pair\", \"source\": [\"In the Lewis model, an acid accepts an electron pair\"]}, {\"question\": \"What is a base according to the Lewis model?\", \"answer\": \"A substance that donates an electron pair\", \"source\": [\"and a base donates an electron pair\"]}]}",
+    "output": {
+      "status": "ok",
+      "cards": [
+        {
+          "question": "What is an acid according to the Arrhenius model?",
+          "answer": "A substance that increases the concentration of H+ in aqueous solution",
+          "source": [
+            "The Arrhenius model defines an acid as a substance that increases the concentration of H+ in aqueous solution"
+          ]
+        },
+        {
+          "question": "What is a base according to the Arrhenius model?",
+          "answer": "A substance that increases the concentration of OH− in aqueous solution",
+          "source": [
+            "a base as one that increases OH− concentration"
+          ]
+        },
+        {
+          "question": "What is an acid according to the Brønsted–Lowry model?",
+          "answer": "A proton donor",
+          "source": [
+            "The Brønsted–Lowry model instead defines acids as proton donors"
+          ]
+        },
+        {
+          "question": "What is a base according to the Brønsted–Lowry model?",
+          "answer": "A proton acceptor",
+          "source": [
+            "and bases as proton acceptors"
+          ]
+        },
+        {
+          "question": "What advantage does the Brønsted–Lowry model have over the Arrhenius model?",
+          "answer": "It is applicable to reactions that do not occur entirely in water",
+          "source": [
+            "making it applicable to reactions that do not occur entirely in water"
+          ]
+        },
+        {
+          "question": "What is an acid according to the Lewis model?",
+          "answer": "A substance that accepts an electron pair",
+          "source": [
+            "In the Lewis model, an acid accepts an electron pair"
+          ]
+        },
+        {
+          "question": "What is a base according to the Lewis model?",
+          "answer": "A substance that donates an electron pair",
+          "source": [
+            "and a base donates an electron pair"
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "model": "claude-haiku-4-5-20251001",
+      "prompt_version": "v1",
+      "prompt_hash": "f5e88f4d8fd8",
+      "input_tokens": 1749,
+      "output_tokens": 377,
+      "cost_usd": 0.003634,
+      "latency_seconds": 3.420571691999612
+    },
+    "card_count": 7,
+    "card_count_in_range": false,
+    "cards": [
+      {
+        "card_id": "sample_003-c01",
+        "question": "What is an acid according to the Arrhenius model?",
+        "answer": "A substance that increases the concentration of H+ in aqueous solution",
+        "source": [
+          "The Arrhenius model defines an acid as a substance that increases the concentration of H+ in aqueous solution"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_003-c02",
+        "question": "What is a base according to the Arrhenius model?",
+        "answer": "A substance that increases the concentration of OH− in aqueous solution",
+        "source": [
+          "a base as one that increases OH− concentration"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_003-c03",
+        "question": "What is an acid according to the Brønsted–Lowry model?",
+        "answer": "A proton donor",
+        "source": [
+          "The Brønsted–Lowry model instead defines acids as proton donors"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_003-c04",
+        "question": "What is a base according to the Brønsted–Lowry model?",
+        "answer": "A proton acceptor",
+        "source": [
+          "and bases as proton acceptors"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_003-c05",
+        "question": "What advantage does the Brønsted–Lowry model have over the Arrhenius model?",
+        "answer": "It is applicable to reactions that do not occur entirely in water",
+        "source": [
+          "making it applicable to reactions that do not occur entirely in water"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_003-c06",
+        "question": "What is an acid according to the Lewis model?",
+        "answer": "A substance that accepts an electron pair",
+        "source": [
+          "In the Lewis model, an acid accepts an electron pair"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_003-c07",
+        "question": "What is a base according to the Lewis model?",
+        "answer": "A substance that donates an electron pair",
+        "source": [
+          "and a base donates an electron pair"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      }
+    ]
+  },
+  {
+    "id": "sample_004",
+    "tags": [
+      "dense_textbook_prose"
+    ],
+    "expected_outcome": "accept",
+    "expected_card_range": [
+      4,
+      6
+    ],
+    "outcome": "accept",
+    "stage1_correct": true,
+    "scored_in_stage2": true,
+    "error": null,
+    "raw_text": "{\"status\": \"ok\", \"cards\": [{\"question\": \"What is inflation?\", \"answer\": \"A sustained increase in the general price level of goods and services, which reduces the purchasing power of money.\", \"source\": [\"Inflation is a sustained increase in the general price level of goods and services, which reduces the purchasing power of money.\"]}, {\"question\": \"What type of inflation occurs when aggregate demand grows faster than an economy's productive capacity?\", \"answer\": \"Demand-pull inflation\", \"source\": [\"Economists distinguish demand-pull inflation, which can occur when aggregate demand grows faster than an economy's productive capacity\"]}, {\"question\": \"What type of inflation can result from rising wages, energy prices, or other production costs?\", \"answer\": \"Cost-push inflation\", \"source\": [\"from cost-push inflation, which can result from rising wages, energy prices, or other production costs.\"]}, {\"question\": \"How can inflation become self-reinforcing?\", \"answer\": \"When workers seek higher wages because they expect prices to rise and firms raise prices in response to higher labor costs.\", \"source\": [\"Inflation can also become self-reinforcing when workers seek higher wages because they expect prices to rise and firms raise prices in response to higher labor costs.\"]}, {\"question\": \"How do central banks typically respond to persistent inflation?\", \"answer\": \"By raising interest rates, which tends to reduce borrowing and spending and can weaken aggregate demand.\", \"source\": [\"Central banks often respond to persistent inflation by raising interest rates, which tends to reduce borrowing and spending and can weaken aggregate demand.\"]}]}",
+    "output": {
+      "status": "ok",
+      "cards": [
+        {
+          "question": "What is inflation?",
+          "answer": "A sustained increase in the general price level of goods and services, which reduces the purchasing power of money.",
+          "source": [
+            "Inflation is a sustained increase in the general price level of goods and services, which reduces the purchasing power of money."
+          ]
+        },
+        {
+          "question": "What type of inflation occurs when aggregate demand grows faster than an economy's productive capacity?",
+          "answer": "Demand-pull inflation",
+          "source": [
+            "Economists distinguish demand-pull inflation, which can occur when aggregate demand grows faster than an economy's productive capacity"
+          ]
+        },
+        {
+          "question": "What type of inflation can result from rising wages, energy prices, or other production costs?",
+          "answer": "Cost-push inflation",
+          "source": [
+            "from cost-push inflation, which can result from rising wages, energy prices, or other production costs."
+          ]
+        },
+        {
+          "question": "How can inflation become self-reinforcing?",
+          "answer": "When workers seek higher wages because they expect prices to rise and firms raise prices in response to higher labor costs.",
+          "source": [
+            "Inflation can also become self-reinforcing when workers seek higher wages because they expect prices to rise and firms raise prices in response to higher labor costs."
+          ]
+        },
+        {
+          "question": "How do central banks typically respond to persistent inflation?",
+          "answer": "By raising interest rates, which tends to reduce borrowing and spending and can weaken aggregate demand.",
+          "source": [
+            "Central banks often respond to persistent inflation by raising interest rates, which tends to reduce borrowing and spending and can weaken aggregate demand."
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "model": "claude-haiku-4-5-20251001",
+      "prompt_version": "v1",
+      "prompt_hash": "f5e88f4d8fd8",
+      "input_tokens": 1753,
+      "output_tokens": 345,
+      "cost_usd": 0.003478,
+      "latency_seconds": 2.5079754660000617
+    },
+    "card_count": 5,
+    "card_count_in_range": true,
+    "cards": [
+      {
+        "card_id": "sample_004-c01",
+        "question": "What is inflation?",
+        "answer": "A sustained increase in the general price level of goods and services, which reduces the purchasing power of money.",
+        "source": [
+          "Inflation is a sustained increase in the general price level of goods and services, which reduces the purchasing power of money."
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_004-c02",
+        "question": "What type of inflation occurs when aggregate demand grows faster than an economy's productive capacity?",
+        "answer": "Demand-pull inflation",
+        "source": [
+          "Economists distinguish demand-pull inflation, which can occur when aggregate demand grows faster than an economy's productive capacity"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_004-c03",
+        "question": "What type of inflation can result from rising wages, energy prices, or other production costs?",
+        "answer": "Cost-push inflation",
+        "source": [
+          "from cost-push inflation, which can result from rising wages, energy prices, or other production costs."
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_004-c04",
+        "question": "How can inflation become self-reinforcing?",
+        "answer": "When workers seek higher wages because they expect prices to rise and firms raise prices in response to higher labor costs.",
+        "source": [
+          "Inflation can also become self-reinforcing when workers seek higher wages because they expect prices to rise and firms raise prices in response to higher labor costs."
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_004-c05",
+        "question": "How do central banks typically respond to persistent inflation?",
+        "answer": "By raising interest rates, which tends to reduce borrowing and spending and can weaken aggregate demand.",
+        "source": [
+          "Central banks often respond to persistent inflation by raising interest rates, which tends to reduce borrowing and spending and can weaken aggregate demand."
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      }
+    ]
+  },
+  {
+    "id": "sample_005",
+    "tags": [
+      "dense_textbook_prose"
+    ],
+    "expected_outcome": "accept",
+    "expected_card_range": [
+      4,
+      6
+    ],
+    "outcome": "accept",
+    "stage1_correct": true,
+    "scored_in_stage2": true,
+    "error": null,
+    "raw_text": "{\"status\": \"ok\", \"cards\": [{\"question\": \"What are two things that flow through ecosystems in different ways?\", \"answer\": \"Energy flows through ecosystems while matter is repeatedly recycled\", \"source\": [\"In ecology, energy flows through ecosystems while matter is repeatedly recycled.\"]}, {\"question\": \"How do producers such as plants and algae capture and convert energy?\", \"answer\": \"They capture energy from sunlight through photosynthesis and convert it into chemical energy\", \"source\": [\"Producers such as plants and algae capture energy from sunlight through photosynthesis and convert it into chemical energy.\"]}, {\"question\": \"How do primary consumers obtain energy?\", \"answer\": \"By eating producers\", \"source\": [\"Primary consumers obtain energy by eating producers\"]}, {\"question\": \"How do secondary and tertiary consumers obtain energy?\", \"answer\": \"By feeding on organisms at lower trophic levels\", \"source\": [\"secondary and tertiary consumers obtain it by feeding on organisms at lower trophic levels.\"]}, {\"question\": \"Why is only a fraction of the energy at one trophic level transferred to the next?\", \"answer\": \"Organisms use much of it for metabolism and lose energy as heat\", \"source\": [\"Only a fraction of the energy available at one trophic level is transferred to the next because organisms use much of it for metabolism and lose energy as heat.\"]}, {\"question\": \"What do decomposers do?\", \"answer\": \"They break down dead organisms and waste, and return nutrients to the environment\", \"source\": [\"Decomposers break down dead organisms and waste, returning nutrients to the environment\"]}, {\"question\": \"Is energy recycled in the same way as matter in ecosystems?\", \"answer\": \"No, energy itself is not recycled in the same way\", \"source\": [\"energy itself is not recycled in the same way.\"]}]}",
+    "output": {
+      "status": "ok",
+      "cards": [
+        {
+          "question": "What are two things that flow through ecosystems in different ways?",
+          "answer": "Energy flows through ecosystems while matter is repeatedly recycled",
+          "source": [
+            "In ecology, energy flows through ecosystems while matter is repeatedly recycled."
+          ]
+        },
+        {
+          "question": "How do producers such as plants and algae capture and convert energy?",
+          "answer": "They capture energy from sunlight through photosynthesis and convert it into chemical energy",
+          "source": [
+            "Producers such as plants and algae capture energy from sunlight through photosynthesis and convert it into chemical energy."
+          ]
+        },
+        {
+          "question": "How do primary consumers obtain energy?",
+          "answer": "By eating producers",
+          "source": [
+            "Primary consumers obtain energy by eating producers"
+          ]
+        },
+        {
+          "question": "How do secondary and tertiary consumers obtain energy?",
+          "answer": "By feeding on organisms at lower trophic levels",
+          "source": [
+            "secondary and tertiary consumers obtain it by feeding on organisms at lower trophic levels."
+          ]
+        },
+        {
+          "question": "Why is only a fraction of the energy at one trophic level transferred to the next?",
+          "answer": "Organisms use much of it for metabolism and lose energy as heat",
+          "source": [
+            "Only a fraction of the energy available at one trophic level is transferred to the next because organisms use much of it for metabolism and lose energy as heat."
+          ]
+        },
+        {
+          "question": "What do decomposers do?",
+          "answer": "They break down dead organisms and waste, and return nutrients to the environment",
+          "source": [
+            "Decomposers break down dead organisms and waste, returning nutrients to the environment"
+          ]
+        },
+        {
+          "question": "Is energy recycled in the same way as matter in ecosystems?",
+          "answer": "No, energy itself is not recycled in the same way",
+          "source": [
+            "energy itself is not recycled in the same way."
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "model": "claude-haiku-4-5-20251001",
+      "prompt_version": "v1",
+      "prompt_hash": "f5e88f4d8fd8",
+      "input_tokens": 1755,
+      "output_tokens": 413,
+      "cost_usd": 0.00382,
+      "latency_seconds": 4.342318713999703
+    },
+    "card_count": 7,
+    "card_count_in_range": false,
+    "cards": [
+      {
+        "card_id": "sample_005-c01",
+        "question": "What are two things that flow through ecosystems in different ways?",
+        "answer": "Energy flows through ecosystems while matter is repeatedly recycled",
+        "source": [
+          "In ecology, energy flows through ecosystems while matter is repeatedly recycled."
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_005-c02",
+        "question": "How do producers such as plants and algae capture and convert energy?",
+        "answer": "They capture energy from sunlight through photosynthesis and convert it into chemical energy",
+        "source": [
+          "Producers such as plants and algae capture energy from sunlight through photosynthesis and convert it into chemical energy."
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_005-c03",
+        "question": "How do primary consumers obtain energy?",
+        "answer": "By eating producers",
+        "source": [
+          "Primary consumers obtain energy by eating producers"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_005-c04",
+        "question": "How do secondary and tertiary consumers obtain energy?",
+        "answer": "By feeding on organisms at lower trophic levels",
+        "source": [
+          "secondary and tertiary consumers obtain it by feeding on organisms at lower trophic levels."
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_005-c05",
+        "question": "Why is only a fraction of the energy at one trophic level transferred to the next?",
+        "answer": "Organisms use much of it for metabolism and lose energy as heat",
+        "source": [
+          "Only a fraction of the energy available at one trophic level is transferred to the next because organisms use much of it for metabolism and lose energy as heat."
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_005-c06",
+        "question": "What do decomposers do?",
+        "answer": "They break down dead organisms and waste, and return nutrients to the environment",
+        "source": [
+          "Decomposers break down dead organisms and waste, returning nutrients to the environment"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_005-c07",
+        "question": "Is energy recycled in the same way as matter in ecosystems?",
+        "answer": "No, energy itself is not recycled in the same way",
+        "source": [
+          "energy itself is not recycled in the same way."
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      }
+    ]
+  },
+  {
+    "id": "sample_006",
+    "tags": [
+      "sloppy_bullets"
+    ],
+    "expected_outcome": "accept",
+    "expected_card_range": [
+      5,
+      7
+    ],
+    "outcome": "accept",
+    "stage1_correct": true,
+    "scored_in_stage2": true,
+    "error": null,
+    "raw_text": "{\"status\": \"ok\", \"cards\": [{\"question\": \"What event triggered the calling of the Estates General in 1789?\", \"answer\": \"A financial crisis and bad harvests\", \"source\": [\"Estates General called 1789 after financial crisis, bad harvests\"]}, {\"question\": \"Which estate comprised the majority of the population but held little political power before the French Revolution?\", \"answer\": \"The Third Estate\", \"source\": [\"Third Estate = most of population but little political power\"]}, {\"question\": \"What was the Tennis Court Oath?\", \"answer\": \"A declaration that the Third Estate would not leave until a constitution was made\", \"source\": [\"Tennis Court Oath — basically said they weren't leaving until constitution made\"]}, {\"question\": \"On what date was the Bastille stormed?\", \"answer\": \"July 14, 1789\", \"source\": [\"Bastille stormed July 14\"]}, {\"question\": \"What three principles were included in the Declaration of Rights issued in August 1789?\", \"answer\": \"Liberty, equality, and popular sovereignty\", \"source\": [\"Declaration of Rights in August: liberty, equality, popular sovereignty\"]}, {\"question\": \"In what year and at what location did Louis XVI attempt to escape Paris?\", \"answer\": \"1791 at Varennes\", \"source\": [\"Louis tries to escape Paris in 1791, caught at Varennes\"]}, {\"question\": \"What effect did Louis XVI's failed escape attempt at Varennes have on the monarchy?\", \"answer\": \"It caused the monarchy to lose a lot of support\", \"source\": [\"after this monarchy loses a lot of support\"]}, {\"question\": \"In what year was the French Republic established?\", \"answer\": \"1792\", \"source\": [\"1792 republic\"]}, {\"question\": \"In what year was Louis XVI executed?\", \"answer\": \"1793\", \"source\": [\"Louis XVI executed 1793\"]}, {\"question\": \"Who led the Committee of Public Safety during the Reign of Terror?\", \"answer\": \"Robespierre\", \"source\": [\"then Terror — Robespierre, Committee of Public Safety\"]}, {\"question\": \"How did the Reign of Terror end?\", \"answer\": \"Robespierre was arrested in 1794\", \"source\": [\"ended when Robespierre himself arrested in 1794\"]}, {\"question\": \"What political system followed the Reign of Terror?\", \"answer\": \"The Directory\", \"source\": [\"Directory follows\"]}]}",
+    "output": {
+      "status": "ok",
+      "cards": [
+        {
+          "question": "What event triggered the calling of the Estates General in 1789?",
+          "answer": "A financial crisis and bad harvests",
+          "source": [
+            "Estates General called 1789 after financial crisis, bad harvests"
+          ]
+        },
+        {
+          "question": "Which estate comprised the majority of the population but held little political power before the French Revolution?",
+          "answer": "The Third Estate",
+          "source": [
+            "Third Estate = most of population but little political power"
+          ]
+        },
+        {
+          "question": "What was the Tennis Court Oath?",
+          "answer": "A declaration that the Third Estate would not leave until a constitution was made",
+          "source": [
+            "Tennis Court Oath — basically said they weren't leaving until constitution made"
+          ]
+        },
+        {
+          "question": "On what date was the Bastille stormed?",
+          "answer": "July 14, 1789",
+          "source": [
+            "Bastille stormed July 14"
+          ]
+        },
+        {
+          "question": "What three principles were included in the Declaration of Rights issued in August 1789?",
+          "answer": "Liberty, equality, and popular sovereignty",
+          "source": [
+            "Declaration of Rights in August: liberty, equality, popular sovereignty"
+          ]
+        },
+        {
+          "question": "In what year and at what location did Louis XVI attempt to escape Paris?",
+          "answer": "1791 at Varennes",
+          "source": [
+            "Louis tries to escape Paris in 1791, caught at Varennes"
+          ]
+        },
+        {
+          "question": "What effect did Louis XVI's failed escape attempt at Varennes have on the monarchy?",
+          "answer": "It caused the monarchy to lose a lot of support",
+          "source": [
+            "after this monarchy loses a lot of support"
+          ]
+        },
+        {
+          "question": "In what year was the French Republic established?",
+          "answer": "1792",
+          "source": [
+            "1792 republic"
+          ]
+        },
+        {
+          "question": "In what year was Louis XVI executed?",
+          "answer": "1793",
+          "source": [
+            "Louis XVI executed 1793"
+          ]
+        },
+        {
+          "question": "Who led the Committee of Public Safety during the Reign of Terror?",
+          "answer": "Robespierre",
+          "source": [
+            "then Terror — Robespierre, Committee of Public Safety"
+          ]
+        },
+        {
+          "question": "How did the Reign of Terror end?",
+          "answer": "Robespierre was arrested in 1794",
+          "source": [
+            "ended when Robespierre himself arrested in 1794"
+          ]
+        },
+        {
+          "question": "What political system followed the Reign of Terror?",
+          "answer": "The Directory",
+          "source": [
+            "Directory follows"
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "model": "claude-haiku-4-5-20251001",
+      "prompt_version": "v1",
+      "prompt_hash": "f5e88f4d8fd8",
+      "input_tokens": 1780,
+      "output_tokens": 555,
+      "cost_usd": 0.004555,
+      "latency_seconds": 5.814828526999918
+    },
+    "card_count": 12,
+    "card_count_in_range": false,
+    "cards": [
+      {
+        "card_id": "sample_006-c01",
+        "question": "What event triggered the calling of the Estates General in 1789?",
+        "answer": "A financial crisis and bad harvests",
+        "source": [
+          "Estates General called 1789 after financial crisis, bad harvests"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_006-c02",
+        "question": "Which estate comprised the majority of the population but held little political power before the French Revolution?",
+        "answer": "The Third Estate",
+        "source": [
+          "Third Estate = most of population but little political power"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_006-c03",
+        "question": "What was the Tennis Court Oath?",
+        "answer": "A declaration that the Third Estate would not leave until a constitution was made",
+        "source": [
+          "Tennis Court Oath — basically said they weren't leaving until constitution made"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_006-c04",
+        "question": "On what date was the Bastille stormed?",
+        "answer": "July 14, 1789",
+        "source": [
+          "Bastille stormed July 14"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_006-c05",
+        "question": "What three principles were included in the Declaration of Rights issued in August 1789?",
+        "answer": "Liberty, equality, and popular sovereignty",
+        "source": [
+          "Declaration of Rights in August: liberty, equality, popular sovereignty"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_006-c06",
+        "question": "In what year and at what location did Louis XVI attempt to escape Paris?",
+        "answer": "1791 at Varennes",
+        "source": [
+          "Louis tries to escape Paris in 1791, caught at Varennes"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_006-c07",
+        "question": "What effect did Louis XVI's failed escape attempt at Varennes have on the monarchy?",
+        "answer": "It caused the monarchy to lose a lot of support",
+        "source": [
+          "after this monarchy loses a lot of support"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_006-c08",
+        "question": "In what year was the French Republic established?",
+        "answer": "1792",
+        "source": [
+          "1792 republic"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_006-c09",
+        "question": "In what year was Louis XVI executed?",
+        "answer": "1793",
+        "source": [
+          "Louis XVI executed 1793"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_006-c10",
+        "question": "Who led the Committee of Public Safety during the Reign of Terror?",
+        "answer": "Robespierre",
+        "source": [
+          "then Terror — Robespierre, Committee of Public Safety"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_006-c11",
+        "question": "How did the Reign of Terror end?",
+        "answer": "Robespierre was arrested in 1794",
+        "source": [
+          "ended when Robespierre himself arrested in 1794"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_006-c12",
+        "question": "What political system followed the Reign of Terror?",
+        "answer": "The Directory",
+        "source": [
+          "Directory follows"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      }
+    ]
+  },
+  {
+    "id": "sample_007",
+    "tags": [
+      "sloppy_bullets"
+    ],
+    "expected_outcome": "accept",
+    "expected_card_range": [
+      4,
+      6
+    ],
+    "outcome": "accept",
+    "stage1_correct": true,
+    "scored_in_stage2": true,
+    "error": null,
+    "raw_text": "{\"status\": \"ok\", \"cards\": [{\"question\": \"What is the resting membrane potential of a neuron?\", \"answer\": \"-70 mV\", \"source\": [\"resting mem ~ -70 mV\"]}, {\"question\": \"What happens to sodium channels when a stimulus reaches threshold?\", \"answer\": \"They open, allowing sodium ions to flow into the cell\", \"source\": [\"stimulus reaches threshold -> Na+ channels open, Na in = depolarization\"]}, {\"question\": \"What is depolarization?\", \"answer\": \"The influx of sodium ions into the neuron\", \"source\": [\"Na+ channels open, Na in = depolarization\"]}, {\"question\": \"What causes repolarization of the neuronal membrane?\", \"answer\": \"Sodium channels close/inactivate and potassium channels open, allowing potassium ions to flow out\", \"source\": [\"then Na gates close/inactivate + K channels open, K OUT -> repolarize\"]}, {\"question\": \"What is hyperpolarization?\", \"answer\": \"The condition that occurs when potassium channels stay open too long, causing the membrane potential to become more negative than the resting level\", \"source\": [\"K kinda stays open too long = hyperpolarization\"]}, {\"question\": \"What is the refractory period?\", \"answer\": \"A period during which the neuron cannot immediately fire in the same way, consisting of an absolute phase followed by a relative phase\", \"source\": [\"refractory period = can't immediately fire same way (absolute first, relative later)\"]}, {\"question\": \"What is saltatory conduction?\", \"answer\": \"A method of action potential propagation along myelinated axons where the action potential jumps from node to node\", \"source\": [\"myelin speeds AP by saltatory conduction, jumps node to node\"]}, {\"question\": \"What are the Nodes of Ranvier?\", \"answer\": \"The gaps between myelin sheaths where saltatory conduction occurs during action potential propagation\", \"source\": [\"jumps node to node (Nodes of Ranvier)\"]}]}",
+    "output": {
+      "status": "ok",
+      "cards": [
+        {
+          "question": "What is the resting membrane potential of a neuron?",
+          "answer": "-70 mV",
+          "source": [
+            "resting mem ~ -70 mV"
+          ]
+        },
+        {
+          "question": "What happens to sodium channels when a stimulus reaches threshold?",
+          "answer": "They open, allowing sodium ions to flow into the cell",
+          "source": [
+            "stimulus reaches threshold -> Na+ channels open, Na in = depolarization"
+          ]
+        },
+        {
+          "question": "What is depolarization?",
+          "answer": "The influx of sodium ions into the neuron",
+          "source": [
+            "Na+ channels open, Na in = depolarization"
+          ]
+        },
+        {
+          "question": "What causes repolarization of the neuronal membrane?",
+          "answer": "Sodium channels close/inactivate and potassium channels open, allowing potassium ions to flow out",
+          "source": [
+            "then Na gates close/inactivate + K channels open, K OUT -> repolarize"
+          ]
+        },
+        {
+          "question": "What is hyperpolarization?",
+          "answer": "The condition that occurs when potassium channels stay open too long, causing the membrane potential to become more negative than the resting level",
+          "source": [
+            "K kinda stays open too long = hyperpolarization"
+          ]
+        },
+        {
+          "question": "What is the refractory period?",
+          "answer": "A period during which the neuron cannot immediately fire in the same way, consisting of an absolute phase followed by a relative phase",
+          "source": [
+            "refractory period = can't immediately fire same way (absolute first, relative later)"
+          ]
+        },
+        {
+          "question": "What is saltatory conduction?",
+          "answer": "A method of action potential propagation along myelinated axons where the action potential jumps from node to node",
+          "source": [
+            "myelin speeds AP by saltatory conduction, jumps node to node"
+          ]
+        },
+        {
+          "question": "What are the Nodes of Ranvier?",
+          "answer": "The gaps between myelin sheaths where saltatory conduction occurs during action potential propagation",
+          "source": [
+            "jumps node to node (Nodes of Ranvier)"
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "model": "claude-haiku-4-5-20251001",
+      "prompt_version": "v1",
+      "prompt_hash": "f5e88f4d8fd8",
+      "input_tokens": 1737,
+      "output_tokens": 466,
+      "cost_usd": 0.004067,
+      "latency_seconds": 4.058690982999906
+    },
+    "card_count": 8,
+    "card_count_in_range": false,
+    "cards": [
+      {
+        "card_id": "sample_007-c01",
+        "question": "What is the resting membrane potential of a neuron?",
+        "answer": "-70 mV",
+        "source": [
+          "resting mem ~ -70 mV"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_007-c02",
+        "question": "What happens to sodium channels when a stimulus reaches threshold?",
+        "answer": "They open, allowing sodium ions to flow into the cell",
+        "source": [
+          "stimulus reaches threshold -> Na+ channels open, Na in = depolarization"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_007-c03",
+        "question": "What is depolarization?",
+        "answer": "The influx of sodium ions into the neuron",
+        "source": [
+          "Na+ channels open, Na in = depolarization"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_007-c04",
+        "question": "What causes repolarization of the neuronal membrane?",
+        "answer": "Sodium channels close/inactivate and potassium channels open, allowing potassium ions to flow out",
+        "source": [
+          "then Na gates close/inactivate + K channels open, K OUT -> repolarize"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_007-c05",
+        "question": "What is hyperpolarization?",
+        "answer": "The condition that occurs when potassium channels stay open too long, causing the membrane potential to become more negative than the resting level",
+        "source": [
+          "K kinda stays open too long = hyperpolarization"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_007-c06",
+        "question": "What is the refractory period?",
+        "answer": "A period during which the neuron cannot immediately fire in the same way, consisting of an absolute phase followed by a relative phase",
+        "source": [
+          "refractory period = can't immediately fire same way (absolute first, relative later)"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_007-c07",
+        "question": "What is saltatory conduction?",
+        "answer": "A method of action potential propagation along myelinated axons where the action potential jumps from node to node",
+        "source": [
+          "myelin speeds AP by saltatory conduction, jumps node to node"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_007-c08",
+        "question": "What are the Nodes of Ranvier?",
+        "answer": "The gaps between myelin sheaths where saltatory conduction occurs during action potential propagation",
+        "source": [
+          "jumps node to node (Nodes of Ranvier)"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      }
+    ]
+  },
+  {
+    "id": "sample_008",
+    "tags": [
+      "sloppy_bullets"
+    ],
+    "expected_outcome": "accept",
+    "expected_card_range": [
+      5,
+      7
+    ],
+    "outcome": "accept",
+    "stage1_correct": true,
+    "scored_in_stage2": true,
+    "error": null,
+    "raw_text": "{\"status\": \"ok\", \"cards\": [{\"question\": \"What does GDP measure?\", \"answer\": \"The market value of final goods and services produced inside a country in a given period\", \"source\": [\"GDP = market value of final goods/services produced INSIDE a country in given period\"]}, {\"question\": \"Why are used goods and intermediate goods excluded from GDP?\", \"answer\": \"Used goods are not included because they were counted in a previous period; intermediate goods are excluded to avoid double counting\", \"source\": [\"not used goods, not intermediate (avoid double count)\"]}, {\"question\": \"What is the difference between nominal GDP and real GDP?\", \"answer\": \"Real GDP adjusts for price changes, while nominal GDP does not\", \"source\": [\"real GDP adjusts for price changes; nominal doesn't\"]}, {\"question\": \"What is the formula for the GDP deflator?\", \"answer\": \"GDP deflator = (nominal GDP / real GDP) × 100\", \"source\": [\"GDP deflator = nominal / real x100\"]}, {\"question\": \"What are limitations of using GDP per capita as a measure?\", \"answer\": \"It does not tell the distribution of output/income, unpaid work, or environmental costs\", \"source\": [\"GDP per capita useful for avg output/income-ish but doesn't tell distribution or unpaid work, environ cost etc\"]}, {\"question\": \"How do exports and imports affect GDP?\", \"answer\": \"Exports add to GDP and imports subtract from GDP, calculated as net exports (NX = X - M)\", \"source\": [\"exports add, imports subtract (NX = X-M)\"]}]}",
+    "output": {
+      "status": "ok",
+      "cards": [
+        {
+          "question": "What does GDP measure?",
+          "answer": "The market value of final goods and services produced inside a country in a given period",
+          "source": [
+            "GDP = market value of final goods/services produced INSIDE a country in given period"
+          ]
+        },
+        {
+          "question": "Why are used goods and intermediate goods excluded from GDP?",
+          "answer": "Used goods are not included because they were counted in a previous period; intermediate goods are excluded to avoid double counting",
+          "source": [
+            "not used goods, not intermediate (avoid double count)"
+          ]
+        },
+        {
+          "question": "What is the difference between nominal GDP and real GDP?",
+          "answer": "Real GDP adjusts for price changes, while nominal GDP does not",
+          "source": [
+            "real GDP adjusts for price changes; nominal doesn't"
+          ]
+        },
+        {
+          "question": "What is the formula for the GDP deflator?",
+          "answer": "GDP deflator = (nominal GDP / real GDP) × 100",
+          "source": [
+            "GDP deflator = nominal / real x100"
+          ]
+        },
+        {
+          "question": "What are limitations of using GDP per capita as a measure?",
+          "answer": "It does not tell the distribution of output/income, unpaid work, or environmental costs",
+          "source": [
+            "GDP per capita useful for avg output/income-ish but doesn't tell distribution or unpaid work, environ cost etc"
+          ]
+        },
+        {
+          "question": "How do exports and imports affect GDP?",
+          "answer": "Exports add to GDP and imports subtract from GDP, calculated as net exports (NX = X - M)",
+          "source": [
+            "exports add, imports subtract (NX = X-M)"
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "model": "claude-haiku-4-5-20251001",
+      "prompt_version": "v1",
+      "prompt_hash": "f5e88f4d8fd8",
+      "input_tokens": 1724,
+      "output_tokens": 357,
+      "cost_usd": 0.003509,
+      "latency_seconds": 4.687723043000005
+    },
+    "card_count": 6,
+    "card_count_in_range": true,
+    "cards": [
+      {
+        "card_id": "sample_008-c01",
+        "question": "What does GDP measure?",
+        "answer": "The market value of final goods and services produced inside a country in a given period",
+        "source": [
+          "GDP = market value of final goods/services produced INSIDE a country in given period"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_008-c02",
+        "question": "Why are used goods and intermediate goods excluded from GDP?",
+        "answer": "Used goods are not included because they were counted in a previous period; intermediate goods are excluded to avoid double counting",
+        "source": [
+          "not used goods, not intermediate (avoid double count)"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_008-c03",
+        "question": "What is the difference between nominal GDP and real GDP?",
+        "answer": "Real GDP adjusts for price changes, while nominal GDP does not",
+        "source": [
+          "real GDP adjusts for price changes; nominal doesn't"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_008-c04",
+        "question": "What is the formula for the GDP deflator?",
+        "answer": "GDP deflator = (nominal GDP / real GDP) × 100",
+        "source": [
+          "GDP deflator = nominal / real x100"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_008-c05",
+        "question": "What are limitations of using GDP per capita as a measure?",
+        "answer": "It does not tell the distribution of output/income, unpaid work, or environmental costs",
+        "source": [
+          "GDP per capita useful for avg output/income-ish but doesn't tell distribution or unpaid work, environ cost etc"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_008-c06",
+        "question": "How do exports and imports affect GDP?",
+        "answer": "Exports add to GDP and imports subtract from GDP, calculated as net exports (NX = X - M)",
+        "source": [
+          "exports add, imports subtract (NX = X-M)"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      }
+    ]
+  },
+  {
+    "id": "sample_009",
+    "tags": [
+      "sloppy_bullets"
+    ],
+    "expected_outcome": "accept",
+    "expected_card_range": [
+      5,
+      7
+    ],
+    "outcome": "accept",
+    "stage1_correct": true,
+    "scored_in_stage2": true,
+    "error": null,
+    "raw_text": "{\"status\": \"ok\", \"cards\": [{\"question\": \"In which direction does DNA replication synthesize the new strand?\", \"answer\": \"5' to 3'\", \"source\": [\"DNA repl. happens 5'->3' (new strand)\"]}, {\"question\": \"What is the function of helicase during DNA replication?\", \"answer\": \"To unzip the double helix\", \"source\": [\"helicase unzip double helix\"]}, {\"question\": \"What role does topoisomerase play in DNA replication?\", \"answer\": \"It helps with twisting\", \"source\": [\"topo helps w twisting\"]}, {\"question\": \"What is the function of primase during DNA replication?\", \"answer\": \"To put RNA primer\", \"source\": [\"primase puts RNA primer\"]}, {\"question\": \"What is the structure of the leading strand during DNA replication?\", \"answer\": \"Basically continuous\", \"source\": [\"leading strand: basically continuous\"]}, {\"question\": \"What are Okazaki fragments?\", \"answer\": \"Short DNA segments on the lagging strand; each starts with a primer and DNA polymerase fills them, then ligase seals them\", \"source\": [\"lagging = Okazaki frags, each starts primer, DNA pol fills, ligase seals\"]}, {\"question\": \"What enzymatic activity does DNA polymerase have besides synthesis?\", \"answer\": \"Proofreading via 3' to 5' exonuclease activity\", \"source\": [\"DNA pol also proofreads (3'->5' exonuclease)\"]}, {\"question\": \"What happens to the RNA primers after DNA replication?\", \"answer\": \"They are removed and replaced\", \"source\": [\"primers later removed/replaced\"]}, {\"question\": \"Why is the lagging strand synthesized discontinuously rather than continuously?\", \"answer\": \"Because the DNA strands are antiparallel\", \"source\": [\"strands antiparallel, so this is why lagging is discontinuous\"]}]}",
+    "output": {
+      "status": "ok",
+      "cards": [
+        {
+          "question": "In which direction does DNA replication synthesize the new strand?",
+          "answer": "5' to 3'",
+          "source": [
+            "DNA repl. happens 5'->3' (new strand)"
+          ]
+        },
+        {
+          "question": "What is the function of helicase during DNA replication?",
+          "answer": "To unzip the double helix",
+          "source": [
+            "helicase unzip double helix"
+          ]
+        },
+        {
+          "question": "What role does topoisomerase play in DNA replication?",
+          "answer": "It helps with twisting",
+          "source": [
+            "topo helps w twisting"
+          ]
+        },
+        {
+          "question": "What is the function of primase during DNA replication?",
+          "answer": "To put RNA primer",
+          "source": [
+            "primase puts RNA primer"
+          ]
+        },
+        {
+          "question": "What is the structure of the leading strand during DNA replication?",
+          "answer": "Basically continuous",
+          "source": [
+            "leading strand: basically continuous"
+          ]
+        },
+        {
+          "question": "What are Okazaki fragments?",
+          "answer": "Short DNA segments on the lagging strand; each starts with a primer and DNA polymerase fills them, then ligase seals them",
+          "source": [
+            "lagging = Okazaki frags, each starts primer, DNA pol fills, ligase seals"
+          ]
+        },
+        {
+          "question": "What enzymatic activity does DNA polymerase have besides synthesis?",
+          "answer": "Proofreading via 3' to 5' exonuclease activity",
+          "source": [
+            "DNA pol also proofreads (3'->5' exonuclease)"
+          ]
+        },
+        {
+          "question": "What happens to the RNA primers after DNA replication?",
+          "answer": "They are removed and replaced",
+          "source": [
+            "primers later removed/replaced"
+          ]
+        },
+        {
+          "question": "Why is the lagging strand synthesized discontinuously rather than continuously?",
+          "answer": "Because the DNA strands are antiparallel",
+          "source": [
+            "strands antiparallel, so this is why lagging is discontinuous"
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "model": "claude-haiku-4-5-20251001",
+      "prompt_version": "v1",
+      "prompt_hash": "f5e88f4d8fd8",
+      "input_tokens": 1741,
+      "output_tokens": 457,
+      "cost_usd": 0.004026,
+      "latency_seconds": 4.864871222000147
+    },
+    "card_count": 9,
+    "card_count_in_range": false,
+    "cards": [
+      {
+        "card_id": "sample_009-c01",
+        "question": "In which direction does DNA replication synthesize the new strand?",
+        "answer": "5' to 3'",
+        "source": [
+          "DNA repl. happens 5'->3' (new strand)"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_009-c02",
+        "question": "What is the function of helicase during DNA replication?",
+        "answer": "To unzip the double helix",
+        "source": [
+          "helicase unzip double helix"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_009-c03",
+        "question": "What role does topoisomerase play in DNA replication?",
+        "answer": "It helps with twisting",
+        "source": [
+          "topo helps w twisting"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_009-c04",
+        "question": "What is the function of primase during DNA replication?",
+        "answer": "To put RNA primer",
+        "source": [
+          "primase puts RNA primer"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_009-c05",
+        "question": "What is the structure of the leading strand during DNA replication?",
+        "answer": "Basically continuous",
+        "source": [
+          "leading strand: basically continuous"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_009-c06",
+        "question": "What are Okazaki fragments?",
+        "answer": "Short DNA segments on the lagging strand; each starts with a primer and DNA polymerase fills them, then ligase seals them",
+        "source": [
+          "lagging = Okazaki frags, each starts primer, DNA pol fills, ligase seals"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_009-c07",
+        "question": "What enzymatic activity does DNA polymerase have besides synthesis?",
+        "answer": "Proofreading via 3' to 5' exonuclease activity",
+        "source": [
+          "DNA pol also proofreads (3'->5' exonuclease)"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_009-c08",
+        "question": "What happens to the RNA primers after DNA replication?",
+        "answer": "They are removed and replaced",
+        "source": [
+          "primers later removed/replaced"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_009-c09",
+        "question": "Why is the lagging strand synthesized discontinuously rather than continuously?",
+        "answer": "Because the DNA strands are antiparallel",
+        "source": [
+          "strands antiparallel, so this is why lagging is discontinuous"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      }
+    ]
+  },
+  {
+    "id": "sample_010",
+    "tags": [
+      "sloppy_bullets"
+    ],
+    "expected_outcome": "accept",
+    "expected_card_range": [
+      5,
+      7
+    ],
+    "outcome": "accept",
+    "stage1_correct": true,
+    "scored_in_stage2": true,
+    "error": null,
+    "raw_text": "{\"status\": \"ok\", \"cards\": [{\"question\": \"In what month and year did the Battle of Midway occur?\", \"answer\": \"June 1942\", \"source\": [\"Midway: June 1942\"]}, {\"question\": \"What was the significance of the US victory at Midway?\", \"answer\": \"Four Japanese carriers were lost and it was a big turning point\", \"source\": [\"US wins, four Japanese carriers gone. Big turning point.\"]}, {\"question\": \"When did the Battle of Guadalcanal begin and end?\", \"answer\": \"August 1942 to February 1943\", \"source\": [\"Guadalcanal started Aug 1942 and dragged into Feb 1943\"]}, {\"question\": \"What was the significance of the Battle of Guadalcanal?\", \"answer\": \"It was the first big Allied offensive in the Pacific\", \"source\": [\"First big Allied offensive in Pacific.\"]}, {\"question\": \"What military strategy involved selectively capturing certain islands while bypassing others?\", \"answer\": \"Island hopping\", \"source\": [\"Island hopping = don't capture every island. Pick the useful ones and bypass the rest.\"]}, {\"question\": \"What was the purpose of the island hopping strategy?\", \"answer\": \"It allowed US forces to move closer to Japan while avoiding some heavily defended positions\", \"source\": [\"lets US forces move closer to Japan while avoiding some heavily defended positions.\"]}, {\"question\": \"In what year did the Battles of Iwo Jima and Okinawa occur?\", \"answer\": \"1945\", \"source\": [\"Iwo Jima 1945, very high casualties. Okinawa same year\"]}, {\"question\": \"Which Pacific battle in 1945 had worse casualties, Iwo Jima or Okinawa?\", \"answer\": \"Okinawa\", \"source\": [\"Iwo Jima 1945, very high casualties. Okinawa same year, even worse.\"]}, {\"question\": \"On what date was the atomic bomb dropped on Hiroshima?\", \"answer\": \"August 6\", \"source\": [\"Hiroshima Aug 6\"]}, {\"question\": \"On what date was the atomic bomb dropped on Nagasaki?\", \"answer\": \"August 9\", \"source\": [\"Nagasaki Aug 9\"]}, {\"question\": \"On what date did Japan announce its surrender?\", \"answer\": \"August 15\", \"source\": [\"Japan announced surrender Aug 15\"]}, {\"question\": \"On what date did Japan formally surrender?\", \"answer\": \"September 2\", \"source\": [\"formal surrender was Sept 2\"]}]}",
+    "output": {
+      "status": "ok",
+      "cards": [
+        {
+          "question": "In what month and year did the Battle of Midway occur?",
+          "answer": "June 1942",
+          "source": [
+            "Midway: June 1942"
+          ]
+        },
+        {
+          "question": "What was the significance of the US victory at Midway?",
+          "answer": "Four Japanese carriers were lost and it was a big turning point",
+          "source": [
+            "US wins, four Japanese carriers gone. Big turning point."
+          ]
+        },
+        {
+          "question": "When did the Battle of Guadalcanal begin and end?",
+          "answer": "August 1942 to February 1943",
+          "source": [
+            "Guadalcanal started Aug 1942 and dragged into Feb 1943"
+          ]
+        },
+        {
+          "question": "What was the significance of the Battle of Guadalcanal?",
+          "answer": "It was the first big Allied offensive in the Pacific",
+          "source": [
+            "First big Allied offensive in Pacific."
+          ]
+        },
+        {
+          "question": "What military strategy involved selectively capturing certain islands while bypassing others?",
+          "answer": "Island hopping",
+          "source": [
+            "Island hopping = don't capture every island. Pick the useful ones and bypass the rest."
+          ]
+        },
+        {
+          "question": "What was the purpose of the island hopping strategy?",
+          "answer": "It allowed US forces to move closer to Japan while avoiding some heavily defended positions",
+          "source": [
+            "lets US forces move closer to Japan while avoiding some heavily defended positions."
+          ]
+        },
+        {
+          "question": "In what year did the Battles of Iwo Jima and Okinawa occur?",
+          "answer": "1945",
+          "source": [
+            "Iwo Jima 1945, very high casualties. Okinawa same year"
+          ]
+        },
+        {
+          "question": "Which Pacific battle in 1945 had worse casualties, Iwo Jima or Okinawa?",
+          "answer": "Okinawa",
+          "source": [
+            "Iwo Jima 1945, very high casualties. Okinawa same year, even worse."
+          ]
+        },
+        {
+          "question": "On what date was the atomic bomb dropped on Hiroshima?",
+          "answer": "August 6",
+          "source": [
+            "Hiroshima Aug 6"
+          ]
+        },
+        {
+          "question": "On what date was the atomic bomb dropped on Nagasaki?",
+          "answer": "August 9",
+          "source": [
+            "Nagasaki Aug 9"
+          ]
+        },
+        {
+          "question": "On what date did Japan announce its surrender?",
+          "answer": "August 15",
+          "source": [
+            "Japan announced surrender Aug 15"
+          ]
+        },
+        {
+          "question": "On what date did Japan formally surrender?",
+          "answer": "September 2",
+          "source": [
+            "formal surrender was Sept 2"
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "model": "claude-haiku-4-5-20251001",
+      "prompt_version": "v1",
+      "prompt_hash": "f5e88f4d8fd8",
+      "input_tokens": 1796,
+      "output_tokens": 594,
+      "cost_usd": 0.004766,
+      "latency_seconds": 4.092477866999616
+    },
+    "card_count": 12,
+    "card_count_in_range": false,
+    "cards": [
+      {
+        "card_id": "sample_010-c01",
+        "question": "In what month and year did the Battle of Midway occur?",
+        "answer": "June 1942",
+        "source": [
+          "Midway: June 1942"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_010-c02",
+        "question": "What was the significance of the US victory at Midway?",
+        "answer": "Four Japanese carriers were lost and it was a big turning point",
+        "source": [
+          "US wins, four Japanese carriers gone. Big turning point."
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_010-c03",
+        "question": "When did the Battle of Guadalcanal begin and end?",
+        "answer": "August 1942 to February 1943",
+        "source": [
+          "Guadalcanal started Aug 1942 and dragged into Feb 1943"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_010-c04",
+        "question": "What was the significance of the Battle of Guadalcanal?",
+        "answer": "It was the first big Allied offensive in the Pacific",
+        "source": [
+          "First big Allied offensive in Pacific."
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_010-c05",
+        "question": "What military strategy involved selectively capturing certain islands while bypassing others?",
+        "answer": "Island hopping",
+        "source": [
+          "Island hopping = don't capture every island. Pick the useful ones and bypass the rest."
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_010-c06",
+        "question": "What was the purpose of the island hopping strategy?",
+        "answer": "It allowed US forces to move closer to Japan while avoiding some heavily defended positions",
+        "source": [
+          "lets US forces move closer to Japan while avoiding some heavily defended positions."
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_010-c07",
+        "question": "In what year did the Battles of Iwo Jima and Okinawa occur?",
+        "answer": "1945",
+        "source": [
+          "Iwo Jima 1945, very high casualties. Okinawa same year"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_010-c08",
+        "question": "Which Pacific battle in 1945 had worse casualties, Iwo Jima or Okinawa?",
+        "answer": "Okinawa",
+        "source": [
+          "Iwo Jima 1945, very high casualties. Okinawa same year, even worse."
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_010-c09",
+        "question": "On what date was the atomic bomb dropped on Hiroshima?",
+        "answer": "August 6",
+        "source": [
+          "Hiroshima Aug 6"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_010-c10",
+        "question": "On what date was the atomic bomb dropped on Nagasaki?",
+        "answer": "August 9",
+        "source": [
+          "Nagasaki Aug 9"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_010-c11",
+        "question": "On what date did Japan announce its surrender?",
+        "answer": "August 15",
+        "source": [
+          "Japan announced surrender Aug 15"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_010-c12",
+        "question": "On what date did Japan formally surrender?",
+        "answer": "September 2",
+        "source": [
+          "formal surrender was Sept 2"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      }
+    ]
+  },
+  {
+    "id": "sample_011",
+    "tags": [
+      "table_data"
+    ],
+    "expected_outcome": "accept",
+    "expected_card_range": [
+      5,
+      6
+    ],
+    "outcome": "accept",
+    "stage1_correct": true,
+    "scored_in_stage2": true,
+    "error": null,
+    "raw_text": "{\"status\": \"ok\", \"cards\": [{\"question\": \"What term describes cell division that produces two genetically similar daughter cells?\", \"answer\": \"Mitosis\", \"source\": [\"Mitosis | Cell division producing two genetically similar daughter cells\"]}, {\"question\": \"What is an example of mitosis?\", \"answer\": \"Growth of body tissue\", \"source\": [\"Mitosis | Cell division producing two genetically similar daughter cells | Growth of body tissue\"]}, {\"question\": \"What term describes cell division that produces four genetically varied haploid cells?\", \"answer\": \"Meiosis\", \"source\": [\"Meiosis | Cell division producing four genetically varied haploid cells\"]}, {\"question\": \"What is an example of meiosis?\", \"answer\": \"Formation of gametes\", \"source\": [\"Meiosis | Cell division producing four genetically varied haploid cells | Formation of gametes\"]}, {\"question\": \"What term describes the exchange of DNA between homologous chromosomes?\", \"answer\": \"Crossing over\", \"source\": [\"Crossing over | Exchange of DNA between homologous chromosomes\"]}, {\"question\": \"During which stage does crossing over occur?\", \"answer\": \"Prophase I\", \"source\": [\"Crossing over | Exchange of DNA between homologous chromosomes | Prophase I\"]}, {\"question\": \"What term describes the random orientation of homologous chromosome pairs?\", \"answer\": \"Independent assortment\", \"source\": [\"Independent assortment | Random orientation of homologous chromosome pairs\"]}, {\"question\": \"During which stage does independent assortment occur?\", \"answer\": \"Metaphase I\", \"source\": [\"Independent assortment | Random orientation of homologous chromosome pairs | Metaphase I\"]}, {\"question\": \"What term describes the division of the cytoplasm after nuclear division?\", \"answer\": \"Cytokinesis\", \"source\": [\"Cytokinesis | Division of the cytoplasm after nuclear division\"]}, {\"question\": \"What is an example of cytokinesis in animal cells?\", \"answer\": \"Cleavage furrow\", \"source\": [\"Cytokinesis | Division of the cytoplasm after nuclear division | Cleavage furrow in animal cells\"]}]}",
+    "output": {
+      "status": "ok",
+      "cards": [
+        {
+          "question": "What term describes cell division that produces two genetically similar daughter cells?",
+          "answer": "Mitosis",
+          "source": [
+            "Mitosis | Cell division producing two genetically similar daughter cells"
+          ]
+        },
+        {
+          "question": "What is an example of mitosis?",
+          "answer": "Growth of body tissue",
+          "source": [
+            "Mitosis | Cell division producing two genetically similar daughter cells | Growth of body tissue"
+          ]
+        },
+        {
+          "question": "What term describes cell division that produces four genetically varied haploid cells?",
+          "answer": "Meiosis",
+          "source": [
+            "Meiosis | Cell division producing four genetically varied haploid cells"
+          ]
+        },
+        {
+          "question": "What is an example of meiosis?",
+          "answer": "Formation of gametes",
+          "source": [
+            "Meiosis | Cell division producing four genetically varied haploid cells | Formation of gametes"
+          ]
+        },
+        {
+          "question": "What term describes the exchange of DNA between homologous chromosomes?",
+          "answer": "Crossing over",
+          "source": [
+            "Crossing over | Exchange of DNA between homologous chromosomes"
+          ]
+        },
+        {
+          "question": "During which stage does crossing over occur?",
+          "answer": "Prophase I",
+          "source": [
+            "Crossing over | Exchange of DNA between homologous chromosomes | Prophase I"
+          ]
+        },
+        {
+          "question": "What term describes the random orientation of homologous chromosome pairs?",
+          "answer": "Independent assortment",
+          "source": [
+            "Independent assortment | Random orientation of homologous chromosome pairs"
+          ]
+        },
+        {
+          "question": "During which stage does independent assortment occur?",
+          "answer": "Metaphase I",
+          "source": [
+            "Independent assortment | Random orientation of homologous chromosome pairs | Metaphase I"
+          ]
+        },
+        {
+          "question": "What term describes the division of the cytoplasm after nuclear division?",
+          "answer": "Cytokinesis",
+          "source": [
+            "Cytokinesis | Division of the cytoplasm after nuclear division"
+          ]
+        },
+        {
+          "question": "What is an example of cytokinesis in animal cells?",
+          "answer": "Cleavage furrow",
+          "source": [
+            "Cytokinesis | Division of the cytoplasm after nuclear division | Cleavage furrow in animal cells"
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "model": "claude-haiku-4-5-20251001",
+      "prompt_version": "v1",
+      "prompt_hash": "f5e88f4d8fd8",
+      "input_tokens": 1737,
+      "output_tokens": 504,
+      "cost_usd": 0.004257,
+      "latency_seconds": 3.397578600000088
+    },
+    "card_count": 10,
+    "card_count_in_range": false,
+    "cards": [
+      {
+        "card_id": "sample_011-c01",
+        "question": "What term describes cell division that produces two genetically similar daughter cells?",
+        "answer": "Mitosis",
+        "source": [
+          "Mitosis | Cell division producing two genetically similar daughter cells"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_011-c02",
+        "question": "What is an example of mitosis?",
+        "answer": "Growth of body tissue",
+        "source": [
+          "Mitosis | Cell division producing two genetically similar daughter cells | Growth of body tissue"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_011-c03",
+        "question": "What term describes cell division that produces four genetically varied haploid cells?",
+        "answer": "Meiosis",
+        "source": [
+          "Meiosis | Cell division producing four genetically varied haploid cells"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_011-c04",
+        "question": "What is an example of meiosis?",
+        "answer": "Formation of gametes",
+        "source": [
+          "Meiosis | Cell division producing four genetically varied haploid cells | Formation of gametes"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_011-c05",
+        "question": "What term describes the exchange of DNA between homologous chromosomes?",
+        "answer": "Crossing over",
+        "source": [
+          "Crossing over | Exchange of DNA between homologous chromosomes"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_011-c06",
+        "question": "During which stage does crossing over occur?",
+        "answer": "Prophase I",
+        "source": [
+          "Crossing over | Exchange of DNA between homologous chromosomes | Prophase I"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_011-c07",
+        "question": "What term describes the random orientation of homologous chromosome pairs?",
+        "answer": "Independent assortment",
+        "source": [
+          "Independent assortment | Random orientation of homologous chromosome pairs"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_011-c08",
+        "question": "During which stage does independent assortment occur?",
+        "answer": "Metaphase I",
+        "source": [
+          "Independent assortment | Random orientation of homologous chromosome pairs | Metaphase I"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_011-c09",
+        "question": "What term describes the division of the cytoplasm after nuclear division?",
+        "answer": "Cytokinesis",
+        "source": [
+          "Cytokinesis | Division of the cytoplasm after nuclear division"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_011-c10",
+        "question": "What is an example of cytokinesis in animal cells?",
+        "answer": "Cleavage furrow",
+        "source": [
+          "Cytokinesis | Division of the cytoplasm after nuclear division | Cleavage furrow in animal cells"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      }
+    ]
+  },
+  {
+    "id": "sample_012",
+    "tags": [
+      "table_data"
+    ],
+    "expected_outcome": "accept",
+    "expected_card_range": [
+      5,
+      6
+    ],
+    "outcome": "accept",
+    "stage1_correct": true,
+    "scored_in_stage2": true,
+    "error": null,
+    "raw_text": "{\"status\": \"ok\", \"cards\": [{\"question\": \"What is the chemical formula of hematite?\", \"answer\": \"Fe2O3\", \"source\": [\"Hematite | Fe2O3 | Iron production\"]}, {\"question\": \"What is the main economic use of hematite?\", \"answer\": \"Iron production\", \"source\": [\"Hematite | Fe2O3 | Iron production\"]}, {\"question\": \"What is the chemical formula of halite?\", \"answer\": \"NaCl\", \"source\": [\"Halite | NaCl | Salt and chemical feedstock\"]}, {\"question\": \"What are the main economic uses of halite?\", \"answer\": \"Salt and chemical feedstock\", \"source\": [\"Halite | NaCl | Salt and chemical feedstock\"]}, {\"question\": \"What is the chemical formula of calcite?\", \"answer\": \"CaCO3\", \"source\": [\"Calcite | CaCO3 | Cement and lime production\"]}, {\"question\": \"What are the main economic uses of calcite?\", \"answer\": \"Cement and lime production\", \"source\": [\"Calcite | CaCO3 | Cement and lime production\"]}, {\"question\": \"What is the chemical formula of gypsum?\", \"answer\": \"CaSO4·2H2O\", \"source\": [\"Gypsum | CaSO4·2H2O | Plaster and drywall\"]}, {\"question\": \"What are the main economic uses of gypsum?\", \"answer\": \"Plaster and drywall\", \"source\": [\"Gypsum | CaSO4·2H2O | Plaster and drywall\"]}, {\"question\": \"What is the main economic use of bauxite?\", \"answer\": \"Aluminum production\", \"source\": [\"Bauxite | Al-rich ore | Aluminum production\"]}]}",
+    "output": {
+      "status": "ok",
+      "cards": [
+        {
+          "question": "What is the chemical formula of hematite?",
+          "answer": "Fe2O3",
+          "source": [
+            "Hematite | Fe2O3 | Iron production"
+          ]
+        },
+        {
+          "question": "What is the main economic use of hematite?",
+          "answer": "Iron production",
+          "source": [
+            "Hematite | Fe2O3 | Iron production"
+          ]
+        },
+        {
+          "question": "What is the chemical formula of halite?",
+          "answer": "NaCl",
+          "source": [
+            "Halite | NaCl | Salt and chemical feedstock"
+          ]
+        },
+        {
+          "question": "What are the main economic uses of halite?",
+          "answer": "Salt and chemical feedstock",
+          "source": [
+            "Halite | NaCl | Salt and chemical feedstock"
+          ]
+        },
+        {
+          "question": "What is the chemical formula of calcite?",
+          "answer": "CaCO3",
+          "source": [
+            "Calcite | CaCO3 | Cement and lime production"
+          ]
+        },
+        {
+          "question": "What are the main economic uses of calcite?",
+          "answer": "Cement and lime production",
+          "source": [
+            "Calcite | CaCO3 | Cement and lime production"
+          ]
+        },
+        {
+          "question": "What is the chemical formula of gypsum?",
+          "answer": "CaSO4·2H2O",
+          "source": [
+            "Gypsum | CaSO4·2H2O | Plaster and drywall"
+          ]
+        },
+        {
+          "question": "What are the main economic uses of gypsum?",
+          "answer": "Plaster and drywall",
+          "source": [
+            "Gypsum | CaSO4·2H2O | Plaster and drywall"
+          ]
+        },
+        {
+          "question": "What is the main economic use of bauxite?",
+          "answer": "Aluminum production",
+          "source": [
+            "Bauxite | Al-rich ore | Aluminum production"
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "model": "claude-haiku-4-5-20251001",
+      "prompt_version": "v1",
+      "prompt_hash": "f5e88f4d8fd8",
+      "input_tokens": 1717,
+      "output_tokens": 430,
+      "cost_usd": 0.003867,
+      "latency_seconds": 2.6033619890004047
+    },
+    "card_count": 9,
+    "card_count_in_range": false,
+    "cards": [
+      {
+        "card_id": "sample_012-c01",
+        "question": "What is the chemical formula of hematite?",
+        "answer": "Fe2O3",
+        "source": [
+          "Hematite | Fe2O3 | Iron production"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_012-c02",
+        "question": "What is the main economic use of hematite?",
+        "answer": "Iron production",
+        "source": [
+          "Hematite | Fe2O3 | Iron production"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_012-c03",
+        "question": "What is the chemical formula of halite?",
+        "answer": "NaCl",
+        "source": [
+          "Halite | NaCl | Salt and chemical feedstock"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_012-c04",
+        "question": "What are the main economic uses of halite?",
+        "answer": "Salt and chemical feedstock",
+        "source": [
+          "Halite | NaCl | Salt and chemical feedstock"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_012-c05",
+        "question": "What is the chemical formula of calcite?",
+        "answer": "CaCO3",
+        "source": [
+          "Calcite | CaCO3 | Cement and lime production"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_012-c06",
+        "question": "What are the main economic uses of calcite?",
+        "answer": "Cement and lime production",
+        "source": [
+          "Calcite | CaCO3 | Cement and lime production"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_012-c07",
+        "question": "What is the chemical formula of gypsum?",
+        "answer": "CaSO4·2H2O",
+        "source": [
+          "Gypsum | CaSO4·2H2O | Plaster and drywall"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_012-c08",
+        "question": "What are the main economic uses of gypsum?",
+        "answer": "Plaster and drywall",
+        "source": [
+          "Gypsum | CaSO4·2H2O | Plaster and drywall"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_012-c09",
+        "question": "What is the main economic use of bauxite?",
+        "answer": "Aluminum production",
+        "source": [
+          "Bauxite | Al-rich ore | Aluminum production"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      }
+    ]
+  },
+  {
+    "id": "sample_013",
+    "tags": [
+      "table_data"
+    ],
+    "expected_outcome": "accept",
+    "expected_card_range": [
+      4,
+      5
+    ],
+    "outcome": "accept",
+    "stage1_correct": true,
+    "scored_in_stage2": true,
+    "error": null,
+    "raw_text": "{\"status\": \"ok\", \"cards\": [{\"question\": \"What is the building block of carbohydrates?\", \"answer\": \"Monosaccharide\", \"source\": [\"Carbohydrate | Building block | Monosaccharide\"]}, {\"question\": \"What are the major functions of carbohydrates?\", \"answer\": \"Quick energy; structural support\", \"source\": [\"Carbohydrate | Major functions | Quick energy; structural support\"]}, {\"question\": \"What is the building block of proteins?\", \"answer\": \"Amino acid\", \"source\": [\"Protein | Building block | Amino acid\"]}, {\"question\": \"What are the major functions of proteins?\", \"answer\": \"Enzymes; transport; structure\", \"source\": [\"Protein | Major functions | Enzymes; transport; structure\"]}, {\"question\": \"What is the building block of lipids?\", \"answer\": \"Glycerol + fatty acids\", \"source\": [\"Lipid | Building block | Glycerol + fatty acids (common form)\"]}, {\"question\": \"What are the major functions of lipids?\", \"answer\": \"Energy storage; membranes\", \"source\": [\"Lipid | Major functions | Energy storage; membranes\"]}, {\"question\": \"What is the building block of nucleic acids?\", \"answer\": \"Nucleotide\", \"source\": [\"Nucleic acid | Building block | Nucleotide\"]}, {\"question\": \"What is the major function of nucleic acids?\", \"answer\": \"Genetic information\", \"source\": [\"Nucleic acid | Major functions | Genetic information\"]}]}",
+    "output": {
+      "status": "ok",
+      "cards": [
+        {
+          "question": "What is the building block of carbohydrates?",
+          "answer": "Monosaccharide",
+          "source": [
+            "Carbohydrate | Building block | Monosaccharide"
+          ]
+        },
+        {
+          "question": "What are the major functions of carbohydrates?",
+          "answer": "Quick energy; structural support",
+          "source": [
+            "Carbohydrate | Major functions | Quick energy; structural support"
+          ]
+        },
+        {
+          "question": "What is the building block of proteins?",
+          "answer": "Amino acid",
+          "source": [
+            "Protein | Building block | Amino acid"
+          ]
+        },
+        {
+          "question": "What are the major functions of proteins?",
+          "answer": "Enzymes; transport; structure",
+          "source": [
+            "Protein | Major functions | Enzymes; transport; structure"
+          ]
+        },
+        {
+          "question": "What is the building block of lipids?",
+          "answer": "Glycerol + fatty acids",
+          "source": [
+            "Lipid | Building block | Glycerol + fatty acids (common form)"
+          ]
+        },
+        {
+          "question": "What are the major functions of lipids?",
+          "answer": "Energy storage; membranes",
+          "source": [
+            "Lipid | Major functions | Energy storage; membranes"
+          ]
+        },
+        {
+          "question": "What is the building block of nucleic acids?",
+          "answer": "Nucleotide",
+          "source": [
+            "Nucleic acid | Building block | Nucleotide"
+          ]
+        },
+        {
+          "question": "What is the major function of nucleic acids?",
+          "answer": "Genetic information",
+          "source": [
+            "Nucleic acid | Major functions | Genetic information"
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "model": "claude-haiku-4-5-20251001",
+      "prompt_version": "v1",
+      "prompt_hash": "f5e88f4d8fd8",
+      "input_tokens": 1710,
+      "output_tokens": 364,
+      "cost_usd": 0.00353,
+      "latency_seconds": 3.862306840999736
+    },
+    "card_count": 8,
+    "card_count_in_range": false,
+    "cards": [
+      {
+        "card_id": "sample_013-c01",
+        "question": "What is the building block of carbohydrates?",
+        "answer": "Monosaccharide",
+        "source": [
+          "Carbohydrate | Building block | Monosaccharide"
+        ],
+        "excerpt_matches": [
+          false
+        ],
+        "source_matches": false
+      },
+      {
+        "card_id": "sample_013-c02",
+        "question": "What are the major functions of carbohydrates?",
+        "answer": "Quick energy; structural support",
+        "source": [
+          "Carbohydrate | Major functions | Quick energy; structural support"
+        ],
+        "excerpt_matches": [
+          false
+        ],
+        "source_matches": false
+      },
+      {
+        "card_id": "sample_013-c03",
+        "question": "What is the building block of proteins?",
+        "answer": "Amino acid",
+        "source": [
+          "Protein | Building block | Amino acid"
+        ],
+        "excerpt_matches": [
+          false
+        ],
+        "source_matches": false
+      },
+      {
+        "card_id": "sample_013-c04",
+        "question": "What are the major functions of proteins?",
+        "answer": "Enzymes; transport; structure",
+        "source": [
+          "Protein | Major functions | Enzymes; transport; structure"
+        ],
+        "excerpt_matches": [
+          false
+        ],
+        "source_matches": false
+      },
+      {
+        "card_id": "sample_013-c05",
+        "question": "What is the building block of lipids?",
+        "answer": "Glycerol + fatty acids",
+        "source": [
+          "Lipid | Building block | Glycerol + fatty acids (common form)"
+        ],
+        "excerpt_matches": [
+          false
+        ],
+        "source_matches": false
+      },
+      {
+        "card_id": "sample_013-c06",
+        "question": "What are the major functions of lipids?",
+        "answer": "Energy storage; membranes",
+        "source": [
+          "Lipid | Major functions | Energy storage; membranes"
+        ],
+        "excerpt_matches": [
+          false
+        ],
+        "source_matches": false
+      },
+      {
+        "card_id": "sample_013-c07",
+        "question": "What is the building block of nucleic acids?",
+        "answer": "Nucleotide",
+        "source": [
+          "Nucleic acid | Building block | Nucleotide"
+        ],
+        "excerpt_matches": [
+          false
+        ],
+        "source_matches": false
+      },
+      {
+        "card_id": "sample_013-c08",
+        "question": "What is the major function of nucleic acids?",
+        "answer": "Genetic information",
+        "source": [
+          "Nucleic acid | Major functions | Genetic information"
+        ],
+        "excerpt_matches": [
+          false
+        ],
+        "source_matches": false
+      }
+    ]
+  },
+  {
+    "id": "sample_014",
+    "tags": [
+      "table_data"
+    ],
+    "expected_outcome": "accept",
+    "expected_card_range": [
+      5,
+      6
+    ],
+    "outcome": "accept",
+    "stage1_correct": true,
+    "scored_in_stage2": true,
+    "error": null,
+    "raw_text": "{\"status\": \"ok\", \"cards\": [{\"question\": \"What is the average distance of Mercury from the Sun?\", \"answer\": \"0.39 AU\", \"source\": [\"Mercury | 0.39 AU\"]}, {\"question\": \"How many moons does Mercury have?\", \"answer\": \"0\", \"source\": [\"Mercury | 0.39 AU | 0\"]}, {\"question\": \"What is the average distance of Venus from the Sun?\", \"answer\": \"0.72 AU\", \"source\": [\"Venus | 0.72 AU\"]}, {\"question\": \"How many moons does Venus have?\", \"answer\": \"0\", \"source\": [\"Venus | 0.72 AU | 0\"]}, {\"question\": \"What is the average distance of Earth from the Sun?\", \"answer\": \"1.00 AU\", \"source\": [\"Earth | 1.00 AU\"]}, {\"question\": \"How many moons does Earth have?\", \"answer\": \"1\", \"source\": [\"Earth | 1.00 AU | 1\"]}, {\"question\": \"What is the average distance of Mars from the Sun?\", \"answer\": \"1.52 AU\", \"source\": [\"Mars | 1.52 AU\"]}, {\"question\": \"How many moons does Mars have?\", \"answer\": \"2\", \"source\": [\"Mars | 1.52 AU | 2\"]}, {\"question\": \"What is the average distance of Jupiter from the Sun?\", \"answer\": \"5.20 AU\", \"source\": [\"Jupiter | 5.20 AU\"]}, {\"question\": \"How many moons does Jupiter have?\", \"answer\": \"95+\", \"source\": [\"Jupiter | 5.20 AU | 95+\"]}, {\"question\": \"Which planet is the smallest?\", \"answer\": \"Mercury\", \"source\": [\"Mercury | 0.39 AU | 0 | Smallest planet\"]}, {\"question\": \"Which planet has the hottest average surface temperature?\", \"answer\": \"Venus\", \"source\": [\"Venus | 0.72 AU | 0 | Hottest average surface temperature\"]}, {\"question\": \"Which planet has widespread liquid surface water?\", \"answer\": \"Earth\", \"source\": [\"Earth | 1.00 AU | 1 | Liquid surface water is widespread\"]}, {\"question\": \"Which planet is home to Olympus Mons?\", \"answer\": \"Mars\", \"source\": [\"Mars | 1.52 AU | 2 | Home to Olympus Mons\"]}, {\"question\": \"Which planet is the largest?\", \"answer\": \"Jupiter\", \"source\": [\"Jupiter | 5.20 AU | 95+ | Largest planet\"]}]}",
+    "output": {
+      "status": "ok",
+      "cards": [
+        {
+          "question": "What is the average distance of Mercury from the Sun?",
+          "answer": "0.39 AU",
+          "source": [
+            "Mercury | 0.39 AU"
+          ]
+        },
+        {
+          "question": "How many moons does Mercury have?",
+          "answer": "0",
+          "source": [
+            "Mercury | 0.39 AU | 0"
+          ]
+        },
+        {
+          "question": "What is the average distance of Venus from the Sun?",
+          "answer": "0.72 AU",
+          "source": [
+            "Venus | 0.72 AU"
+          ]
+        },
+        {
+          "question": "How many moons does Venus have?",
+          "answer": "0",
+          "source": [
+            "Venus | 0.72 AU | 0"
+          ]
+        },
+        {
+          "question": "What is the average distance of Earth from the Sun?",
+          "answer": "1.00 AU",
+          "source": [
+            "Earth | 1.00 AU"
+          ]
+        },
+        {
+          "question": "How many moons does Earth have?",
+          "answer": "1",
+          "source": [
+            "Earth | 1.00 AU | 1"
+          ]
+        },
+        {
+          "question": "What is the average distance of Mars from the Sun?",
+          "answer": "1.52 AU",
+          "source": [
+            "Mars | 1.52 AU"
+          ]
+        },
+        {
+          "question": "How many moons does Mars have?",
+          "answer": "2",
+          "source": [
+            "Mars | 1.52 AU | 2"
+          ]
+        },
+        {
+          "question": "What is the average distance of Jupiter from the Sun?",
+          "answer": "5.20 AU",
+          "source": [
+            "Jupiter | 5.20 AU"
+          ]
+        },
+        {
+          "question": "How many moons does Jupiter have?",
+          "answer": "95+",
+          "source": [
+            "Jupiter | 5.20 AU | 95+"
+          ]
+        },
+        {
+          "question": "Which planet is the smallest?",
+          "answer": "Mercury",
+          "source": [
+            "Mercury | 0.39 AU | 0 | Smallest planet"
+          ]
+        },
+        {
+          "question": "Which planet has the hottest average surface temperature?",
+          "answer": "Venus",
+          "source": [
+            "Venus | 0.72 AU | 0 | Hottest average surface temperature"
+          ]
+        },
+        {
+          "question": "Which planet has widespread liquid surface water?",
+          "answer": "Earth",
+          "source": [
+            "Earth | 1.00 AU | 1 | Liquid surface water is widespread"
+          ]
+        },
+        {
+          "question": "Which planet is home to Olympus Mons?",
+          "answer": "Mars",
+          "source": [
+            "Mars | 1.52 AU | 2 | Home to Olympus Mons"
+          ]
+        },
+        {
+          "question": "Which planet is the largest?",
+          "answer": "Jupiter",
+          "source": [
+            "Jupiter | 5.20 AU | 95+ | Largest planet"
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "model": "claude-haiku-4-5-20251001",
+      "prompt_version": "v1",
+      "prompt_hash": "f5e88f4d8fd8",
+      "input_tokens": 1742,
+      "output_tokens": 614,
+      "cost_usd": 0.004812,
+      "latency_seconds": 5.4626104649996705
+    },
+    "card_count": 15,
+    "card_count_in_range": false,
+    "cards": [
+      {
+        "card_id": "sample_014-c01",
+        "question": "What is the average distance of Mercury from the Sun?",
+        "answer": "0.39 AU",
+        "source": [
+          "Mercury | 0.39 AU"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_014-c02",
+        "question": "How many moons does Mercury have?",
+        "answer": "0",
+        "source": [
+          "Mercury | 0.39 AU | 0"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_014-c03",
+        "question": "What is the average distance of Venus from the Sun?",
+        "answer": "0.72 AU",
+        "source": [
+          "Venus | 0.72 AU"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_014-c04",
+        "question": "How many moons does Venus have?",
+        "answer": "0",
+        "source": [
+          "Venus | 0.72 AU | 0"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_014-c05",
+        "question": "What is the average distance of Earth from the Sun?",
+        "answer": "1.00 AU",
+        "source": [
+          "Earth | 1.00 AU"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_014-c06",
+        "question": "How many moons does Earth have?",
+        "answer": "1",
+        "source": [
+          "Earth | 1.00 AU | 1"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_014-c07",
+        "question": "What is the average distance of Mars from the Sun?",
+        "answer": "1.52 AU",
+        "source": [
+          "Mars | 1.52 AU"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_014-c08",
+        "question": "How many moons does Mars have?",
+        "answer": "2",
+        "source": [
+          "Mars | 1.52 AU | 2"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_014-c09",
+        "question": "What is the average distance of Jupiter from the Sun?",
+        "answer": "5.20 AU",
+        "source": [
+          "Jupiter | 5.20 AU"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_014-c10",
+        "question": "How many moons does Jupiter have?",
+        "answer": "95+",
+        "source": [
+          "Jupiter | 5.20 AU | 95+"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_014-c11",
+        "question": "Which planet is the smallest?",
+        "answer": "Mercury",
+        "source": [
+          "Mercury | 0.39 AU | 0 | Smallest planet"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_014-c12",
+        "question": "Which planet has the hottest average surface temperature?",
+        "answer": "Venus",
+        "source": [
+          "Venus | 0.72 AU | 0 | Hottest average surface temperature"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_014-c13",
+        "question": "Which planet has widespread liquid surface water?",
+        "answer": "Earth",
+        "source": [
+          "Earth | 1.00 AU | 1 | Liquid surface water is widespread"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_014-c14",
+        "question": "Which planet is home to Olympus Mons?",
+        "answer": "Mars",
+        "source": [
+          "Mars | 1.52 AU | 2 | Home to Olympus Mons"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_014-c15",
+        "question": "Which planet is the largest?",
+        "answer": "Jupiter",
+        "source": [
+          "Jupiter | 5.20 AU | 95+ | Largest planet"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      }
+    ]
+  },
+  {
+    "id": "sample_015",
+    "tags": [
+      "table_data"
+    ],
+    "expected_outcome": "accept",
+    "expected_card_range": [
+      5,
+      6
+    ],
+    "outcome": "accept",
+    "stage1_correct": true,
+    "scored_in_stage2": true,
+    "error": null,
+    "raw_text": "{\"status\": \"ok\", \"cards\": [{\"question\": \"What event in 1929 contributed to the onset of the Great Depression?\", \"answer\": \"Stock market crash\", \"source\": [\"1929 | Stock market crash | Contributed to the onset of the Great Depression\"]}, {\"question\": \"What did the First New Deal measures in 1933 accomplish?\", \"answer\": \"Expanded federal involvement in economic relief and recovery\", \"source\": [\"1933 | First New Deal measures | Expanded federal involvement in economic relief and recovery\"]}, {\"question\": \"What did the Social Security Act of 1935 establish?\", \"answer\": \"Old-age pensions and related programs\", \"source\": [\"1935 | Social Security Act | Established old-age pensions and related programs\"]}, {\"question\": \"What was the significance of the U.S. entering World War II in 1941?\", \"answer\": \"Wartime production greatly expanded employment and output\", \"source\": [\"1941 | U.S. enters World War II | Wartime production greatly expanded employment and output\"]}, {\"question\": \"What position did the U.S. emerge as following the end of World War II in 1945?\", \"answer\": \"A major global economic and military power\", \"source\": [\"1945 | World War II ends | U.S. emerged as a major global economic and military power\"]}]}",
+    "output": {
+      "status": "ok",
+      "cards": [
+        {
+          "question": "What event in 1929 contributed to the onset of the Great Depression?",
+          "answer": "Stock market crash",
+          "source": [
+            "1929 | Stock market crash | Contributed to the onset of the Great Depression"
+          ]
+        },
+        {
+          "question": "What did the First New Deal measures in 1933 accomplish?",
+          "answer": "Expanded federal involvement in economic relief and recovery",
+          "source": [
+            "1933 | First New Deal measures | Expanded federal involvement in economic relief and recovery"
+          ]
+        },
+        {
+          "question": "What did the Social Security Act of 1935 establish?",
+          "answer": "Old-age pensions and related programs",
+          "source": [
+            "1935 | Social Security Act | Established old-age pensions and related programs"
+          ]
+        },
+        {
+          "question": "What was the significance of the U.S. entering World War II in 1941?",
+          "answer": "Wartime production greatly expanded employment and output",
+          "source": [
+            "1941 | U.S. enters World War II | Wartime production greatly expanded employment and output"
+          ]
+        },
+        {
+          "question": "What position did the U.S. emerge as following the end of World War II in 1945?",
+          "answer": "A major global economic and military power",
+          "source": [
+            "1945 | World War II ends | U.S. emerged as a major global economic and military power"
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "model": "claude-haiku-4-5-20251001",
+      "prompt_version": "v1",
+      "prompt_hash": "f5e88f4d8fd8",
+      "input_tokens": 1735,
+      "output_tokens": 311,
+      "cost_usd": 0.00329,
+      "latency_seconds": 2.2504040479998366
+    },
+    "card_count": 5,
+    "card_count_in_range": true,
+    "cards": [
+      {
+        "card_id": "sample_015-c01",
+        "question": "What event in 1929 contributed to the onset of the Great Depression?",
+        "answer": "Stock market crash",
+        "source": [
+          "1929 | Stock market crash | Contributed to the onset of the Great Depression"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_015-c02",
+        "question": "What did the First New Deal measures in 1933 accomplish?",
+        "answer": "Expanded federal involvement in economic relief and recovery",
+        "source": [
+          "1933 | First New Deal measures | Expanded federal involvement in economic relief and recovery"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_015-c03",
+        "question": "What did the Social Security Act of 1935 establish?",
+        "answer": "Old-age pensions and related programs",
+        "source": [
+          "1935 | Social Security Act | Established old-age pensions and related programs"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_015-c04",
+        "question": "What was the significance of the U.S. entering World War II in 1941?",
+        "answer": "Wartime production greatly expanded employment and output",
+        "source": [
+          "1941 | U.S. enters World War II | Wartime production greatly expanded employment and output"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_015-c05",
+        "question": "What position did the U.S. emerge as following the end of World War II in 1945?",
+        "answer": "A major global economic and military power",
+        "source": [
+          "1945 | World War II ends | U.S. emerged as a major global economic and military power"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      }
+    ]
+  },
+  {
+    "id": "sample_016",
+    "tags": [
+      "code_content"
+    ],
+    "expected_outcome": "accept",
+    "expected_card_range": [
+      3,
+      5
+    ],
+    "outcome": "accept",
+    "stage1_correct": true,
+    "scored_in_stage2": true,
+    "error": null,
+    "raw_text": "{\"status\": \"ok\", \"cards\": [{\"question\": \"In Python list slicing with sequence[start:stop:step], is the stop index included or excluded?\", \"answer\": \"Excluded\", \"source\": [\"A slice uses sequence[start:stop:step], where stop is excluded.\"]}, {\"question\": \"What does nums[1:4] return for nums = [10, 20, 30, 40, 50]?\", \"answer\": \"[20, 30, 40]\", \"source\": [\"nums = [10, 20, 30, 40, 50]\", \"print(nums[1:4])   # [20, 30, 40]\"]}, {\"question\": \"What does nums[:3] return for nums = [10, 20, 30, 40, 50]?\", \"answer\": \"[10, 20, 30]\", \"source\": [\"nums = [10, 20, 30, 40, 50]\", \"print(nums[:3])    # [10, 20, 30]\"]}, {\"question\": \"What does nums[::2] return for nums = [10, 20, 30, 40, 50]?\", \"answer\": \"[10, 30, 50]\", \"source\": [\"nums = [10, 20, 30, 40, 50]\", \"print(nums[::2])   # [10, 30, 50]\"]}, {\"question\": \"In Python, what does a negative index like nums[-1] refer to?\", \"answer\": \"The last element in the list\", \"source\": [\"Negative indexes count from the end. `nums[-1]` returns 50.\"]}, {\"question\": \"What does nums[::-1] return for a Python list?\", \"answer\": \"The list in reverse order\", \"source\": [\"A negative step can reverse traversal, e.g. `nums[::-1]` returns the list in reverse order.\"]}]}",
+    "output": {
+      "status": "ok",
+      "cards": [
+        {
+          "question": "In Python list slicing with sequence[start:stop:step], is the stop index included or excluded?",
+          "answer": "Excluded",
+          "source": [
+            "A slice uses sequence[start:stop:step], where stop is excluded."
+          ]
+        },
+        {
+          "question": "What does nums[1:4] return for nums = [10, 20, 30, 40, 50]?",
+          "answer": "[20, 30, 40]",
+          "source": [
+            "nums = [10, 20, 30, 40, 50]",
+            "print(nums[1:4])   # [20, 30, 40]"
+          ]
+        },
+        {
+          "question": "What does nums[:3] return for nums = [10, 20, 30, 40, 50]?",
+          "answer": "[10, 20, 30]",
+          "source": [
+            "nums = [10, 20, 30, 40, 50]",
+            "print(nums[:3])    # [10, 20, 30]"
+          ]
+        },
+        {
+          "question": "What does nums[::2] return for nums = [10, 20, 30, 40, 50]?",
+          "answer": "[10, 30, 50]",
+          "source": [
+            "nums = [10, 20, 30, 40, 50]",
+            "print(nums[::2])   # [10, 30, 50]"
+          ]
+        },
+        {
+          "question": "In Python, what does a negative index like nums[-1] refer to?",
+          "answer": "The last element in the list",
+          "source": [
+            "Negative indexes count from the end. `nums[-1]` returns 50."
+          ]
+        },
+        {
+          "question": "What does nums[::-1] return for a Python list?",
+          "answer": "The list in reverse order",
+          "source": [
+            "A negative step can reverse traversal, e.g. `nums[::-1]` returns the list in reverse order."
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "model": "claude-haiku-4-5-20251001",
+      "prompt_version": "v1",
+      "prompt_hash": "f5e88f4d8fd8",
+      "input_tokens": 1775,
+      "output_tokens": 449,
+      "cost_usd": 0.00402,
+      "latency_seconds": 4.802929469999981
+    },
+    "card_count": 6,
+    "card_count_in_range": false,
+    "cards": [
+      {
+        "card_id": "sample_016-c01",
+        "question": "In Python list slicing with sequence[start:stop:step], is the stop index included or excluded?",
+        "answer": "Excluded",
+        "source": [
+          "A slice uses sequence[start:stop:step], where stop is excluded."
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_016-c02",
+        "question": "What does nums[1:4] return for nums = [10, 20, 30, 40, 50]?",
+        "answer": "[20, 30, 40]",
+        "source": [
+          "nums = [10, 20, 30, 40, 50]",
+          "print(nums[1:4])   # [20, 30, 40]"
+        ],
+        "excerpt_matches": [
+          true,
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_016-c03",
+        "question": "What does nums[:3] return for nums = [10, 20, 30, 40, 50]?",
+        "answer": "[10, 20, 30]",
+        "source": [
+          "nums = [10, 20, 30, 40, 50]",
+          "print(nums[:3])    # [10, 20, 30]"
+        ],
+        "excerpt_matches": [
+          true,
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_016-c04",
+        "question": "What does nums[::2] return for nums = [10, 20, 30, 40, 50]?",
+        "answer": "[10, 30, 50]",
+        "source": [
+          "nums = [10, 20, 30, 40, 50]",
+          "print(nums[::2])   # [10, 30, 50]"
+        ],
+        "excerpt_matches": [
+          true,
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_016-c05",
+        "question": "In Python, what does a negative index like nums[-1] refer to?",
+        "answer": "The last element in the list",
+        "source": [
+          "Negative indexes count from the end. `nums[-1]` returns 50."
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_016-c06",
+        "question": "What does nums[::-1] return for a Python list?",
+        "answer": "The list in reverse order",
+        "source": [
+          "A negative step can reverse traversal, e.g. `nums[::-1]` returns the list in reverse order."
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      }
+    ]
+  },
+  {
+    "id": "sample_017",
+    "tags": [
+      "code_content"
+    ],
+    "expected_outcome": "accept",
+    "expected_card_range": [
+      2,
+      4
+    ],
+    "outcome": "accept",
+    "stage1_correct": true,
+    "scored_in_stage2": true,
+    "error": null,
+    "raw_text": "{\"status\": \"ok\", \"cards\": [{\"question\": \"In C++, what is a reference?\", \"answer\": \"An alias for an existing object, commonly used to avoid copying when passing arguments.\", \"source\": [\"In C++, a reference is an alias for an existing object and is commonly used to avoid copying when passing arguments.\"]}, {\"question\": \"What does a const reference allow you to do in C++?\", \"answer\": \"Read an object without modifying it.\", \"source\": [\"A const reference can read an object without modifying it.\"]}, {\"question\": \"In C++, what does the `&` symbol in a function parameter declaration do?\", \"answer\": \"It declares a reference.\", \"source\": [\"The `&` in the parameter declares a reference.\"]}, {\"question\": \"What is the purpose of the `const` keyword in a const reference parameter in C++?\", \"answer\": \"It prevents the function from changing the referred-to object through that parameter.\", \"source\": [\"`const` prevents the function from changing the referred-to string through that parameter.\"]}]}",
+    "output": {
+      "status": "ok",
+      "cards": [
+        {
+          "question": "In C++, what is a reference?",
+          "answer": "An alias for an existing object, commonly used to avoid copying when passing arguments.",
+          "source": [
+            "In C++, a reference is an alias for an existing object and is commonly used to avoid copying when passing arguments."
+          ]
+        },
+        {
+          "question": "What does a const reference allow you to do in C++?",
+          "answer": "Read an object without modifying it.",
+          "source": [
+            "A const reference can read an object without modifying it."
+          ]
+        },
+        {
+          "question": "In C++, what does the `&` symbol in a function parameter declaration do?",
+          "answer": "It declares a reference.",
+          "source": [
+            "The `&` in the parameter declares a reference."
+          ]
+        },
+        {
+          "question": "What is the purpose of the `const` keyword in a const reference parameter in C++?",
+          "answer": "It prevents the function from changing the referred-to object through that parameter.",
+          "source": [
+            "`const` prevents the function from changing the referred-to string through that parameter."
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "model": "claude-haiku-4-5-20251001",
+      "prompt_version": "v1",
+      "prompt_hash": "f5e88f4d8fd8",
+      "input_tokens": 1745,
+      "output_tokens": 240,
+      "cost_usd": 0.002945,
+      "latency_seconds": 2.325102749000507
+    },
+    "card_count": 4,
+    "card_count_in_range": true,
+    "cards": [
+      {
+        "card_id": "sample_017-c01",
+        "question": "In C++, what is a reference?",
+        "answer": "An alias for an existing object, commonly used to avoid copying when passing arguments.",
+        "source": [
+          "In C++, a reference is an alias for an existing object and is commonly used to avoid copying when passing arguments."
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_017-c02",
+        "question": "What does a const reference allow you to do in C++?",
+        "answer": "Read an object without modifying it.",
+        "source": [
+          "A const reference can read an object without modifying it."
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_017-c03",
+        "question": "In C++, what does the `&` symbol in a function parameter declaration do?",
+        "answer": "It declares a reference.",
+        "source": [
+          "The `&` in the parameter declares a reference."
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_017-c04",
+        "question": "What is the purpose of the `const` keyword in a const reference parameter in C++?",
+        "answer": "It prevents the function from changing the referred-to object through that parameter.",
+        "source": [
+          "`const` prevents the function from changing the referred-to string through that parameter."
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      }
+    ]
+  },
+  {
+    "id": "sample_018",
+    "tags": [
+      "code_content"
+    ],
+    "expected_outcome": "accept",
+    "expected_card_range": [
+      3,
+      5
+    ],
+    "outcome": "accept",
+    "stage1_correct": true,
+    "scored_in_stage2": true,
+    "error": null,
+    "raw_text": "{\"status\": \"ok\", \"cards\": [{\"question\": \"In SQL, which clause filters rows before grouping occurs?\", \"answer\": \"WHERE\", \"source\": [\"WHERE filters rows before grouping\"]}, {\"question\": \"In SQL, which clause filters groups after GROUP BY is applied?\", \"answer\": \"HAVING\", \"source\": [\"HAVING filters groups after GROUP BY\"]}, {\"question\": \"In the SQL query shown, what does the WHERE clause do?\", \"answer\": \"It keeps only active employees (where active = 1)\", \"source\": [\"WHERE active = 1\", \"This query first keeps active employees\"]}, {\"question\": \"In the SQL query shown, what does the HAVING clause do?\", \"answer\": \"It keeps only departments with at least 5 active employees\", \"source\": [\"HAVING COUNT(*) >= 5\", \"finally keeps departments with at least five active employees\"]}]}",
+    "output": {
+      "status": "ok",
+      "cards": [
+        {
+          "question": "In SQL, which clause filters rows before grouping occurs?",
+          "answer": "WHERE",
+          "source": [
+            "WHERE filters rows before grouping"
+          ]
+        },
+        {
+          "question": "In SQL, which clause filters groups after GROUP BY is applied?",
+          "answer": "HAVING",
+          "source": [
+            "HAVING filters groups after GROUP BY"
+          ]
+        },
+        {
+          "question": "In the SQL query shown, what does the WHERE clause do?",
+          "answer": "It keeps only active employees (where active = 1)",
+          "source": [
+            "WHERE active = 1",
+            "This query first keeps active employees"
+          ]
+        },
+        {
+          "question": "In the SQL query shown, what does the HAVING clause do?",
+          "answer": "It keeps only departments with at least 5 active employees",
+          "source": [
+            "HAVING COUNT(*) >= 5",
+            "finally keeps departments with at least five active employees"
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "model": "claude-haiku-4-5-20251001",
+      "prompt_version": "v1",
+      "prompt_hash": "f5e88f4d8fd8",
+      "input_tokens": 1720,
+      "output_tokens": 201,
+      "cost_usd": 0.002725,
+      "latency_seconds": 2.8959074720005447
+    },
+    "card_count": 4,
+    "card_count_in_range": true,
+    "cards": [
+      {
+        "card_id": "sample_018-c01",
+        "question": "In SQL, which clause filters rows before grouping occurs?",
+        "answer": "WHERE",
+        "source": [
+          "WHERE filters rows before grouping"
+        ],
+        "excerpt_matches": [
+          false
+        ],
+        "source_matches": false
+      },
+      {
+        "card_id": "sample_018-c02",
+        "question": "In SQL, which clause filters groups after GROUP BY is applied?",
+        "answer": "HAVING",
+        "source": [
+          "HAVING filters groups after GROUP BY"
+        ],
+        "excerpt_matches": [
+          false
+        ],
+        "source_matches": false
+      },
+      {
+        "card_id": "sample_018-c03",
+        "question": "In the SQL query shown, what does the WHERE clause do?",
+        "answer": "It keeps only active employees (where active = 1)",
+        "source": [
+          "WHERE active = 1",
+          "This query first keeps active employees"
+        ],
+        "excerpt_matches": [
+          true,
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_018-c04",
+        "question": "In the SQL query shown, what does the HAVING clause do?",
+        "answer": "It keeps only departments with at least 5 active employees",
+        "source": [
+          "HAVING COUNT(*) >= 5",
+          "finally keeps departments with at least five active employees"
+        ],
+        "excerpt_matches": [
+          true,
+          true
+        ],
+        "source_matches": true
+      }
+    ]
+  },
+  {
+    "id": "sample_019",
+    "tags": [
+      "code_content"
+    ],
+    "expected_outcome": "accept",
+    "expected_card_range": [
+      3,
+      5
+    ],
+    "outcome": "accept",
+    "stage1_correct": true,
+    "scored_in_stage2": true,
+    "error": null,
+    "raw_text": "{\"status\": \"ok\", \"cards\": [{\"question\": \"What do JavaScript promises represent?\", \"answer\": \"The eventual result of an asynchronous operation\", \"source\": [\"JavaScript promises represent the eventual result of an asynchronous operation.\"]}, {\"question\": \"What are the three possible states of a promise?\", \"answer\": \"Pending, fulfilled, or rejected\", \"source\": [\"A promise can be pending, fulfilled, or rejected.\"]}, {\"question\": \"What does the `.then()` method do in a promise chain?\", \"answer\": \"Registers a callback for successful completion\", \"source\": [\"`.then()` registers a callback for successful completion\"]}, {\"question\": \"What does the `.catch()` method do in a promise chain?\", \"answer\": \"Handles rejection or an error propagated through the chain\", \"source\": [\"`.catch()` handles rejection or an error propagated through the chain\"]}, {\"question\": \"How do promise callbacks behave relative to the rest of the program?\", \"answer\": \"They run later rather than blocking the rest of the program\", \"source\": [\"The callbacks run later rather than blocking the rest of the program while the request is pending.\"]}]}",
+    "output": {
+      "status": "ok",
+      "cards": [
+        {
+          "question": "What do JavaScript promises represent?",
+          "answer": "The eventual result of an asynchronous operation",
+          "source": [
+            "JavaScript promises represent the eventual result of an asynchronous operation."
+          ]
+        },
+        {
+          "question": "What are the three possible states of a promise?",
+          "answer": "Pending, fulfilled, or rejected",
+          "source": [
+            "A promise can be pending, fulfilled, or rejected."
+          ]
+        },
+        {
+          "question": "What does the `.then()` method do in a promise chain?",
+          "answer": "Registers a callback for successful completion",
+          "source": [
+            "`.then()` registers a callback for successful completion"
+          ]
+        },
+        {
+          "question": "What does the `.catch()` method do in a promise chain?",
+          "answer": "Handles rejection or an error propagated through the chain",
+          "source": [
+            "`.catch()` handles rejection or an error propagated through the chain"
+          ]
+        },
+        {
+          "question": "How do promise callbacks behave relative to the rest of the program?",
+          "answer": "They run later rather than blocking the rest of the program",
+          "source": [
+            "The callbacks run later rather than blocking the rest of the program while the request is pending."
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "model": "claude-haiku-4-5-20251001",
+      "prompt_version": "v1",
+      "prompt_hash": "f5e88f4d8fd8",
+      "input_tokens": 1746,
+      "output_tokens": 262,
+      "cost_usd": 0.003056,
+      "latency_seconds": 2.170244464999996
+    },
+    "card_count": 5,
+    "card_count_in_range": true,
+    "cards": [
+      {
+        "card_id": "sample_019-c01",
+        "question": "What do JavaScript promises represent?",
+        "answer": "The eventual result of an asynchronous operation",
+        "source": [
+          "JavaScript promises represent the eventual result of an asynchronous operation."
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_019-c02",
+        "question": "What are the three possible states of a promise?",
+        "answer": "Pending, fulfilled, or rejected",
+        "source": [
+          "A promise can be pending, fulfilled, or rejected."
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_019-c03",
+        "question": "What does the `.then()` method do in a promise chain?",
+        "answer": "Registers a callback for successful completion",
+        "source": [
+          "`.then()` registers a callback for successful completion"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_019-c04",
+        "question": "What does the `.catch()` method do in a promise chain?",
+        "answer": "Handles rejection or an error propagated through the chain",
+        "source": [
+          "`.catch()` handles rejection or an error propagated through the chain"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_019-c05",
+        "question": "How do promise callbacks behave relative to the rest of the program?",
+        "answer": "They run later rather than blocking the rest of the program",
+        "source": [
+          "The callbacks run later rather than blocking the rest of the program while the request is pending."
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      }
+    ]
+  },
+  {
+    "id": "sample_020",
+    "tags": [
+      "code_content"
+    ],
+    "expected_outcome": "accept",
+    "expected_card_range": [
+      3,
+      5
+    ],
+    "outcome": "accept",
+    "stage1_correct": true,
+    "scored_in_stage2": true,
+    "error": null,
+    "raw_text": "{\"status\": \"ok\", \"cards\": [{\"question\": \"What is the time complexity of binary search?\", \"answer\": \"O(log n)\", \"source\": [\"The loop runs in O(log n) time in the usual random-access array model.\"]}, {\"question\": \"What is the key requirement for binary search to work correctly?\", \"answer\": \"The input must be sorted\", \"source\": [\"The input must be sorted for these comparisons to justify discarding half the interval.\"]}, {\"question\": \"How does binary search reduce the search space at each iteration?\", \"answer\": \"By comparing the target with the middle element and discarding half of the remaining search interval\", \"source\": [\"Binary search works on a sorted sequence by repeatedly comparing the target with the middle element and discarding half of the remaining search interval.\"]}, {\"question\": \"What value does the provided binary_search function return when the target is not found?\", \"answer\": \"-1\", \"source\": [\"return -1\"]}]}",
+    "output": {
+      "status": "ok",
+      "cards": [
+        {
+          "question": "What is the time complexity of binary search?",
+          "answer": "O(log n)",
+          "source": [
+            "The loop runs in O(log n) time in the usual random-access array model."
+          ]
+        },
+        {
+          "question": "What is the key requirement for binary search to work correctly?",
+          "answer": "The input must be sorted",
+          "source": [
+            "The input must be sorted for these comparisons to justify discarding half the interval."
+          ]
+        },
+        {
+          "question": "How does binary search reduce the search space at each iteration?",
+          "answer": "By comparing the target with the middle element and discarding half of the remaining search interval",
+          "source": [
+            "Binary search works on a sorted sequence by repeatedly comparing the target with the middle element and discarding half of the remaining search interval."
+          ]
+        },
+        {
+          "question": "What value does the provided binary_search function return when the target is not found?",
+          "answer": "-1",
+          "source": [
+            "return -1"
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "model": "claude-haiku-4-5-20251001",
+      "prompt_version": "v1",
+      "prompt_hash": "f5e88f4d8fd8",
+      "input_tokens": 1783,
+      "output_tokens": 220,
+      "cost_usd": 0.002883,
+      "latency_seconds": 2.916190867000296
+    },
+    "card_count": 4,
+    "card_count_in_range": true,
+    "cards": [
+      {
+        "card_id": "sample_020-c01",
+        "question": "What is the time complexity of binary search?",
+        "answer": "O(log n)",
+        "source": [
+          "The loop runs in O(log n) time in the usual random-access array model."
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_020-c02",
+        "question": "What is the key requirement for binary search to work correctly?",
+        "answer": "The input must be sorted",
+        "source": [
+          "The input must be sorted for these comparisons to justify discarding half the interval."
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_020-c03",
+        "question": "How does binary search reduce the search space at each iteration?",
+        "answer": "By comparing the target with the middle element and discarding half of the remaining search interval",
+        "source": [
+          "Binary search works on a sorted sequence by repeatedly comparing the target with the middle element and discarding half of the remaining search interval."
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_020-c04",
+        "question": "What value does the provided binary_search function return when the target is not found?",
+        "answer": "-1",
+        "source": [
+          "return -1"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      }
+    ]
+  },
+  {
+    "id": "sample_021",
+    "tags": [
+      "too_short"
+    ],
+    "expected_outcome": "accept",
+    "expected_card_range": [
+      1,
+      2
+    ],
+    "outcome": "accept",
+    "stage1_correct": true,
+    "scored_in_stage2": true,
+    "error": null,
+    "raw_text": "{\"status\": \"ok\", \"cards\": [{\"question\": \"What is the mitochondrion?\", \"answer\": \"An organelle involved in aerobic cellular respiration that produces much of a eukaryotic cell's ATP through oxidative phosphorylation\", \"source\": [\"The mitochondrion is an organelle involved in aerobic cellular respiration. It produces much of a eukaryotic cell's ATP through oxidative phosphorylation.\"]}, {\"question\": \"Through what process does the mitochondrion produce most of a eukaryotic cell's ATP?\", \"answer\": \"Oxidative phosphorylation\", \"source\": [\"It produces much of a eukaryotic cell's ATP through oxidative phosphorylation.\"]}]}",
+    "output": {
+      "status": "ok",
+      "cards": [
+        {
+          "question": "What is the mitochondrion?",
+          "answer": "An organelle involved in aerobic cellular respiration that produces much of a eukaryotic cell's ATP through oxidative phosphorylation",
+          "source": [
+            "The mitochondrion is an organelle involved in aerobic cellular respiration. It produces much of a eukaryotic cell's ATP through oxidative phosphorylation."
+          ]
+        },
+        {
+          "question": "Through what process does the mitochondrion produce most of a eukaryotic cell's ATP?",
+          "answer": "Oxidative phosphorylation",
+          "source": [
+            "It produces much of a eukaryotic cell's ATP through oxidative phosphorylation."
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "model": "claude-haiku-4-5-20251001",
+      "prompt_version": "v1",
+      "prompt_hash": "f5e88f4d8fd8",
+      "input_tokens": 1664,
+      "output_tokens": 167,
+      "cost_usd": 0.002499,
+      "latency_seconds": 2.5925101680004445
+    },
+    "card_count": 2,
+    "card_count_in_range": true,
+    "cards": [
+      {
+        "card_id": "sample_021-c01",
+        "question": "What is the mitochondrion?",
+        "answer": "An organelle involved in aerobic cellular respiration that produces much of a eukaryotic cell's ATP through oxidative phosphorylation",
+        "source": [
+          "The mitochondrion is an organelle involved in aerobic cellular respiration. It produces much of a eukaryotic cell's ATP through oxidative phosphorylation."
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_021-c02",
+        "question": "Through what process does the mitochondrion produce most of a eukaryotic cell's ATP?",
+        "answer": "Oxidative phosphorylation",
+        "source": [
+          "It produces much of a eukaryotic cell's ATP through oxidative phosphorylation."
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      }
+    ]
+  },
+  {
+    "id": "sample_022",
+    "tags": [
+      "too_short"
+    ],
+    "expected_outcome": "accept",
+    "expected_card_range": [
+      1,
+      2
+    ],
+    "outcome": "accept",
+    "stage1_correct": true,
+    "scored_in_stage2": true,
+    "error": null,
+    "raw_text": "{\"status\":\"ok\",\"cards\":[{\"question\":\"In what year was the Magna Carta sealed?\",\"answer\":\"1215\",\"source\":[\"The Magna Carta was sealed in 1215.\"]},{\"question\":\"What did the Magna Carta do regarding the English king's authority?\",\"answer\":\"It placed limits on the English king's authority.\",\"source\":[\"It placed limits on the English king's authority\"]},{\"question\":\"What historical significance did the Magna Carta have in the development of government?\",\"answer\":\"It became an important symbol in the development of constitutional government.\",\"source\":[\"and became an important symbol in the development of constitutional government.\"]}]}",
+    "output": {
+      "status": "ok",
+      "cards": [
+        {
+          "question": "In what year was the Magna Carta sealed?",
+          "answer": "1215",
+          "source": [
+            "The Magna Carta was sealed in 1215."
+          ]
+        },
+        {
+          "question": "What did the Magna Carta do regarding the English king's authority?",
+          "answer": "It placed limits on the English king's authority.",
+          "source": [
+            "It placed limits on the English king's authority"
+          ]
+        },
+        {
+          "question": "What historical significance did the Magna Carta have in the development of government?",
+          "answer": "It became an important symbol in the development of constitutional government.",
+          "source": [
+            "and became an important symbol in the development of constitutional government."
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "model": "claude-haiku-4-5-20251001",
+      "prompt_version": "v1",
+      "prompt_hash": "f5e88f4d8fd8",
+      "input_tokens": 1660,
+      "output_tokens": 147,
+      "cost_usd": 0.002395,
+      "latency_seconds": 1.5072846180000852
+    },
+    "card_count": 3,
+    "card_count_in_range": false,
+    "cards": [
+      {
+        "card_id": "sample_022-c01",
+        "question": "In what year was the Magna Carta sealed?",
+        "answer": "1215",
+        "source": [
+          "The Magna Carta was sealed in 1215."
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_022-c02",
+        "question": "What did the Magna Carta do regarding the English king's authority?",
+        "answer": "It placed limits on the English king's authority.",
+        "source": [
+          "It placed limits on the English king's authority"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_022-c03",
+        "question": "What historical significance did the Magna Carta have in the development of government?",
+        "answer": "It became an important symbol in the development of constitutional government.",
+        "source": [
+          "and became an important symbol in the development of constitutional government."
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      }
+    ]
+  },
+  {
+    "id": "sample_023",
+    "tags": [
+      "too_short"
+    ],
+    "expected_outcome": "accept",
+    "expected_card_range": [
+      1,
+      2
+    ],
+    "outcome": "accept",
+    "stage1_correct": true,
+    "scored_in_stage2": true,
+    "error": null,
+    "raw_text": "{\"status\": \"ok\", \"cards\": [{\"question\": \"What does pH measure?\", \"answer\": \"The acidity or basicity of an aqueous solution on a logarithmic scale\", \"source\": [\"pH measures the acidity or basicity of an aqueous solution on a logarithmic scale\"]}, {\"question\": \"What is the pH value of a neutral solution at 25°C?\", \"answer\": \"7\", \"source\": [\"At 25°C, a neutral solution has a pH of 7\"]}]}",
+    "output": {
+      "status": "ok",
+      "cards": [
+        {
+          "question": "What does pH measure?",
+          "answer": "The acidity or basicity of an aqueous solution on a logarithmic scale",
+          "source": [
+            "pH measures the acidity or basicity of an aqueous solution on a logarithmic scale"
+          ]
+        },
+        {
+          "question": "What is the pH value of a neutral solution at 25°C?",
+          "answer": "7",
+          "source": [
+            "At 25°C, a neutral solution has a pH of 7"
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "model": "claude-haiku-4-5-20251001",
+      "prompt_version": "v1",
+      "prompt_hash": "f5e88f4d8fd8",
+      "input_tokens": 1663,
+      "output_tokens": 118,
+      "cost_usd": 0.002253,
+      "latency_seconds": 2.1683372339994094
+    },
+    "card_count": 2,
+    "card_count_in_range": true,
+    "cards": [
+      {
+        "card_id": "sample_023-c01",
+        "question": "What does pH measure?",
+        "answer": "The acidity or basicity of an aqueous solution on a logarithmic scale",
+        "source": [
+          "pH measures the acidity or basicity of an aqueous solution on a logarithmic scale"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_023-c02",
+        "question": "What is the pH value of a neutral solution at 25°C?",
+        "answer": "7",
+        "source": [
+          "At 25°C, a neutral solution has a pH of 7"
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      }
+    ]
+  },
+  {
+    "id": "sample_024",
+    "tags": [
+      "too_short"
+    ],
+    "expected_outcome": "accept",
+    "expected_card_range": [
+      1,
+      1
+    ],
+    "outcome": "accept",
+    "stage1_correct": true,
+    "scored_in_stage2": true,
+    "error": null,
+    "raw_text": "{\"status\": \"ok\", \"cards\": [{\"question\": \"What term describes the value of the next-best alternative forgone when a choice is made?\", \"answer\": \"Opportunity cost\", \"source\": [\"Opportunity cost is the value of the next-best alternative forgone when a choice is made.\"]}]}",
+    "output": {
+      "status": "ok",
+      "cards": [
+        {
+          "question": "What term describes the value of the next-best alternative forgone when a choice is made?",
+          "answer": "Opportunity cost",
+          "source": [
+            "Opportunity cost is the value of the next-best alternative forgone when a choice is made."
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "model": "claude-haiku-4-5-20251001",
+      "prompt_version": "v1",
+      "prompt_hash": "f5e88f4d8fd8",
+      "input_tokens": 1647,
+      "output_tokens": 71,
+      "cost_usd": 0.002002,
+      "latency_seconds": 1.7215313629994853
+    },
+    "card_count": 1,
+    "card_count_in_range": true,
+    "cards": [
+      {
+        "card_id": "sample_024-c01",
+        "question": "What term describes the value of the next-best alternative forgone when a choice is made?",
+        "answer": "Opportunity cost",
+        "source": [
+          "Opportunity cost is the value of the next-best alternative forgone when a choice is made."
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      }
+    ]
+  },
+  {
+    "id": "sample_025",
+    "tags": [
+      "too_short"
+    ],
+    "expected_outcome": "accept",
+    "expected_card_range": [
+      1,
+      2
+    ],
+    "outcome": "accept",
+    "stage1_correct": true,
+    "scored_in_stage2": true,
+    "error": null,
+    "raw_text": "{\"status\": \"ok\", \"cards\": [{\"question\": \"What brain structure is strongly associated with forming new declarative memories?\", \"answer\": \"The hippocampus\", \"source\": [\"The hippocampus is strongly associated with forming new declarative memories.\"]}, {\"question\": \"What ability can be impaired by damage to the hippocampus?\", \"answer\": \"The ability to form certain new long-term memories\", \"source\": [\"Damage to it can impair the ability to form certain new long-term memories.\"]}]}",
+    "output": {
+      "status": "ok",
+      "cards": [
+        {
+          "question": "What brain structure is strongly associated with forming new declarative memories?",
+          "answer": "The hippocampus",
+          "source": [
+            "The hippocampus is strongly associated with forming new declarative memories."
+          ]
+        },
+        {
+          "question": "What ability can be impaired by damage to the hippocampus?",
+          "answer": "The ability to form certain new long-term memories",
+          "source": [
+            "Damage to it can impair the ability to form certain new long-term memories."
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "model": "claude-haiku-4-5-20251001",
+      "prompt_version": "v1",
+      "prompt_hash": "f5e88f4d8fd8",
+      "input_tokens": 1660,
+      "output_tokens": 121,
+      "cost_usd": 0.002265,
+      "latency_seconds": 2.080283266999686
+    },
+    "card_count": 2,
+    "card_count_in_range": true,
+    "cards": [
+      {
+        "card_id": "sample_025-c01",
+        "question": "What brain structure is strongly associated with forming new declarative memories?",
+        "answer": "The hippocampus",
+        "source": [
+          "The hippocampus is strongly associated with forming new declarative memories."
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_025-c02",
+        "question": "What ability can be impaired by damage to the hippocampus?",
+        "answer": "The ability to form certain new long-term memories",
+        "source": [
+          "Damage to it can impair the ability to form certain new long-term memories."
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      }
+    ]
+  },
+  {
+    "id": "sample_026",
+    "tags": [
+      "already_list_like"
+    ],
+    "expected_outcome": "accept",
+    "expected_card_range": [
+      4,
+      4
+    ],
+    "outcome": "accept",
+    "stage1_correct": true,
+    "scored_in_stage2": true,
+    "error": null,
+    "raw_text": "{\"status\": \"ok\", \"cards\": [{\"question\": \"What is photosynthesis?\", \"answer\": \"The process by which light energy is converted into chemical energy.\", \"source\": [\"Photosynthesis — process by which light energy is converted into chemical energy.\"]}, {\"question\": \"What is the function of chlorophyll in photosynthetic organisms?\", \"answer\": \"It absorbs light.\", \"source\": [\"Chlorophyll — pigment that absorbs light in photosynthetic organisms.\"]}, {\"question\": \"What are stomata?\", \"answer\": \"Pores in plant leaves that regulate gas exchange.\", \"source\": [\"Stomata — pores in plant leaves that regulate gas exchange.\"]}, {\"question\": \"What is transpiration?\", \"answer\": \"The loss of water vapor from plant surfaces, especially leaves.\", \"source\": [\"Transpiration — loss of water vapor from plant surfaces, especially leaves.\"]}]}",
+    "output": {
+      "status": "ok",
+      "cards": [
+        {
+          "question": "What is photosynthesis?",
+          "answer": "The process by which light energy is converted into chemical energy.",
+          "source": [
+            "Photosynthesis — process by which light energy is converted into chemical energy."
+          ]
+        },
+        {
+          "question": "What is the function of chlorophyll in photosynthetic organisms?",
+          "answer": "It absorbs light.",
+          "source": [
+            "Chlorophyll — pigment that absorbs light in photosynthetic organisms."
+          ]
+        },
+        {
+          "question": "What are stomata?",
+          "answer": "Pores in plant leaves that regulate gas exchange.",
+          "source": [
+            "Stomata — pores in plant leaves that regulate gas exchange."
+          ]
+        },
+        {
+          "question": "What is transpiration?",
+          "answer": "The loss of water vapor from plant surfaces, especially leaves.",
+          "source": [
+            "Transpiration — loss of water vapor from plant surfaces, especially leaves."
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "model": "claude-haiku-4-5-20251001",
+      "prompt_version": "v1",
+      "prompt_hash": "f5e88f4d8fd8",
+      "input_tokens": 1694,
+      "output_tokens": 209,
+      "cost_usd": 0.002739,
+      "latency_seconds": 2.7594519829999626
+    },
+    "card_count": 4,
+    "card_count_in_range": true,
+    "cards": [
+      {
+        "card_id": "sample_026-c01",
+        "question": "What is photosynthesis?",
+        "answer": "The process by which light energy is converted into chemical energy.",
+        "source": [
+          "Photosynthesis — process by which light energy is converted into chemical energy."
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_026-c02",
+        "question": "What is the function of chlorophyll in photosynthetic organisms?",
+        "answer": "It absorbs light.",
+        "source": [
+          "Chlorophyll — pigment that absorbs light in photosynthetic organisms."
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_026-c03",
+        "question": "What are stomata?",
+        "answer": "Pores in plant leaves that regulate gas exchange.",
+        "source": [
+          "Stomata — pores in plant leaves that regulate gas exchange."
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_026-c04",
+        "question": "What is transpiration?",
+        "answer": "The loss of water vapor from plant surfaces, especially leaves.",
+        "source": [
+          "Transpiration — loss of water vapor from plant surfaces, especially leaves."
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      }
+    ]
+  },
+  {
+    "id": "sample_027",
+    "tags": [
+      "already_list_like"
+    ],
+    "expected_outcome": "accept",
+    "expected_card_range": [
+      4,
+      4
+    ],
+    "outcome": "accept",
+    "stage1_correct": true,
+    "scored_in_stage2": true,
+    "error": null,
+    "raw_text": "{\"status\": \"ok\", \"cards\": [{\"question\": \"What term describes the division of governmental power between national and state/regional governments?\", \"answer\": \"Federalism\", \"source\": [\"Federalism: division of governmental power between national and state/regional governments.\"]}, {\"question\": \"What term describes the allocation of legislative, executive, and judicial functions to different branches?\", \"answer\": \"Separation of powers\", \"source\": [\"Separation of powers: allocation of legislative, executive, and judicial functions to different branches.\"]}, {\"question\": \"What term describes mechanisms allowing branches of government to limit one another?\", \"answer\": \"Checks and balances\", \"source\": [\"Checks and balances: mechanisms allowing branches to limit one another.\"]}, {\"question\": \"What is the authority of courts to evaluate the constitutionality of government actions called?\", \"answer\": \"Judicial review\", \"source\": [\"Judicial review: authority of courts to evaluate the constitutionality of government actions.\"]}]}",
+    "output": {
+      "status": "ok",
+      "cards": [
+        {
+          "question": "What term describes the division of governmental power between national and state/regional governments?",
+          "answer": "Federalism",
+          "source": [
+            "Federalism: division of governmental power between national and state/regional governments."
+          ]
+        },
+        {
+          "question": "What term describes the allocation of legislative, executive, and judicial functions to different branches?",
+          "answer": "Separation of powers",
+          "source": [
+            "Separation of powers: allocation of legislative, executive, and judicial functions to different branches."
+          ]
+        },
+        {
+          "question": "What term describes mechanisms allowing branches of government to limit one another?",
+          "answer": "Checks and balances",
+          "source": [
+            "Checks and balances: mechanisms allowing branches to limit one another."
+          ]
+        },
+        {
+          "question": "What is the authority of courts to evaluate the constitutionality of government actions called?",
+          "answer": "Judicial review",
+          "source": [
+            "Judicial review: authority of courts to evaluate the constitutionality of government actions."
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "model": "claude-haiku-4-5-20251001",
+      "prompt_version": "v1",
+      "prompt_hash": "f5e88f4d8fd8",
+      "input_tokens": 1696,
+      "output_tokens": 222,
+      "cost_usd": 0.002806,
+      "latency_seconds": 3.024467901999742
+    },
+    "card_count": 4,
+    "card_count_in_range": true,
+    "cards": [
+      {
+        "card_id": "sample_027-c01",
+        "question": "What term describes the division of governmental power between national and state/regional governments?",
+        "answer": "Federalism",
+        "source": [
+          "Federalism: division of governmental power between national and state/regional governments."
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_027-c02",
+        "question": "What term describes the allocation of legislative, executive, and judicial functions to different branches?",
+        "answer": "Separation of powers",
+        "source": [
+          "Separation of powers: allocation of legislative, executive, and judicial functions to different branches."
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_027-c03",
+        "question": "What term describes mechanisms allowing branches of government to limit one another?",
+        "answer": "Checks and balances",
+        "source": [
+          "Checks and balances: mechanisms allowing branches to limit one another."
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_027-c04",
+        "question": "What is the authority of courts to evaluate the constitutionality of government actions called?",
+        "answer": "Judicial review",
+        "source": [
+          "Judicial review: authority of courts to evaluate the constitutionality of government actions."
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      }
+    ]
+  },
+  {
+    "id": "sample_028",
+    "tags": [
+      "already_list_like"
+    ],
+    "expected_outcome": "accept",
+    "expected_card_range": [
+      5,
+      5
+    ],
+    "outcome": "accept",
+    "stage1_correct": true,
+    "scored_in_stage2": true,
+    "error": null,
+    "raw_text": "{\"status\": \"ok\", \"cards\": [{\"question\": \"What term describes atoms of the same element with different numbers of neutrons?\", \"answer\": \"Isotope\", \"source\": [\"Isotope — atoms of the same element with different numbers of neutrons.\"]}, {\"question\": \"What term describes a positively charged ion?\", \"answer\": \"Cation\", \"source\": [\"Cation — positively charged ion.\"]}, {\"question\": \"What term describes a negatively charged ion?\", \"answer\": \"Anion\", \"source\": [\"Anion — negatively charged ion.\"]}, {\"question\": \"What is molarity defined as?\", \"answer\": \"Moles of solute per liter of solution\", \"source\": [\"Molarity — moles of solute per liter of solution.\"]}, {\"question\": \"What term describes a substance that increases reaction rate without being consumed overall?\", \"answer\": \"Catalyst\", \"source\": [\"Catalyst — substance that increases reaction rate without being consumed overall.\"]}]}",
+    "output": {
+      "status": "ok",
+      "cards": [
+        {
+          "question": "What term describes atoms of the same element with different numbers of neutrons?",
+          "answer": "Isotope",
+          "source": [
+            "Isotope — atoms of the same element with different numbers of neutrons."
+          ]
+        },
+        {
+          "question": "What term describes a positively charged ion?",
+          "answer": "Cation",
+          "source": [
+            "Cation — positively charged ion."
+          ]
+        },
+        {
+          "question": "What term describes a negatively charged ion?",
+          "answer": "Anion",
+          "source": [
+            "Anion — negatively charged ion."
+          ]
+        },
+        {
+          "question": "What is molarity defined as?",
+          "answer": "Moles of solute per liter of solution",
+          "source": [
+            "Molarity — moles of solute per liter of solution."
+          ]
+        },
+        {
+          "question": "What term describes a substance that increases reaction rate without being consumed overall?",
+          "answer": "Catalyst",
+          "source": [
+            "Catalyst — substance that increases reaction rate without being consumed overall."
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "model": "claude-haiku-4-5-20251001",
+      "prompt_version": "v1",
+      "prompt_hash": "f5e88f4d8fd8",
+      "input_tokens": 1693,
+      "output_tokens": 231,
+      "cost_usd": 0.002848,
+      "latency_seconds": 1.8314672609994886
+    },
+    "card_count": 5,
+    "card_count_in_range": true,
+    "cards": [
+      {
+        "card_id": "sample_028-c01",
+        "question": "What term describes atoms of the same element with different numbers of neutrons?",
+        "answer": "Isotope",
+        "source": [
+          "Isotope — atoms of the same element with different numbers of neutrons."
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_028-c02",
+        "question": "What term describes a positively charged ion?",
+        "answer": "Cation",
+        "source": [
+          "Cation — positively charged ion."
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_028-c03",
+        "question": "What term describes a negatively charged ion?",
+        "answer": "Anion",
+        "source": [
+          "Anion — negatively charged ion."
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_028-c04",
+        "question": "What is molarity defined as?",
+        "answer": "Moles of solute per liter of solution",
+        "source": [
+          "Molarity — moles of solute per liter of solution."
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_028-c05",
+        "question": "What term describes a substance that increases reaction rate without being consumed overall?",
+        "answer": "Catalyst",
+        "source": [
+          "Catalyst — substance that increases reaction rate without being consumed overall."
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      }
+    ]
+  },
+  {
+    "id": "sample_029",
+    "tags": [
+      "already_list_like"
+    ],
+    "expected_outcome": "accept",
+    "expected_card_range": [
+      4,
+      4
+    ],
+    "outcome": "accept",
+    "stage1_correct": true,
+    "scored_in_stage2": true,
+    "error": null,
+    "raw_text": "{\"status\": \"ok\", \"cards\": [{\"question\": \"What term describes small, fast memory that holds frequently accessed data?\", \"answer\": \"Cache\", \"source\": [\"Cache: small, fast memory holding frequently accessed data.\"]}, {\"question\": \"What term describes the delay between initiating an operation and receiving its result?\", \"answer\": \"Latency\", \"source\": [\"Latency: delay between initiating an operation and receiving its result.\"]}, {\"question\": \"What term describes the amount of work or data processed per unit time?\", \"answer\": \"Throughput\", \"source\": [\"Throughput: amount of work or data processed per unit time.\"]}, {\"question\": \"What term describes a state in which processes wait indefinitely for resources held by one another?\", \"answer\": \"Deadlock\", \"source\": [\"Deadlock: state in which processes wait indefinitely for resources held by one another.\"]}]}",
+    "output": {
+      "status": "ok",
+      "cards": [
+        {
+          "question": "What term describes small, fast memory that holds frequently accessed data?",
+          "answer": "Cache",
+          "source": [
+            "Cache: small, fast memory holding frequently accessed data."
+          ]
+        },
+        {
+          "question": "What term describes the delay between initiating an operation and receiving its result?",
+          "answer": "Latency",
+          "source": [
+            "Latency: delay between initiating an operation and receiving its result."
+          ]
+        },
+        {
+          "question": "What term describes the amount of work or data processed per unit time?",
+          "answer": "Throughput",
+          "source": [
+            "Throughput: amount of work or data processed per unit time."
+          ]
+        },
+        {
+          "question": "What term describes a state in which processes wait indefinitely for resources held by one another?",
+          "answer": "Deadlock",
+          "source": [
+            "Deadlock: state in which processes wait indefinitely for resources held by one another."
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "model": "claude-haiku-4-5-20251001",
+      "prompt_version": "v1",
+      "prompt_hash": "f5e88f4d8fd8",
+      "input_tokens": 1688,
+      "output_tokens": 205,
+      "cost_usd": 0.002713,
+      "latency_seconds": 1.7790465970001605
+    },
+    "card_count": 4,
+    "card_count_in_range": true,
+    "cards": [
+      {
+        "card_id": "sample_029-c01",
+        "question": "What term describes small, fast memory that holds frequently accessed data?",
+        "answer": "Cache",
+        "source": [
+          "Cache: small, fast memory holding frequently accessed data."
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_029-c02",
+        "question": "What term describes the delay between initiating an operation and receiving its result?",
+        "answer": "Latency",
+        "source": [
+          "Latency: delay between initiating an operation and receiving its result."
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_029-c03",
+        "question": "What term describes the amount of work or data processed per unit time?",
+        "answer": "Throughput",
+        "source": [
+          "Throughput: amount of work or data processed per unit time."
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_029-c04",
+        "question": "What term describes a state in which processes wait indefinitely for resources held by one another?",
+        "answer": "Deadlock",
+        "source": [
+          "Deadlock: state in which processes wait indefinitely for resources held by one another."
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      }
+    ]
+  },
+  {
+    "id": "sample_030",
+    "tags": [
+      "already_list_like"
+    ],
+    "expected_outcome": "accept",
+    "expected_card_range": [
+      5,
+      5
+    ],
+    "outcome": "accept",
+    "stage1_correct": true,
+    "scored_in_stage2": true,
+    "error": null,
+    "raw_text": "{\"status\": \"ok\", \"cards\": [{\"question\": \"What theory describes Earth's lithosphere as being divided into moving plates?\", \"answer\": \"Plate tectonics\", \"source\": [\"Plate tectonics — theory that Earth's lithosphere is divided into moving plates.\"]}, {\"question\": \"What term describes the process in which one tectonic plate moves beneath another?\", \"answer\": \"Subduction\", \"source\": [\"Subduction — process in which one tectonic plate moves beneath another.\"]}, {\"question\": \"What type of plate boundary occurs where plates move apart?\", \"answer\": \"Divergent boundary\", \"source\": [\"Divergent boundary — boundary where plates move apart.\"]}, {\"question\": \"What type of plate boundary occurs where plates slide horizontally past one another?\", \"answer\": \"Transform boundary\", \"source\": [\"Transform boundary — boundary where plates slide horizontally past one another.\"]}, {\"question\": \"What type of plate boundary occurs where plates move toward one another?\", \"answer\": \"Convergent boundary\", \"source\": [\"Convergent boundary — boundary where plates move toward one another.\"]}]}",
+    "output": {
+      "status": "ok",
+      "cards": [
+        {
+          "question": "What theory describes Earth's lithosphere as being divided into moving plates?",
+          "answer": "Plate tectonics",
+          "source": [
+            "Plate tectonics — theory that Earth's lithosphere is divided into moving plates."
+          ]
+        },
+        {
+          "question": "What term describes the process in which one tectonic plate moves beneath another?",
+          "answer": "Subduction",
+          "source": [
+            "Subduction — process in which one tectonic plate moves beneath another."
+          ]
+        },
+        {
+          "question": "What type of plate boundary occurs where plates move apart?",
+          "answer": "Divergent boundary",
+          "source": [
+            "Divergent boundary — boundary where plates move apart."
+          ]
+        },
+        {
+          "question": "What type of plate boundary occurs where plates slide horizontally past one another?",
+          "answer": "Transform boundary",
+          "source": [
+            "Transform boundary — boundary where plates slide horizontally past one another."
+          ]
+        },
+        {
+          "question": "What type of plate boundary occurs where plates move toward one another?",
+          "answer": "Convergent boundary",
+          "source": [
+            "Convergent boundary — boundary where plates move toward one another."
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "model": "claude-haiku-4-5-20251001",
+      "prompt_version": "v1",
+      "prompt_hash": "f5e88f4d8fd8",
+      "input_tokens": 1702,
+      "output_tokens": 251,
+      "cost_usd": 0.002957,
+      "latency_seconds": 1.9109148739999
+    },
+    "card_count": 5,
+    "card_count_in_range": true,
+    "cards": [
+      {
+        "card_id": "sample_030-c01",
+        "question": "What theory describes Earth's lithosphere as being divided into moving plates?",
+        "answer": "Plate tectonics",
+        "source": [
+          "Plate tectonics — theory that Earth's lithosphere is divided into moving plates."
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_030-c02",
+        "question": "What term describes the process in which one tectonic plate moves beneath another?",
+        "answer": "Subduction",
+        "source": [
+          "Subduction — process in which one tectonic plate moves beneath another."
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_030-c03",
+        "question": "What type of plate boundary occurs where plates move apart?",
+        "answer": "Divergent boundary",
+        "source": [
+          "Divergent boundary — boundary where plates move apart."
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_030-c04",
+        "question": "What type of plate boundary occurs where plates slide horizontally past one another?",
+        "answer": "Transform boundary",
+        "source": [
+          "Transform boundary — boundary where plates slide horizontally past one another."
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      },
+      {
+        "card_id": "sample_030-c05",
+        "question": "What type of plate boundary occurs where plates move toward one another?",
+        "answer": "Convergent boundary",
+        "source": [
+          "Convergent boundary — boundary where plates move toward one another."
+        ],
+        "excerpt_matches": [
+          true
+        ],
+        "source_matches": true
+      }
+    ]
+  },
+  {
+    "id": "sample_031",
+    "tags": [
+      "unusable_input"
+    ],
+    "expected_outcome": "reject",
+    "expected_card_range": [
+      0,
+      0
+    ],
+    "outcome": "reject",
+    "stage1_correct": true,
+    "scored_in_stage2": false,
+    "error": null,
+    "raw_text": "{\"status\": \"rejected\", \"reason\": \"The notes are too fragmented and incoherent to extract clear facts. They appear to be incomplete sentence fragments with unclear references, abbreviations, and question marks that don't form coherent statements suitable for flashcards.\"}",
+    "output": {
+      "status": "rejected",
+      "reason": "The notes are too fragmented and incoherent to extract clear facts. They appear to be incomplete sentence fragments with unclear references, abbreviations, and question marks that don't form coherent statements suitable for flashcards."
+    },
+    "metadata": {
+      "model": "claude-haiku-4-5-20251001",
+      "prompt_version": "v1",
+      "prompt_hash": "f5e88f4d8fd8",
+      "input_tokens": 1672,
+      "output_tokens": 60,
+      "cost_usd": 0.001972,
+      "latency_seconds": 1.2935798750004324
+    },
+    "card_count": null,
+    "card_count_in_range": null,
+    "cards": []
+  },
+  {
+    "id": "sample_032",
+    "tags": [
+      "unusable_input"
+    ],
+    "expected_outcome": "reject",
+    "expected_card_range": [
+      0,
+      0
+    ],
+    "outcome": "reject",
+    "stage1_correct": true,
+    "scored_in_stage2": false,
+    "error": null,
+    "raw_text": "{\"status\": \"rejected\", \"reason\": \"The notes are too fragmented and incoherent to extract reliable facts. While there are possible references to the Industrial Revolution and Keynes, the content is largely unclear abbreviations and incomplete thoughts that cannot be converted into clear flashcards without speculation about what was intended.\"}",
+    "output": {
+      "status": "rejected",
+      "reason": "The notes are too fragmented and incoherent to extract reliable facts. While there are possible references to the Industrial Revolution and Keynes, the content is largely unclear abbreviations and incomplete thoughts that cannot be converted into clear flashcards without speculation about what was intended."
+    },
+    "metadata": {
+      "model": "claude-haiku-4-5-20251001",
+      "prompt_version": "v1",
+      "prompt_hash": "f5e88f4d8fd8",
+      "input_tokens": 1673,
+      "output_tokens": 70,
+      "cost_usd": 0.002023,
+      "latency_seconds": 1.5953990589996465
+    },
+    "card_count": null,
+    "card_count_in_range": null,
+    "cards": []
+  },
+  {
+    "id": "sample_033",
+    "tags": [
+      "unusable_input"
+    ],
+    "expected_outcome": "reject",
+    "expected_card_range": [
+      0,
+      0
+    ],
+    "outcome": "reject",
+    "stage1_correct": true,
+    "scored_in_stage2": false,
+    "error": null,
+    "raw_text": "{\"status\":\"rejected\",\"reason\":\"The notes appear to be fragmentary and incoherent, containing incomplete phrases and unclear references that do not form coherent facts suitable for flashcard creation.\"}",
+    "output": {
+      "status": "rejected",
+      "reason": "The notes appear to be fragmentary and incoherent, containing incomplete phrases and unclear references that do not form coherent facts suitable for flashcard creation."
+    },
+    "metadata": {
+      "model": "claude-haiku-4-5-20251001",
+      "prompt_version": "v1",
+      "prompt_hash": "f5e88f4d8fd8",
+      "input_tokens": 1668,
+      "output_tokens": 43,
+      "cost_usd": 0.001883,
+      "latency_seconds": 1.2516331329998138
+    },
+    "card_count": null,
+    "card_count_in_range": null,
+    "cards": []
+  },
+  {
+    "id": "sample_034",
+    "tags": [
+      "unusable_input"
+    ],
+    "expected_outcome": "reject",
+    "expected_card_range": [
+      0,
+      0
+    ],
+    "outcome": "reject",
+    "stage1_correct": true,
+    "scored_in_stage2": false,
+    "error": null,
+    "raw_text": "{\"status\":\"rejected\",\"reason\":\"The notes are too fragmented and incoherent to extract meaningful facts. They consist of scattered words and phrases with no clear statements or concepts that could be converted into flashcards.\"}",
+    "output": {
+      "status": "rejected",
+      "reason": "The notes are too fragmented and incoherent to extract meaningful facts. They consist of scattered words and phrases with no clear statements or concepts that could be converted into flashcards."
+    },
+    "metadata": {
+      "model": "claude-haiku-4-5-20251001",
+      "prompt_version": "v1",
+      "prompt_hash": "f5e88f4d8fd8",
+      "input_tokens": 1668,
+      "output_tokens": 50,
+      "cost_usd": 0.001918,
+      "latency_seconds": 1.5619417950001662
+    },
+    "card_count": null,
+    "card_count_in_range": null,
+    "cards": []
+  },
+  {
+    "id": "sample_035",
+    "tags": [
+      "unusable_input"
+    ],
+    "expected_outcome": "reject",
+    "expected_card_range": [
+      0,
+      0
+    ],
+    "outcome": "reject",
+    "stage1_correct": true,
+    "scored_in_stage2": false,
+    "error": null,
+    "raw_text": "{\"status\": \"rejected\", \"reason\": \"The notes are too fragmented and incoherent to extract reliable facts. They contain incomplete thoughts, contradictions, unclear references, and unintelligible passages that do not form coherent study material.\"}",
+    "output": {
+      "status": "rejected",
+      "reason": "The notes are too fragmented and incoherent to extract reliable facts. They contain incomplete thoughts, contradictions, unclear references, and unintelligible passages that do not form coherent study material."
+    },
+    "metadata": {
+      "model": "claude-haiku-4-5-20251001",
+      "prompt_version": "v1",
+      "prompt_hash": "f5e88f4d8fd8",
+      "input_tokens": 1680,
+      "output_tokens": 58,
+      "cost_usd": 0.00197,
+      "latency_seconds": 1.2667006239998955
+    },
+    "card_count": null,
+    "card_count_in_range": null,
+    "cards": []
+  }
+]

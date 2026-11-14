@@ -1,0 +1,544 @@
+# Evaluation Rubric: AI Flashcard Generation
+
+**Project:** Flashcard & Spaced Repetition Study App
+**Rubric Version:** 1.6
+**Last Updated:** October 2026
+**Status:** Active
+
+---
+
+## Purpose
+
+This rubric defines how generated flashcards are scored against the test set
+in `eval/test_set/test_set.json`. It was written before any model output was
+reviewed, so that scoring reflects what good output should look like rather
+than what a particular model happens to produce.
+
+The test set and this rubric stay fixed across evaluation runs. What changes
+between runs is the system under test: the prompt, the model, or the
+pipeline design. Holding the test set and rubric constant is what makes
+scores comparable from one run to the next. Both are versioned (see
+"Versioning" below, and `eval/README.md` for the test set), and each run
+records the versions it was scored under.
+
+---
+
+## Unit of Evaluation
+
+The unit of evaluation is the **batch**: everything the system produces for
+one test sample. This matches what a user experiences, since pasting one set
+of notes returns a set of cards, not a single card.
+
+Some criteria are scored per card and aggregated; others are properties of
+the batch as a whole.
+
+---
+
+## Stage 1: Input Gate
+
+Scored on **every sample that did not error**.
+
+### Expected outcome
+
+| Category tag         | Expected outcome |
+|----------------------|------------------|
+| `unusable_input`     | Reject           |
+| All other categories | Accept           |
+
+`too_short` samples contain real content and should be **accepted**. They are
+expected to produce a small number of cards, not a rejection.
+
+### Gate errors
+
+| Error            | Definition                                      |
+|------------------|-------------------------------------------------|
+| False rejection  | A sample expected to be accepted was rejected   |
+| False acceptance | A sample expected to be rejected produced cards |
+
+**False rejection is the more serious error.** A student who pastes real
+notes and is refused has no recourse. Generated cards from unusable input
+are visible to the student during the review step before saving, and any
+invented content is also caught by the Stage 2 "supported" criterion. When
+the gate is uncertain, it should lean toward accepting.
+
+### Scoring
+
+- Samples that fail Stage 1 in either direction are **not** scored in
+  Stage 2.
+- Samples correctly rejected have no cards and are not scored in Stage 2.
+- Only **correctly accepted** samples proceed to Stage 2.
+
+This scoring is independent of how the gate is implemented (a separate
+classification call, a single call that returns either cards or a
+rejection, or non-AI pre-checks). The rubric measures the decision, not the
+mechanism.
+
+---
+
+## Stage 2: Card Quality
+
+Scored on **correctly accepted samples only**.
+
+### Per-card criteria
+
+Each card receives a pass or fail on each of the following four criteria.
+
+#### 1. Atomic
+
+> A card is **atomic** if there is no meaningful way to get its answer
+> partially right.
+>
+> **Exception:** an answer that lists a **closed set of six or fewer
+> items** (a fixed group the question itself defines) counts as atomic.
+>
+> **Closed set test:** items are a closed set when the notes say the same
+> thing about all of them. They are separate facts when the notes say
+> something different about each. Splitting a closed set would produce
+> cards that differ only by position ("What was the first principle?",
+> "What was the second?").
+>
+> A closed list and the reason behind it are still separate facts, so a
+> card that asks for both fails.
+
+**Why it matters:** SM-2 schedules each card from a single 0–5 rating. If a
+card contains several facts and the student remembers only some of them,
+no single rating is correct, and the schedule will be wrong for part of the
+card.
+
+**Examples:**
+
+- **Q:** What did the Treaty of Versailles require of Germany?
+  **A:** Reparations, military limits, and territorial changes.
+  → **Fail.** These are separate facts, not a defined closed set. A
+  student could remember some and forget others.
+
+- **Q:** What are the three states of a JavaScript promise?
+  **A:** Pending, fulfilled, rejected.
+  → **Pass.** A closed set of three items that the question itself defines.
+
+- **Q:** Why is the lagging strand synthesized discontinuously?
+  **A:** Because the strands are antiparallel and synthesis only proceeds
+  5' to 3'.
+  → **Pass.** One idea, even though the answer is a full sentence.
+
+- **Source:** "GDP = market value of final goods/services... not used
+  goods, not intermediate (avoid double count)."
+  **Q:** Which two kinds of goods are excluded from GDP, and why?
+  **A:** Used goods and intermediate goods, to avoid double counting.
+  → **Fail.** The two kinds of goods are a closed set, since the notes say
+  the same thing about both, but the reason they're excluded is a
+  separate fact.
+
+#### 2. Supported
+
+> A card is **supported** if every claim in its question and answer is
+> stated in the source text, or clearly established elsewhere in the same
+> notes. Rewording is allowed. Combining facts that are each stated in the
+> source is allowed. Adding facts from outside the source, or drawing
+> conclusions the source does not state, fails.
+>
+> **Context rule:** notes often set context once and rely on it
+> afterward, such as a year at the top of a timeline that applies to the
+> entries below it. A claim that applies context the notes clearly
+> establish is supported, even if no single sentence states it. A
+> conclusion the notes never state still fails, even if it follows
+> logically, and so does a fact from outside the notes, even if it is
+> true.
+
+**Why it matters:** the goal is zero hallucination. This rule also keeps
+scoring practical: each card is checked against the source text, not
+fact-checked against the outside world.
+
+**Examples:**
+
+- **Source:** "The Magna Carta was sealed in 1215..."
+  **Q:** Which English king sealed the Magna Carta?
+  **A:** King John.
+  → **Fail.** Historically correct, but the source never mentions King
+  John. The fact came from outside the student's material.
+
+- **Source:** States that only a fraction of the energy at one trophic level
+  is transferred to the next.
+  **Q:** Why are there usually fewer top predators than producers in an
+  ecosystem?
+  → **Fail.** The conclusion follows logically, but the source never says
+  anything about predator numbers. This is inference, not a stated fact.
+
+- **Source:** "...organisms use much of it for metabolism and lose energy as
+  heat."
+  **Q:** What happens to most of the energy at each trophic level?
+  **A:** It is spent on metabolism and lost as heat.
+  → **Pass.** The answer rewords the source without adding anything new.
+
+- **Source:** Lecture notes that open with "Estates General called
+  1789..." and later list "Bastille stormed July 14".
+  **Q:** On what date was the Bastille stormed?
+  **A:** July 14, 1789.
+  → **Pass.** No single line pairs the date with the year, but the notes
+  establish 1789 earlier in the same timeline (the context rule).
+
+#### 3. No Answer Leakage
+
+> A card **leaks** if its answer can be found in, or directly deduced from,
+> the question text itself.
+>
+> **Test:** could someone answer correctly using only the words in the
+> question?
+>
+> **Yes/no and either/or questions fail.** The question reveals the whole
+> answer space (yes or no, or the options it names), so a student can
+> answer correctly by guessing.
+
+**Examples:**
+
+- **Q:** The mitochondrion produces ATP through oxidative phosphorylation.
+  What process does the mitochondrion use to produce ATP?
+  **A:** Oxidative phosphorylation.
+  → **Fail.** The answer appears in the question itself.
+
+- **Q:** Through what process does the mitochondrion produce much of a
+  cell's ATP?
+  **A:** Oxidative phosphorylation.
+  → **Pass.** The question gives no clue to the answer.
+
+- **Q:** Did the United States join the League of Nations?
+  **A:** No.
+  → **Fail.** A yes/no question. A guess is right half the time.
+
+- **Q:** Which major power never joined the League of Nations?
+  **A:** The United States.
+  → **Pass.** The same fact, worded as a real recall question.
+
+The fact behind a yes/no or either/or question may still deserve a card.
+It should be worded as a real recall question instead, as in the last
+example.
+
+#### 4. Unambiguous
+
+> A card is **unambiguous** if a student who knows the material would know
+> exactly what the card is asking, and there is only one correct answer (or
+> one closed set, per the atomic rule).
+>
+> **Test:** hide the source text and read the question alone. It fails if
+> it depends on context from the source ("it," "this process," "the
+> above"), or if multiple different answers would be correct.
+
+**Examples:**
+
+- **Q:** What happened in 1792?
+  → **Fail.** Several events from that year would be correct answers, so a
+  student can't tell which one the card wants.
+
+- **Q:** What does it regulate?
+  → **Fail.** "It" only makes sense next to the original source text.
+
+- **Q:** In what year did France become a republic?
+  **A:** 1792.
+  → **Pass.** Clear on its own, with one correct answer.
+
+### Batch-level criteria
+
+#### 5. No Near-Duplicates
+
+> Two cards are **near-duplicates** if they test the same fact, regardless
+> of wording or direction, **including reversed term/definition pairs**.
+>
+> A card is also a near-duplicate if the fact it tests is already contained
+> in an earlier card's answer, even if the earlier card also tests other
+> facts.
+
+When a card duplicates an earlier card in the batch, the later card is
+counted as a duplicate.
+
+**Examples:**
+
+- **Card 1 Q:** What is the powerhouse of the cell?
+  **Card 2 Q:** Which organelle is called the cell's powerhouse?
+  → **Duplicate.** The same fact, worded two ways.
+
+- **Card 1 Q:** What is opportunity cost?
+  **A:** The value of the next-best alternative given up when making a
+  choice.
+  **Card 2 Q:** What term describes the value of the next-best alternative
+  given up when making a choice?
+  **A:** Opportunity cost.
+  → **Duplicate.** The same fact tested in opposite directions (a reversed
+  pair).
+
+- **Card 1 Q:** In what year was the Magna Carta sealed?
+  **Card 2 Q:** What did the Magna Carta place limits on?
+  → **Not a duplicate.** Same topic, but the cards test different facts.
+
+- **Card 1 Q:** What were the main causes of the Dust Bowl?
+  **A:** Severe drought, over-plowing of the prairie, and strong winds.
+  **Card 2 Q:** What farming practice contributed to the Dust Bowl?
+  **A:** Over-plowing of the prairie.
+  → **Duplicate.** Card 2's fact is already part of Card 1's answer, so a
+  student reviewing Card 1 is already tested on it. Card 1 also fails
+  "atomic" on its own.
+
+Reversed pairs are counted as duplicates because `expected_card_range`
+values assume one card per fact. Reversal, if offered, is intended as a
+deterministic app feature rather than model output.
+
+#### 6. Card Count
+
+> A batch passes if the number of generated cards falls within the
+> sample's `expected_card_range`, inclusive.
+
+Ranges count one card per distinct fact worth studying. A closed set of
+six or fewer items (see "Atomic") counts as one fact, and framing or
+transition sentences, such as a heading or "next, we turn to...", don't
+count.
+
+---
+
+## Errored Samples and Run Validity
+
+A sample **errors** when the system fails to produce a valid result. Each
+errored sample is recorded with one of five **error kinds**:
+
+- **API failure** (`api_error`): the request to the API failed, timed
+  out, or was rate limited.
+- **Truncated output** (`truncated`): the output hit the token limit
+  before finishing.
+- **Refusal** (`refusal`): the model declined to respond.
+- **Invalid output** (`invalid_output`): the output does not match the
+  required format.
+- **Unexpected error** (`unexpected_error`): any other failure. This most
+  likely indicates a bug in the runner or the generation module rather
+  than model behavior, and should be investigated before any other result
+  from that run.
+
+An errored sample is neither accepted nor rejected, so it is **excluded**
+from every Stage 1 and Stage 2 rate. Because exclusion can hide
+problems (for example, errors concentrated in one category could make
+that category's rates look better than they are), errors are reported
+as their own metric and are never silently dropped.
+
+A run with **any** errored samples is **incomplete**. An incomplete run
+must not be used as a baseline or comparison point until the errored
+samples are resolved and rerun.
+
+A **partial** run is deliberately run on a subset of samples, for smoke
+testing. A partial run is also not valid as a baseline or comparison
+point, and its rates are not comparable with those of full runs.
+
+An **interrupted** run stopped before every selected sample ran, whether
+it was cancelled, crashed, or was killed. Its rates cover only the samples
+that finished, so an interrupted run is not valid as a baseline or
+comparison point; rerun it in full.
+
+Partial, interrupted, and incomplete are independent, so a run can be any
+combination of them. Only a run that is none of them is valid as a
+baseline or comparison point.
+
+---
+
+## Source Check (Automated)
+
+Each generated card includes a `source` field: a list of one or more
+excerpts from the notes that together support the card. A list allows a
+card that combines facts from different parts of the notes to cite each
+one.
+
+> An **excerpt matches** if, after normalizing whitespace in both the
+> excerpt and the sample's `source_text`, the excerpt is non-empty and
+> appears word-for-word in the `source_text`. Normalizing whitespace
+> collapses every run of whitespace characters (spaces, tabs, line breaks,
+> non-breaking spaces, and so on) to a single space and trims both ends,
+> so an excerpt of only whitespace is empty.
+>
+> A card's source **matches** only if it contains at least one excerpt and
+> **every** excerpt matches.
+
+This check is deterministic and scored by code, not judgment. This is a
+per-card diagnostic, not a quality criterion. It does not count toward the
+clean card rate.
+
+**How the source field is used when grading:**
+
+- The `source` field speeds up scoring the "supported" criterion, but it is
+  evidence to verify, not proof. A card is only supported if its claims are
+  actually stated in the source text.
+- A card whose source does **not** match should be checked especially
+  carefully, since the cited evidence may be paraphrased or invented.
+- A matching source does not automatically make a card supported. The
+  excerpts, taken together, must actually contain every claim the card
+  makes.
+
+---
+
+## Metrics
+
+Each evaluation run records the following.
+
+### Headline
+
+| Metric              | Definition                                             |
+|---------------------|--------------------------------------------------------|
+| **Clean card rate** | Cards passing all four per-card criteria ÷ total cards scored in Stage 2 |
+
+### Stage 1
+
+| Metric                | Definition                                                      |
+|-----------------------|-----------------------------------------------------------------|
+| False rejection rate  | False rejections ÷ non-errored samples expected to be accepted  |
+| False acceptance rate | False acceptances ÷ non-errored samples expected to be rejected |
+
+A complete run of the full test set has 30 samples expected to be
+accepted and 5 expected to be rejected.
+
+### Stage 2
+
+| Metric               | Definition                                            |
+|----------------------|-------------------------------------------------------|
+| Atomic rate          | Atomic cards ÷ total cards scored                     |
+| Supported rate       | Supported cards ÷ total cards scored                  |
+| No-leakage rate      | Non-leaking cards ÷ total cards scored                |
+| Unambiguous rate     | Unambiguous cards ÷ total cards scored                |
+| Duplicate-free rate  | Non-duplicate cards ÷ total cards scored              |
+| Card count pass rate | Batches within `expected_card_range` ÷ batches scored |
+| Source match rate    | Cards whose `source` excerpts all appear verbatim in the notes ÷ total cards scored |
+
+Per-card rates are **pooled** across all cards in all scored batches.
+
+### Breakdown by category
+
+All Stage 1 and Stage 2 metrics are also reported per category tag, so that
+failures specific to one input type (for example, tables or code) are
+visible rather than averaged away.
+
+### Operational
+
+| Metric                         | Definition                           |
+|--------------------------------|--------------------------------------|
+| Average cost per generation    | Total API cost ÷ samples run         |
+| Average latency per generation | Total generation time ÷ samples that received model output |
+| Error rate                     | Errored samples ÷ total samples run, reported overall and per category |
+
+API failures and unexpected errors have no recorded latency, so average
+latency counts only samples that received model output.
+
+---
+
+## Scoring Procedure
+
+For each sample:
+
+1. If the sample errored, record its error kind and stop. It is excluded
+   from all Stage 1 and Stage 2 rates.
+2. Record whether the system accepted or rejected the input.
+3. Compare against the expected outcome. If Stage 1 failed, record which
+   gate error occurred and stop.
+4. If correctly rejected, stop.
+5. If correctly accepted, check every excerpt in each card's `source` list
+   against the notes, and record whether the card's source matches.
+6. If correctly accepted, score each card on the four per-card criteria.
+7. Mark any card that duplicates an earlier card in the batch.
+8. Record the card count and whether it falls within
+   `expected_card_range`.
+
+Then compute the run's metrics and record them in
+`eval/results_log.md`.
+
+---
+
+## Run Record
+
+Each run in `eval/runs/` records at minimum:
+
+- Run ID and date
+- Rubric version used for scoring
+- Test set version and hash
+- Model and prompt version
+- Gate approach (separate call, single call, pre-checks, or none)
+- All metrics listed above
+- Notes on what changed from the previous run and why
+- Test set size and number of samples run
+- Whether the run is **partial** (deliberately run on a subset of
+  samples), **interrupted** (stopped before every selected sample ran),
+  or **incomplete** (one or more samples errored)
+- Each errored sample's ID, category, and error kind
+
+---
+
+## Versioning
+
+Any change to a definition, threshold, or metric increments the rubric
+version. Past runs keep the version they were scored under. Runs scored
+under different rubric versions are not directly comparable; if a
+comparison is needed, rescore the earlier run under the current version.
+The same applies to test set versions. A run's automated metrics can be
+recomputed offline from its recorded outputs (see `eval/README.md`), but
+the hand-scored criteria must be rescored, by hand or by a validated
+judge.
+
+### Changelog
+
+- **1.6:** No near-duplicates: a card is also a duplicate when the fact it
+  tests is already contained in an earlier card's answer, even if the
+  earlier card also tests other facts. This states how Run 1's three
+  existing duplicates (`sample_001-c04`, `sample_001-c05`, and
+  `sample_021-c02`) were scored under 1.5. It also changes one Run 1
+  score: `sample_005-c07` is now a duplicate of `sample_005-c01`. The rule
+  and that score change were both made before the LLM judge produced any
+  output, since the judge reads its criteria from this file. Runs
+  `2026-10-02_215109` and `2026-10-02_215610` were recomputed under 1.6,
+  and all of Run 1's other 1.5 hand scores were carried over unchanged.
+- **1.5:** Supported: a claim is also supported when the notes clearly
+  establish it elsewhere, such as a year set at the top of a timeline
+  (the context rule). No leakage: yes/no and either/or questions fail,
+  since the question reveals the whole answer space. Atomic: added the
+  closed set test (items are a closed set when the notes say the same
+  thing about all of them), and stated that a closed list and the reason
+  behind it are separate facts. Card count: stated that ranges count
+  distinct facts worth studying, excluding framing and transition
+  sentences; the test set's ranges were recounted on that basis in test
+  set version 2. Added the test set version to the run record. Run 1
+  (`2026-10-02_215109`) was rescored under 1.5, and its 1.4 results are
+  kept. While rescoring, `sample_004-c01`, `sample_004-c05`, and
+  `sample_021-c01` were changed to fail "atomic" for consistency with
+  `sample_017-c01` and `sample_009-c06`, which were scored the same way
+  under 1.4. Those three changes correct scoring errors and are not
+  caused by a rule change.
+- **1.4:** An excerpt must be non-empty after normalizing whitespace to
+  match, since an empty excerpt would otherwise appear in any source text.
+  Defined what normalizing whitespace means. This matches how the runner
+  already scored excerpts. Defined interrupted runs (stopped before every
+  selected sample ran) as not valid as a baseline or comparison point,
+  added the interrupted flag to the run record, and stated that the
+  partial, interrupted, and incomplete flags are independent. Put every
+  metric table row on a single line; the wrapped rows had rendered as
+  extra rows. No runs had been scored under 1.3.
+- **1.3:** Defined errored samples as a distinct outcome, excluded from
+  all rates but reported as an error rate overall and per category. Runs
+  with any errors are marked incomplete and are not valid as a baseline
+  or comparison point. Added partial and incomplete flags to the run
+  record. Stage 1 rates now use non-errored sample counts rather than
+  fixed totals, partial runs are not valid for comparison, and average
+  latency counts only samples that received model output. No runs had
+  been scored under 1.2.
+- **1.2:** Changed `source` from a single excerpt to a list of excerpts, so
+  cards combining facts from different parts of the notes can cite each
+  one. A card's source matches only if it has at least one excerpt and
+  every excerpt matches. No runs had been scored under 1.1.
+- **1.1:** Added the automated source check and source match rate metric,
+  following the addition of a `source` field to the generation output
+  format. No runs had been scored under 1.0.
+- **1.0:** Initial rubric.
+
+---
+
+## Known Limitations
+
+- **Synthetic messiness.** The `sloppy_bullets` samples are synthetic and
+  likely understate the inconsistency of real student notes. Strong results
+  in that category are weaker evidence than they appear.
+- **Small rejection sample.** Only 5 samples are expected to be rejected, so
+  one wrong gate decision moves the false acceptance rate by 20 percentage
+  points. Treat small swings with caution.
+- **Single scorer.** Scoring is done by one person. The definitions and
+  examples above exist to keep scoring consistent across runs, but some
+  judgment remains, particularly for the "supported" and "unambiguous"
+  criteria.

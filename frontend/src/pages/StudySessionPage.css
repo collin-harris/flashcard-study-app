@@ -29,11 +29,6 @@
   gap: 24px;
 }
 
-.study-session__message {
-  color: var(--color-text-secondary);
-  font-size: 1.1rem;
-}
-
 .session-summary__heading {
   margin: 0;
   font-size: 1.75rem;
@@ -101,8 +96,11 @@
   font-weight: 600;
 }
 
+/* The color keeps a link styled as a button white on hover, over the
+   global a:hover */
 .button-primary:hover {
   background-color: var(--color-accent-hover);
+  color: var(--color-surface);
 }
 
 .error-message {

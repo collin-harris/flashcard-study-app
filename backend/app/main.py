@@ -5,10 +5,12 @@ from app.models.user import User
 from app.models.deck import Deck
 from app.models.flashcard import Flashcard
 from app.models.card_review import CardReview
+from app.models.generation_request import GenerationRequest
 from app.routers.auth import router as auth_router
 from app.routers.decks import router as deck_router
 from app.routers.cards import router as card_router
 from app.routers.study import router as study_router
+from app.routers.generation import router as generation_router
 
 app = FastAPI()
 
@@ -25,6 +27,7 @@ app.include_router(auth_router)
 app.include_router(deck_router)
 app.include_router(card_router)
 app.include_router(study_router)
+app.include_router(generation_router)
 
 Base.metadata.create_all(bind=engine)
 

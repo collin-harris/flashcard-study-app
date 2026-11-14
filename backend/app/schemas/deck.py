@@ -1,12 +1,18 @@
+from typing import Annotated
 from pydantic import BaseModel, ConfigDict
+
+from app.schemas.validators import required_text
+
+# Stripped, and rejected if nothing is left
+DeckName = Annotated[str, required_text("Deck name can't be empty.")]
 
 
 class DeckCreate(BaseModel):
-    name: str
+    name: DeckName
 
 
 class DeckUpdate(BaseModel):
-    name: str | None = None
+    name: DeckName | None = None
 
 
 class DeckResponse(BaseModel):

@@ -1,0 +1,2698 @@
+{
+  "judge": {
+    "scorer": "judge:opus-5.5:v1",
+    "judge_model": "claude-opus-5-5",
+    "judge_prompt_version": "v1",
+    "effort": "low",
+    "judge_hash": "d21413e84dec"
+  },
+  "hand_scores_file": "eval/runs/2026-10-02_215109/rescored/rubric-1.6_test-set-2/scores.csv",
+  "runs": [
+    "2026-10-13_214206",
+    "2026-10-13_222522"
+  ],
+  "seeded_runs": [
+    "2026-10-13_223040",
+    "2026-10-13_223531"
+  ],
+  "costs": [
+    0.5549691999999998,
+    0.575105,
+    0.5380148,
+    0.5406948
+  ],
+  "retries": {
+    "passes": [
+      {
+        "pass": "Run A",
+        "judge_run_id": "2026-10-13_214206",
+        "discarded": false,
+        "status": "",
+        "api_calls": 30,
+        "retries": 0,
+        "invalid_outputs": [],
+        "recorded_retries": false,
+        "cost_usd": 0.5549691999999998
+      },
+      {
+        "pass": "Run B",
+        "judge_run_id": "2026-10-13_222522",
+        "discarded": false,
+        "status": "",
+        "api_calls": 31,
+        "retries": 1,
+        "invalid_outputs": [
+          {
+            "id": "sample_005",
+            "message": "Output did not match the batch: No grade for c02, c03, c04, c05, c06, c07."
+          }
+        ],
+        "recorded_retries": true,
+        "cost_usd": 0.575105
+      },
+      {
+        "pass": "Seeded A",
+        "judge_run_id": "2026-10-13_223040",
+        "discarded": false,
+        "status": "",
+        "api_calls": 26,
+        "retries": 0,
+        "invalid_outputs": [],
+        "recorded_retries": true,
+        "cost_usd": 0.5380148
+      },
+      {
+        "pass": "Seeded B",
+        "judge_run_id": "2026-10-13_223531",
+        "discarded": false,
+        "status": "",
+        "api_calls": 26,
+        "retries": 0,
+        "invalid_outputs": [],
+        "recorded_retries": true,
+        "cost_usd": 0.5406948
+      },
+      {
+        "pass": "Discarded 1",
+        "judge_run_id": "2026-10-13_214607",
+        "discarded": true,
+        "status": "discarded (incomplete)",
+        "api_calls": 30,
+        "retries": 0,
+        "invalid_outputs": [
+          {
+            "id": "sample_005",
+            "message": "Output did not match the batch: No grade for c02, c03, c04, c05, c06, c07."
+          }
+        ],
+        "recorded_retries": false,
+        "cost_usd": 0.52213
+      }
+    ],
+    "total_retries": 1,
+    "drop_rate": {
+      "count": 2,
+      "total": 143,
+      "rate": 0.013986013986013986
+    }
+  },
+  "total_spent_usd": 2.7309137999999997,
+  "score_changes": [
+    {
+      "date": "2026-10-12",
+      "card_id": "sample_005-c07",
+      "field": "duplicate_of",
+      "old": "",
+      "new": "sample_005-c01",
+      "prompted_by": "pre-judge",
+      "rubric_rule": "Rubric 1.6, No Near-Duplicates: a card is also a near-duplicate if the fact it tests is already contained in an earlier card's answer",
+      "reason": "sample_005-c01's answer (\"Energy flows through ecosystems while matter is repeatedly recycled\") already contains the fact that energy is not recycled the way matter is. Applies the rubric 1.6 rule; made before any judge output.",
+      "provenance": ""
+    },
+    {
+      "date": "2026-10-17",
+      "card_id": "sample_005-c02",
+      "field": "atomic",
+      "old": "Y",
+      "new": "N",
+      "prompted_by": "2026-10-13_214206 + 2026-10-13_222522",
+      "rubric_rule": "Rubric 1.6, Atomic",
+      "reason": "The question asks two distinct questions, how energy is captured and how it is converted. These could be broken into two distinct flashcards.",
+      "provenance": "blind"
+    },
+    {
+      "date": "2026-10-17",
+      "card_id": "sample_005-c06",
+      "field": "atomic",
+      "old": "Y",
+      "new": "N",
+      "prompted_by": "2026-10-13_214206 + 2026-10-13_222522",
+      "rubric_rule": "Rubric 1.6, Atomic",
+      "reason": "The question is atomic, but nonspecific. The answer states the action that decomposers perform as well as what it does for the environment. These could be split into two flashcards with more specific questions to elicit the desired answers.",
+      "provenance": "blind"
+    },
+    {
+      "date": "2026-10-17",
+      "card_id": "sample_007-c04",
+      "field": "atomic",
+      "old": "Y",
+      "new": "N",
+      "prompted_by": "2026-10-13_214206 + 2026-10-13_222522",
+      "rubric_rule": "Rubric 1.6, Atomic",
+      "reason": "[after recheck] The answer is stating two actions that are part of the repolarization process. These could be split into two flashcards asking what each channel does during repolarization.",
+      "provenance": "after recheck"
+    },
+    {
+      "date": "2026-10-17",
+      "card_id": "sample_007-c05",
+      "field": "atomic",
+      "old": "Y",
+      "new": "N",
+      "prompted_by": "2026-10-13_214206",
+      "rubric_rule": "Rubric 1.6, Atomic",
+      "reason": "The question is atomic, but nonspecific. The answer gives both the cause of and definition of hyperpolarization. This could be split into two flashcards with more specific questions.",
+      "provenance": "blind"
+    },
+    {
+      "date": "2026-10-17",
+      "card_id": "sample_007-c06",
+      "field": "atomic",
+      "old": "Y",
+      "new": "N",
+      "prompted_by": "2026-10-13_214206 + 2026-10-13_222522",
+      "rubric_rule": "Rubric 1.6, Atomic",
+      "reason": "The answer gives the definition of the refractory period (as it should), but also includes the phases of the refractory period. The phases could be removed from this cards answer and made into its own flashcard.",
+      "provenance": "blind"
+    },
+    {
+      "date": "2026-10-17",
+      "card_id": "sample_008-c05",
+      "field": "atomic",
+      "old": "Y",
+      "new": "N",
+      "prompted_by": "2026-10-13_214206 + 2026-10-13_222522",
+      "rubric_rule": "Rubric 1.6, Atomic",
+      "reason": "[after recheck] This is not a very good flashcard due to the quality of the source notes. The notes themselves imply this is an open list and not a closed set. However, the information does deserve to be included in the batch. The model just needs to be clever about how to word these flashcards.",
+      "provenance": "after recheck"
+    },
+    {
+      "date": "2026-10-17",
+      "card_id": "sample_008-c06",
+      "field": "atomic",
+      "old": "Y",
+      "new": "N",
+      "prompted_by": "2026-10-13_214206 + 2026-10-13_222522",
+      "rubric_rule": "Rubric 1.6, Atomic",
+      "reason": "The questions asks two distinct questions, about how imports and exports affect GDP. These could be split into two flashcards. Additionally, the answer provides information on net export equations which should be a third separate flashcard.",
+      "provenance": "blind"
+    },
+    {
+      "date": "2026-10-17",
+      "card_id": "sample_010-c02",
+      "field": "atomic",
+      "old": "Y",
+      "new": "N",
+      "prompted_by": "2026-10-13_214206 + 2026-10-13_222522",
+      "rubric_rule": "Rubric 1.6, Atomic",
+      "reason": "This honestly could be considered an ambiguous question, which lead to a non-atomic answer. The fact that four Japanese carriers were destroyed could be its own flashcard and the victory at Midway being a big turning point could be another flashcard.",
+      "provenance": "blind"
+    },
+    {
+      "date": "2026-10-17",
+      "card_id": "sample_010-c03",
+      "field": "atomic",
+      "old": "Y",
+      "new": "N",
+      "prompted_by": "2026-10-13_214206 + 2026-10-13_222522",
+      "rubric_rule": "Rubric 1.6, Atomic",
+      "reason": "Question asks when Guadalcanal began and ended. These could be two distinct flaschards.",
+      "provenance": "blind"
+    },
+    {
+      "date": "2026-10-17",
+      "card_id": "sample_006-c06",
+      "field": "supported",
+      "old": "Y",
+      "new": "N",
+      "prompted_by": "2026-10-13_214206",
+      "rubric_rule": "Rubric 1.6, Supported",
+      "reason": "[after judge] The facts the way they are worded in the flashcard are not supported. However,the biggest issue is that it is not atomic as it asks for the year and location. This should be split into two flashcards, one asking the year of the attempted escape and the other asking the location of his capture.",
+      "provenance": "after judge"
+    },
+    {
+      "date": "2026-10-17",
+      "card_id": "sample_006-c10",
+      "field": "supported",
+      "old": "Y",
+      "new": "N",
+      "prompted_by": "2026-10-13_214206 + 2026-10-13_222522",
+      "rubric_rule": "Rubric 1.6, Supported",
+      "reason": "[after judge] This is not a supported flashcard based on the source notes. The notes do not say he led the committee of public safety. However, it is a good flashcard, The model intelligently reworded a messy bullet point to extract a well articulated question with a distinct answer. May need to modify outside context criteria.",
+      "provenance": "after judge"
+    },
+    {
+      "date": "2026-10-17",
+      "card_id": "sample_007-c08",
+      "field": "supported",
+      "old": "Y",
+      "new": "N",
+      "prompted_by": "2026-10-13_214206 + 2026-10-13_222522",
+      "rubric_rule": "Rubric 1.6, Supported",
+      "reason": "While this is a great flashcard, it is not supported by the source notes. The source notes do mention the Nodes of Ranvier and saltatory conduction jumping from node to node, however it never defines the afformentioned nodes or Nodes of Ranvier as the gaps between myelin on the axons.",
+      "provenance": "blind"
+    },
+    {
+      "date": "2026-10-17",
+      "card_id": "sample_009-c06",
+      "field": "supported",
+      "old": "Y",
+      "new": "N",
+      "prompted_by": "2026-10-13_214206 + 2026-10-13_222522",
+      "rubric_rule": "Rubric 1.6, Supported",
+      "reason": "Answer is not supported by source notes alone. It is heavily implied by the surrounding context, such as leading is continuous, lagging… as well as the process of filling the gaps done by the other molecules. However, nowhere in the source notes does it define Okazaki fragments as short DNA segments. Given the name is unintuitive I would say this is unsupported. Nonetheless, asking what Okazaki fragments are would be a good flashcard for this batch, just unfortunately is unsupported without outside context.",
+      "provenance": "blind"
+    },
+    {
+      "date": "2026-10-17",
+      "card_id": "sample_010-c09",
+      "field": "supported",
+      "old": "Y",
+      "new": "N",
+      "prompted_by": "2026-10-13_214206 + 2026-10-13_222522",
+      "rubric_rule": "Rubric 1.6, Supported",
+      "reason": "Question is not supported. Nowhere in the source notes does it say that a nuclear bomb was dropped at the specified location on the specified day, despite the location and date being correct and accurate. Technically, this flashcard is not supported without outside context that a nuclear bomb being dropped is the event in question. However, this is an important flashcard to include in the batch, so we may need to modify outside context criteria.",
+      "provenance": "blind"
+    },
+    {
+      "date": "2026-10-17",
+      "card_id": "sample_010-c10",
+      "field": "supported",
+      "old": "Y",
+      "new": "N",
+      "prompted_by": "2026-10-13_214206 + 2026-10-13_222522",
+      "rubric_rule": "Rubric 1.6, Supported",
+      "reason": "Question is not supported. Nowhere in the source notes does it say that a nuclear bomb was dropped at the specified location on the specified day, despite the location and date being correct and accurate. Technically, this flashcard is not supported without outside context that a nuclear bomb being dropped is the event in question. However, this is an important flashcard to include in the batch, so we may need to modify outside context criteria.",
+      "provenance": "blind"
+    },
+    {
+      "date": "2026-10-17",
+      "card_id": "sample_021-c02",
+      "field": "supported",
+      "old": "Y",
+      "new": "N",
+      "prompted_by": "2026-10-13_214206 + 2026-10-13_222522",
+      "rubric_rule": "Rubric 1.6, Supported",
+      "reason": "[after judge] This is almost supported by the source notes. Card should be reworded to 'much' instead of 'most'.",
+      "provenance": "after judge"
+    },
+    {
+      "date": "2026-10-17",
+      "card_id": "sample_001-c03",
+      "field": "unambiguous",
+      "old": "N",
+      "new": "Y",
+      "prompted_by": "2026-10-13_214206 + 2026-10-13_222522",
+      "rubric_rule": "Rubric 1.6, Unambiguous",
+      "reason": "[after recheck] The flashcard depends on the source text to know what provisions are deemed controversial. However, with good knowledge of the source text, a student should be able to provide all of the answers. The main problem is it is not atomic and the answer could be partially correct.",
+      "provenance": "after recheck"
+    },
+    {
+      "date": "2026-10-17",
+      "card_id": "sample_001-c08",
+      "field": "unambiguous",
+      "old": "N",
+      "new": "Y",
+      "prompted_by": "2026-10-13_214206 + 2026-10-13_222522",
+      "rubric_rule": "Rubric 1.6, Unambiguous",
+      "reason": "The question is clear. It's main problem is the potential leakage and just the general fact that it is not a good flashcard worded as it is.",
+      "provenance": "blind"
+    },
+    {
+      "date": "2026-10-17",
+      "card_id": "sample_002-c01",
+      "field": "unambiguous",
+      "old": "N",
+      "new": "Y",
+      "prompted_by": "2026-10-13_214206 + 2026-10-13_222522",
+      "rubric_rule": "Rubric 1.6, Unambiguous",
+      "reason": "[after recheck] The question is fairly straight forward. Question is asking for a form of energy not a product.",
+      "provenance": "after recheck"
+    },
+    {
+      "date": "2026-10-17",
+      "card_id": "sample_008-c05",
+      "field": "unambiguous",
+      "old": "Y",
+      "new": "N",
+      "prompted_by": "2026-10-13_222522",
+      "rubric_rule": "Rubric 1.6, Unambiguous",
+      "reason": "[after recheck] The question is ambiguous due to being an open list that can be partially correct. The card should be split and the questions need to be more clear to elicit the correct responses. A student might not know what answer the question is searching for with it worded as is.",
+      "provenance": "after recheck"
+    },
+    {
+      "date": "2026-10-17",
+      "card_id": "sample_009-c05",
+      "field": "unambiguous",
+      "old": "N",
+      "new": "Y",
+      "prompted_by": "2026-10-13_214206 + 2026-10-13_222522",
+      "rubric_rule": "Rubric 1.6, Unambiguous",
+      "reason": "Question and answer are clear. This was a bad hand grade.",
+      "provenance": "blind"
+    },
+    {
+      "date": "2026-10-17",
+      "card_id": "sample_011-c06",
+      "field": "unambiguous",
+      "old": "N",
+      "new": "Y",
+      "prompted_by": "2026-10-13_214206 + 2026-10-13_222522",
+      "rubric_rule": "Rubric 1.6, Unambiguous",
+      "reason": "Question and answer are clear. This could be reworded better to provide a little more context, but it is fine.",
+      "provenance": "blind"
+    },
+    {
+      "date": "2026-10-17",
+      "card_id": "sample_011-c08",
+      "field": "unambiguous",
+      "old": "N",
+      "new": "Y",
+      "prompted_by": "2026-10-13_214206 + 2026-10-13_222522",
+      "rubric_rule": "Rubric 1.6, Unambiguous",
+      "reason": "Question and answer are clear. This could be reworded better to provide a little more context, but it is fine.",
+      "provenance": "blind"
+    },
+    {
+      "date": "2026-10-17",
+      "card_id": "sample_011-c10",
+      "field": "unambiguous",
+      "old": "N",
+      "new": "Y",
+      "prompted_by": "2026-10-13_214206 + 2026-10-13_222522",
+      "rubric_rule": "Rubric 1.6, Unambiguous",
+      "reason": "[after recheck] This is just a bad flashcard as can be seen by my original comment. It is not accurate to say a cleavage furrow is an example of cytokinesis. However, on the question of ambiguity, the flashcard is straightforward and expects one answer.",
+      "provenance": "after recheck"
+    },
+    {
+      "date": "2026-10-17",
+      "card_id": "sample_017-c01",
+      "field": "unambiguous",
+      "old": "N",
+      "new": "Y",
+      "prompted_by": "2026-10-13_214206 + 2026-10-13_222522",
+      "rubric_rule": "Rubric 1.6, Unambiguous",
+      "reason": "Flashcard is unambiguous but not atomic. This was a bad hand grade.",
+      "provenance": "blind"
+    },
+    {
+      "date": "2026-10-17",
+      "card_id": "sample_007-c03",
+      "field": "duplicate_of",
+      "old": "",
+      "new": "sample_007-c02",
+      "prompted_by": "2026-10-13_214206 + 2026-10-13_222522",
+      "rubric_rule": "Rubric 1.6, No near-duplicates: fact already contained in an earlier card's answer",
+      "reason": "[after recheck] Based on rubric 1.6 criteria this is technically a duplicate. However, we may need to change the rubric because the questions are distinct. If the flashcards are very similar in their answers, but the questions are distinct it should probably not be a duplicate and this is a perfect example of why.",
+      "provenance": "after recheck"
+    },
+    {
+      "date": "2026-10-17",
+      "card_id": "sample_017-c04",
+      "field": "duplicate_of",
+      "old": "",
+      "new": "sample_017-c02",
+      "prompted_by": "2026-10-13_214206 + 2026-10-13_222522",
+      "rubric_rule": "Rubric 1.6, No near-duplicates: fact already contained in an earlier card's answer",
+      "reason": "[after recheck] This is borderline. Both questions are about a similar topic however one is asking a definition the other is asking purpose within a specified context. The fact is already in c02’s answer (the 1.6 rule).",
+      "provenance": "after recheck"
+    },
+    {
+      "date": "2026-10-18",
+      "card_id": "sample_015-c05",
+      "field": "unambiguous",
+      "old": "Y",
+      "new": "N",
+      "prompted_by": "agreement_sample_v1",
+      "rubric_rule": "Rubric 1.6, Unambiguous",
+      "reason": "The question is bit ambiguous in its wording. 'Position' could mean many things and results in many answers potentially being correct.",
+      "provenance": "agreement check"
+    },
+    {
+      "date": "2026-10-20",
+      "card_id": "sample_010-c02",
+      "field": "unambiguous",
+      "old": "Y",
+      "new": "N",
+      "prompted_by": "v2 unambiguous scoring",
+      "rubric_rule": "Rubric 1.6, Unambiguous",
+      "reason": "Significance question: several different answers would be correct. Aligned with the standard applied when scoring prompt v2's unambiguous sheet (v2 scored first, 2026-10-20).",
+      "provenance": "consistency check"
+    },
+    {
+      "date": "2026-10-20",
+      "card_id": "sample_010-c04",
+      "field": "unambiguous",
+      "old": "Y",
+      "new": "N",
+      "prompted_by": "v2 unambiguous scoring",
+      "rubric_rule": "Rubric 1.6, Unambiguous",
+      "reason": "Significance question: several different answers would be correct. Aligned with the standard applied when scoring prompt v2's unambiguous sheet (v2 scored first, 2026-10-20).",
+      "provenance": "consistency check"
+    },
+    {
+      "date": "2026-10-20",
+      "card_id": "sample_015-c04",
+      "field": "unambiguous",
+      "old": "Y",
+      "new": "N",
+      "prompted_by": "v2 unambiguous scoring",
+      "rubric_rule": "Rubric 1.6, Unambiguous",
+      "reason": "Significance question: several different answers would be correct. Aligned with the standard applied when scoring prompt v2's unambiguous sheet (v2 scored first, 2026-10-20).",
+      "provenance": "consistency check"
+    },
+    {
+      "date": "2026-10-20",
+      "card_id": "sample_022-c03",
+      "field": "unambiguous",
+      "old": "Y",
+      "new": "N",
+      "prompted_by": "v2 unambiguous scoring",
+      "rubric_rule": "Rubric 1.6, Unambiguous",
+      "reason": "Significance question: several different answers would be correct. Aligned with the standard applied when scoring prompt v2's unambiguous sheet (v2 scored first, 2026-10-20).",
+      "provenance": "consistency check"
+    },
+    {
+      "date": "2026-10-21",
+      "card_id": "sample_007-c03",
+      "field": "duplicate_of",
+      "old": "sample_007-c02",
+      "new": "",
+      "prompted_by": "v2 review",
+      "rubric_rule": "Rubric 1.6, No near-duplicates: fact already contained in an earlier card's answer",
+      "reason": "The fact it tests (what the term depolarization means) isn't in sample_007-c02's answer. Aligned with the decision on the same pair in prompt v2's review (2026-10-21).",
+      "provenance": "consistency check"
+    },
+    {
+      "date": "2026-10-27",
+      "card_id": "sample_020-c04",
+      "field": "supported",
+      "old": "Y",
+      "new": "N",
+      "prompted_by": "Sonnet review standards",
+      "rubric_rule": "Rubric 1.6, Supported",
+      "reason": "Supported standard (2026-10-27): a claim about code passes only if the notes state it, in prose or in a code comment; it fails if it has to be worked out by reading or running the code. Returning -1 when the target isn't found appears only as `return -1` in the code.",
+      "provenance": "consistency check"
+    },
+    {
+      "date": "2026-10-27",
+      "card_id": "sample_002-c06",
+      "field": "no_leakage",
+      "old": "Y",
+      "new": "N",
+      "prompted_by": "Sonnet review standards",
+      "rubric_rule": "Rubric 1.6, No Answer Leakage",
+      "reason": "No-leakage standard (2026-10-27): a card fails if a code snippet, formula or name in the question spells out the answer. The name NADPH in the question spells out the answer, NADP+.",
+      "provenance": "consistency check"
+    },
+    {
+      "date": "2026-10-27",
+      "card_id": "sample_008-c03",
+      "field": "atomic",
+      "old": "Y",
+      "new": "N",
+      "prompted_by": "Sonnet review standards",
+      "rubric_rule": "Rubric 1.6, Atomic",
+      "reason": "Atomic standard (2026-10-27): a card fails if it splits naturally into separate questions; a closed set passes only when the notes say the same thing about each item and the list is complete. Real GDP adjusting for price changes and nominal GDP not adjusting are separate facts that split naturally into two questions.",
+      "provenance": "consistency check"
+    },
+    {
+      "date": "2026-10-27",
+      "card_id": "sample_020-c03",
+      "field": "atomic",
+      "old": "Y",
+      "new": "N",
+      "prompted_by": "Sonnet review standards",
+      "rubric_rule": "Rubric 1.6, Atomic",
+      "reason": "Atomic standard (2026-10-27): a card fails if it splits naturally into separate questions; a closed set passes only when the notes say the same thing about each item and the list is complete. Comparing the target with the middle element and discarding half of the remaining interval split naturally into two questions.",
+      "provenance": "consistency check"
+    }
+  ],
+  "score_change_counts": {
+    "pre-judge": 1,
+    "judge review": 27,
+    "agreement check": 1,
+    "consistency check": 9
+  },
+  "validated": {
+    "corrected": false,
+    "original": false
+  },
+  "checks": {
+    "corrected": [
+      {
+        "check": "Unambiguous: catches",
+        "threshold": "≥ 8 of 10",
+        "values": [
+          "30.0% (3/10)",
+          "40.0% (4/10)"
+        ],
+        "passed": [
+          false,
+          false
+        ]
+      },
+      {
+        "check": "Atomic: catches",
+        "threshold": "≥ 20 of 22",
+        "values": [
+          "90.9% (20/22)",
+          "86.4% (19/22)"
+        ],
+        "passed": [
+          true,
+          false
+        ]
+      },
+      {
+        "check": "No leakage: catches",
+        "threshold": "≥ 6 of 7",
+        "values": [
+          "71.4% (5/7)",
+          "85.7% (6/7)"
+        ],
+        "passed": [
+          false,
+          true
+        ]
+      },
+      {
+        "check": "Atomic: false alarm rate",
+        "threshold": "≤ 5%",
+        "values": [
+          "1.8% (3/164)",
+          "0.6% (1/164)"
+        ],
+        "passed": [
+          true,
+          true
+        ]
+      },
+      {
+        "check": "Supported: false alarm rate",
+        "threshold": "≤ 5%",
+        "values": [
+          "1.7% (3/176)",
+          "2.3% (4/176)"
+        ],
+        "passed": [
+          true,
+          true
+        ]
+      },
+      {
+        "check": "No leakage: false alarm rate",
+        "threshold": "≤ 5%",
+        "values": [
+          "0.6% (1/179)",
+          "0.6% (1/179)"
+        ],
+        "passed": [
+          true,
+          true
+        ]
+      },
+      {
+        "check": "Unambiguous: false alarm rate",
+        "threshold": "≤ 5%",
+        "values": [
+          "0.0% (0/176)",
+          "0.0% (0/176)"
+        ],
+        "passed": [
+          true,
+          true
+        ]
+      },
+      {
+        "check": "Duplicates: false alarm rate",
+        "threshold": "≤ 5%",
+        "values": [
+          "0.6% (1/181)",
+          "1.1% (2/181)"
+        ],
+        "passed": [
+          true,
+          true
+        ]
+      },
+      {
+        "check": "Clean card rate",
+        "threshold": "within ±3 points of 78.0% (145/186)",
+        "values": [
+          "79.0% (147/186)",
+          "79.6% (148/186)"
+        ],
+        "passed": [
+          true,
+          true
+        ]
+      },
+      {
+        "check": "Seeded supported: correct",
+        "threshold": "≥ 4 of 5",
+        "values": [
+          "5 of 5",
+          "5 of 5"
+        ],
+        "passed": [
+          true,
+          true
+        ]
+      },
+      {
+        "check": "Seeded atomic: correct",
+        "threshold": "≥ 4 of 5",
+        "values": [
+          "5 of 5",
+          "5 of 5"
+        ],
+        "passed": [
+          true,
+          true
+        ]
+      },
+      {
+        "check": "Seeded no leakage: correct",
+        "threshold": "≥ 4 of 5",
+        "values": [
+          "5 of 5",
+          "5 of 5"
+        ],
+        "passed": [
+          true,
+          true
+        ]
+      },
+      {
+        "check": "Seeded unambiguous: correct",
+        "threshold": "≥ 4 of 5",
+        "values": [
+          "5 of 5",
+          "5 of 5"
+        ],
+        "passed": [
+          true,
+          true
+        ]
+      },
+      {
+        "check": "Seeded duplicates: correct",
+        "threshold": "≥ 5 of 6",
+        "values": [
+          "6 of 6",
+          "6 of 6"
+        ],
+        "passed": [
+          true,
+          true
+        ]
+      }
+    ],
+    "original": [
+      {
+        "check": "Unambiguous: catches",
+        "threshold": "≥ 10 of 12",
+        "values": [
+          "25.0% (3/12)",
+          "25.0% (3/12)"
+        ],
+        "passed": [
+          false,
+          false
+        ]
+      },
+      {
+        "check": "Atomic: catches",
+        "threshold": "≥ 9 of 11",
+        "values": [
+          "100.0% (11/11)",
+          "100.0% (11/11)"
+        ],
+        "passed": [
+          true,
+          true
+        ]
+      },
+      {
+        "check": "No leakage: catches",
+        "threshold": "≥ 5 of 6",
+        "values": [
+          "83.3% (5/6)",
+          "83.3% (5/6)"
+        ],
+        "passed": [
+          true,
+          true
+        ]
+      },
+      {
+        "check": "Atomic: false alarm rate",
+        "threshold": "≤ 5%",
+        "values": [
+          "6.9% (12/175)",
+          "5.1% (9/175)"
+        ],
+        "passed": [
+          false,
+          false
+        ]
+      },
+      {
+        "check": "Supported: false alarm rate",
+        "threshold": "≤ 5%",
+        "values": [
+          "5.4% (10/184)",
+          "5.4% (10/184)"
+        ],
+        "passed": [
+          false,
+          false
+        ]
+      },
+      {
+        "check": "No leakage: false alarm rate",
+        "threshold": "≤ 5%",
+        "values": [
+          "0.6% (1/180)",
+          "1.1% (2/180)"
+        ],
+        "passed": [
+          true,
+          true
+        ]
+      },
+      {
+        "check": "Unambiguous: false alarm rate",
+        "threshold": "≤ 5%",
+        "values": [
+          "0.0% (0/174)",
+          "0.6% (1/174)"
+        ],
+        "passed": [
+          true,
+          true
+        ]
+      },
+      {
+        "check": "Duplicates: false alarm rate",
+        "threshold": "≤ 5%",
+        "values": [
+          "1.1% (2/182)",
+          "1.6% (3/182)"
+        ],
+        "passed": [
+          true,
+          true
+        ]
+      },
+      {
+        "check": "Clean card rate",
+        "threshold": "within ±3 points of 86.0% (160/186)",
+        "values": [
+          "79.0% (147/186)",
+          "79.6% (148/186)"
+        ],
+        "passed": [
+          false,
+          false
+        ]
+      },
+      {
+        "check": "Seeded supported: correct",
+        "threshold": "≥ 4 of 5",
+        "values": [
+          "5 of 5",
+          "5 of 5"
+        ],
+        "passed": [
+          true,
+          true
+        ]
+      },
+      {
+        "check": "Seeded atomic: correct",
+        "threshold": "≥ 4 of 5",
+        "values": [
+          "5 of 5",
+          "5 of 5"
+        ],
+        "passed": [
+          true,
+          true
+        ]
+      },
+      {
+        "check": "Seeded no leakage: correct",
+        "threshold": "≥ 4 of 5",
+        "values": [
+          "5 of 5",
+          "5 of 5"
+        ],
+        "passed": [
+          true,
+          true
+        ]
+      },
+      {
+        "check": "Seeded unambiguous: correct",
+        "threshold": "≥ 4 of 5",
+        "values": [
+          "5 of 5",
+          "5 of 5"
+        ],
+        "passed": [
+          true,
+          true
+        ]
+      },
+      {
+        "check": "Seeded duplicates: correct",
+        "threshold": "≥ 5 of 6",
+        "values": [
+          "6 of 6",
+          "6 of 6"
+        ],
+        "passed": [
+          true,
+          true
+        ]
+      }
+    ]
+  },
+  "comparisons": {
+    "corrected": [
+      {
+        "labels": {
+          "atomic": {
+            "catch": {
+              "count": 20,
+              "total": 22,
+              "rate": 0.9090909090909091
+            },
+            "false_alarm": {
+              "count": 3,
+              "total": 164,
+              "rate": 0.018292682926829267
+            },
+            "missed": [
+              "sample_008-c03",
+              "sample_020-c03"
+            ],
+            "false_alarms": [
+              "sample_013-c02",
+              "sample_013-c04",
+              "sample_013-c06"
+            ]
+          },
+          "supported": {
+            "catch": {
+              "count": 9,
+              "total": 10,
+              "rate": 0.9
+            },
+            "false_alarm": {
+              "count": 3,
+              "total": 176,
+              "rate": 0.017045454545454544
+            },
+            "missed": [
+              "sample_020-c04"
+            ],
+            "false_alarms": [
+              "sample_006-c03",
+              "sample_013-c05",
+              "sample_016-c05"
+            ]
+          },
+          "no_leakage": {
+            "catch": {
+              "count": 5,
+              "total": 7,
+              "rate": 0.7142857142857143
+            },
+            "false_alarm": {
+              "count": 1,
+              "total": 179,
+              "rate": 0.00558659217877095
+            },
+            "missed": [
+              "sample_001-c08",
+              "sample_002-c06"
+            ],
+            "false_alarms": [
+              "sample_002-c10"
+            ]
+          },
+          "unambiguous": {
+            "catch": {
+              "count": 3,
+              "total": 10,
+              "rate": 0.3
+            },
+            "false_alarm": {
+              "count": 0,
+              "total": 176,
+              "rate": 0.0
+            },
+            "missed": [
+              "sample_008-c05",
+              "sample_010-c02",
+              "sample_010-c04",
+              "sample_015-c04",
+              "sample_015-c05",
+              "sample_020-c04",
+              "sample_022-c03"
+            ],
+            "false_alarms": []
+          },
+          "duplicate": {
+            "catch": {
+              "count": 5,
+              "total": 5,
+              "rate": 1.0
+            },
+            "false_alarm": {
+              "count": 1,
+              "total": 181,
+              "rate": 0.0055248618784530384
+            },
+            "missed": [],
+            "false_alarms": [
+              "sample_007-c03"
+            ],
+            "different_original": []
+          }
+        },
+        "clean_hand": {
+          "count": 145,
+          "total": 186,
+          "rate": 0.7795698924731183
+        },
+        "clean_judge": {
+          "count": 147,
+          "total": 186,
+          "rate": 0.7903225806451613
+        }
+      },
+      {
+        "labels": {
+          "atomic": {
+            "catch": {
+              "count": 19,
+              "total": 22,
+              "rate": 0.8636363636363636
+            },
+            "false_alarm": {
+              "count": 1,
+              "total": 164,
+              "rate": 0.006097560975609756
+            },
+            "missed": [
+              "sample_007-c05",
+              "sample_008-c03",
+              "sample_020-c03"
+            ],
+            "false_alarms": [
+              "sample_006-c01"
+            ]
+          },
+          "supported": {
+            "catch": {
+              "count": 8,
+              "total": 10,
+              "rate": 0.8
+            },
+            "false_alarm": {
+              "count": 4,
+              "total": 176,
+              "rate": 0.022727272727272728
+            },
+            "missed": [
+              "sample_006-c06",
+              "sample_020-c04"
+            ],
+            "false_alarms": [
+              "sample_002-c04",
+              "sample_007-c07",
+              "sample_013-c05",
+              "sample_016-c05"
+            ]
+          },
+          "no_leakage": {
+            "catch": {
+              "count": 6,
+              "total": 7,
+              "rate": 0.8571428571428571
+            },
+            "false_alarm": {
+              "count": 1,
+              "total": 179,
+              "rate": 0.00558659217877095
+            },
+            "missed": [
+              "sample_001-c08"
+            ],
+            "false_alarms": [
+              "sample_002-c10"
+            ]
+          },
+          "unambiguous": {
+            "catch": {
+              "count": 4,
+              "total": 10,
+              "rate": 0.4
+            },
+            "false_alarm": {
+              "count": 0,
+              "total": 176,
+              "rate": 0.0
+            },
+            "missed": [
+              "sample_010-c02",
+              "sample_010-c04",
+              "sample_015-c04",
+              "sample_015-c05",
+              "sample_020-c04",
+              "sample_022-c03"
+            ],
+            "false_alarms": []
+          },
+          "duplicate": {
+            "catch": {
+              "count": 5,
+              "total": 5,
+              "rate": 1.0
+            },
+            "false_alarm": {
+              "count": 2,
+              "total": 181,
+              "rate": 0.011049723756906077
+            },
+            "missed": [],
+            "false_alarms": [
+              "sample_002-c10",
+              "sample_007-c03"
+            ],
+            "different_original": []
+          }
+        },
+        "clean_hand": {
+          "count": 145,
+          "total": 186,
+          "rate": 0.7795698924731183
+        },
+        "clean_judge": {
+          "count": 148,
+          "total": 186,
+          "rate": 0.7956989247311828
+        }
+      }
+    ],
+    "original": [
+      {
+        "labels": {
+          "atomic": {
+            "catch": {
+              "count": 11,
+              "total": 11,
+              "rate": 1.0
+            },
+            "false_alarm": {
+              "count": 12,
+              "total": 175,
+              "rate": 0.06857142857142857
+            },
+            "missed": [],
+            "false_alarms": [
+              "sample_005-c02",
+              "sample_005-c06",
+              "sample_007-c04",
+              "sample_007-c05",
+              "sample_007-c06",
+              "sample_008-c05",
+              "sample_008-c06",
+              "sample_010-c02",
+              "sample_010-c03",
+              "sample_013-c02",
+              "sample_013-c04",
+              "sample_013-c06"
+            ]
+          },
+          "supported": {
+            "catch": {
+              "count": 2,
+              "total": 2,
+              "rate": 1.0
+            },
+            "false_alarm": {
+              "count": 10,
+              "total": 184,
+              "rate": 0.05434782608695652
+            },
+            "missed": [],
+            "false_alarms": [
+              "sample_006-c03",
+              "sample_006-c06",
+              "sample_006-c10",
+              "sample_007-c08",
+              "sample_009-c06",
+              "sample_010-c09",
+              "sample_010-c10",
+              "sample_013-c05",
+              "sample_016-c05",
+              "sample_021-c02"
+            ]
+          },
+          "no_leakage": {
+            "catch": {
+              "count": 5,
+              "total": 6,
+              "rate": 0.8333333333333334
+            },
+            "false_alarm": {
+              "count": 1,
+              "total": 180,
+              "rate": 0.005555555555555556
+            },
+            "missed": [
+              "sample_001-c08"
+            ],
+            "false_alarms": [
+              "sample_002-c10"
+            ]
+          },
+          "unambiguous": {
+            "catch": {
+              "count": 3,
+              "total": 12,
+              "rate": 0.25
+            },
+            "false_alarm": {
+              "count": 0,
+              "total": 174,
+              "rate": 0.0
+            },
+            "missed": [
+              "sample_001-c03",
+              "sample_001-c08",
+              "sample_002-c01",
+              "sample_009-c05",
+              "sample_011-c06",
+              "sample_011-c08",
+              "sample_011-c10",
+              "sample_017-c01",
+              "sample_020-c04"
+            ],
+            "false_alarms": []
+          },
+          "duplicate": {
+            "catch": {
+              "count": 4,
+              "total": 4,
+              "rate": 1.0
+            },
+            "false_alarm": {
+              "count": 2,
+              "total": 182,
+              "rate": 0.01098901098901099
+            },
+            "missed": [],
+            "false_alarms": [
+              "sample_007-c03",
+              "sample_017-c04"
+            ],
+            "different_original": []
+          }
+        },
+        "clean_hand": {
+          "count": 160,
+          "total": 186,
+          "rate": 0.8602150537634409
+        },
+        "clean_judge": {
+          "count": 147,
+          "total": 186,
+          "rate": 0.7903225806451613
+        }
+      },
+      {
+        "labels": {
+          "atomic": {
+            "catch": {
+              "count": 11,
+              "total": 11,
+              "rate": 1.0
+            },
+            "false_alarm": {
+              "count": 9,
+              "total": 175,
+              "rate": 0.05142857142857143
+            },
+            "missed": [],
+            "false_alarms": [
+              "sample_005-c02",
+              "sample_005-c06",
+              "sample_006-c01",
+              "sample_007-c04",
+              "sample_007-c06",
+              "sample_008-c05",
+              "sample_008-c06",
+              "sample_010-c02",
+              "sample_010-c03"
+            ]
+          },
+          "supported": {
+            "catch": {
+              "count": 2,
+              "total": 2,
+              "rate": 1.0
+            },
+            "false_alarm": {
+              "count": 10,
+              "total": 184,
+              "rate": 0.05434782608695652
+            },
+            "missed": [],
+            "false_alarms": [
+              "sample_002-c04",
+              "sample_006-c10",
+              "sample_007-c07",
+              "sample_007-c08",
+              "sample_009-c06",
+              "sample_010-c09",
+              "sample_010-c10",
+              "sample_013-c05",
+              "sample_016-c05",
+              "sample_021-c02"
+            ]
+          },
+          "no_leakage": {
+            "catch": {
+              "count": 5,
+              "total": 6,
+              "rate": 0.8333333333333334
+            },
+            "false_alarm": {
+              "count": 2,
+              "total": 180,
+              "rate": 0.011111111111111112
+            },
+            "missed": [
+              "sample_001-c08"
+            ],
+            "false_alarms": [
+              "sample_002-c06",
+              "sample_002-c10"
+            ]
+          },
+          "unambiguous": {
+            "catch": {
+              "count": 3,
+              "total": 12,
+              "rate": 0.25
+            },
+            "false_alarm": {
+              "count": 1,
+              "total": 174,
+              "rate": 0.005747126436781609
+            },
+            "missed": [
+              "sample_001-c03",
+              "sample_001-c08",
+              "sample_002-c01",
+              "sample_009-c05",
+              "sample_011-c06",
+              "sample_011-c08",
+              "sample_011-c10",
+              "sample_017-c01",
+              "sample_020-c04"
+            ],
+            "false_alarms": [
+              "sample_008-c05"
+            ]
+          },
+          "duplicate": {
+            "catch": {
+              "count": 4,
+              "total": 4,
+              "rate": 1.0
+            },
+            "false_alarm": {
+              "count": 3,
+              "total": 182,
+              "rate": 0.016483516483516484
+            },
+            "missed": [],
+            "false_alarms": [
+              "sample_002-c10",
+              "sample_007-c03",
+              "sample_017-c04"
+            ],
+            "different_original": []
+          }
+        },
+        "clean_hand": {
+          "count": 160,
+          "total": 186,
+          "rate": 0.8602150537634409
+        },
+        "clean_judge": {
+          "count": 148,
+          "total": 186,
+          "rate": 0.7956989247311828
+        }
+      }
+    ]
+  },
+  "seeds": [
+    {
+      "id": "sup-1",
+      "criterion": "supported",
+      "control": false,
+      "subtlety": "obvious",
+      "sample_id": "sample_012",
+      "action": "replace",
+      "target_card": "sample_012-c09",
+      "question": "What is the chemical formula of bauxite?",
+      "answer": "Al2O3·xH2O",
+      "expected": {
+        "atomic": "Y",
+        "supported": "N",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null
+      },
+      "defect": "The table gives only \"Al-rich ore\"; the formula is outside knowledge."
+    },
+    {
+      "id": "sup-2",
+      "criterion": "supported",
+      "control": false,
+      "subtlety": "obvious",
+      "sample_id": "sample_007",
+      "action": "replace",
+      "target_card": "sample_007-c01",
+      "question": "At what membrane potential does a neuron reach threshold?",
+      "answer": "About -55 mV",
+      "expected": {
+        "atomic": "Y",
+        "supported": "N",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null
+      },
+      "defect": "The notes never give a threshold value."
+    },
+    {
+      "id": "sup-3",
+      "criterion": "supported",
+      "control": false,
+      "subtlety": "moderate",
+      "sample_id": "sample_015",
+      "action": "replace",
+      "target_card": "sample_015-c04",
+      "question": "What ended the Great Depression in the United States?",
+      "answer": "Wartime production after the U.S. entered World War II in 1941",
+      "expected": {
+        "atomic": "Y",
+        "supported": "N",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null
+      },
+      "defect": "A conclusion the notes never state."
+    },
+    {
+      "id": "sup-4",
+      "criterion": "supported",
+      "control": false,
+      "subtlety": "subtle",
+      "sample_id": "sample_020",
+      "action": "replace",
+      "target_card": "sample_020-c01",
+      "question": "What is the worst-case time complexity of binary search?",
+      "answer": "O(log n)",
+      "expected": {
+        "atomic": "Y",
+        "supported": "N",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null
+      },
+      "defect": "\"Worst-case\" is not in the notes."
+    },
+    {
+      "id": "sup-5",
+      "criterion": "supported",
+      "control": true,
+      "subtlety": "subtle",
+      "sample_id": "sample_010",
+      "action": "replace",
+      "target_card": "sample_010-c11",
+      "question": "On what date did Japan announce its surrender?",
+      "answer": "August 15, 1945",
+      "expected": {
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null
+      },
+      "defect": "Control: passes under the context rule, since the timeline sets 1945 at the Iwo Jima and Okinawa line (same structure as the Bastille card)."
+    },
+    {
+      "id": "ato-1",
+      "criterion": "atomic",
+      "control": false,
+      "subtlety": "obvious",
+      "sample_id": "sample_016",
+      "action": "replace",
+      "target_card": "sample_016-c05",
+      "question": "In Python, how do negative indexes and a negative step behave?",
+      "answer": "Negative indexes count from the end, and a negative step can reverse traversal",
+      "expected": {
+        "atomic": "N",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null
+      },
+      "defect": "Two separate rules in one answer."
+    },
+    {
+      "id": "ato-2",
+      "criterion": "atomic",
+      "control": false,
+      "subtlety": "moderate",
+      "sample_id": "sample_006",
+      "action": "replace",
+      "target_card": "sample_006-c05",
+      "question": "What principles did the August 1789 Declaration of Rights include, and whom did it not really apply to?",
+      "answer": "Liberty, equality, and popular sovereignty; it didn't really apply to women",
+      "expected": {
+        "atomic": "N",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null
+      },
+      "defect": "A closed set plus a separate fact."
+    },
+    {
+      "id": "ato-3",
+      "criterion": "atomic",
+      "control": false,
+      "subtlety": "moderate",
+      "sample_id": "sample_023",
+      "action": "replace",
+      "target_card": "sample_023-c01",
+      "question": "What does pH measure?",
+      "answer": "The acidity or basicity of an aqueous solution on a logarithmic scale, on which a neutral solution is 7 at 25°C",
+      "expected": {
+        "atomic": "N",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null
+      },
+      "defect": "A definition plus an extra fact."
+    },
+    {
+      "id": "ato-4",
+      "criterion": "atomic",
+      "control": false,
+      "subtlety": "subtle",
+      "sample_id": "sample_020",
+      "action": "replace",
+      "target_card": "sample_020-c02",
+      "question": "What is the key requirement for binary search to work correctly?",
+      "answer": "The input must be sorted, so that comparing with the middle element justifies discarding half the interval",
+      "expected": {
+        "atomic": "N",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null
+      },
+      "defect": "A requirement plus the reason for it, even though the notes state both in one sentence."
+    },
+    {
+      "id": "ato-5",
+      "criterion": "atomic",
+      "control": true,
+      "subtlety": "moderate",
+      "sample_id": "sample_027",
+      "action": "replace",
+      "target_card": "sample_027-c02",
+      "question": "Separation of powers allocates which three governmental functions to different branches?",
+      "answer": "Legislative, executive, and judicial",
+      "expected": {
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null
+      },
+      "defect": "Control: a closed set, since the notes say the same thing about all three."
+    },
+    {
+      "id": "lea-1",
+      "criterion": "no_leakage",
+      "control": false,
+      "subtlety": "obvious",
+      "sample_id": "sample_017",
+      "action": "replace",
+      "target_card": "sample_017-c02",
+      "question": "In C++, can a const reference be used to modify the object it refers to?",
+      "answer": "No",
+      "expected": {
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "N",
+        "unambiguous": "Y",
+        "duplicate_of": null
+      },
+      "defect": "A yes/no question."
+    },
+    {
+      "id": "lea-2",
+      "criterion": "no_leakage",
+      "control": false,
+      "subtlety": "obvious",
+      "sample_id": "sample_018",
+      "action": "replace",
+      "target_card": "sample_018-c01",
+      "question": "In SQL, does WHERE or HAVING filter rows before grouping?",
+      "answer": "WHERE",
+      "expected": {
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "N",
+        "unambiguous": "Y",
+        "duplicate_of": null
+      },
+      "defect": "An either/or question."
+    },
+    {
+      "id": "lea-3",
+      "criterion": "no_leakage",
+      "control": false,
+      "subtlety": "moderate",
+      "sample_id": "sample_004",
+      "action": "replace",
+      "target_card": "sample_004-c02",
+      "question": "Of demand-pull and cost-push inflation, which can occur when aggregate demand grows faster than an economy's productive capacity?",
+      "answer": "Demand-pull inflation",
+      "expected": {
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "N",
+        "unambiguous": "Y",
+        "duplicate_of": null
+      },
+      "defect": "An either/or question set up by a lead-in phrase rather than \"X or Y?\"."
+    },
+    {
+      "id": "lea-4",
+      "criterion": "no_leakage",
+      "control": false,
+      "subtlety": "obvious",
+      "sample_id": "sample_030",
+      "action": "replace",
+      "target_card": "sample_030-c02",
+      "question": "In subduction, one tectonic plate moves beneath another. What is this process called?",
+      "answer": "Subduction",
+      "expected": {
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "N",
+        "unambiguous": "Y",
+        "duplicate_of": null
+      },
+      "defect": "The answer appears in the question."
+    },
+    {
+      "id": "lea-5",
+      "criterion": "no_leakage",
+      "control": false,
+      "subtlety": "subtle",
+      "sample_id": "sample_011",
+      "action": "replace",
+      "target_card": "sample_011-c05",
+      "question": "What term describes the exchange of DNA that occurs when homologous chromosomes cross over?",
+      "answer": "Crossing over",
+      "expected": {
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "N",
+        "unambiguous": "Y",
+        "duplicate_of": null
+      },
+      "defect": "The answer is embedded in the question as a verb."
+    },
+    {
+      "id": "amb-1",
+      "criterion": "unambiguous",
+      "control": false,
+      "subtlety": "obvious",
+      "sample_id": "sample_016",
+      "action": "replace",
+      "target_card": "sample_016-c02",
+      "question": "What does the first print statement in the example output?",
+      "answer": "[20, 30, 40]",
+      "expected": {
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "N",
+        "duplicate_of": null
+      },
+      "defect": "Refers to code the question doesn't show."
+    },
+    {
+      "id": "amb-2",
+      "criterion": "unambiguous",
+      "control": false,
+      "subtlety": "obvious",
+      "sample_id": "sample_009",
+      "action": "replace",
+      "target_card": "sample_009-c02",
+      "question": "What does it unzip during DNA replication?",
+      "answer": "The double helix",
+      "expected": {
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "N",
+        "duplicate_of": null
+      },
+      "defect": "\"It\" only makes sense next to the notes."
+    },
+    {
+      "id": "amb-3",
+      "criterion": "unambiguous",
+      "control": false,
+      "subtlety": "moderate",
+      "sample_id": "sample_015",
+      "action": "replace",
+      "target_card": "sample_015-c03",
+      "question": "What did the act passed in 1935 establish?",
+      "answer": "Old-age pensions and related programs",
+      "expected": {
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "N",
+        "duplicate_of": null
+      },
+      "defect": "Relies on the table to say which act."
+    },
+    {
+      "id": "amb-4",
+      "criterion": "unambiguous",
+      "control": false,
+      "subtlety": "moderate",
+      "sample_id": "sample_014",
+      "action": "replace",
+      "target_card": "sample_014-c02",
+      "question": "Which planet has no moons?",
+      "answer": "Mercury",
+      "expected": {
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "N",
+        "duplicate_of": null
+      },
+      "defect": "Venus is also correct according to the notes."
+    },
+    {
+      "id": "amb-5",
+      "criterion": "unambiguous",
+      "control": false,
+      "subtlety": "subtle",
+      "sample_id": "sample_010",
+      "action": "replace",
+      "target_card": "sample_010-c08",
+      "question": "Which 1945 Pacific battle had very high casualties?",
+      "answer": "Iwo Jima",
+      "expected": {
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "N",
+        "duplicate_of": null
+      },
+      "defect": "Okinawa (\"even worse\") is also correct."
+    },
+    {
+      "id": "dup-1",
+      "criterion": "duplicate",
+      "control": false,
+      "subtlety": "obvious",
+      "sample_id": "sample_029",
+      "action": "insert_after",
+      "target_card": "sample_029-c03",
+      "question": "What is the name for the amount of work or data processed in a unit of time?",
+      "answer": "Throughput",
+      "expected": {
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": "sample_029-c03"
+      },
+      "defect": "Reworded duplicate, placed right after the original."
+    },
+    {
+      "id": "dup-2",
+      "criterion": "duplicate",
+      "control": false,
+      "subtlety": "subtle",
+      "sample_id": "sample_010",
+      "action": "insert_after",
+      "target_card": "sample_010-c12",
+      "question": "What did bypassing some islands allow US forces in the Pacific to do?",
+      "answer": "Move closer to Japan while avoiding some heavily defended positions",
+      "expected": {
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": "sample_010-c06"
+      },
+      "defect": "Reworded duplicate, six cards after the original."
+    },
+    {
+      "id": "dup-3",
+      "criterion": "duplicate",
+      "control": false,
+      "subtlety": "obvious",
+      "sample_id": "sample_028",
+      "action": "insert_after",
+      "target_card": "sample_028-c05",
+      "question": "What is a cation?",
+      "answer": "A positively charged ion",
+      "expected": {
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": "sample_028-c02"
+      },
+      "defect": "Reversed definition pair."
+    },
+    {
+      "id": "dup-4",
+      "criterion": "duplicate",
+      "control": false,
+      "subtlety": "moderate",
+      "sample_id": "sample_004",
+      "action": "insert_after",
+      "target_card": "sample_004-c05",
+      "question": "What can cause cost-push inflation?",
+      "answer": "Rising wages, energy prices, or other production costs",
+      "expected": {
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": "sample_004-c03"
+      },
+      "defect": "Reversed and reworded."
+    },
+    {
+      "id": "dup-5",
+      "criterion": "duplicate",
+      "control": true,
+      "subtlety": "subtle",
+      "sample_id": "sample_020",
+      "action": "insert_after",
+      "target_card": "sample_020-c01",
+      "question": "Under what model of computation does binary search run in O(log n) time?",
+      "answer": "The usual random-access array model",
+      "expected": {
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null
+      },
+      "defect": "Control: same topic as the card before it, but a different fact."
+    },
+    {
+      "id": "dup-6",
+      "criterion": "duplicate",
+      "control": false,
+      "subtlety": "moderate",
+      "sample_id": "sample_009",
+      "action": "insert_after",
+      "target_card": "sample_009-c09",
+      "question": "What enzyme seals Okazaki fragments during DNA replication?",
+      "answer": "Ligase",
+      "expected": {
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": "sample_009-c06"
+      },
+      "defect": "Tests one fact from an earlier card's packed answer: sample_009-c06 already says \"then ligase seals them\" (rubric 1.6)."
+    }
+  ],
+  "seeded": [
+    {
+      "sup-1": {
+        "correct": true,
+        "got": "N",
+        "off_target": []
+      },
+      "sup-2": {
+        "correct": true,
+        "got": "N",
+        "off_target": []
+      },
+      "sup-3": {
+        "correct": true,
+        "got": "N",
+        "off_target": []
+      },
+      "sup-4": {
+        "correct": true,
+        "got": "N",
+        "off_target": []
+      },
+      "sup-5": {
+        "correct": true,
+        "got": "Y",
+        "off_target": []
+      },
+      "ato-1": {
+        "correct": true,
+        "got": "N",
+        "off_target": []
+      },
+      "ato-2": {
+        "correct": true,
+        "got": "N",
+        "off_target": []
+      },
+      "ato-3": {
+        "correct": true,
+        "got": "N",
+        "off_target": []
+      },
+      "ato-4": {
+        "correct": true,
+        "got": "N",
+        "off_target": []
+      },
+      "ato-5": {
+        "correct": true,
+        "got": "Y",
+        "off_target": []
+      },
+      "lea-1": {
+        "correct": true,
+        "got": "N",
+        "off_target": []
+      },
+      "lea-2": {
+        "correct": true,
+        "got": "N",
+        "off_target": []
+      },
+      "lea-3": {
+        "correct": true,
+        "got": "N",
+        "off_target": []
+      },
+      "lea-4": {
+        "correct": true,
+        "got": "N",
+        "off_target": []
+      },
+      "lea-5": {
+        "correct": true,
+        "got": "N",
+        "off_target": []
+      },
+      "amb-1": {
+        "correct": true,
+        "got": "N",
+        "off_target": []
+      },
+      "amb-2": {
+        "correct": true,
+        "got": "N",
+        "off_target": []
+      },
+      "amb-3": {
+        "correct": true,
+        "got": "N",
+        "off_target": []
+      },
+      "amb-4": {
+        "correct": true,
+        "got": "N",
+        "off_target": []
+      },
+      "amb-5": {
+        "correct": true,
+        "got": "N",
+        "off_target": []
+      },
+      "dup-1": {
+        "correct": true,
+        "got": "sample_029-c03",
+        "off_target": []
+      },
+      "dup-2": {
+        "correct": true,
+        "got": "sample_010-c06",
+        "off_target": []
+      },
+      "dup-3": {
+        "correct": true,
+        "got": "sample_028-c02",
+        "off_target": []
+      },
+      "dup-4": {
+        "correct": true,
+        "got": "sample_004-c03",
+        "off_target": []
+      },
+      "dup-5": {
+        "correct": true,
+        "got": null,
+        "off_target": []
+      },
+      "dup-6": {
+        "correct": true,
+        "got": "sample_009-c06",
+        "off_target": []
+      }
+    },
+    {
+      "sup-1": {
+        "correct": true,
+        "got": "N",
+        "off_target": []
+      },
+      "sup-2": {
+        "correct": true,
+        "got": "N",
+        "off_target": []
+      },
+      "sup-3": {
+        "correct": true,
+        "got": "N",
+        "off_target": []
+      },
+      "sup-4": {
+        "correct": true,
+        "got": "N",
+        "off_target": []
+      },
+      "sup-5": {
+        "correct": true,
+        "got": "Y",
+        "off_target": []
+      },
+      "ato-1": {
+        "correct": true,
+        "got": "N",
+        "off_target": []
+      },
+      "ato-2": {
+        "correct": true,
+        "got": "N",
+        "off_target": []
+      },
+      "ato-3": {
+        "correct": true,
+        "got": "N",
+        "off_target": []
+      },
+      "ato-4": {
+        "correct": true,
+        "got": "N",
+        "off_target": []
+      },
+      "ato-5": {
+        "correct": true,
+        "got": "Y",
+        "off_target": []
+      },
+      "lea-1": {
+        "correct": true,
+        "got": "N",
+        "off_target": []
+      },
+      "lea-2": {
+        "correct": true,
+        "got": "N",
+        "off_target": []
+      },
+      "lea-3": {
+        "correct": true,
+        "got": "N",
+        "off_target": []
+      },
+      "lea-4": {
+        "correct": true,
+        "got": "N",
+        "off_target": []
+      },
+      "lea-5": {
+        "correct": true,
+        "got": "N",
+        "off_target": []
+      },
+      "amb-1": {
+        "correct": true,
+        "got": "N",
+        "off_target": []
+      },
+      "amb-2": {
+        "correct": true,
+        "got": "N",
+        "off_target": []
+      },
+      "amb-3": {
+        "correct": true,
+        "got": "N",
+        "off_target": []
+      },
+      "amb-4": {
+        "correct": true,
+        "got": "N",
+        "off_target": []
+      },
+      "amb-5": {
+        "correct": true,
+        "got": "N",
+        "off_target": []
+      },
+      "dup-1": {
+        "correct": true,
+        "got": "sample_029-c03",
+        "off_target": []
+      },
+      "dup-2": {
+        "correct": true,
+        "got": "sample_010-c06",
+        "off_target": []
+      },
+      "dup-3": {
+        "correct": true,
+        "got": "sample_028-c02",
+        "off_target": []
+      },
+      "dup-4": {
+        "correct": true,
+        "got": "sample_004-c03",
+        "off_target": []
+      },
+      "dup-5": {
+        "correct": true,
+        "got": null,
+        "off_target": []
+      },
+      "dup-6": {
+        "correct": true,
+        "got": "sample_009-c06",
+        "off_target": []
+      }
+    }
+  ],
+  "seeded_counts": [
+    {
+      "supported": 5,
+      "atomic": 5,
+      "no_leakage": 5,
+      "unambiguous": 5,
+      "duplicate": 6
+    },
+    {
+      "supported": 5,
+      "atomic": 5,
+      "no_leakage": 5,
+      "unambiguous": 5,
+      "duplicate": 6
+    }
+  ],
+  "consistency": {
+    "runs": {
+      "atomic": {
+        "agreement": {
+          "count": 181,
+          "total": 186,
+          "rate": 0.9731182795698925
+        },
+        "flips": [
+          "sample_006-c01",
+          "sample_007-c05",
+          "sample_013-c02",
+          "sample_013-c04",
+          "sample_013-c06"
+        ]
+      },
+      "supported": {
+        "agreement": {
+          "count": 182,
+          "total": 186,
+          "rate": 0.978494623655914
+        },
+        "flips": [
+          "sample_002-c04",
+          "sample_006-c03",
+          "sample_006-c06",
+          "sample_007-c07"
+        ]
+      },
+      "no_leakage": {
+        "agreement": {
+          "count": 185,
+          "total": 186,
+          "rate": 0.9946236559139785
+        },
+        "flips": [
+          "sample_002-c06"
+        ]
+      },
+      "unambiguous": {
+        "agreement": {
+          "count": 185,
+          "total": 186,
+          "rate": 0.9946236559139785
+        },
+        "flips": [
+          "sample_008-c05"
+        ]
+      },
+      "duplicate": {
+        "agreement": {
+          "count": 185,
+          "total": 186,
+          "rate": 0.9946236559139785
+        },
+        "flips": [
+          "sample_002-c10"
+        ]
+      }
+    },
+    "seeded": {
+      "atomic": {
+        "agreement": {
+          "count": 26,
+          "total": 26,
+          "rate": 1.0
+        },
+        "flips": []
+      },
+      "supported": {
+        "agreement": {
+          "count": 26,
+          "total": 26,
+          "rate": 1.0
+        },
+        "flips": []
+      },
+      "no_leakage": {
+        "agreement": {
+          "count": 26,
+          "total": 26,
+          "rate": 1.0
+        },
+        "flips": []
+      },
+      "unambiguous": {
+        "agreement": {
+          "count": 26,
+          "total": 26,
+          "rate": 1.0
+        },
+        "flips": []
+      },
+      "duplicate": {
+        "agreement": {
+          "count": 26,
+          "total": 26,
+          "rate": 1.0
+        },
+        "flips": []
+      }
+    }
+  },
+  "disagreements": {
+    "atomic": [
+      {
+        "card_id": "sample_006-c01",
+        "question": "What event triggered the calling of the Estates General in 1789?",
+        "answer": "A financial crisis and bad harvests",
+        "mine": "Y",
+        "run_a": "Y",
+        "run_b": "N",
+        "reason": "B: The answer 'A financial crisis and bad harvests' gives two separate causes, so a student could recall one and forget the other.",
+        "note": "",
+        "corrected": false
+      },
+      {
+        "card_id": "sample_007-c05",
+        "question": "What is hyperpolarization?",
+        "answer": "The condition that occurs when potassium channels stay open too long, causing the membrane potential to become more negative than the resting level",
+        "mine": "N",
+        "run_a": "N",
+        "run_b": "Y",
+        "reason": null,
+        "note": "The answer gives the correct answer based on the context of the flashcard, then infers based on prior context after the comma in the answer. This is good behavior but not explicity allowed by the rubric.",
+        "corrected": true
+      },
+      {
+        "card_id": "sample_008-c03",
+        "question": "What is the difference between nominal GDP and real GDP?",
+        "answer": "Real GDP adjusts for price changes, while nominal GDP does not",
+        "mine": "N",
+        "run_a": "Y",
+        "run_b": "Y",
+        "reason": null,
+        "note": "",
+        "corrected": false
+      },
+      {
+        "card_id": "sample_013-c02",
+        "question": "What are the major functions of carbohydrates?",
+        "answer": "Quick energy; structural support",
+        "mine": "Y",
+        "run_a": "N",
+        "run_b": "Y",
+        "reason": "A: The answer 'Quick energy; structural support' lists separate functions a student could partially recall, not a closed set the question itself defines.",
+        "note": "Closed set example.",
+        "corrected": false
+      },
+      {
+        "card_id": "sample_013-c04",
+        "question": "What are the major functions of proteins?",
+        "answer": "Enzymes; transport; structure",
+        "mine": "Y",
+        "run_a": "N",
+        "run_b": "Y",
+        "reason": "A: The answer 'Enzymes; transport; structure' lists separate functions a student could partially recall, not a closed set the question itself defines.",
+        "note": "Closed set example.",
+        "corrected": false
+      },
+      {
+        "card_id": "sample_013-c06",
+        "question": "What are the major functions of lipids?",
+        "answer": "Energy storage; membranes",
+        "mine": "Y",
+        "run_a": "N",
+        "run_b": "Y",
+        "reason": "A: The answer 'Energy storage; membranes' lists separate functions a student could partially recall, not a closed set the question itself defines.",
+        "note": "Closed set example.",
+        "corrected": false
+      },
+      {
+        "card_id": "sample_020-c03",
+        "question": "How does binary search reduce the search space at each iteration?",
+        "answer": "By comparing the target with the middle element and discarding half of the remaining search interval",
+        "mine": "N",
+        "run_a": "Y",
+        "run_b": "Y",
+        "reason": null,
+        "note": "",
+        "corrected": false
+      }
+    ],
+    "supported": [
+      {
+        "card_id": "sample_002-c04",
+        "question": "What products are released when water is split during light-dependent reactions?",
+        "answer": "Oxygen, electrons, and protons",
+        "mine": "Y",
+        "run_a": "Y",
+        "run_b": "N",
+        "reason": "B: The question says electrons and protons are 'released', but the notes only say water splitting releases oxygen and 'contributing electrons and protons'.",
+        "note": "Closed set. Does not need to be split into multiple flashcards v1.5: atomic Y to N under the closed set test: the notes say something different about each item.",
+        "corrected": false
+      },
+      {
+        "card_id": "sample_006-c03",
+        "question": "What was the Tennis Court Oath?",
+        "answer": "A declaration that the Third Estate would not leave until a constitution was made",
+        "mine": "Y",
+        "run_a": "N",
+        "run_b": "Y",
+        "reason": "A: The answer attributes the oath to 'the Third Estate', but the notes only say 'they weren't leaving' without identifying who took the oath.",
+        "note": "",
+        "corrected": false
+      },
+      {
+        "card_id": "sample_006-c06",
+        "question": "In what year and at what location did Louis XVI attempt to escape Paris?",
+        "answer": "1791 at Varennes",
+        "mine": "N",
+        "run_a": "N",
+        "run_b": "Y",
+        "reason": null,
+        "note": "The question asks two questions in one and the answer has two answers. This could be split into multiple flashcards.",
+        "corrected": true
+      },
+      {
+        "card_id": "sample_007-c07",
+        "question": "What is saltatory conduction?",
+        "answer": "A method of action potential propagation along myelinated axons where the action potential jumps from node to node",
+        "mine": "Y",
+        "run_a": "Y",
+        "run_b": "N",
+        "reason": "B: The answer says 'along myelinated axons', but the notes never mention axons.",
+        "note": "Another exellent example of the model taking a messy bullet point and rewording it into a clean flashcard.",
+        "corrected": false
+      },
+      {
+        "card_id": "sample_013-c05",
+        "question": "What is the building block of lipids?",
+        "answer": "Glycerol + fatty acids",
+        "mine": "Y",
+        "run_a": "N",
+        "run_b": "N",
+        "reason": "A: The card presents 'Glycerol + fatty acids' as 'the building block of lipids', dropping the notes' qualifier '(common form)'. / B: The card presents 'Glycerol + fatty acids' as the building block of lipids, dropping the notes' qualifier '(common form)' and so overstating the claim.",
+        "note": "Closed set example.",
+        "corrected": false
+      },
+      {
+        "card_id": "sample_016-c05",
+        "question": "In Python, what does a negative index like nums[-1] refer to?",
+        "answer": "The last element in the list",
+        "mine": "Y",
+        "run_a": "N",
+        "run_b": "N",
+        "reason": "A: The answer 'The last element in the list' is never stated; the notes only say nums[-1] returns 50 and that negative indexes count from the end. / B: The answer 'The last element in the list' generalizes beyond the notes, which only state that nums[-1] returns 50 and that negative indexes count from the end.",
+        "note": "",
+        "corrected": false
+      },
+      {
+        "card_id": "sample_020-c04",
+        "question": "What value does the provided binary_search function return when the target is not found?",
+        "answer": "-1",
+        "mine": "N",
+        "run_a": "Y",
+        "run_b": "Y",
+        "reason": null,
+        "note": "Question does not show the code snippet in question. It says \"provided binary search function\" without showing the function. The code snippet should be included in the question to avoid ambiguity.",
+        "corrected": false
+      }
+    ],
+    "no_leakage": [
+      {
+        "card_id": "sample_001-c08",
+        "question": "How did German resentment toward the Treaty of Versailles relate to the rise of the Nazi movement?",
+        "answer": "It became an important factor exploited by Adolf Hitler and the Nazi movement",
+        "mine": "N",
+        "run_a": "Y",
+        "run_b": "Y",
+        "reason": null,
+        "note": "Question is essentially the answer as a question. Could be perceived as ambiguous if a student thought it was looking for a deeper answer.",
+        "corrected": false
+      },
+      {
+        "card_id": "sample_002-c06",
+        "question": "What molecule is reduced by electrons from light-dependent reactions to form NADPH?",
+        "answer": "NADP+",
+        "mine": "N",
+        "run_a": "Y",
+        "run_b": "N",
+        "reason": null,
+        "note": "",
+        "corrected": false
+      },
+      {
+        "card_id": "sample_002-c10",
+        "question": "How does the Calvin cycle depend on light-dependent reactions if it does not directly require photons?",
+        "answer": "It depends on products generated by the light-dependent reactions",
+        "mine": "Y",
+        "run_a": "N",
+        "run_b": "N",
+        "reason": "A: The question 'depend on light-dependent reactions' gives away the answer 'depends on products generated by the light-dependent reactions'. / B: The question names 'light-dependent reactions' and the answer 'products generated by the light-dependent reactions' adds little beyond what the question supplies.",
+        "note": "Batch level note: This run produced 10 flashcards for this sample. I identified 10-11 distinct facts so this is a good range for this sample.",
+        "corrected": false
+      }
+    ],
+    "unambiguous": [
+      {
+        "card_id": "sample_008-c05",
+        "question": "What are limitations of using GDP per capita as a measure?",
+        "answer": "It does not tell the distribution of output/income, unpaid work, or environmental costs",
+        "mine": "N",
+        "run_a": "Y",
+        "run_b": "N",
+        "reason": null,
+        "note": "Closed set example.",
+        "corrected": true
+      },
+      {
+        "card_id": "sample_010-c02",
+        "question": "What was the significance of the US victory at Midway?",
+        "answer": "Four Japanese carriers were lost and it was a big turning point",
+        "mine": "N",
+        "run_a": "Y",
+        "run_b": "Y",
+        "reason": null,
+        "note": "",
+        "corrected": false
+      },
+      {
+        "card_id": "sample_010-c04",
+        "question": "What was the significance of the Battle of Guadalcanal?",
+        "answer": "It was the first big Allied offensive in the Pacific",
+        "mine": "N",
+        "run_a": "Y",
+        "run_b": "Y",
+        "reason": null,
+        "note": "",
+        "corrected": false
+      },
+      {
+        "card_id": "sample_015-c04",
+        "question": "What was the significance of the U.S. entering World War II in 1941?",
+        "answer": "Wartime production greatly expanded employment and output",
+        "mine": "N",
+        "run_a": "Y",
+        "run_b": "Y",
+        "reason": null,
+        "note": "",
+        "corrected": false
+      },
+      {
+        "card_id": "sample_015-c05",
+        "question": "What position did the U.S. emerge as following the end of World War II in 1945?",
+        "answer": "A major global economic and military power",
+        "mine": "N",
+        "run_a": "Y",
+        "run_b": "Y",
+        "reason": null,
+        "note": "",
+        "corrected": false
+      },
+      {
+        "card_id": "sample_020-c04",
+        "question": "What value does the provided binary_search function return when the target is not found?",
+        "answer": "-1",
+        "mine": "N",
+        "run_a": "Y",
+        "run_b": "Y",
+        "reason": null,
+        "note": "Question does not show the code snippet in question. It says \"provided binary search function\" without showing the function. The code snippet should be included in the question to avoid ambiguity.",
+        "corrected": false
+      },
+      {
+        "card_id": "sample_022-c03",
+        "question": "What historical significance did the Magna Carta have in the development of government?",
+        "answer": "It became an important symbol in the development of constitutional government.",
+        "mine": "N",
+        "run_a": "Y",
+        "run_b": "Y",
+        "reason": null,
+        "note": "",
+        "corrected": false
+      }
+    ],
+    "duplicate": [
+      {
+        "card_id": "sample_002-c10",
+        "question": "How does the Calvin cycle depend on light-dependent reactions if it does not directly require photons?",
+        "answer": "It depends on products generated by the light-dependent reactions",
+        "mine": null,
+        "run_a": null,
+        "run_b": "sample_002-c09",
+        "reason": "B: The question states 'it does not directly require photons', which is the same fact c09 tests.",
+        "note": "Batch level note: This run produced 10 flashcards for this sample. I identified 10-11 distinct facts so this is a good range for this sample.",
+        "corrected": false
+      },
+      {
+        "card_id": "sample_007-c03",
+        "question": "What is depolarization?",
+        "answer": "The influx of sodium ions into the neuron",
+        "mine": null,
+        "run_a": "sample_007-c02",
+        "run_b": "sample_007-c02",
+        "reason": "A: The fact that sodium flows into the cell, which the notes call depolarization, is already contained in c02's answer 'allowing sodium ions to flow into the cell'. / B: The fact that sodium flows into the cell, the answer here, is already contained in c02's answer 'allowing sodium ions to flow into the cell'.",
+        "note": "This was marked as a clean flashcard because it is the best answer based on the context in the notes. However, it is not necessarily the best answer to the question given outside context.",
+        "corrected": false
+      }
+    ]
+  },
+  "agreement": {
+    "file": "eval/judge/validation/agreement_sample_v1.csv",
+    "seed": 20261017,
+    "per_criterion": {
+      "atomic": 5,
+      "supported": 5,
+      "no_leakage": 5,
+      "unambiguous": 5
+    },
+    "pairs": [
+      {
+        "card_id": "sample_001-c08",
+        "criterion": "atomic",
+        "agreed": "Y",
+        "recheck": "Y",
+        "reason": "The question asks a single question with a single distinct answer."
+      },
+      {
+        "card_id": "sample_007-c01",
+        "criterion": "atomic",
+        "agreed": "Y",
+        "recheck": "Y",
+        "reason": "The question asks a single question with a single distinct answer being the membrane potential."
+      },
+      {
+        "card_id": "sample_010-c10",
+        "criterion": "atomic",
+        "agreed": "Y",
+        "recheck": "Y",
+        "reason": "The question asks a single question with a single distinct answer being the date."
+      },
+      {
+        "card_id": "sample_014-c15",
+        "criterion": "atomic",
+        "agreed": "Y",
+        "recheck": "Y",
+        "reason": "The question asks a single question with a single distinct answer bing the planet name."
+      },
+      {
+        "card_id": "sample_030-c02",
+        "criterion": "atomic",
+        "agreed": "Y",
+        "recheck": "Y",
+        "reason": "The question asks for a single term that satisfies the definition."
+      },
+      {
+        "card_id": "sample_005-c03",
+        "criterion": "supported",
+        "agreed": "Y",
+        "recheck": "Y",
+        "reason": "The information in the flashcard is supported directly by the source notes."
+      },
+      {
+        "card_id": "sample_016-c04",
+        "criterion": "supported",
+        "agreed": "Y",
+        "recheck": "Y",
+        "reason": "The information in the flashcard is supported directly by the source notes."
+      },
+      {
+        "card_id": "sample_018-c04",
+        "criterion": "supported",
+        "agreed": "Y",
+        "recheck": "Y",
+        "reason": "The information in the flashcard is supported directly by the source notes."
+      },
+      {
+        "card_id": "sample_019-c01",
+        "criterion": "supported",
+        "agreed": "Y",
+        "recheck": "Y",
+        "reason": "The information in the flashcard is supported directly by the source notes."
+      },
+      {
+        "card_id": "sample_019-c02",
+        "criterion": "supported",
+        "agreed": "Y",
+        "recheck": "Y",
+        "reason": "The information in the flashcard is supported directly by the source notes."
+      },
+      {
+        "card_id": "sample_006-c12",
+        "criterion": "no_leakage",
+        "agreed": "Y",
+        "recheck": "Y",
+        "reason": "The question does not give away the answer."
+      },
+      {
+        "card_id": "sample_011-c04",
+        "criterion": "no_leakage",
+        "agreed": "Y",
+        "recheck": "Y",
+        "reason": "The question does not give away the answer."
+      },
+      {
+        "card_id": "sample_018-c04",
+        "criterion": "no_leakage",
+        "agreed": "Y",
+        "recheck": "Y",
+        "reason": "The question doesn't give enough information to even answer the question (because it is ambiguous), so it certainly does not leak the answer."
+      },
+      {
+        "card_id": "sample_019-c01",
+        "criterion": "no_leakage",
+        "agreed": "Y",
+        "recheck": "Y",
+        "reason": "The question does not give away the answer."
+      },
+      {
+        "card_id": "sample_020-c04",
+        "criterion": "no_leakage",
+        "agreed": "Y",
+        "recheck": "Y",
+        "reason": "The question doesn't give enough information to even answer the question (because it is ambiguous), so it certainly does not leak the answer."
+      },
+      {
+        "card_id": "sample_013-c07",
+        "criterion": "unambiguous",
+        "agreed": "Y",
+        "recheck": "Y",
+        "reason": "The question is clear with a single correct answer."
+      },
+      {
+        "card_id": "sample_015-c05",
+        "criterion": "unambiguous",
+        "agreed": "Y",
+        "recheck": "N",
+        "reason": "The question is bit ambiguous in its wording. 'Position' could mean many things and results in many answers potentially being correct."
+      },
+      {
+        "card_id": "sample_017-c04",
+        "criterion": "unambiguous",
+        "agreed": "Y",
+        "recheck": "Y",
+        "reason": "The question is clear and sufficient knowledge of the material should elicit the correct answer."
+      },
+      {
+        "card_id": "sample_019-c05",
+        "criterion": "unambiguous",
+        "agreed": "Y",
+        "recheck": "Y",
+        "reason": "The question is clear and sufficient knowledge of the material should elicit the correct answer."
+      },
+      {
+        "card_id": "sample_021-c01",
+        "criterion": "unambiguous",
+        "agreed": "Y",
+        "recheck": "Y",
+        "reason": "The question is clear. It asks the student to define a term."
+      }
+    ],
+    "matched": 19,
+    "shared_errors": [
+      {
+        "card_id": "sample_015-c05",
+        "criterion": "unambiguous",
+        "agreed": "Y",
+        "recheck": "N",
+        "reason": "The question is bit ambiguous in its wording. 'Position' could mean many things and results in many answers potentially being correct."
+      }
+    ]
+  }
+}

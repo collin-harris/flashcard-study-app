@@ -1,5 +1,6 @@
 # Flashcard & Spaced Repetition Study App
 
+[![CI](https://github.com/collin-harris/flashcard-study-app/actions/workflows/ci.yml/badge.svg)](https://github.com/collin-harris/flashcard-study-app/actions/workflows/ci.yml)
 ![Python](https://img.shields.io/badge/Python-3.11-blue)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.138-009688)
 ![React](https://img.shields.io/badge/React-19-61DAFB)
@@ -44,6 +45,35 @@ after that is fast.
 - JWT-based authentication (register, login, protected routes)
 - Per-user data isolation — decks and review history are private to
   the account that created them
+
+## AI Flashcard Generation
+
+Paste up to 2,000 characters of study notes into a deck's **Generate from
+Notes** page, and Claude drafts flashcards from them. Each draft shows the
+excerpts of your notes it came from, so you can check it, then edit or
+remove it before saving. Nothing is added to the deck until you save.
+
+**How it was built: evaluation first.** A 35-sample test set and a written
+rubric came before any feature code. The baseline, Claude Haiku 4.5 with
+prompt v1, scored 78.5% clean cards (cards that pass every rubric
+criterion); the shipped setup, Claude Sonnet 5.5 with prompt v2, scored
+87.6%, under the same scoring standards applied to every run. That's below
+the 95% clean-card target set before testing; the mitigation is the review
+step, where you check and edit every card before it's saved. The model and
+the prompt changed together, so the gain isn't credited to the prompt
+alone. The LLM judge didn't pass validation, so its scores were checked by
+hand: every card it failed and a random sample of those it passed, with one
+criterion scored entirely by hand. Per-criterion results and limitations
+are in [`eval/results_log.md`](eval/results_log.md).
+
+**Limits** (set low to keep the live demo's costs down):
+- 2,000 characters per paste. Quality was measured on notes up to about
+  700 characters.
+- 5 generations per account per 24 hours.
+- 10 generations per 24 hours across all users.
+- The demo account is shared by all visitors: 6 generations per 24 hours
+  between them, and any cards saved there are visible to other visitors.
+  Registering a free account gives you up to 5 of your own.
 
 ## Tech Stack
 
@@ -103,6 +133,14 @@ cp .env.example .env
 cp frontend/.env.example frontend/.env
 ```
 
+Then replace `SECRET_KEY` in `.env` with a random value. The backend
+refuses to start if it's missing, shorter than 32 characters, or still the
+placeholder:
+
+```bash
+python -c "import secrets; print(secrets.token_urlsafe(64))"
+```
+
 3. Start the database and backend:
 
 ```bash
@@ -142,6 +180,24 @@ This builds the backend's `test` image stage, starts an isolated `db_test`
 Postgres container, and runs everything in `backend/tests/`. The `--build`
 flag keeps the image in sync with the latest code and dependencies; `--rm`
 cleans up the one-off container afterward.
+
+GitHub Actions (`.github/workflows/ci.yml`) runs the backend tests, the
+frontend tests, lint and build, and the eval unit tests on every push and
+pull request, with throwaway credentials and no Anthropic API key.
+
+## Seeding the Demo Account
+
+`scripts/seed_demo_account.py` resets the demo account: it registers it if
+needed, deletes its decks, and recreates a fixed set of decks with review
+history. It needs `SEED_API_BASE_URL`, the API to seed, and exits without
+doing anything if it isn't set:
+
+```bash
+SEED_API_BASE_URL=http://localhost:8000 python3 scripts/seed_demo_account.py
+```
+
+To reset the live demo, set `SEED_API_BASE_URL` to the deployed backend's
+URL instead.
 
 ## Project Structure
 

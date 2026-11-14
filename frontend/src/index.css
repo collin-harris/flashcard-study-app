@@ -38,8 +38,10 @@ a:hover {
   color: var(--color-accent-hover);
 }
 
+/* Buttons otherwise use the browser's smaller default font size, so a
+   <button> and a link with the same class would differ in size */
 button {
-  font-family: var(--font-ui);
+  font: inherit;
   cursor: pointer;
   border: none;
   background: none;

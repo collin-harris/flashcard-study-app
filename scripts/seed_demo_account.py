@@ -5,8 +5,8 @@ Safe to run repeatedly: it logs into the existing demo account (registering it
 on first run only) and replaces its decks each time, so the visible content is
 the same after every run. It never deletes or recreates the demo user itself.
 
-Usage:
-    python3 scripts/seed_demo_account.py
+Usage (SEED_API_BASE_URL is required, so the target is always chosen
+explicitly):
     SEED_API_BASE_URL=http://localhost:8000 python3 scripts/seed_demo_account.py
 """
 import json
@@ -15,7 +15,9 @@ import sys
 import urllib.error
 import urllib.request
 
-BASE_URL = os.environ.get("SEED_API_BASE_URL", "https://flashcard-study-app-backend.onrender.com")
+# No default: the script deletes the demo account's decks, so it never
+# targets a server unless one is named
+BASE_URL = os.environ.get("SEED_API_BASE_URL", "").strip().rstrip("/")
 TIMEOUT = 30  # generous, to tolerate a cold-started backend/database
 
 DEMO_NAME = "Demo User"
@@ -165,6 +167,11 @@ def seed_decks(token):
 
 
 def main():
+    if not BASE_URL:
+        sys.exit(
+            "ERROR: SEED_API_BASE_URL is not set. Set it to the API to seed, for example:\n"
+            "    SEED_API_BASE_URL=http://localhost:8000 python3 scripts/seed_demo_account.py"
+        )
     print(f"Target API: {BASE_URL}")
     token = get_demo_token()
     delete_existing_decks(token)

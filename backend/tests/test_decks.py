@@ -1,3 +1,6 @@
+import pytest
+
+
 def test_create_deck(client, auth_headers):
     response = client.post("/decks", json={"name": "Spanish Vocab"}, headers=auth_headers)
 
@@ -73,3 +76,42 @@ def test_accessing_another_users_deck_is_forbidden(client, register_and_login):
 def test_unauthenticated_request_is_rejected(client):
     response = client.get("/decks")
     assert response.status_code == 401
+
+
+@pytest.mark.parametrize("name", ["", "   ", "\n\t"])
+def test_create_deck_rejects_an_empty_name(client, auth_headers, name):
+    response = client.post("/decks", json={"name": name}, headers=auth_headers)
+
+    assert response.status_code == 422
+    assert [item["msg"] for item in response.json()["detail"]] == ["Deck name can't be empty."]
+    assert client.get("/decks", headers=auth_headers).json() == []
+
+
+def test_create_deck_strips_the_name(client, auth_headers):
+    response = client.post("/decks", json={"name": "  Spanish Vocab \n"}, headers=auth_headers)
+
+    assert response.status_code == 201
+    assert response.json()["name"] == "Spanish Vocab"
+
+
+@pytest.mark.parametrize("name", ["", "   "])
+def test_update_deck_rejects_an_empty_name_and_keeps_the_old_one(client, auth_headers, name):
+    deck_id = client.post("/decks", json={"name": "Spanish Vocab"}, headers=auth_headers).json()["deck_id"]
+
+    response = client.patch(f"/decks/{deck_id}", json={"name": name}, headers=auth_headers)
+
+    assert response.status_code == 422
+    assert [item["msg"] for item in response.json()["detail"]] == ["Deck name can't be empty."]
+    assert client.get(f"/decks/{deck_id}", headers=auth_headers).json()["name"] == "Spanish Vocab"
+
+
+def test_update_deck_strips_the_name_and_allows_omitting_it(client, auth_headers):
+    deck_id = client.post("/decks", json={"name": "Spanish Vocab"}, headers=auth_headers).json()["deck_id"]
+
+    stripped = client.patch(f"/decks/{deck_id}", json={"name": "  Spanish Verbs  "}, headers=auth_headers)
+    omitted = client.patch(f"/decks/{deck_id}", json={}, headers=auth_headers)
+
+    assert stripped.json()["name"] == "Spanish Verbs"
+    assert omitted.status_code == 200
+    assert omitted.json()["name"] == "Spanish Verbs"
+

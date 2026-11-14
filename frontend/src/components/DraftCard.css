@@ -1,0 +1,98 @@
+.draft-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+}
+
+.draft-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.draft-card__number {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+/* The same size as the "Card N" label beside it */
+.draft-card__remove {
+  font-size: 0.875rem;
+  color: var(--color-danger);
+  font-weight: 500;
+}
+
+.draft-card__remove:hover {
+  text-decoration: underline;
+}
+
+.draft-card__remove:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.draft-card label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+}
+
+.draft-card textarea {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  font-size: 1rem;
+  line-height: 1.4;
+  color: var(--color-text-primary);
+  background-color: var(--color-surface);
+  resize: vertical;
+  /* Grows with its text where supported; elsewhere it can be resized by hand */
+  field-sizing: content;
+  min-height: 2.8em;
+}
+
+.draft-card textarea:focus {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 1px;
+}
+
+.draft-card textarea[aria-invalid='true'] {
+  border-color: var(--color-danger);
+}
+
+.draft-card__source {
+  padding-left: 12px;
+  border-left: 3px solid var(--color-border);
+}
+
+.draft-card__source-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-secondary);
+}
+
+.draft-card__source ul {
+  margin: 4px 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.draft-card__source li {
+  font-family: var(--font-serif);
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+}

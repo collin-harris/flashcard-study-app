@@ -51,7 +51,7 @@ function PasswordInput({ value, onChange }) {
         type="button"
         className="password-toggle"
         onClick={toggleVisibility}
-        aria-label={isVisible ? 'Hide password' : 'Show password'}
+        aria-label={isVisible ? 'Hide Password' : 'Show Password'}
       >
         {isVisible ? <EyeOffIcon /> : <EyeIcon />}
       </button>

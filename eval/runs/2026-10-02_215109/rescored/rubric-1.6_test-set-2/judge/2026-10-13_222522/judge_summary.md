@@ -1,0 +1,363 @@
+# Judge Run 2026-10-13_222522
+
+- **Mode:** run
+- **Judged:** eval/runs/2026-10-02_215109/rescored/rubric-1.6_test-set-2
+- **Scorer:** judge:opus-5.5:v1 (judge hash d21413e84dec, effort low)
+- **Partial:** No
+- **Interrupted:** No
+- **Incomplete:** No (error rate 0.0% (0/30))
+- **Cost:** $0.5751 total, $0.0192 per sample (including retries)
+- **API calls:** 31, of which 1 retries
+- **Average latency:** 6.3s per call
+- **Tokens:** 16849 input, 4579 cache write, 137370 cache read, 22867 output (includes thinking)
+
+Reasons may refer to cards by the judge's IDs (c01, c02, ...), which number the cards in batch order.
+
+## Retried attempts
+
+| Item | Kind | Message |
+|---|---|---|
+| sample_005 | invalid_output | Output did not match the batch: No grade for c02, c03, c04, c05, c06, c07. |
+
+## Warnings
+
+- sample_017-c01: atomic is N with no reason.
+
+## Grades
+
+### sample_001
+
+| Card | Question | Answer | Atomic | Supported | No leakage | Unambiguous | Duplicate of | Reasons |
+|---|---|---|---|---|---|---|---|---|
+| sample_001-c01 | What year was the Treaty of Versailles signed? | 1919 | Y | Y | Y | Y |  |  |
+| sample_001-c02 | Which conflict did the Treaty of Versailles formally end? | The state of war between Germany and the Allied powers after World War I | Y | Y | Y | Y |  |  |
+| sample_001-c03 | What were the main controversial provisions of the Treaty of Versailles? | Placing responsibility for wartime damage on Germany, requiring substantial reparations, limiting the German military to 100,000 personnel, and prohibiting Germany from maintaining an air force or submarines | N | Y | Y | Y |  | atomic: The answer lists separate facts ('responsibility for wartime damage', 'substantial reparations', '100,000 personnel', 'air force or submarines') about which the notes say different things, so it can be partially right. |
+| sample_001-c04 | To how many personnel was the German military limited by the Treaty of Versailles? | 100,000 | Y | Y | Y | Y | sample_001-c03 | duplicate: The '100,000' personnel limit is already contained in c03's answer. |
+| sample_001-c05 | What types of military equipment was Germany prohibited from maintaining under the Treaty of Versailles? | Air force and submarines | Y | Y | Y | Y | sample_001-c03 | duplicate: The prohibition on an 'air force or submarines' is already contained in c03's answer. |
+| sample_001-c06 | What international organization was established as part of the postwar settlement after World War I? | The League of Nations | Y | Y | Y | Y |  |  |
+| sample_001-c07 | Did the United States join the League of Nations? | No | Y | Y | N | Y |  | no_leakage: 'Did the United States join the League of Nations?' is a yes/no question, so the answer can be guessed. |
+| sample_001-c08 | How did German resentment toward the Treaty of Versailles relate to the rise of the Nazi movement? | It became an important factor exploited by Adolf Hitler and the Nazi movement | Y | Y | Y | Y |  |  |
+
+### sample_002
+
+| Card | Question | Answer | Atomic | Supported | No leakage | Unambiguous | Duplicate of | Reasons |
+|---|---|---|---|---|---|---|---|---|
+| sample_002-c01 | What does photosynthesis convert light energy into? | Chemical energy stored in organic molecules | Y | Y | Y | Y |  |  |
+| sample_002-c02 | Where do light-dependent reactions occur in plant cells? | In the thylakoid membranes of chloroplasts | Y | Y | Y | Y |  |  |
+| sample_002-c03 | What role does chlorophyll play in light-dependent reactions? | It absorbs photons and drives electron transport | N | Y | Y | Y |  | atomic: The answer combines two separate facts, 'absorbs photons' and 'drives electron transport', so it can be partially right. |
+| sample_002-c04 | What products are released when water is split during light-dependent reactions? | Oxygen, electrons, and protons | N | N | Y | Y |  | atomic: The notes say different things about the items: oxygen is 'releasing' while electrons and protons are 'contributing', so 'Oxygen, electrons, and protons' are separate facts rather than a closed set. \| supported: The question says electrons and protons are 'released', but the notes only say water splitting releases oxygen and 'contributing electrons and protons'. |
+| sample_002-c05 | What powers ATP synthase during light-dependent reactions? | The proton gradient | Y | Y | Y | Y |  |  |
+| sample_002-c06 | What molecule is reduced by electrons from light-dependent reactions to form NADPH? | NADP+ | Y | Y | N | Y |  | no_leakage: The question's phrase 'reduced... to form NADPH' makes the answer 'NADP+' directly deducible from the question text. |
+| sample_002-c07 | Where does the Calvin cycle occur? | In the chloroplast stroma | Y | Y | Y | Y |  |  |
+| sample_002-c08 | What two molecules does the Calvin cycle use to incorporate carbon dioxide into carbohydrates? | ATP and NADPH | Y | Y | Y | Y |  |  |
+| sample_002-c09 | Does the Calvin cycle directly require photons? | No, it does not directly require photons | Y | Y | N | Y |  | no_leakage: 'Does the Calvin cycle directly require photons?' is a yes/no question, so the answer can be guessed. |
+| sample_002-c10 | How does the Calvin cycle depend on light-dependent reactions if it does not directly require photons? | It depends on products generated by the light-dependent reactions | Y | Y | N | Y | sample_002-c09 | no_leakage: The question names 'light-dependent reactions' and the answer 'products generated by the light-dependent reactions' adds little beyond what the question supplies. \| duplicate: The question states 'it does not directly require photons', which is the same fact c09 tests. |
+
+### sample_003
+
+| Card | Question | Answer | Atomic | Supported | No leakage | Unambiguous | Duplicate of | Reasons |
+|---|---|---|---|---|---|---|---|---|
+| sample_003-c01 | What is an acid according to the Arrhenius model? | A substance that increases the concentration of H+ in aqueous solution | Y | Y | Y | Y |  |  |
+| sample_003-c02 | What is a base according to the Arrhenius model? | A substance that increases the concentration of OH− in aqueous solution | Y | Y | Y | Y |  |  |
+| sample_003-c03 | What is an acid according to the Brønsted–Lowry model? | A proton donor | Y | Y | Y | Y |  |  |
+| sample_003-c04 | What is a base according to the Brønsted–Lowry model? | A proton acceptor | Y | Y | Y | Y |  |  |
+| sample_003-c05 | What advantage does the Brønsted–Lowry model have over the Arrhenius model? | It is applicable to reactions that do not occur entirely in water | Y | Y | Y | Y |  |  |
+| sample_003-c06 | What is an acid according to the Lewis model? | A substance that accepts an electron pair | Y | Y | Y | Y |  |  |
+| sample_003-c07 | What is a base according to the Lewis model? | A substance that donates an electron pair | Y | Y | Y | Y |  |  |
+
+### sample_004
+
+| Card | Question | Answer | Atomic | Supported | No leakage | Unambiguous | Duplicate of | Reasons |
+|---|---|---|---|---|---|---|---|---|
+| sample_004-c01 | What is inflation? | A sustained increase in the general price level of goods and services, which reduces the purchasing power of money. | N | Y | Y | Y |  | atomic: The answer combines the definition 'a sustained increase in the general price level' with a separate consequence, 'which reduces the purchasing power of money', so it can be partially recalled. |
+| sample_004-c02 | What type of inflation occurs when aggregate demand grows faster than an economy's productive capacity? | Demand-pull inflation | Y | Y | Y | Y |  |  |
+| sample_004-c03 | What type of inflation can result from rising wages, energy prices, or other production costs? | Cost-push inflation | Y | Y | Y | Y |  |  |
+| sample_004-c04 | How can inflation become self-reinforcing? | When workers seek higher wages because they expect prices to rise and firms raise prices in response to higher labor costs. | Y | Y | Y | Y |  |  |
+| sample_004-c05 | How do central banks typically respond to persistent inflation? | By raising interest rates, which tends to reduce borrowing and spending and can weaken aggregate demand. | N | Y | Y | Y |  | atomic: The answer combines the response 'raising interest rates' with its separate effects, 'reduce borrowing and spending and can weaken aggregate demand', so it can be partially recalled. |
+
+### sample_005
+
+| Card | Question | Answer | Atomic | Supported | No leakage | Unambiguous | Duplicate of | Reasons |
+|---|---|---|---|---|---|---|---|---|
+| sample_005-c01 | What are two things that flow through ecosystems in different ways? | Energy flows through ecosystems while matter is repeatedly recycled | N | Y | Y | N |  | atomic: The answer combines two separate facts, 'Energy flows through ecosystems' and 'matter is repeatedly recycled', which could be recalled partially. \| unambiguous: The question 'What are two things that flow through ecosystems in different ways?' is vague and does not clearly ask for how each moves, so the expected answer is unclear. |
+| sample_005-c02 | How do producers such as plants and algae capture and convert energy? | They capture energy from sunlight through photosynthesis and convert it into chemical energy | N | Y | Y | Y |  | atomic: The answer combines two facts, 'capture energy from sunlight through photosynthesis' and 'convert it into chemical energy', which could be recalled partially. |
+| sample_005-c03 | How do primary consumers obtain energy? | By eating producers | Y | Y | Y | Y |  |  |
+| sample_005-c04 | How do secondary and tertiary consumers obtain energy? | By feeding on organisms at lower trophic levels | Y | Y | Y | Y |  |  |
+| sample_005-c05 | Why is only a fraction of the energy at one trophic level transferred to the next? | Organisms use much of it for metabolism and lose energy as heat | Y | Y | Y | Y |  |  |
+| sample_005-c06 | What do decomposers do? | They break down dead organisms and waste, and return nutrients to the environment | N | Y | Y | Y |  | atomic: The answer combines 'break down dead organisms and waste' and 'return nutrients to the environment', two facts that could be recalled partially. |
+| sample_005-c07 | Is energy recycled in the same way as matter in ecosystems? | No, energy itself is not recycled in the same way | Y | Y | N | Y | sample_005-c01 | no_leakage: The question 'Is energy recycled in the same way as matter...?' is a yes/no question, so a guess is right half the time. \| duplicate: The fact that energy is not recycled like matter is already contained in c01's answer 'Energy flows through ecosystems while matter is repeatedly recycled'. |
+
+### sample_006
+
+| Card | Question | Answer | Atomic | Supported | No leakage | Unambiguous | Duplicate of | Reasons |
+|---|---|---|---|---|---|---|---|---|
+| sample_006-c01 | What event triggered the calling of the Estates General in 1789? | A financial crisis and bad harvests | N | Y | Y | Y |  | atomic: The answer 'A financial crisis and bad harvests' gives two separate causes, so a student could recall one and forget the other. |
+| sample_006-c02 | Which estate comprised the majority of the population but held little political power before the French Revolution? | The Third Estate | Y | Y | Y | Y |  |  |
+| sample_006-c03 | What was the Tennis Court Oath? | A declaration that the Third Estate would not leave until a constitution was made | Y | Y | Y | Y |  |  |
+| sample_006-c04 | On what date was the Bastille stormed? | July 14, 1789 | Y | Y | Y | Y |  |  |
+| sample_006-c05 | What three principles were included in the Declaration of Rights issued in August 1789? | Liberty, equality, and popular sovereignty | Y | Y | Y | Y |  |  |
+| sample_006-c06 | In what year and at what location did Louis XVI attempt to escape Paris? | 1791 at Varennes | N | Y | Y | Y |  | atomic: The question asks for both 'year and ... location' ('1791 at Varennes'), two separate facts that can be partially recalled. |
+| sample_006-c07 | What effect did Louis XVI's failed escape attempt at Varennes have on the monarchy? | It caused the monarchy to lose a lot of support | Y | Y | Y | Y |  |  |
+| sample_006-c08 | In what year was the French Republic established? | 1792 | Y | Y | Y | Y |  |  |
+| sample_006-c09 | In what year was Louis XVI executed? | 1793 | Y | Y | Y | Y |  |  |
+| sample_006-c10 | Who led the Committee of Public Safety during the Reign of Terror? | Robespierre | Y | N | Y | Y |  | supported: The notes only list 'Robespierre, Committee of Public Safety' and never state that Robespierre 'led' the Committee. |
+| sample_006-c11 | How did the Reign of Terror end? | Robespierre was arrested in 1794 | Y | Y | Y | Y |  |  |
+| sample_006-c12 | What political system followed the Reign of Terror? | The Directory | Y | Y | Y | Y |  |  |
+
+### sample_007
+
+| Card | Question | Answer | Atomic | Supported | No leakage | Unambiguous | Duplicate of | Reasons |
+|---|---|---|---|---|---|---|---|---|
+| sample_007-c01 | What is the resting membrane potential of a neuron? | -70 mV | Y | Y | Y | Y |  |  |
+| sample_007-c02 | What happens to sodium channels when a stimulus reaches threshold? | They open, allowing sodium ions to flow into the cell | Y | Y | Y | Y |  |  |
+| sample_007-c03 | What is depolarization? | The influx of sodium ions into the neuron | Y | Y | Y | Y | sample_007-c02 | duplicate: The fact that sodium flows into the cell, the answer here, is already contained in c02's answer 'allowing sodium ions to flow into the cell'. |
+| sample_007-c04 | What causes repolarization of the neuronal membrane? | Sodium channels close/inactivate and potassium channels open, allowing potassium ions to flow out | N | Y | Y | Y |  | atomic: The answer combines separate facts, 'Sodium channels close/inactivate' and 'potassium channels open, allowing potassium ions to flow out', so it could be partially recalled. |
+| sample_007-c05 | What is hyperpolarization? | The condition that occurs when potassium channels stay open too long, causing the membrane potential to become more negative than the resting level | Y | N | Y | Y |  | supported: The answer adds 'more negative than the resting level', which the notes never state. |
+| sample_007-c06 | What is the refractory period? | A period during which the neuron cannot immediately fire in the same way, consisting of an absolute phase followed by a relative phase | N | Y | Y | Y |  | atomic: The answer combines the definition 'cannot immediately fire in the same way' with the separate fact 'an absolute phase followed by a relative phase'. |
+| sample_007-c07 | What is saltatory conduction? | A method of action potential propagation along myelinated axons where the action potential jumps from node to node | Y | N | Y | Y |  | supported: The answer says 'along myelinated axons', but the notes never mention axons. |
+| sample_007-c08 | What are the Nodes of Ranvier? | The gaps between myelin sheaths where saltatory conduction occurs during action potential propagation | Y | N | Y | Y |  | supported: The answer defines the nodes as 'gaps between myelin sheaths', which the notes never state. |
+
+### sample_008
+
+| Card | Question | Answer | Atomic | Supported | No leakage | Unambiguous | Duplicate of | Reasons |
+|---|---|---|---|---|---|---|---|---|
+| sample_008-c01 | What does GDP measure? | The market value of final goods and services produced inside a country in a given period | Y | Y | Y | Y |  |  |
+| sample_008-c02 | Why are used goods and intermediate goods excluded from GDP? | Used goods are not included because they were counted in a previous period; intermediate goods are excluded to avoid double counting | N | N | Y | Y |  | atomic: The answer gives a separate reason for each of used goods and intermediate goods, so a student could recall one reason and not the other. \| supported: The answer adds 'they were counted in a previous period', which the notes never state. |
+| sample_008-c03 | What is the difference between nominal GDP and real GDP? | Real GDP adjusts for price changes, while nominal GDP does not | Y | Y | Y | Y |  |  |
+| sample_008-c04 | What is the formula for the GDP deflator? | GDP deflator = (nominal GDP / real GDP) × 100 | Y | Y | Y | Y |  |  |
+| sample_008-c05 | What are limitations of using GDP per capita as a measure? | It does not tell the distribution of output/income, unpaid work, or environmental costs | N | Y | Y | N |  | atomic: The answer lists 'distribution..., unpaid work, or environmental costs', and the notes end that list with 'etc.', so it is an open list a student could recall only part of. \| unambiguous: The question 'What are limitations' has no fixed answer set, since the notes' list ends with 'etc.', so many different answers could be correct. |
+| sample_008-c06 | How do exports and imports affect GDP? | Exports add to GDP and imports subtract from GDP, calculated as net exports (NX = X - M) | N | Y | Y | Y |  | atomic: The answer combines the effect of exports and imports with the separate formula 'NX = X - M', so it can be partially recalled. |
+
+### sample_009
+
+| Card | Question | Answer | Atomic | Supported | No leakage | Unambiguous | Duplicate of | Reasons |
+|---|---|---|---|---|---|---|---|---|
+| sample_009-c01 | In which direction does DNA replication synthesize the new strand? | 5' to 3' | Y | Y | Y | Y |  |  |
+| sample_009-c02 | What is the function of helicase during DNA replication? | To unzip the double helix | Y | Y | Y | Y |  |  |
+| sample_009-c03 | What role does topoisomerase play in DNA replication? | It helps with twisting | Y | Y | Y | Y |  |  |
+| sample_009-c04 | What is the function of primase during DNA replication? | To put RNA primer | Y | Y | Y | Y |  |  |
+| sample_009-c05 | What is the structure of the leading strand during DNA replication? | Basically continuous | Y | Y | Y | Y |  |  |
+| sample_009-c06 | What are Okazaki fragments? | Short DNA segments on the lagging strand; each starts with a primer and DNA polymerase fills them, then ligase seals them | N | N | Y | Y |  | atomic: The answer bundles separate facts ('on the lagging strand', 'starts with a primer', 'DNA polymerase fills them', 'ligase seals them') that can be partially recalled. \| supported: The answer adds 'Short DNA segments', which the notes never state. |
+| sample_009-c07 | What enzymatic activity does DNA polymerase have besides synthesis? | Proofreading via 3' to 5' exonuclease activity | Y | Y | Y | Y |  |  |
+| sample_009-c08 | What happens to the RNA primers after DNA replication? | They are removed and replaced | Y | Y | Y | Y |  |  |
+| sample_009-c09 | Why is the lagging strand synthesized discontinuously rather than continuously? | Because the DNA strands are antiparallel | Y | Y | Y | Y |  |  |
+
+### sample_010
+
+| Card | Question | Answer | Atomic | Supported | No leakage | Unambiguous | Duplicate of | Reasons |
+|---|---|---|---|---|---|---|---|---|
+| sample_010-c01 | In what month and year did the Battle of Midway occur? | June 1942 | Y | Y | Y | Y |  |  |
+| sample_010-c02 | What was the significance of the US victory at Midway? | Four Japanese carriers were lost and it was a big turning point | N | Y | Y | Y |  | atomic: The answer combines two separate facts, 'Four Japanese carriers were lost' and 'it was a big turning point', so a student could recall one and not the other. |
+| sample_010-c03 | When did the Battle of Guadalcanal begin and end? | August 1942 to February 1943 | N | Y | Y | Y |  | atomic: The card asks for both when Guadalcanal 'began and end[ed]', two separate dates that could be partially recalled. |
+| sample_010-c04 | What was the significance of the Battle of Guadalcanal? | It was the first big Allied offensive in the Pacific | Y | Y | Y | Y |  |  |
+| sample_010-c05 | What military strategy involved selectively capturing certain islands while bypassing others? | Island hopping | Y | Y | Y | Y |  |  |
+| sample_010-c06 | What was the purpose of the island hopping strategy? | It allowed US forces to move closer to Japan while avoiding some heavily defended positions | Y | Y | Y | Y |  |  |
+| sample_010-c07 | In what year did the Battles of Iwo Jima and Okinawa occur? | 1945 | Y | Y | Y | Y |  |  |
+| sample_010-c08 | Which Pacific battle in 1945 had worse casualties, Iwo Jima or Okinawa? | Okinawa | Y | Y | N | Y |  | no_leakage: It is an either/or question ('Iwo Jima or Okinawa') that reveals the answer space. |
+| sample_010-c09 | On what date was the atomic bomb dropped on Hiroshima? | August 6 | Y | N | Y | Y |  | supported: The question adds 'the atomic bomb was dropped', which the notes never state; they only list 'Hiroshima Aug 6'. |
+| sample_010-c10 | On what date was the atomic bomb dropped on Nagasaki? | August 9 | Y | N | Y | Y |  | supported: The question adds 'the atomic bomb was dropped', which the notes never state; they only list 'Nagasaki Aug 9'. |
+| sample_010-c11 | On what date did Japan announce its surrender? | August 15 | Y | Y | Y | Y |  |  |
+| sample_010-c12 | On what date did Japan formally surrender? | September 2 | Y | Y | Y | Y |  |  |
+
+### sample_011
+
+| Card | Question | Answer | Atomic | Supported | No leakage | Unambiguous | Duplicate of | Reasons |
+|---|---|---|---|---|---|---|---|---|
+| sample_011-c01 | What term describes cell division that produces two genetically similar daughter cells? | Mitosis | Y | Y | Y | Y |  |  |
+| sample_011-c02 | What is an example of mitosis? | Growth of body tissue | Y | Y | Y | Y |  |  |
+| sample_011-c03 | What term describes cell division that produces four genetically varied haploid cells? | Meiosis | Y | Y | Y | Y |  |  |
+| sample_011-c04 | What is an example of meiosis? | Formation of gametes | Y | Y | Y | Y |  |  |
+| sample_011-c05 | What term describes the exchange of DNA between homologous chromosomes? | Crossing over | Y | Y | Y | Y |  |  |
+| sample_011-c06 | During which stage does crossing over occur? | Prophase I | Y | Y | Y | Y |  |  |
+| sample_011-c07 | What term describes the random orientation of homologous chromosome pairs? | Independent assortment | Y | Y | Y | Y |  |  |
+| sample_011-c08 | During which stage does independent assortment occur? | Metaphase I | Y | Y | Y | Y |  |  |
+| sample_011-c09 | What term describes the division of the cytoplasm after nuclear division? | Cytokinesis | Y | Y | Y | Y |  |  |
+| sample_011-c10 | What is an example of cytokinesis in animal cells? | Cleavage furrow | Y | Y | Y | Y |  |  |
+
+### sample_012
+
+| Card | Question | Answer | Atomic | Supported | No leakage | Unambiguous | Duplicate of | Reasons |
+|---|---|---|---|---|---|---|---|---|
+| sample_012-c01 | What is the chemical formula of hematite? | Fe2O3 | Y | Y | Y | Y |  |  |
+| sample_012-c02 | What is the main economic use of hematite? | Iron production | Y | Y | Y | Y |  |  |
+| sample_012-c03 | What is the chemical formula of halite? | NaCl | Y | Y | Y | Y |  |  |
+| sample_012-c04 | What are the main economic uses of halite? | Salt and chemical feedstock | Y | Y | Y | Y |  |  |
+| sample_012-c05 | What is the chemical formula of calcite? | CaCO3 | Y | Y | Y | Y |  |  |
+| sample_012-c06 | What are the main economic uses of calcite? | Cement and lime production | Y | Y | Y | Y |  |  |
+| sample_012-c07 | What is the chemical formula of gypsum? | CaSO4·2H2O | Y | Y | Y | Y |  |  |
+| sample_012-c08 | What are the main economic uses of gypsum? | Plaster and drywall | Y | Y | Y | Y |  |  |
+| sample_012-c09 | What is the main economic use of bauxite? | Aluminum production | Y | Y | Y | Y |  |  |
+
+### sample_013
+
+| Card | Question | Answer | Atomic | Supported | No leakage | Unambiguous | Duplicate of | Reasons |
+|---|---|---|---|---|---|---|---|---|
+| sample_013-c01 | What is the building block of carbohydrates? | Monosaccharide | Y | Y | Y | Y |  |  |
+| sample_013-c02 | What are the major functions of carbohydrates? | Quick energy; structural support | Y | Y | Y | Y |  |  |
+| sample_013-c03 | What is the building block of proteins? | Amino acid | Y | Y | Y | Y |  |  |
+| sample_013-c04 | What are the major functions of proteins? | Enzymes; transport; structure | Y | Y | Y | Y |  |  |
+| sample_013-c05 | What is the building block of lipids? | Glycerol + fatty acids | Y | N | Y | Y |  | supported: The card presents 'Glycerol + fatty acids' as the building block of lipids, dropping the notes' qualifier '(common form)' and so overstating the claim. |
+| sample_013-c06 | What are the major functions of lipids? | Energy storage; membranes | Y | Y | Y | Y |  |  |
+| sample_013-c07 | What is the building block of nucleic acids? | Nucleotide | Y | Y | Y | Y |  |  |
+| sample_013-c08 | What is the major function of nucleic acids? | Genetic information | Y | Y | Y | Y |  |  |
+
+### sample_014
+
+| Card | Question | Answer | Atomic | Supported | No leakage | Unambiguous | Duplicate of | Reasons |
+|---|---|---|---|---|---|---|---|---|
+| sample_014-c01 | What is the average distance of Mercury from the Sun? | 0.39 AU | Y | Y | Y | Y |  |  |
+| sample_014-c02 | How many moons does Mercury have? | 0 | Y | Y | Y | Y |  |  |
+| sample_014-c03 | What is the average distance of Venus from the Sun? | 0.72 AU | Y | Y | Y | Y |  |  |
+| sample_014-c04 | How many moons does Venus have? | 0 | Y | Y | Y | Y |  |  |
+| sample_014-c05 | What is the average distance of Earth from the Sun? | 1.00 AU | Y | Y | Y | Y |  |  |
+| sample_014-c06 | How many moons does Earth have? | 1 | Y | Y | Y | Y |  |  |
+| sample_014-c07 | What is the average distance of Mars from the Sun? | 1.52 AU | Y | Y | Y | Y |  |  |
+| sample_014-c08 | How many moons does Mars have? | 2 | Y | Y | Y | Y |  |  |
+| sample_014-c09 | What is the average distance of Jupiter from the Sun? | 5.20 AU | Y | Y | Y | Y |  |  |
+| sample_014-c10 | How many moons does Jupiter have? | 95+ | Y | Y | Y | Y |  |  |
+| sample_014-c11 | Which planet is the smallest? | Mercury | Y | Y | Y | Y |  |  |
+| sample_014-c12 | Which planet has the hottest average surface temperature? | Venus | Y | Y | Y | Y |  |  |
+| sample_014-c13 | Which planet has widespread liquid surface water? | Earth | Y | Y | Y | Y |  |  |
+| sample_014-c14 | Which planet is home to Olympus Mons? | Mars | Y | Y | Y | Y |  |  |
+| sample_014-c15 | Which planet is the largest? | Jupiter | Y | Y | Y | Y |  |  |
+
+### sample_015
+
+| Card | Question | Answer | Atomic | Supported | No leakage | Unambiguous | Duplicate of | Reasons |
+|---|---|---|---|---|---|---|---|---|
+| sample_015-c01 | What event in 1929 contributed to the onset of the Great Depression? | Stock market crash | Y | Y | Y | Y |  |  |
+| sample_015-c02 | What did the First New Deal measures in 1933 accomplish? | Expanded federal involvement in economic relief and recovery | Y | Y | Y | Y |  |  |
+| sample_015-c03 | What did the Social Security Act of 1935 establish? | Old-age pensions and related programs | Y | Y | Y | Y |  |  |
+| sample_015-c04 | What was the significance of the U.S. entering World War II in 1941? | Wartime production greatly expanded employment and output | Y | Y | Y | Y |  |  |
+| sample_015-c05 | What position did the U.S. emerge as following the end of World War II in 1945? | A major global economic and military power | Y | Y | Y | Y |  |  |
+
+### sample_016
+
+| Card | Question | Answer | Atomic | Supported | No leakage | Unambiguous | Duplicate of | Reasons |
+|---|---|---|---|---|---|---|---|---|
+| sample_016-c01 | In Python list slicing with sequence[start:stop:step], is the stop index included or excluded? | Excluded | Y | Y | N | Y |  | no_leakage: The either/or question 'is the stop index included or excluded?' names both options, so the answer can be guessed. |
+| sample_016-c02 | What does nums[1:4] return for nums = [10, 20, 30, 40, 50]? | [20, 30, 40] | Y | Y | Y | Y |  |  |
+| sample_016-c03 | What does nums[:3] return for nums = [10, 20, 30, 40, 50]? | [10, 20, 30] | Y | Y | Y | Y |  |  |
+| sample_016-c04 | What does nums[::2] return for nums = [10, 20, 30, 40, 50]? | [10, 30, 50] | Y | Y | Y | Y |  |  |
+| sample_016-c05 | In Python, what does a negative index like nums[-1] refer to? | The last element in the list | Y | N | Y | Y |  | supported: The answer 'The last element in the list' generalizes beyond the notes, which only state that nums[-1] returns 50 and that negative indexes count from the end. |
+| sample_016-c06 | What does nums[::-1] return for a Python list? | The list in reverse order | Y | Y | Y | Y |  |  |
+
+### sample_017
+
+| Card | Question | Answer | Atomic | Supported | No leakage | Unambiguous | Duplicate of | Reasons |
+|---|---|---|---|---|---|---|---|---|
+| sample_017-c01 | In C++, what is a reference? | An alias for an existing object, commonly used to avoid copying when passing arguments. | N | Y | Y | Y |  |  |
+| sample_017-c02 | What does a const reference allow you to do in C++? | Read an object without modifying it. | Y | Y | Y | Y |  |  |
+| sample_017-c03 | In C++, what does the `&` symbol in a function parameter declaration do? | It declares a reference. | Y | Y | Y | Y |  |  |
+| sample_017-c04 | What is the purpose of the `const` keyword in a const reference parameter in C++? | It prevents the function from changing the referred-to object through that parameter. | Y | Y | Y | Y | sample_017-c02 | duplicate: Tests the same fact as c02: c04's answer 'prevents the function from changing the referred-to object' restates c02's 'Read an object without modifying it.' |
+
+### sample_018
+
+| Card | Question | Answer | Atomic | Supported | No leakage | Unambiguous | Duplicate of | Reasons |
+|---|---|---|---|---|---|---|---|---|
+| sample_018-c01 | In SQL, which clause filters rows before grouping occurs? | WHERE | Y | Y | Y | Y |  |  |
+| sample_018-c02 | In SQL, which clause filters groups after GROUP BY is applied? | HAVING | Y | Y | Y | Y |  |  |
+| sample_018-c03 | In the SQL query shown, what does the WHERE clause do? | It keeps only active employees (where active = 1) | Y | Y | Y | N |  | unambiguous: The question refers to 'the SQL query shown', which only makes sense alongside the source notes. |
+| sample_018-c04 | In the SQL query shown, what does the HAVING clause do? | It keeps only departments with at least 5 active employees | Y | Y | Y | N |  | unambiguous: The question refers to 'the SQL query shown', which only makes sense alongside the source notes. |
+
+### sample_019
+
+| Card | Question | Answer | Atomic | Supported | No leakage | Unambiguous | Duplicate of | Reasons |
+|---|---|---|---|---|---|---|---|---|
+| sample_019-c01 | What do JavaScript promises represent? | The eventual result of an asynchronous operation | Y | Y | Y | Y |  |  |
+| sample_019-c02 | What are the three possible states of a promise? | Pending, fulfilled, or rejected | Y | Y | Y | Y |  |  |
+| sample_019-c03 | What does the `.then()` method do in a promise chain? | Registers a callback for successful completion | Y | Y | Y | Y |  |  |
+| sample_019-c04 | What does the `.catch()` method do in a promise chain? | Handles rejection or an error propagated through the chain | Y | Y | Y | Y |  |  |
+| sample_019-c05 | How do promise callbacks behave relative to the rest of the program? | They run later rather than blocking the rest of the program | Y | Y | Y | Y |  |  |
+
+### sample_020
+
+| Card | Question | Answer | Atomic | Supported | No leakage | Unambiguous | Duplicate of | Reasons |
+|---|---|---|---|---|---|---|---|---|
+| sample_020-c01 | What is the time complexity of binary search? | O(log n) | Y | Y | Y | Y |  |  |
+| sample_020-c02 | What is the key requirement for binary search to work correctly? | The input must be sorted | Y | Y | Y | Y |  |  |
+| sample_020-c03 | How does binary search reduce the search space at each iteration? | By comparing the target with the middle element and discarding half of the remaining search interval | Y | Y | Y | Y |  |  |
+| sample_020-c04 | What value does the provided binary_search function return when the target is not found? | -1 | Y | Y | Y | Y |  |  |
+
+### sample_021
+
+| Card | Question | Answer | Atomic | Supported | No leakage | Unambiguous | Duplicate of | Reasons |
+|---|---|---|---|---|---|---|---|---|
+| sample_021-c01 | What is the mitochondrion? | An organelle involved in aerobic cellular respiration that produces much of a eukaryotic cell's ATP through oxidative phosphorylation | N | Y | Y | Y |  | atomic: The answer combines separate facts ('involved in aerobic cellular respiration' and 'produces much of a eukaryotic cell's ATP through oxidative phosphorylation'), so a student could get it partially right. |
+| sample_021-c02 | Through what process does the mitochondrion produce most of a eukaryotic cell's ATP? | Oxidative phosphorylation | Y | N | Y | Y | sample_021-c01 | supported: The question says 'most of' a eukaryotic cell's ATP, but the notes only say 'much of'. \| duplicate: The fact that the mitochondrion produces ATP 'through oxidative phosphorylation' is already contained in c01's answer. |
+
+### sample_022
+
+| Card | Question | Answer | Atomic | Supported | No leakage | Unambiguous | Duplicate of | Reasons |
+|---|---|---|---|---|---|---|---|---|
+| sample_022-c01 | In what year was the Magna Carta sealed? | 1215 | Y | Y | Y | Y |  |  |
+| sample_022-c02 | What did the Magna Carta do regarding the English king's authority? | It placed limits on the English king's authority. | Y | Y | Y | Y |  |  |
+| sample_022-c03 | What historical significance did the Magna Carta have in the development of government? | It became an important symbol in the development of constitutional government. | Y | Y | Y | Y |  |  |
+
+### sample_023
+
+| Card | Question | Answer | Atomic | Supported | No leakage | Unambiguous | Duplicate of | Reasons |
+|---|---|---|---|---|---|---|---|---|
+| sample_023-c01 | What does pH measure? | The acidity or basicity of an aqueous solution on a logarithmic scale | Y | Y | Y | Y |  |  |
+| sample_023-c02 | What is the pH value of a neutral solution at 25°C? | 7 | Y | Y | Y | Y |  |  |
+
+### sample_024
+
+| Card | Question | Answer | Atomic | Supported | No leakage | Unambiguous | Duplicate of | Reasons |
+|---|---|---|---|---|---|---|---|---|
+| sample_024-c01 | What term describes the value of the next-best alternative forgone when a choice is made? | Opportunity cost | Y | Y | Y | Y |  |  |
+
+### sample_025
+
+| Card | Question | Answer | Atomic | Supported | No leakage | Unambiguous | Duplicate of | Reasons |
+|---|---|---|---|---|---|---|---|---|
+| sample_025-c01 | What brain structure is strongly associated with forming new declarative memories? | The hippocampus | Y | Y | Y | Y |  |  |
+| sample_025-c02 | What ability can be impaired by damage to the hippocampus? | The ability to form certain new long-term memories | Y | Y | Y | Y |  |  |
+
+### sample_026
+
+| Card | Question | Answer | Atomic | Supported | No leakage | Unambiguous | Duplicate of | Reasons |
+|---|---|---|---|---|---|---|---|---|
+| sample_026-c01 | What is photosynthesis? | The process by which light energy is converted into chemical energy. | Y | Y | Y | Y |  |  |
+| sample_026-c02 | What is the function of chlorophyll in photosynthetic organisms? | It absorbs light. | Y | Y | Y | Y |  |  |
+| sample_026-c03 | What are stomata? | Pores in plant leaves that regulate gas exchange. | Y | Y | Y | Y |  |  |
+| sample_026-c04 | What is transpiration? | The loss of water vapor from plant surfaces, especially leaves. | Y | Y | Y | Y |  |  |
+
+### sample_027
+
+| Card | Question | Answer | Atomic | Supported | No leakage | Unambiguous | Duplicate of | Reasons |
+|---|---|---|---|---|---|---|---|---|
+| sample_027-c01 | What term describes the division of governmental power between national and state/regional governments? | Federalism | Y | Y | Y | Y |  |  |
+| sample_027-c02 | What term describes the allocation of legislative, executive, and judicial functions to different branches? | Separation of powers | Y | Y | Y | Y |  |  |
+| sample_027-c03 | What term describes mechanisms allowing branches of government to limit one another? | Checks and balances | Y | Y | Y | Y |  |  |
+| sample_027-c04 | What is the authority of courts to evaluate the constitutionality of government actions called? | Judicial review | Y | Y | Y | Y |  |  |
+
+### sample_028
+
+| Card | Question | Answer | Atomic | Supported | No leakage | Unambiguous | Duplicate of | Reasons |
+|---|---|---|---|---|---|---|---|---|
+| sample_028-c01 | What term describes atoms of the same element with different numbers of neutrons? | Isotope | Y | Y | Y | Y |  |  |
+| sample_028-c02 | What term describes a positively charged ion? | Cation | Y | Y | Y | Y |  |  |
+| sample_028-c03 | What term describes a negatively charged ion? | Anion | Y | Y | Y | Y |  |  |
+| sample_028-c04 | What is molarity defined as? | Moles of solute per liter of solution | Y | Y | Y | Y |  |  |
+| sample_028-c05 | What term describes a substance that increases reaction rate without being consumed overall? | Catalyst | Y | Y | Y | Y |  |  |
+
+### sample_029
+
+| Card | Question | Answer | Atomic | Supported | No leakage | Unambiguous | Duplicate of | Reasons |
+|---|---|---|---|---|---|---|---|---|
+| sample_029-c01 | What term describes small, fast memory that holds frequently accessed data? | Cache | Y | Y | Y | Y |  |  |
+| sample_029-c02 | What term describes the delay between initiating an operation and receiving its result? | Latency | Y | Y | Y | Y |  |  |
+| sample_029-c03 | What term describes the amount of work or data processed per unit time? | Throughput | Y | Y | Y | Y |  |  |
+| sample_029-c04 | What term describes a state in which processes wait indefinitely for resources held by one another? | Deadlock | Y | Y | Y | Y |  |  |
+
+### sample_030
+
+| Card | Question | Answer | Atomic | Supported | No leakage | Unambiguous | Duplicate of | Reasons |
+|---|---|---|---|---|---|---|---|---|
+| sample_030-c01 | What theory describes Earth's lithosphere as being divided into moving plates? | Plate tectonics | Y | Y | Y | Y |  |  |
+| sample_030-c02 | What term describes the process in which one tectonic plate moves beneath another? | Subduction | Y | Y | Y | Y |  |  |
+| sample_030-c03 | What type of plate boundary occurs where plates move apart? | Divergent boundary | Y | Y | Y | Y |  |  |
+| sample_030-c04 | What type of plate boundary occurs where plates slide horizontally past one another? | Transform boundary | Y | Y | Y | Y |  |  |
+| sample_030-c05 | What type of plate boundary occurs where plates move toward one another? | Convergent boundary | Y | Y | Y | Y |  |  |
+

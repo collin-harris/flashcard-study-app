@@ -16,9 +16,19 @@ def clean_db():
     # Runs before every test so no test can see another test's leftover data.
     with engine.begin() as connection:
         connection.execute(
-            text("TRUNCATE TABLE card_reviews, flashcards, decks, users RESTART IDENTITY CASCADE")
+            text(
+                "TRUNCATE TABLE generation_requests, card_reviews, flashcards, decks, users "
+                "RESTART IDENTITY CASCADE"
+            )
         )
     yield
+
+
+@pytest.fixture(autouse=True)
+def no_api_key(monkeypatch):
+    # Without a key, card generation fails before any request is built, so no
+    # test can reach the Anthropic API even if a mock is missed.
+    monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
 
 
 @pytest.fixture

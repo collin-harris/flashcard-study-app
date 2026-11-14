@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router'
 import { createDeck } from '../api'
+import { validateDeckName } from '../validation'
 import './CreateDeckPage.css'
 
 function CreateDeckPage() {
@@ -12,9 +13,15 @@ function CreateDeckPage() {
     e.preventDefault()
     setError('')
 
+    const problem = validateDeckName(name)
+    if (problem) {
+      setError(problem)
+      return
+    }
+
     try {
-      await createDeck(name)
-      navigate('/dashboard')
+      const deck = await createDeck(name)
+      navigate(`/decks/${deck.deck_id}`, { replace: true })
     } catch (err) {
       setError(err.message)
     }

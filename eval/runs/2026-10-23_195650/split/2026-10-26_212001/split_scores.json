@@ -1,0 +1,45 @@
+{
+  "run_id": "2026-10-23_195650",
+  "rubric_version": "1.6",
+  "test_set_version": "2",
+  "scorer": "judge:opus-5.5:v1+hand",
+  "judge_run_id": "2026-10-26_212001",
+  "judge_hash": "d21413e84dec",
+  "judge_criteria": [
+    "atomic",
+    "supported",
+    "no_leakage",
+    "duplicate_of"
+  ],
+  "hand_criteria": [
+    "unambiguous"
+  ],
+  "pass_sample_seed": 91824494,
+  "failed_pairs": 36,
+  "sampled_pass_pairs": 20,
+  "review_changes": 5,
+  "consistency_changes": 9,
+  "inputs": {
+    "judge_results": {
+      "path": "eval/runs/2026-10-23_195650/judge/2026-10-26_212001/judge_results.json",
+      "sha256": "66dbb3729133"
+    },
+    "unambiguous": {
+      "path": "eval/runs/2026-10-23_195650/split/unambiguous_sheet.csv",
+      "sha256": "8b97c318cb9e"
+    },
+    "review_fails": {
+      "path": "eval/runs/2026-10-23_195650/split/2026-10-26_212001/review_fails.csv",
+      "sha256": "a97170c4bd9e"
+    },
+    "review_passes": {
+      "path": "eval/runs/2026-10-23_195650/split/2026-10-26_212001/review_passes.csv",
+      "sha256": "35ee903c522f"
+    },
+    "score_changes": {
+      "path": "eval/runs/2026-10-23_195650/split/2026-10-26_212001/score_changes.csv",
+      "sha256": "d9517120ee54"
+    }
+  },
+  "merged_at": "2026-10-27T22:19:48"
+}

@@ -1,0 +1,392 @@
+{
+  "run_id": "2026-10-23_195650",
+  "date": "2026-10-23T19:56:50",
+  "rubric_version": "1.6",
+  "test_set_version": "2",
+  "test_set_hash": "dc07b494d8f7",
+  "source_text_hash": "d1137ca2ce83",
+  "model": "claude-sonnet-5-5",
+  "thinking": {
+    "type": "between_tools"
+  },
+  "effort": "high",
+  "prompt_version": "v2",
+  "prompt_hash": "a24b2d79f726",
+  "max_tokens": 4096,
+  "request_timeout_seconds": 60,
+  "max_retries": 2,
+  "gate_approach": "single call",
+  "anthropic_sdk_version": "1.9.0",
+  "partial": false,
+  "interrupted": false,
+  "incomplete": false,
+  "test_set_size": 35,
+  "sample_ids": [
+    "sample_001",
+    "sample_002",
+    "sample_003",
+    "sample_004",
+    "sample_005",
+    "sample_006",
+    "sample_007",
+    "sample_008",
+    "sample_009",
+    "sample_010",
+    "sample_011",
+    "sample_012",
+    "sample_013",
+    "sample_014",
+    "sample_015",
+    "sample_016",
+    "sample_017",
+    "sample_018",
+    "sample_019",
+    "sample_020",
+    "sample_021",
+    "sample_022",
+    "sample_023",
+    "sample_024",
+    "sample_025",
+    "sample_026",
+    "sample_027",
+    "sample_028",
+    "sample_029",
+    "sample_030",
+    "sample_031",
+    "sample_032",
+    "sample_033",
+    "sample_034",
+    "sample_035"
+  ],
+  "errored_samples": [],
+  "metrics": {
+    "samples_run": 35,
+    "error_rate": {
+      "count": 0,
+      "total": 35,
+      "rate": 0.0
+    },
+    "stage1": {
+      "false_rejection_rate": {
+        "count": 0,
+        "total": 30,
+        "rate": 0.0
+      },
+      "false_acceptance_rate": {
+        "count": 0,
+        "total": 5,
+        "rate": 0.0
+      }
+    },
+    "stage2": {
+      "batches_scored": 30,
+      "cards_scored": 251,
+      "card_count_pass_rate": {
+        "count": 20,
+        "total": 30,
+        "rate": 0.6666666666666666
+      },
+      "source_match_rate": {
+        "count": 251,
+        "total": 251,
+        "rate": 1.0
+      }
+    },
+    "operational": {
+      "total_input_tokens": 97906,
+      "total_output_tokens": 17665,
+      "total_cost_usd": 0.3724619999999999,
+      "average_cost_usd": 0.010641771428571426,
+      "average_latency_seconds": 3.8363292727428595
+    }
+  },
+  "metrics_by_category": {
+    "already_list_like": {
+      "samples_run": 5,
+      "error_rate": {
+        "count": 0,
+        "total": 5,
+        "rate": 0.0
+      },
+      "stage1": {
+        "false_rejection_rate": {
+          "count": 0,
+          "total": 5,
+          "rate": 0.0
+        },
+        "false_acceptance_rate": {
+          "count": 0,
+          "total": 0,
+          "rate": null
+        }
+      },
+      "stage2": {
+        "batches_scored": 5,
+        "cards_scored": 22,
+        "card_count_pass_rate": {
+          "count": 5,
+          "total": 5,
+          "rate": 1.0
+        },
+        "source_match_rate": {
+          "count": 22,
+          "total": 22,
+          "rate": 1.0
+        }
+      },
+      "operational": {
+        "total_input_tokens": 13837,
+        "total_output_tokens": 1488,
+        "total_cost_usd": 0.042554,
+        "average_cost_usd": 0.0085108,
+        "average_latency_seconds": 2.5631774827999836
+      }
+    },
+    "code_content": {
+      "samples_run": 5,
+      "error_rate": {
+        "count": 0,
+        "total": 5,
+        "rate": 0.0
+      },
+      "stage1": {
+        "false_rejection_rate": {
+          "count": 0,
+          "total": 5,
+          "rate": 0.0
+        },
+        "false_acceptance_rate": {
+          "count": 0,
+          "total": 0,
+          "rate": null
+        }
+      },
+      "stage2": {
+        "batches_scored": 5,
+        "cards_scored": 40,
+        "card_count_pass_rate": {
+          "count": 3,
+          "total": 5,
+          "rate": 0.6
+        },
+        "source_match_rate": {
+          "count": 40,
+          "total": 40,
+          "rate": 1.0
+        }
+      },
+      "operational": {
+        "total_input_tokens": 14176,
+        "total_output_tokens": 3424,
+        "total_cost_usd": 0.062592,
+        "average_cost_usd": 0.012518399999999999,
+        "average_latency_seconds": 4.916965288400002
+      }
+    },
+    "dense_textbook_prose": {
+      "samples_run": 5,
+      "error_rate": {
+        "count": 0,
+        "total": 5,
+        "rate": 0.0
+      },
+      "stage1": {
+        "false_rejection_rate": {
+          "count": 0,
+          "total": 5,
+          "rate": 0.0
+        },
+        "false_acceptance_rate": {
+          "count": 0,
+          "total": 0,
+          "rate": null
+        }
+      },
+      "stage2": {
+        "batches_scored": 5,
+        "cards_scored": 54,
+        "card_count_pass_rate": {
+          "count": 2,
+          "total": 5,
+          "rate": 0.4
+        },
+        "source_match_rate": {
+          "count": 54,
+          "total": 54,
+          "rate": 1.0
+        }
+      },
+      "operational": {
+        "total_input_tokens": 14363,
+        "total_output_tokens": 3975,
+        "total_cost_usd": 0.06847600000000001,
+        "average_cost_usd": 0.013695200000000001,
+        "average_latency_seconds": 5.473611724199986
+      }
+    },
+    "sloppy_bullets": {
+      "samples_run": 5,
+      "error_rate": {
+        "count": 0,
+        "total": 5,
+        "rate": 0.0
+      },
+      "stage1": {
+        "false_rejection_rate": {
+          "count": 0,
+          "total": 5,
+          "rate": 0.0
+        },
+        "false_acceptance_rate": {
+          "count": 0,
+          "total": 0,
+          "rate": null
+        }
+      },
+      "stage2": {
+        "batches_scored": 5,
+        "cards_scored": 64,
+        "card_count_pass_rate": {
+          "count": 3,
+          "total": 5,
+          "rate": 0.6
+        },
+        "source_match_rate": {
+          "count": 64,
+          "total": 64,
+          "rate": 1.0
+        }
+      },
+      "operational": {
+        "total_input_tokens": 14280,
+        "total_output_tokens": 3811,
+        "total_cost_usd": 0.06667000000000001,
+        "average_cost_usd": 0.013334000000000002,
+        "average_latency_seconds": 5.196904486600022
+      }
+    },
+    "table_data": {
+      "samples_run": 5,
+      "error_rate": {
+        "count": 0,
+        "total": 5,
+        "rate": 0.0
+      },
+      "stage1": {
+        "false_rejection_rate": {
+          "count": 0,
+          "total": 5,
+          "rate": 0.0
+        },
+        "false_acceptance_rate": {
+          "count": 0,
+          "total": 0,
+          "rate": null
+        }
+      },
+      "stage2": {
+        "batches_scored": 5,
+        "cards_scored": 57,
+        "card_count_pass_rate": {
+          "count": 4,
+          "total": 5,
+          "rate": 0.8
+        },
+        "source_match_rate": {
+          "count": 57,
+          "total": 57,
+          "rate": 1.0
+        }
+      },
+      "operational": {
+        "total_input_tokens": 14056,
+        "total_output_tokens": 3583,
+        "total_cost_usd": 0.063942,
+        "average_cost_usd": 0.0127884,
+        "average_latency_seconds": 4.374396571199986
+      }
+    },
+    "too_short": {
+      "samples_run": 5,
+      "error_rate": {
+        "count": 0,
+        "total": 5,
+        "rate": 0.0
+      },
+      "stage1": {
+        "false_rejection_rate": {
+          "count": 0,
+          "total": 5,
+          "rate": 0.0
+        },
+        "false_acceptance_rate": {
+          "count": 0,
+          "total": 0,
+          "rate": null
+        }
+      },
+      "stage2": {
+        "batches_scored": 5,
+        "cards_scored": 14,
+        "card_count_pass_rate": {
+          "count": 3,
+          "total": 5,
+          "rate": 0.6
+        },
+        "source_match_rate": {
+          "count": 14,
+          "total": 14,
+          "rate": 1.0
+        }
+      },
+      "operational": {
+        "total_input_tokens": 13558,
+        "total_output_tokens": 986,
+        "total_cost_usd": 0.036976,
+        "average_cost_usd": 0.0073952,
+        "average_latency_seconds": 2.4028936364000173
+      }
+    },
+    "unusable_input": {
+      "samples_run": 5,
+      "error_rate": {
+        "count": 0,
+        "total": 5,
+        "rate": 0.0
+      },
+      "stage1": {
+        "false_rejection_rate": {
+          "count": 0,
+          "total": 0,
+          "rate": null
+        },
+        "false_acceptance_rate": {
+          "count": 0,
+          "total": 5,
+          "rate": 0.0
+        }
+      },
+      "stage2": {
+        "batches_scored": 0,
+        "cards_scored": 0,
+        "card_count_pass_rate": {
+          "count": 0,
+          "total": 0,
+          "rate": null
+        },
+        "source_match_rate": {
+          "count": 0,
+          "total": 0,
+          "rate": null
+        }
+      },
+      "operational": {
+        "total_input_tokens": 13636,
+        "total_output_tokens": 398,
+        "total_cost_usd": 0.031252,
+        "average_cost_usd": 0.006250400000000001,
+        "average_latency_seconds": 1.9263557196000192
+      }
+    }
+  }
+}

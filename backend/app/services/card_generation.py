@@ -1,0 +1,247 @@
+import hashlib
+import json
+import os
+import time
+from functools import lru_cache
+from pathlib import Path
+from typing import Literal, Optional, Union
+
+import anthropic
+from pydantic import BaseModel, Field, TypeAdapter, ValidationError
+
+
+# Every evaluation run records these settings in its run.json, so changing
+# any of them means the results are no longer comparable with earlier runs.
+# MODEL is the app's model; the eval runner can pass another model from
+# PRICING to generate_cards(). The app's generate endpoint passes its own
+# timeout and retry count; the eval always uses the defaults below.
+MODEL = "claude-sonnet-5-5"
+PROMPT_VERSION = "v2"
+MAX_TOKENS = 4096
+REQUEST_TIMEOUT_SECONDS = 60
+# The SDK's own default, set explicitly so retry behavior is a deliberate
+# setting and a future SDK default change can't alter it silently.
+MAX_RETRIES = 2
+
+# Base rates in USD per million tokens, from
+# https://platform.claude.com/docs/en/about-claude/pricing (Haiku 4.5 checked
+# 2026-09-29, Sonnet 5.5 checked 2026-10-19). Prompt caching isn't used, so
+# cache read/write rates don't apply. A model without rates here can't be
+# used, so a run's cost is never computed at the wrong rates.
+PRICING = {
+    "claude-haiku-4-5-20251001": {"input": 1.00, "output": 5.00},
+    "claude-sonnet-5-5": {"input": 2.00, "output": 10.00},
+}
+
+# Extra request settings per model, so every model generates without
+# extended thinking, as Haiku 4.5 does by default. Sonnet 5.5 thinks by
+# default and rejects {"type": "disabled"} with a 400; "between_tools" is its
+# documented lowest setting, with no extended thinking, and is accepted only
+# at effort "high" or below. Effort is set to "high", the API default,
+# explicitly so a future default change can't alter it silently. Haiku 4.5
+# rejects the effort setting, so it gets neither.
+REQUEST_OPTIONS = {
+    "claude-haiku-4-5-20251001": {},
+    "claude-sonnet-5-5": {"thinking": {"type": "between_tools"}, "effort": "high"},
+}
+
+PROMPTS_DIR = Path(__file__).parent.parent / "prompts"
+
+# The notes are joined with concatenation, never str.format, because notes
+# can contain literal braces (code samples, for example).
+USER_MESSAGE_PREFIX = "<notes>\n"
+USER_MESSAGE_SUFFIX = "\n</notes>"
+
+
+class Card(BaseModel):
+    question: str
+    answer: str
+    source: list[str] = Field(min_length=1)
+
+
+# Pydantic describes a single-value Literal with `const`, which the SDK moves
+# into description text before sending, so the API wouldn't enforce it.
+# Adding `enum` gets the allowed value sent as a real constraint.
+class GeneratedCards(BaseModel):
+    status: Literal["ok"] = Field(json_schema_extra={"enum": ["ok"]})
+    cards: list[Card] = Field(min_length=1)
+
+
+class Rejection(BaseModel):
+    status: Literal["rejected"] = Field(json_schema_extra={"enum": ["rejected"]})
+    reason: str
+
+
+GenerationOutput = Union[GeneratedCards, Rejection]
+
+
+def _inline_refs(schema: dict) -> dict:
+    # The API rejects `$defs` in an `anyOf` schema ("For 'anyOf', '$defs' is
+    # not supported"), a restriction the structured outputs docs don't
+    # mention. So every local `$ref` is replaced with a copy of the
+    # definition it points to, and `$defs` is dropped. None of these models
+    # refer to themselves, so the inlining always terminates.
+    defs = schema.get("$defs", {})
+
+    def resolve(node):
+        if isinstance(node, dict):
+            if "$ref" in node:
+                name = node["$ref"].removeprefix("#/$defs/")
+                siblings = {key: resolve(value) for key, value in node.items() if key != "$ref"}
+                return {**resolve(defs[name]), **siblings}
+            return {key: resolve(value) for key, value in node.items() if key != "$defs"}
+        if isinstance(node, list):
+            return [resolve(item) for item in node]
+        return node
+
+    return resolve(schema)
+
+
+_output_adapter = TypeAdapter(GenerationOutput)
+OUTPUT_SCHEMA = _inline_refs(anthropic.transform_schema(_output_adapter.json_schema()))
+
+
+class GenerationMetadata(BaseModel):
+    model: str
+    prompt_version: str
+    prompt_hash: str
+    input_tokens: int
+    output_tokens: int
+    cost_usd: float
+    latency_seconds: float
+
+
+class GenerationResult(BaseModel):
+    output: GenerationOutput
+    metadata: GenerationMetadata
+    raw_text: str
+
+
+ErrorKind = Literal["api_error", "truncated", "refusal", "invalid_output"]
+
+
+class CardGenerationError(Exception):
+    # raw_text and metadata are set whenever a response actually came back,
+    # so a failed call's output and cost can still be recorded.
+    def __init__(
+        self,
+        kind: ErrorKind,
+        message: str,
+        raw_text: Optional[str] = None,
+        metadata: Optional[GenerationMetadata] = None,
+    ):
+        super().__init__(message)
+        self.kind = kind
+        self.raw_text = raw_text
+        self.metadata = metadata
+
+
+# Raised when the service isn't configured to make a call at all, so callers
+# can tell a deployment problem apart from a failed generation.
+class CardGenerationSetupError(RuntimeError):
+    pass
+
+
+@lru_cache(maxsize=1)
+def _load_system_prompt() -> str:
+    # Loaded on first use, not at import, so importing this module never
+    # touches the filesystem.
+    path = PROMPTS_DIR / f"card_generation_{PROMPT_VERSION}.txt"
+    return path.read_text(encoding="utf-8")
+
+
+def get_prompt_hash() -> str:
+    # Covers the system prompt, the text wrapped around the notes, and the
+    # output schema: everything sent with every request besides the notes
+    # and the request settings. An edit to any of them without a version bump
+    # still shows up as a different hash. Encoding the parts as a JSON list
+    # keeps the boundaries between them unambiguous, and sort_keys keeps the
+    # schema's serialization stable. The model, token limit, timeout, and
+    # retries aren't covered; each run records them in its metadata instead.
+    parts = [_load_system_prompt(), USER_MESSAGE_PREFIX, USER_MESSAGE_SUFFIX, OUTPUT_SCHEMA]
+    encoded = json.dumps(parts, sort_keys=True)
+    return hashlib.sha256(encoded.encode("utf-8")).hexdigest()[:12]
+
+
+def _estimate_cost(model: str, input_tokens: int, output_tokens: int) -> float:
+    rates = PRICING[model]
+    return (input_tokens * rates["input"] + output_tokens * rates["output"]) / 1_000_000
+
+
+def generate_cards(
+    notes: str,
+    model: str = MODEL,
+    *,
+    timeout: float = REQUEST_TIMEOUT_SECONDS,
+    max_retries: int = MAX_RETRIES,
+) -> GenerationResult:
+    if model not in PRICING:
+        raise ValueError(f"No pricing for model {model!r}. Add its rates to PRICING before using it.")
+    # Checked here rather than at import so the app and test suite can run
+    # without the key.
+    api_key = os.environ.get("ANTHROPIC_API_KEY")
+    if not api_key:
+        raise CardGenerationSetupError(
+            "ANTHROPIC_API_KEY environment variable is not set. "
+            "Card generation needs it to call the Anthropic API."
+        )
+
+    # The SDK applies the timeout to each attempt, not to the call as a whole.
+    client = anthropic.Anthropic(api_key=api_key, timeout=timeout, max_retries=max_retries)
+    options = REQUEST_OPTIONS[model]
+    output_config = {"format": {"type": "json_schema", "schema": OUTPUT_SCHEMA}}
+    if "effort" in options:
+        output_config["effort"] = options["effort"]
+    extra = {"thinking": options["thinking"]} if "thinking" in options else {}
+
+    # Latency covers the whole call, including any automatic SDK retries.
+    start = time.perf_counter()
+    try:
+        response = client.messages.create(
+            model=model,
+            max_tokens=MAX_TOKENS,
+            system=_load_system_prompt(),
+            messages=[
+                {"role": "user", "content": USER_MESSAGE_PREFIX + notes + USER_MESSAGE_SUFFIX}
+            ],
+            output_config=output_config,
+            **extra,
+        )
+    except anthropic.APITimeoutError as e:
+        raise CardGenerationError("api_error", f"Request timed out: {e}") from e
+    except anthropic.APIConnectionError as e:
+        raise CardGenerationError("api_error", f"Could not reach the Anthropic API: {e}") from e
+    except anthropic.RateLimitError as e:
+        raise CardGenerationError("api_error", f"Rate limited by the Anthropic API: {e}") from e
+    except anthropic.APIStatusError as e:
+        raise CardGenerationError("api_error", f"Anthropic API returned {e.status_code}: {e}") from e
+    latency = time.perf_counter() - start
+
+    metadata = GenerationMetadata(
+        model=response.model,
+        prompt_version=PROMPT_VERSION,
+        prompt_hash=get_prompt_hash(),
+        input_tokens=response.usage.input_tokens,
+        output_tokens=response.usage.output_tokens,
+        cost_usd=_estimate_cost(model, response.usage.input_tokens, response.usage.output_tokens),
+        latency_seconds=latency,
+    )
+    raw_text = "".join(block.text for block in response.content if block.type == "text")
+
+    # Structured outputs only guarantee valid JSON when generation finishes
+    # normally, so these are checked before parsing.
+    if response.stop_reason == "max_tokens":
+        raise CardGenerationError(
+            "truncated", f"Output hit the {MAX_TOKENS}-token limit before finishing.", raw_text, metadata
+        )
+    if response.stop_reason == "refusal":
+        raise CardGenerationError("refusal", "The model declined to respond.", raw_text, metadata)
+
+    try:
+        output = _output_adapter.validate_json(raw_text)
+    except ValidationError as e:
+        raise CardGenerationError(
+            "invalid_output", f"Output did not match the expected structure: {e}", raw_text, metadata
+        ) from e
+
+    return GenerationResult(output=output, metadata=metadata, raw_text=raw_text)

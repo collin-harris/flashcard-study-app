@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react'
-import { Link, useParams, useNavigate } from 'react-router'
+import { useState, useEffect, useRef } from 'react'
+import { Link, useLocation, useParams, useNavigate } from 'react-router'
 import {
   getDeck,
   updateDeck,
@@ -9,21 +9,42 @@ import {
   updateCard,
   deleteCard,
 } from '../api'
+import { NO_CARD_ERRORS, formMessage, hasCardErrors, validateCard, validateDeckName } from '../validation'
+import DeckNotFound from '../components/DeckNotFound'
 import './DeckDetailPage.css'
+
+function addedCardsMessage(count) {
+  return `${count} ${count === 1 ? 'card' : 'cards'} added.`
+}
 
 function DeckDetailPage() {
   const { deckId } = useParams()
   const navigate = useNavigate()
+  const location = useLocation()
+  // Shown under the action row until the user's next action here: cards
+  // added with the form, or by the generate page, which sets addedCount.
+  // Read once, so it stays after the history entry's state is cleared below.
+  const [status, setStatus] = useState(() => {
+    const addedCount = location.state?.addedCount
+    return addedCount ? addedCardsMessage(addedCount) : ''
+  })
   const [deck, setDeck] = useState(null)
   const [cards, setCards] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+  const [notFound, setNotFound] = useState(false)
   const [deleteError, setDeleteError] = useState('')
 
   const [isAddingCard, setIsAddingCard] = useState(false)
   const [question, setQuestion] = useState('')
   const [answer, setAnswer] = useState('')
+  const [createFieldErrors, setCreateFieldErrors] = useState(NO_CARD_ERRORS)
   const [createError, setCreateError] = useState('')
+  const questionInputRef = useRef(null)
+  const addButtonRef = useRef(null)
+  // Set when the form closes, so focus goes back to the "+ Add a Card"
+  // button that reappears, instead of being lost with the form
+  const returnFocusRef = useRef(false)
 
   const [editingName, setEditingName] = useState(false)
   const [name, setName] = useState('')
@@ -32,7 +53,11 @@ function DeckDetailPage() {
   const [editingCardId, setEditingCardId] = useState(null)
   const [editQuestion, setEditQuestion] = useState('')
   const [editAnswer, setEditAnswer] = useState('')
+  const [editFieldErrors, setEditFieldErrors] = useState(NO_CARD_ERRORS)
   const [cardEditError, setCardEditError] = useState('')
+  // Shown in the row of the card that couldn't be deleted, where the user
+  // just clicked, rather than at the top of a possibly long list
+  const [deleteCardError, setDeleteCardError] = useState(null)
 
   useEffect(() => {
     async function loadDeck() {
@@ -42,7 +67,11 @@ function DeckDetailPage() {
         setDeck(deckData)
         setCards(cardsData)
       } catch (err) {
-        setError(err.message)
+        if (err.status === 404) {
+          setNotFound(true)
+        } else {
+          setError(err.message)
+        }
       } finally {
         setLoading(false)
       }
@@ -51,28 +80,88 @@ function DeckDetailPage() {
     loadDeck()
   }, [deckId])
 
+  useEffect(() => {
+    if (!isAddingCard && returnFocusRef.current) {
+      returnFocusRef.current = false
+      addButtonRef.current?.focus()
+    }
+  }, [isAddingCard])
+
+  // Clear the added-cards state from this history entry, so reloading or
+  // coming back to the page doesn't show the message again
+  useEffect(() => {
+    if (location.state?.addedCount) {
+      navigate(location.pathname, { replace: true, state: null })
+    }
+  }, [location, navigate])
+
   async function handleCreateCard(e) {
     e.preventDefault()
     setCreateError('')
+    clearMessages()
+
+    const fieldErrors = validateCard(question, answer)
+    if (hasCardErrors(fieldErrors)) {
+      setCreateFieldErrors(fieldErrors)
+      return
+    }
 
     try {
       const newCard = await createCard(deckId, question, answer)
       setCards([...cards, newCard])
       setQuestion('')
       setAnswer('')
+      setStatus('Card added.')
+      // Ready for the next card
+      questionInputRef.current?.focus()
     } catch (err) {
       setCreateError(err.message)
     }
   }
 
-  function cancelAddCard() {
+  // The user's next action clears the last status and delete error
+  function clearMessages() {
+    setStatus('')
+    setDeleteCardError(null)
+  }
+
+  function openAddCard() {
+    setIsAddingCard(true)
+    clearMessages()
+  }
+
+  function closeAddCard() {
+    returnFocusRef.current = true
     setIsAddingCard(false)
     setQuestion('')
     setAnswer('')
+    setCreateFieldErrors(NO_CARD_ERRORS)
     setCreateError('')
+    clearMessages()
+  }
+
+  // Typing in a field clears its own message, and the last "Card added."
+  function changeNewCard(field, value) {
+    if (field === 'question') {
+      setQuestion(value)
+    } else {
+      setAnswer(value)
+    }
+    setCreateFieldErrors((errors) => ({ ...errors, [field]: '' }))
+    setStatus('')
+  }
+
+  function changeEditedCard(field, value) {
+    if (field === 'question') {
+      setEditQuestion(value)
+    } else {
+      setEditAnswer(value)
+    }
+    setEditFieldErrors((errors) => ({ ...errors, [field]: '' }))
   }
 
   function startEditingName() {
+    clearMessages()
     setName(deck.name)
     setEditError('')
     setEditingName(true)
@@ -81,6 +170,12 @@ function DeckDetailPage() {
   async function handleSaveName(e) {
     e.preventDefault()
     setEditError('')
+
+    const problem = validateDeckName(name)
+    if (problem) {
+      setEditError(problem)
+      return
+    }
 
     try {
       const updatedDeck = await updateDeck(deckId, name)
@@ -91,16 +186,37 @@ function DeckDetailPage() {
     }
   }
 
+  // Closing a form clears its messages: this one's show outside the form,
+  // so they'd otherwise stay on screen after Cancel
+  function cancelEditingName() {
+    setEditingName(false)
+    setEditError('')
+  }
+
+  function cancelEditingCard() {
+    setEditingCardId(null)
+    setEditFieldErrors(NO_CARD_ERRORS)
+    setCardEditError('')
+  }
+
   function startEditingCard(card) {
     setEditingCardId(card.card_id)
     setEditQuestion(card.question)
     setEditAnswer(card.answer)
+    setEditFieldErrors(NO_CARD_ERRORS)
     setCardEditError('')
+    clearMessages()
   }
 
   async function handleSaveCard(e) {
     e.preventDefault()
     setCardEditError('')
+
+    const fieldErrors = validateCard(editQuestion, editAnswer)
+    if (hasCardErrors(fieldErrors)) {
+      setEditFieldErrors(fieldErrors)
+      return
+    }
 
     try {
       const updatedCard = await updateCard(deckId, editingCardId, editQuestion, editAnswer)
@@ -119,13 +235,14 @@ function DeckDetailPage() {
 
     try {
       await deleteDeck(deckId)
-      navigate('/dashboard')
+      navigate('/dashboard', { replace: true })
     } catch (err) {
       setDeleteError(err.message)
     }
   }
 
   async function handleDeleteCard(card) {
+    clearMessages()
     const confirmed = window.confirm(`Delete this card? This cannot be undone.`)
     if (!confirmed) {
       return
@@ -135,12 +252,19 @@ function DeckDetailPage() {
       await deleteCard(deckId, card.card_id)
       setCards(cards.filter((c) => c.card_id !== card.card_id))
     } catch (err) {
-      setCardEditError(err.message)
+      setDeleteCardError({ cardId: card.card_id, message: err.message })
     }
   }
 
   if (loading) {
     return <p>Loading...</p>
+  }
+
+  const createMessage = formMessage(createFieldErrors.question, createFieldErrors.answer, createError)
+  const editMessage = formMessage(editFieldErrors.question, editFieldErrors.answer, cardEditError)
+
+  if (notFound) {
+    return <DeckNotFound />
   }
 
   if (error) {
@@ -154,7 +278,7 @@ function DeckDetailPage() {
           <form onSubmit={handleSaveName} className="deck-header__edit-form">
             <input value={name} onChange={(e) => setName(e.target.value)} />
             <button type="submit" className="button-primary">Save</button>
-            <button type="button" className="button-secondary" onClick={() => setEditingName(false)}>
+            <button type="button" className="button-secondary" onClick={cancelEditingName}>
               Cancel
             </button>
           </form>
@@ -179,11 +303,54 @@ function DeckDetailPage() {
 
       <hr className="divider" />
 
+      <div className="add-card-section">
+        <div className="add-card-actions">
+          <Link to={`/decks/${deckId}/generate`} className="button-primary">Generate from Notes</Link>
+          {!isAddingCard && (
+            <button ref={addButtonRef} className="button-outline" onClick={openAddCard}>
+              + Add a Card
+            </button>
+          )}
+        </div>
+
+        {isAddingCard && (
+          <form onSubmit={handleCreateCard} className="add-card-form">
+            <label>
+              Question
+              <input
+                ref={questionInputRef}
+                value={question}
+                onChange={(e) => changeNewCard('question', e.target.value)}
+                autoFocus
+              />
+            </label>
+
+            <label>
+              Answer
+              <input value={answer} onChange={(e) => changeNewCard('answer', e.target.value)} />
+            </label>
+
+            {createMessage && <p className="error-message">{createMessage}</p>}
+
+            <div className="form-actions">
+              <button type="submit" className="button-primary">Add Card</button>
+              <button type="button" className="button-secondary" onClick={closeAddCard}>Done</button>
+            </div>
+          </form>
+        )}
+
+        <div aria-live="polite">
+          {status && <p className="add-card-status">{status}</p>}
+        </div>
+      </div>
+
       <div className="card-list-section">
         <p className="card-count">{cards.length} {cards.length === 1 ? 'card' : 'cards'}</p>
 
         {cards.length === 0 ? (
-          <p className="empty-message">This deck has no cards yet. Add your first one!</p>
+          <p className="empty-message">
+            This deck has no cards yet. Generate them from your notes, or add one by hand.
+          </p>
         ) : (
           <ul className="card-list">
             {cards.map((card) =>
@@ -192,17 +359,17 @@ function DeckDetailPage() {
                   <form onSubmit={handleSaveCard} className="card-list__edit-form">
                     <input
                       value={editQuestion}
-                      onChange={(e) => setEditQuestion(e.target.value)}
+                      onChange={(e) => changeEditedCard('question', e.target.value)}
                     />
                     <input
                       value={editAnswer}
-                      onChange={(e) => setEditAnswer(e.target.value)}
+                      onChange={(e) => changeEditedCard('answer', e.target.value)}
                     />
                     <button type="submit" className="button-primary">Save</button>
-                    <button type="button" className="button-secondary" onClick={() => setEditingCardId(null)}>
+                    <button type="button" className="button-secondary" onClick={cancelEditingCard}>
                       Cancel
                     </button>
-                    {cardEditError && <p className="error-message">{cardEditError}</p>}
+                    {editMessage && <p className="error-message">{editMessage}</p>}
                   </form>
                 </li>
               ) : (
@@ -212,37 +379,15 @@ function DeckDetailPage() {
                     <button className="button-secondary" onClick={() => startEditingCard(card)}>Edit</button>
                     <button className="button-danger" onClick={() => handleDeleteCard(card)}>Delete</button>
                   </div>
+                  {deleteCardError?.cardId === card.card_id && (
+                    <p className="error-message card-list__error" role="alert">
+                      {deleteCardError.message}
+                    </p>
+                  )}
                 </li>
               )
             )}
           </ul>
-        )}
-      </div>
-
-      <hr className="divider" />
-
-      <div className="add-card-section">
-        {isAddingCard ? (
-          <form onSubmit={handleCreateCard} className="add-card-form">
-            <label>
-              Question
-              <input value={question} onChange={(e) => setQuestion(e.target.value)} />
-            </label>
-
-            <label>
-              Answer
-              <input value={answer} onChange={(e) => setAnswer(e.target.value)} />
-            </label>
-
-            {createError && <p className="error-message">{createError}</p>}
-
-            <div className="form-actions">
-              <button type="submit" className="button-primary">Add Card</button>
-              <button type="button" className="button-secondary" onClick={cancelAddCard}>Cancel</button>
-            </div>
-          </form>
-        ) : (
-          <button className="add-card-trigger" onClick={() => setIsAddingCard(true)}>+ Add a card</button>
         )}
       </div>
     </div>

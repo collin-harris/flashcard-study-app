@@ -1,0 +1,3668 @@
+[
+  {
+    "id": "sample_001",
+    "outcome": "judged",
+    "error": null,
+    "card_ids": [
+      "sample_001-c01",
+      "sample_001-c02",
+      "sample_001-c03",
+      "sample_001-c04",
+      "sample_001-c05",
+      "sample_001-c06",
+      "sample_001-c07",
+      "sample_001-c08"
+    ],
+    "grades": [
+      {
+        "card_id": "sample_001-c01",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_001-c02",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_001-c03",
+        "atomic": "N",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": "The answer lists separate facts the notes state differently ('responsibility for wartime damage', 'substantial reparations', 'limiting the German military to 100,000 personnel', 'air force or submarines'), so it can be partially recalled.",
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_001-c04",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": "sample_001-c03",
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": "The 100,000-personnel limit is already contained in c03's answer ('limiting the German military to 100,000 personnel')."
+        }
+      },
+      {
+        "card_id": "sample_001-c05",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": "sample_001-c03",
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": "The air force and submarine prohibition is already contained in c03's answer ('prohibiting Germany from maintaining an air force or submarines')."
+        }
+      },
+      {
+        "card_id": "sample_001-c06",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_001-c07",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "N",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": "'Did the United States join the League of Nations?' is a yes/no question, so the answer can be guessed.",
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_001-c08",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      }
+    ],
+    "warnings": [],
+    "raw_text": "{\"cards\":[{\"id\":\"c01\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c02\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c03\",\"atomic\":\"N\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":\"The answer lists separate facts the notes state differently ('responsibility for wartime damage', 'substantial reparations', 'limiting the German military to 100,000 personnel', 'air force or submarines'), so it can be partially recalled.\",\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c04\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":\"c03\",\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":\"The 100,000-personnel limit is already contained in c03's answer ('limiting the German military to 100,000 personnel').\"}},{\"id\":\"c05\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":\"c03\",\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":\"The air force and submarine prohibition is already contained in c03's answer ('prohibiting Germany from maintaining an air force or submarines').\"}},{\"id\":\"c06\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c07\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"N\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":\"'Did the United States join the League of Nations?' is a yes/no question, so the answer can be guessed.\",\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c08\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}}]}",
+    "thinking": "",
+    "metadata": {
+      "model": "claude-opus-5-5",
+      "input_tokens": 779,
+      "cache_write_tokens": 4579,
+      "cache_read_tokens": 0,
+      "output_tokens": 985,
+      "cost_usd": 0.045711,
+      "latency_seconds": 9.589256208999927,
+      "stop_reason": "end_turn"
+    },
+    "sample_id": "sample_001"
+  },
+  {
+    "id": "sample_002",
+    "outcome": "judged",
+    "error": null,
+    "card_ids": [
+      "sample_002-c01",
+      "sample_002-c02",
+      "sample_002-c03",
+      "sample_002-c04",
+      "sample_002-c05",
+      "sample_002-c06",
+      "sample_002-c07",
+      "sample_002-c08",
+      "sample_002-c09",
+      "sample_002-c10"
+    ],
+    "grades": [
+      {
+        "card_id": "sample_002-c01",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_002-c02",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_002-c03",
+        "atomic": "N",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": "The answer 'absorbs photons and drives electron transport' combines two separate facts that can be partially recalled.",
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_002-c04",
+        "atomic": "N",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": "The notes say different things about the items ('releasing oxygen' vs 'contributing electrons and protons'), so 'Oxygen, electrons, and protons' are separate facts rather than a closed set.",
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_002-c05",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_002-c06",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_002-c07",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_002-c08",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_002-c09",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "N",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": "'Does the Calvin cycle directly require photons?' is a yes/no question that can be answered by guessing.",
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_002-c10",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "N",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": "The question 'depend on light-dependent reactions' gives away the answer 'depends on products generated by the light-dependent reactions'.",
+          "unambiguous": null,
+          "duplicate": null
+        }
+      }
+    ],
+    "warnings": [],
+    "raw_text": "{\"cards\":[{\"id\":\"c01\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c02\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c03\",\"atomic\":\"N\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":\"The answer 'absorbs photons and drives electron transport' combines two separate facts that can be partially recalled.\",\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c04\",\"atomic\":\"N\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":\"The notes say different things about the items ('releasing oxygen' vs 'contributing electrons and protons'), so 'Oxygen, electrons, and protons' are separate facts rather than a closed set.\",\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c05\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c06\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c07\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c08\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c09\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"N\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":\"'Does the Calvin cycle directly require photons?' is a yes/no question that can be answered by guessing.\",\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c10\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"N\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":\"The question 'depend on light-dependent reactions' gives away the answer 'depends on products generated by the light-dependent reactions'.\",\"unambiguous\":null,\"duplicate\":null}}]}",
+    "thinking": "",
+    "metadata": {
+      "model": "claude-opus-5-5",
+      "input_tokens": 900,
+      "cache_write_tokens": 0,
+      "cache_read_tokens": 4579,
+      "output_tokens": 1158,
+      "cost_usd": 0.0276758,
+      "latency_seconds": 9.602119855000069,
+      "stop_reason": "end_turn"
+    },
+    "sample_id": "sample_002"
+  },
+  {
+    "id": "sample_003",
+    "outcome": "judged",
+    "error": null,
+    "card_ids": [
+      "sample_003-c01",
+      "sample_003-c02",
+      "sample_003-c03",
+      "sample_003-c04",
+      "sample_003-c05",
+      "sample_003-c06",
+      "sample_003-c07"
+    ],
+    "grades": [
+      {
+        "card_id": "sample_003-c01",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_003-c02",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_003-c03",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_003-c04",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_003-c05",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_003-c06",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_003-c07",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      }
+    ],
+    "warnings": [],
+    "raw_text": "{\"cards\":[{\"id\":\"c01\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c02\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c03\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c04\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c05\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c06\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c07\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}}]}",
+    "thinking": "",
+    "metadata": {
+      "model": "claude-opus-5-5",
+      "input_tokens": 642,
+      "cache_write_tokens": 0,
+      "cache_read_tokens": 4579,
+      "output_tokens": 696,
+      "cost_usd": 0.0174038,
+      "latency_seconds": 6.362986251999928,
+      "stop_reason": "end_turn"
+    },
+    "sample_id": "sample_003"
+  },
+  {
+    "id": "sample_004",
+    "outcome": "judged",
+    "error": null,
+    "card_ids": [
+      "sample_004-c01",
+      "sample_004-c02",
+      "sample_004-c03",
+      "sample_004-c04",
+      "sample_004-c05"
+    ],
+    "grades": [
+      {
+        "card_id": "sample_004-c01",
+        "atomic": "N",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": "The answer combines the definition ('a sustained increase in the general price level') with a separate consequence ('which reduces the purchasing power of money'), so a student could get it partially right.",
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_004-c02",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_004-c03",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_004-c04",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_004-c05",
+        "atomic": "N",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": "The answer pairs the response ('raising interest rates') with its separate effects ('reduce borrowing and spending and can weaken aggregate demand'), allowing a partially correct answer.",
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      }
+    ],
+    "warnings": [],
+    "raw_text": "{\"cards\":[{\"id\":\"c01\",\"atomic\":\"N\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":\"The answer combines the definition ('a sustained increase in the general price level') with a separate consequence ('which reduces the purchasing power of money'), so a student could get it partially right.\",\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c02\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c03\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c04\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c05\",\"atomic\":\"N\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":\"The answer pairs the response ('raising interest rates') with its separate effects ('reduce borrowing and spending and can weaken aggregate demand'), allowing a partially correct answer.\",\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}}]}",
+    "thinking": "For c01, the definition bundles in a consequence clause about reducing purchasing power, so I'm treating that as a separate fact and marking it N for atomicity. c02 is fine since \"can occur\" versus \"occurs\" is a minor phrasing difference, so I'm marking it Y. c04 describes a single mechanism as one loop, so that's atomic and gets Y. Now I'm moving to check c05's response.\n\n",
+    "metadata": {
+      "model": "claude-opus-5-5",
+      "input_tokens": 589,
+      "cache_write_tokens": 0,
+      "cache_read_tokens": 4579,
+      "output_tokens": 786,
+      "cost_usd": 0.0189918,
+      "latency_seconds": 7.119554858000015,
+      "stop_reason": "end_turn"
+    },
+    "sample_id": "sample_004"
+  },
+  {
+    "id": "sample_005",
+    "outcome": "judged",
+    "error": null,
+    "card_ids": [
+      "sample_005-c01",
+      "sample_005-c02",
+      "sample_005-c03",
+      "sample_005-c04",
+      "sample_005-c05",
+      "sample_005-c06",
+      "sample_005-c07"
+    ],
+    "grades": [
+      {
+        "card_id": "sample_005-c01",
+        "atomic": "N",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "N",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": "The answer combines two separate facts, 'Energy flows through ecosystems' and 'matter is repeatedly recycled', so a student could recall only one.",
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": "The question 'What are two things that flow through ecosystems in different ways?' is vague and also misstates the content, since matter is recycled rather than flowing, so the expected answer is unclear.",
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_005-c02",
+        "atomic": "N",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": "The answer contains two separate facts, 'capture energy from sunlight through photosynthesis' and 'convert it into chemical energy', which could be partially recalled.",
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_005-c03",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_005-c04",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_005-c05",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_005-c06",
+        "atomic": "N",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": "The answer combines two separate facts, 'break down dead organisms and waste' and 'return nutrients to the environment', which could be partially recalled.",
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_005-c07",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "N",
+        "unambiguous": "Y",
+        "duplicate_of": "sample_005-c01",
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": "The question 'Is energy recycled in the same way as matter...?' is a yes/no question, so the answer can be guessed.",
+          "unambiguous": null,
+          "duplicate": "The fact that energy is not recycled like matter is already contained in c01's answer, 'Energy flows through ecosystems while matter is repeatedly recycled'."
+        }
+      }
+    ],
+    "warnings": [],
+    "raw_text": "{\"cards\":[{\"id\":\"c01\",\"atomic\":\"N\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"N\",\"duplicate_of\":null,\"reasons\":{\"atomic\":\"The answer combines two separate facts, 'Energy flows through ecosystems' and 'matter is repeatedly recycled', so a student could recall only one.\",\"supported\":null,\"no_leakage\":null,\"unambiguous\":\"The question 'What are two things that flow through ecosystems in different ways?' is vague and also misstates the content, since matter is recycled rather than flowing, so the expected answer is unclear.\",\"duplicate\":null}},{\"id\":\"c02\",\"atomic\":\"N\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":\"The answer contains two separate facts, 'capture energy from sunlight through photosynthesis' and 'convert it into chemical energy', which could be partially recalled.\",\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c03\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c04\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c05\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c06\",\"atomic\":\"N\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":\"The answer combines two separate facts, 'break down dead organisms and waste' and 'return nutrients to the environment', which could be partially recalled.\",\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c07\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"N\",\"unambiguous\":\"Y\",\"duplicate_of\":\"c01\",\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":\"The question 'Is energy recycled in the same way as matter...?' is a yes/no question, so the answer can be guessed.\",\"unambiguous\":null,\"duplicate\":\"The fact that energy is not recycled like matter is already contained in c01's answer, 'Energy flows through ecosystems while matter is repeatedly recycled'.\"}}]}",
+    "thinking": "",
+    "metadata": {
+      "model": "claude-opus-5-5",
+      "input_tokens": 695,
+      "cache_write_tokens": 0,
+      "cache_read_tokens": 4579,
+      "output_tokens": 984,
+      "cost_usd": 0.0233758,
+      "latency_seconds": 7.566251992000048,
+      "stop_reason": "end_turn"
+    },
+    "sample_id": "sample_005"
+  },
+  {
+    "id": "sample_006",
+    "outcome": "judged",
+    "error": null,
+    "card_ids": [
+      "sample_006-c01",
+      "sample_006-c02",
+      "sample_006-c03",
+      "sample_006-c04",
+      "sample_006-c05",
+      "sample_006-c06",
+      "sample_006-c07",
+      "sample_006-c08",
+      "sample_006-c09",
+      "sample_006-c10",
+      "sample_006-c11",
+      "sample_006-c12"
+    ],
+    "grades": [
+      {
+        "card_id": "sample_006-c01",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_006-c02",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_006-c03",
+        "atomic": "Y",
+        "supported": "N",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": "The answer attributes the oath to 'the Third Estate', but the notes only say 'they weren't leaving' without identifying who took the oath.",
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_006-c04",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_006-c05",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_006-c06",
+        "atomic": "N",
+        "supported": "N",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": "The card asks for two separate facts, 'In what year and at what location', so a student could get one right and miss the other.",
+          "supported": "The question says Louis attempted to escape 'at' Varennes, but the notes say he was 'caught at Varennes', not that he escaped from there.",
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_006-c07",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_006-c08",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_006-c09",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_006-c10",
+        "atomic": "Y",
+        "supported": "N",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": "The question claims Robespierre 'led the Committee of Public Safety', but the notes only list 'Robespierre, Committee of Public Safety' without stating that he led it.",
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_006-c11",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_006-c12",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      }
+    ],
+    "warnings": [],
+    "raw_text": "{\"cards\":[{\"id\":\"c01\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c02\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c03\",\"atomic\":\"Y\",\"supported\":\"N\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":\"The answer attributes the oath to 'the Third Estate', but the notes only say 'they weren't leaving' without identifying who took the oath.\",\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c04\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c05\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c06\",\"atomic\":\"N\",\"supported\":\"N\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":\"The card asks for two separate facts, 'In what year and at what location', so a student could get one right and miss the other.\",\"supported\":\"The question says Louis attempted to escape 'at' Varennes, but the notes say he was 'caught at Varennes', not that he escaped from there.\",\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c07\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c08\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c09\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c10\",\"atomic\":\"Y\",\"supported\":\"N\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":\"The question claims Robespierre 'led the Committee of Public Safety', but the notes only list 'Robespierre, Committee of Public Safety' without stating that he led it.\",\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c11\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c12\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}}]}",
+    "thinking": "",
+    "metadata": {
+      "model": "claude-opus-5-5",
+      "input_tokens": 959,
+      "cache_write_tokens": 0,
+      "cache_read_tokens": 4579,
+      "output_tokens": 1359,
+      "cost_usd": 0.031931799999999996,
+      "latency_seconds": 10.329393578999998,
+      "stop_reason": "end_turn"
+    },
+    "sample_id": "sample_006"
+  },
+  {
+    "id": "sample_007",
+    "outcome": "judged",
+    "error": null,
+    "card_ids": [
+      "sample_007-c01",
+      "sample_007-c02",
+      "sample_007-c03",
+      "sample_007-c04",
+      "sample_007-c05",
+      "sample_007-c06",
+      "sample_007-c07",
+      "sample_007-c08"
+    ],
+    "grades": [
+      {
+        "card_id": "sample_007-c01",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_007-c02",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_007-c03",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": "sample_007-c02",
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": "The fact that sodium flows into the cell, which the notes call depolarization, is already contained in c02's answer 'allowing sodium ions to flow into the cell'."
+        }
+      },
+      {
+        "card_id": "sample_007-c04",
+        "atomic": "N",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": "The answer combines separate facts, 'Sodium channels close/inactivate' and 'potassium channels open, allowing potassium ions to flow out', so a student could get it partially right.",
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_007-c05",
+        "atomic": "N",
+        "supported": "N",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": "The answer combines the cause 'potassium channels stay open too long' with a separate definition 'more negative than the resting level'.",
+          "supported": "The answer adds 'more negative than the resting level', which the notes never state.",
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_007-c06",
+        "atomic": "N",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": "The answer combines the definition 'cannot immediately fire in the same way' with a separate fact about its phases, 'an absolute phase followed by a relative phase'.",
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_007-c07",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_007-c08",
+        "atomic": "Y",
+        "supported": "N",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": "The answer adds 'The gaps between myelin sheaths', which the notes never state.",
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      }
+    ],
+    "warnings": [],
+    "raw_text": "{\"cards\":[{\"id\":\"c01\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c02\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c03\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":\"c02\",\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":\"The fact that sodium flows into the cell, which the notes call depolarization, is already contained in c02's answer 'allowing sodium ions to flow into the cell'.\"}},{\"id\":\"c04\",\"atomic\":\"N\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":\"The answer combines separate facts, 'Sodium channels close/inactivate' and 'potassium channels open, allowing potassium ions to flow out', so a student could get it partially right.\",\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c05\",\"atomic\":\"N\",\"supported\":\"N\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":\"The answer combines the cause 'potassium channels stay open too long' with a separate definition 'more negative than the resting level'.\",\"supported\":\"The answer adds 'more negative than the resting level', which the notes never state.\",\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c06\",\"atomic\":\"N\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":\"The answer combines the definition 'cannot immediately fire in the same way' with a separate fact about its phases, 'an absolute phase followed by a relative phase'.\",\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c07\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c08\",\"atomic\":\"Y\",\"supported\":\"N\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":\"The answer adds 'The gaps between myelin sheaths', which the notes never state.\",\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}}]}",
+    "thinking": "",
+    "metadata": {
+      "model": "claude-opus-5-5",
+      "input_tokens": 739,
+      "cache_write_tokens": 0,
+      "cache_read_tokens": 4579,
+      "output_tokens": 1037,
+      "cost_usd": 0.0246118,
+      "latency_seconds": 7.524770236999984,
+      "stop_reason": "end_turn"
+    },
+    "sample_id": "sample_007"
+  },
+  {
+    "id": "sample_008",
+    "outcome": "judged",
+    "error": null,
+    "card_ids": [
+      "sample_008-c01",
+      "sample_008-c02",
+      "sample_008-c03",
+      "sample_008-c04",
+      "sample_008-c05",
+      "sample_008-c06"
+    ],
+    "grades": [
+      {
+        "card_id": "sample_008-c01",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_008-c02",
+        "atomic": "N",
+        "supported": "N",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": "The answer gives separate reasons for used goods and for intermediate goods, so a student could get one right and miss the other.",
+          "supported": "The answer adds 'they were counted in a previous period', which the notes never state.",
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_008-c03",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_008-c04",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_008-c05",
+        "atomic": "N",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": "The answer lists 'distribution', 'unpaid work', and 'environmental costs' from an open-ended 'etc.' list, so it is not a closed set and can be partially recalled.",
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_008-c06",
+        "atomic": "N",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": "The answer combines how exports and imports each affect GDP with the formula 'NX = X - M', which are separate facts that can be partially recalled.",
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      }
+    ],
+    "warnings": [],
+    "raw_text": "{\"cards\":[{\"id\":\"c01\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c02\",\"atomic\":\"N\",\"supported\":\"N\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":\"The answer gives separate reasons for used goods and for intermediate goods, so a student could get one right and miss the other.\",\"supported\":\"The answer adds 'they were counted in a previous period', which the notes never state.\",\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c03\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c04\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c05\",\"atomic\":\"N\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":\"The answer lists 'distribution', 'unpaid work', and 'environmental costs' from an open-ended 'etc.' list, so it is not a closed set and can be partially recalled.\",\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c06\",\"atomic\":\"N\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":\"The answer combines how exports and imports each affect GDP with the formula 'NX = X - M', which are separate facts that can be partially recalled.\",\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}}]}",
+    "thinking": "",
+    "metadata": {
+      "model": "claude-opus-5-5",
+      "input_tokens": 607,
+      "cache_write_tokens": 0,
+      "cache_read_tokens": 4579,
+      "output_tokens": 754,
+      "cost_usd": 0.0184238,
+      "latency_seconds": 6.151151573999982,
+      "stop_reason": "end_turn"
+    },
+    "sample_id": "sample_008"
+  },
+  {
+    "id": "sample_009",
+    "outcome": "judged",
+    "error": null,
+    "card_ids": [
+      "sample_009-c01",
+      "sample_009-c02",
+      "sample_009-c03",
+      "sample_009-c04",
+      "sample_009-c05",
+      "sample_009-c06",
+      "sample_009-c07",
+      "sample_009-c08",
+      "sample_009-c09"
+    ],
+    "grades": [
+      {
+        "card_id": "sample_009-c01",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_009-c02",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_009-c03",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_009-c04",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_009-c05",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_009-c06",
+        "atomic": "N",
+        "supported": "N",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": "The answer combines separate facts: fragments are on the lagging strand, 'each starts with a primer', 'DNA polymerase fills them', and 'ligase seals them'.",
+          "supported": "The answer describes the fragments as 'Short DNA segments', but the notes never say they are short.",
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_009-c07",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_009-c08",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_009-c09",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      }
+    ],
+    "warnings": [],
+    "raw_text": "{\"cards\":[{\"id\":\"c01\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c02\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c03\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c04\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c05\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c06\",\"atomic\":\"N\",\"supported\":\"N\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":\"The answer combines separate facts: fragments are on the lagging strand, 'each starts with a primer', 'DNA polymerase fills them', and 'ligase seals them'.\",\"supported\":\"The answer describes the fragments as 'Short DNA segments', but the notes never say they are short.\",\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c07\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c08\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c09\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}}]}",
+    "thinking": "Checking each claim against the notes: most items hold up fine, but c06 includes details about short segments, primers, polymerase, and ligase that aren't actually supported by the source notes, so that one fails. c08's timing phrase is a minor discrepancy I'll let pass, and c09's either/or framing seems reasonable.\n\n",
+    "metadata": {
+      "model": "claude-opus-5-5",
+      "input_tokens": 728,
+      "cache_write_tokens": 0,
+      "cache_read_tokens": 4579,
+      "output_tokens": 1142,
+      "cost_usd": 0.0266678,
+      "latency_seconds": 9.355410376999998,
+      "stop_reason": "end_turn"
+    },
+    "sample_id": "sample_009"
+  },
+  {
+    "id": "sample_010",
+    "outcome": "judged",
+    "error": null,
+    "card_ids": [
+      "sample_010-c01",
+      "sample_010-c02",
+      "sample_010-c03",
+      "sample_010-c04",
+      "sample_010-c05",
+      "sample_010-c06",
+      "sample_010-c07",
+      "sample_010-c08",
+      "sample_010-c09",
+      "sample_010-c10",
+      "sample_010-c11",
+      "sample_010-c12"
+    ],
+    "grades": [
+      {
+        "card_id": "sample_010-c01",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_010-c02",
+        "atomic": "N",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": "The answer combines two separate facts, 'Four Japanese carriers were lost' and 'it was a big turning point', so it can be partially right.",
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_010-c03",
+        "atomic": "N",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": "The question asks for both 'begin and end' dates, two separate facts a student could partially recall.",
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_010-c04",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_010-c05",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_010-c06",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_010-c07",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_010-c08",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "N",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": "Either/or question 'Iwo Jima or Okinawa' reveals the answer space, allowing a guess.",
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_010-c09",
+        "atomic": "Y",
+        "supported": "N",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": "The question adds 'the atomic bomb was dropped', which the notes never state; they only say 'Hiroshima Aug 6'.",
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_010-c10",
+        "atomic": "Y",
+        "supported": "N",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": "The question adds 'the atomic bomb was dropped', which the notes never state; they only say 'Nagasaki Aug 9'.",
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_010-c11",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_010-c12",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      }
+    ],
+    "warnings": [],
+    "raw_text": "{\"cards\":[{\"id\":\"c01\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c02\",\"atomic\":\"N\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":\"The answer combines two separate facts, 'Four Japanese carriers were lost' and 'it was a big turning point', so it can be partially right.\",\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c03\",\"atomic\":\"N\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":\"The question asks for both 'begin and end' dates, two separate facts a student could partially recall.\",\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c04\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c05\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c06\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c07\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c08\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"N\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":\"Either/or question 'Iwo Jima or Okinawa' reveals the answer space, allowing a guess.\",\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c09\",\"atomic\":\"Y\",\"supported\":\"N\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":\"The question adds 'the atomic bomb was dropped', which the notes never state; they only say 'Hiroshima Aug 6'.\",\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c10\",\"atomic\":\"Y\",\"supported\":\"N\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":\"The question adds 'the atomic bomb was dropped', which the notes never state; they only say 'Nagasaki Aug 9'.\",\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c11\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c12\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}}]}",
+    "thinking": "Going through each item quickly: c01 passes, but c02 fails atomicity since it combines carriers lost with the turning point into one answer. c03 also fails because start and end dates are really two separate facts bundled together. c04 passes since the notes support a single clear answer, and c05 looks fine too, while c06 fails.\n\nc07 passes since the answer is a single year and the notes confirm Okinawa fell the same year. c08 fails due to either/or leakage in the answer. c09 and c10 fail on supportedness—the notes just say \"Hiroshima Aug 6\" without mentioning \"atomic bomb\" or the year explicitly. c11 and c12 both check out fine.\n\n",
+    "metadata": {
+      "model": "claude-opus-5-5",
+      "input_tokens": 987,
+      "cache_write_tokens": 0,
+      "cache_read_tokens": 4579,
+      "output_tokens": 1669,
+      "cost_usd": 0.0382438,
+      "latency_seconds": 12.900859116999982,
+      "stop_reason": "end_turn"
+    },
+    "sample_id": "sample_010"
+  },
+  {
+    "id": "sample_011",
+    "outcome": "judged",
+    "error": null,
+    "card_ids": [
+      "sample_011-c01",
+      "sample_011-c02",
+      "sample_011-c03",
+      "sample_011-c04",
+      "sample_011-c05",
+      "sample_011-c06",
+      "sample_011-c07",
+      "sample_011-c08",
+      "sample_011-c09",
+      "sample_011-c10"
+    ],
+    "grades": [
+      {
+        "card_id": "sample_011-c01",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_011-c02",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_011-c03",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_011-c04",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_011-c05",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_011-c06",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_011-c07",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_011-c08",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_011-c09",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_011-c10",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      }
+    ],
+    "warnings": [],
+    "raw_text": "{\"cards\":[{\"id\":\"c01\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c02\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c03\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c04\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c05\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c06\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c07\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c08\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c09\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c10\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}}]}",
+    "thinking": "Checking c06 — the notes list Prophase I under an \"Example\" column rather than explicitly stating it's when crossing over occurs. Treating that example as the answer to \"during which stage\" is a reasonable but inferential reading, so it's borderline for strict grading.\n\nSame logic applies to c08. Checking the rest: c02 only has one example given, so it's fine; c10's mention of \"cleavage furrow in animal cells\" matches the question's phrasing exactly. Everything else passes.\n\n",
+    "metadata": {
+      "model": "claude-opus-5-5",
+      "input_tokens": 736,
+      "cache_write_tokens": 0,
+      "cache_read_tokens": 4579,
+      "output_tokens": 1227,
+      "cost_usd": 0.0283998,
+      "latency_seconds": 9.357497451999961,
+      "stop_reason": "end_turn"
+    },
+    "sample_id": "sample_011"
+  },
+  {
+    "id": "sample_012",
+    "outcome": "judged",
+    "error": null,
+    "card_ids": [
+      "sample_012-c01",
+      "sample_012-c02",
+      "sample_012-c03",
+      "sample_012-c04",
+      "sample_012-c05",
+      "sample_012-c06",
+      "sample_012-c07",
+      "sample_012-c08",
+      "sample_012-c09"
+    ],
+    "grades": [
+      {
+        "card_id": "sample_012-c01",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_012-c02",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_012-c03",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_012-c04",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_012-c05",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_012-c06",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_012-c07",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_012-c08",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_012-c09",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      }
+    ],
+    "warnings": [],
+    "raw_text": "{\"cards\":[{\"id\":\"c01\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c02\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c03\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c04\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c05\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c06\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c07\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c08\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c09\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}}]}",
+    "thinking": "For c04, c06, c08, both uses are treated as a closed set since the notes present them together as the main economic uses without distinguishing between them, so I'll pass both consistently. Everything checks out as supported with no duplicates.\n\n",
+    "metadata": {
+      "model": "claude-opus-5-5",
+      "input_tokens": 600,
+      "cache_write_tokens": 0,
+      "cache_read_tokens": 4579,
+      "output_tokens": 1034,
+      "cost_usd": 0.023995799999999998,
+      "latency_seconds": 8.276561388000005,
+      "stop_reason": "end_turn"
+    },
+    "sample_id": "sample_012"
+  },
+  {
+    "id": "sample_013",
+    "outcome": "judged",
+    "error": null,
+    "card_ids": [
+      "sample_013-c01",
+      "sample_013-c02",
+      "sample_013-c03",
+      "sample_013-c04",
+      "sample_013-c05",
+      "sample_013-c06",
+      "sample_013-c07",
+      "sample_013-c08"
+    ],
+    "grades": [
+      {
+        "card_id": "sample_013-c01",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_013-c02",
+        "atomic": "N",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": "The answer 'Quick energy; structural support' lists separate functions a student could partially recall, not a closed set the question itself defines.",
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_013-c03",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_013-c04",
+        "atomic": "N",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": "The answer 'Enzymes; transport; structure' lists separate functions a student could partially recall, not a closed set the question itself defines.",
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_013-c05",
+        "atomic": "Y",
+        "supported": "N",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": "The card presents 'Glycerol + fatty acids' as 'the building block of lipids', dropping the notes' qualifier '(common form)'.",
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_013-c06",
+        "atomic": "N",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": "The answer 'Energy storage; membranes' lists separate functions a student could partially recall, not a closed set the question itself defines.",
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_013-c07",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_013-c08",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      }
+    ],
+    "warnings": [],
+    "raw_text": "{\"cards\":[{\"id\":\"c01\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c02\",\"atomic\":\"N\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":\"The answer 'Quick energy; structural support' lists separate functions a student could partially recall, not a closed set the question itself defines.\",\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c03\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c04\",\"atomic\":\"N\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":\"The answer 'Enzymes; transport; structure' lists separate functions a student could partially recall, not a closed set the question itself defines.\",\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c05\",\"atomic\":\"Y\",\"supported\":\"N\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":\"The card presents 'Glycerol + fatty acids' as 'the building block of lipids', dropping the notes' qualifier '(common form)'.\",\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c06\",\"atomic\":\"N\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":\"The answer 'Energy storage; membranes' lists separate functions a student could partially recall, not a closed set the question itself defines.\",\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c07\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c08\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}}]}",
+    "thinking": "Looking at c02's carbohydrate functions, I'm checking whether quick energy and structural support form a closed set—like the Treaty of Versailles example, each function is a distinct fact a student could know independently, which suggests this fails the closed-set test despite being grouped under \"major functions\" in the notes.\n\nFor c05, the notes qualify lipids' building block as glycerol plus fatty acids \"(common form),\" but the answer drops that qualifier and states it more generally—this seems like a mild overstatement, so I'm leaning toward marking it unsupported, though atomicity itself seems fine since it's treated as one unit.\n\n",
+    "metadata": {
+      "model": "claude-opus-5-5",
+      "input_tokens": 543,
+      "cache_write_tokens": 0,
+      "cache_read_tokens": 4579,
+      "output_tokens": 1313,
+      "cost_usd": 0.0293478,
+      "latency_seconds": 10.643263304000016,
+      "stop_reason": "end_turn"
+    },
+    "sample_id": "sample_013"
+  },
+  {
+    "id": "sample_014",
+    "outcome": "judged",
+    "error": null,
+    "card_ids": [
+      "sample_014-c01",
+      "sample_014-c02",
+      "sample_014-c03",
+      "sample_014-c04",
+      "sample_014-c05",
+      "sample_014-c06",
+      "sample_014-c07",
+      "sample_014-c08",
+      "sample_014-c09",
+      "sample_014-c10",
+      "sample_014-c11",
+      "sample_014-c12",
+      "sample_014-c13",
+      "sample_014-c14",
+      "sample_014-c15"
+    ],
+    "grades": [
+      {
+        "card_id": "sample_014-c01",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_014-c02",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_014-c03",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_014-c04",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_014-c05",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_014-c06",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_014-c07",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_014-c08",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_014-c09",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_014-c10",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_014-c11",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_014-c12",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_014-c13",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_014-c14",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_014-c15",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      }
+    ],
+    "warnings": [],
+    "raw_text": "{\"cards\":[{\"id\":\"c01\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c02\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c03\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c04\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c05\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c06\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c07\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c08\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c09\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c10\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c11\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c12\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c13\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c14\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c15\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}}]}",
+    "thinking": "",
+    "metadata": {
+      "model": "claude-opus-5-5",
+      "input_tokens": 896,
+      "cache_write_tokens": 0,
+      "cache_read_tokens": 4579,
+      "output_tokens": 1480,
+      "cost_usd": 0.0340998,
+      "latency_seconds": 10.281203282999968,
+      "stop_reason": "end_turn"
+    },
+    "sample_id": "sample_014"
+  },
+  {
+    "id": "sample_015",
+    "outcome": "judged",
+    "error": null,
+    "card_ids": [
+      "sample_015-c01",
+      "sample_015-c02",
+      "sample_015-c03",
+      "sample_015-c04",
+      "sample_015-c05"
+    ],
+    "grades": [
+      {
+        "card_id": "sample_015-c01",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_015-c02",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_015-c03",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_015-c04",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_015-c05",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      }
+    ],
+    "warnings": [],
+    "raw_text": "{\"cards\":[{\"id\":\"c01\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c02\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c03\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c04\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c05\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}}]}",
+    "thinking": "",
+    "metadata": {
+      "model": "claude-opus-5-5",
+      "input_tokens": 490,
+      "cache_write_tokens": 0,
+      "cache_read_tokens": 4579,
+      "output_tokens": 500,
+      "cost_usd": 0.0128758,
+      "latency_seconds": 4.875569918999986,
+      "stop_reason": "end_turn"
+    },
+    "sample_id": "sample_015"
+  },
+  {
+    "id": "sample_016",
+    "outcome": "judged",
+    "error": null,
+    "card_ids": [
+      "sample_016-c01",
+      "sample_016-c02",
+      "sample_016-c03",
+      "sample_016-c04",
+      "sample_016-c05",
+      "sample_016-c06"
+    ],
+    "grades": [
+      {
+        "card_id": "sample_016-c01",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "N",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": "The either/or question 'is the stop index included or excluded?' names both possible answers, so a student can guess.",
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_016-c02",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_016-c03",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_016-c04",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_016-c05",
+        "atomic": "Y",
+        "supported": "N",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": "The answer 'The last element in the list' is never stated; the notes only say nums[-1] returns 50 and that negative indexes count from the end.",
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_016-c06",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      }
+    ],
+    "warnings": [],
+    "raw_text": "{\"cards\":[{\"id\":\"c01\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"N\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":\"The either/or question 'is the stop index included or excluded?' names both possible answers, so a student can guess.\",\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c02\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c03\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c04\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c05\",\"atomic\":\"Y\",\"supported\":\"N\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":\"The answer 'The last element in the list' is never stated; the notes only say nums[-1] returns 50 and that negative indexes count from the end.\",\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c06\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}}]}",
+    "thinking": "",
+    "metadata": {
+      "model": "claude-opus-5-5",
+      "input_tokens": 588,
+      "cache_write_tokens": 0,
+      "cache_read_tokens": 4579,
+      "output_tokens": 672,
+      "cost_usd": 0.0167078,
+      "latency_seconds": 5.463916484000038,
+      "stop_reason": "end_turn"
+    },
+    "sample_id": "sample_016"
+  },
+  {
+    "id": "sample_017",
+    "outcome": "judged",
+    "error": null,
+    "card_ids": [
+      "sample_017-c01",
+      "sample_017-c02",
+      "sample_017-c03",
+      "sample_017-c04"
+    ],
+    "grades": [
+      {
+        "card_id": "sample_017-c01",
+        "atomic": "N",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": "The answer combines the definition 'an alias for an existing object' with a separate fact about its use, 'commonly used to avoid copying when passing arguments'.",
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_017-c02",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_017-c03",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_017-c04",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": "sample_017-c02",
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": "Its answer, 'prevents the function from changing the referred-to object', tests the same fact as c02's answer, 'Read an object without modifying it'."
+        }
+      }
+    ],
+    "warnings": [],
+    "raw_text": "{\"cards\":[{\"id\":\"c01\",\"atomic\":\"N\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":\"The answer combines the definition 'an alias for an existing object' with a separate fact about its use, 'commonly used to avoid copying when passing arguments'.\",\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c02\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c03\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c04\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":\"c02\",\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":\"Its answer, 'prevents the function from changing the referred-to object', tests the same fact as c02's answer, 'Read an object without modifying it'.\"}}]}",
+    "thinking": "",
+    "metadata": {
+      "model": "claude-opus-5-5",
+      "input_tokens": 432,
+      "cache_write_tokens": 0,
+      "cache_read_tokens": 4579,
+      "output_tokens": 498,
+      "cost_usd": 0.0126038,
+      "latency_seconds": 4.287050189999945,
+      "stop_reason": "end_turn"
+    },
+    "sample_id": "sample_017"
+  },
+  {
+    "id": "sample_018",
+    "outcome": "judged",
+    "error": null,
+    "card_ids": [
+      "sample_018-c01",
+      "sample_018-c02",
+      "sample_018-c03",
+      "sample_018-c04"
+    ],
+    "grades": [
+      {
+        "card_id": "sample_018-c01",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_018-c02",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_018-c03",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "N",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": "The phrase 'the SQL query shown' depends on the source's query, which the student cannot see when reading the card alone.",
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_018-c04",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "N",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": "The phrase 'the SQL query shown' depends on the source's query, which the student cannot see when reading the card alone.",
+          "duplicate": null
+        }
+      }
+    ],
+    "warnings": [],
+    "raw_text": "{\"cards\":[{\"id\":\"c01\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c02\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c03\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"N\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":\"The phrase 'the SQL query shown' depends on the source's query, which the student cannot see when reading the card alone.\",\"duplicate\":null}},{\"id\":\"c04\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"N\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":\"The phrase 'the SQL query shown' depends on the source's query, which the student cannot see when reading the card alone.\",\"duplicate\":null}}]}",
+    "thinking": "",
+    "metadata": {
+      "model": "claude-opus-5-5",
+      "input_tokens": 424,
+      "cache_write_tokens": 0,
+      "cache_read_tokens": 4579,
+      "output_tokens": 472,
+      "cost_usd": 0.0120518,
+      "latency_seconds": 4.023435108000058,
+      "stop_reason": "end_turn"
+    },
+    "sample_id": "sample_018"
+  },
+  {
+    "id": "sample_019",
+    "outcome": "judged",
+    "error": null,
+    "card_ids": [
+      "sample_019-c01",
+      "sample_019-c02",
+      "sample_019-c03",
+      "sample_019-c04",
+      "sample_019-c05"
+    ],
+    "grades": [
+      {
+        "card_id": "sample_019-c01",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_019-c02",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_019-c03",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_019-c04",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_019-c05",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      }
+    ],
+    "warnings": [],
+    "raw_text": "{\"cards\":[{\"id\":\"c01\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c02\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c03\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c04\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c05\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}}]}",
+    "thinking": "",
+    "metadata": {
+      "model": "claude-opus-5-5",
+      "input_tokens": 493,
+      "cache_write_tokens": 0,
+      "cache_read_tokens": 4579,
+      "output_tokens": 500,
+      "cost_usd": 0.0128878,
+      "latency_seconds": 5.679761229000064,
+      "stop_reason": "end_turn"
+    },
+    "sample_id": "sample_019"
+  },
+  {
+    "id": "sample_020",
+    "outcome": "judged",
+    "error": null,
+    "card_ids": [
+      "sample_020-c01",
+      "sample_020-c02",
+      "sample_020-c03",
+      "sample_020-c04"
+    ],
+    "grades": [
+      {
+        "card_id": "sample_020-c01",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_020-c02",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_020-c03",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_020-c04",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      }
+    ],
+    "warnings": [],
+    "raw_text": "{\"cards\":[{\"id\":\"c01\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c02\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c03\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c04\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}}]}",
+    "thinking": "",
+    "metadata": {
+      "model": "claude-opus-5-5",
+      "input_tokens": 452,
+      "cache_write_tokens": 0,
+      "cache_read_tokens": 4579,
+      "output_tokens": 402,
+      "cost_usd": 0.010763799999999999,
+      "latency_seconds": 4.287235942000052,
+      "stop_reason": "end_turn"
+    },
+    "sample_id": "sample_020"
+  },
+  {
+    "id": "sample_021",
+    "outcome": "judged",
+    "error": null,
+    "card_ids": [
+      "sample_021-c01",
+      "sample_021-c02"
+    ],
+    "grades": [
+      {
+        "card_id": "sample_021-c01",
+        "atomic": "N",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": "The answer combines separate facts ('organelle involved in aerobic cellular respiration' and 'produces much of a eukaryotic cell's ATP through oxidative phosphorylation'), so it can be partially right.",
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_021-c02",
+        "atomic": "Y",
+        "supported": "N",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": "sample_021-c01",
+        "reasons": {
+          "atomic": null,
+          "supported": "The question says 'most of a eukaryotic cell's ATP', but the notes only say 'much of' it.",
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": "The fact that the mitochondrion produces ATP 'through oxidative phosphorylation' is already contained in c01's answer."
+        }
+      }
+    ],
+    "warnings": [],
+    "raw_text": "{\"cards\":[{\"id\":\"c01\",\"atomic\":\"N\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":\"The answer combines separate facts ('organelle involved in aerobic cellular respiration' and 'produces much of a eukaryotic cell's ATP through oxidative phosphorylation'), so it can be partially right.\",\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c02\",\"atomic\":\"Y\",\"supported\":\"N\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":\"c01\",\"reasons\":{\"atomic\":null,\"supported\":\"The question says 'most of a eukaryotic cell's ATP', but the notes only say 'much of' it.\",\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":\"The fact that the mitochondrion produces ATP 'through oxidative phosphorylation' is already contained in c01's answer.\"}}]}",
+    "thinking": "",
+    "metadata": {
+      "model": "claude-opus-5-5",
+      "input_tokens": 243,
+      "cache_write_tokens": 0,
+      "cache_read_tokens": 4579,
+      "output_tokens": 347,
+      "cost_usd": 0.008827799999999998,
+      "latency_seconds": 3.395058468000002,
+      "stop_reason": "end_turn"
+    },
+    "sample_id": "sample_021"
+  },
+  {
+    "id": "sample_022",
+    "outcome": "judged",
+    "error": null,
+    "card_ids": [
+      "sample_022-c01",
+      "sample_022-c02",
+      "sample_022-c03"
+    ],
+    "grades": [
+      {
+        "card_id": "sample_022-c01",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_022-c02",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_022-c03",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      }
+    ],
+    "warnings": [],
+    "raw_text": "{\"cards\":[{\"id\":\"c01\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c02\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c03\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}}]}",
+    "thinking": "",
+    "metadata": {
+      "model": "claude-opus-5-5",
+      "input_tokens": 250,
+      "cache_write_tokens": 0,
+      "cache_read_tokens": 4579,
+      "output_tokens": 304,
+      "cost_usd": 0.0079958,
+      "latency_seconds": 3.715313329999958,
+      "stop_reason": "end_turn"
+    },
+    "sample_id": "sample_022"
+  },
+  {
+    "id": "sample_023",
+    "outcome": "judged",
+    "error": null,
+    "card_ids": [
+      "sample_023-c01",
+      "sample_023-c02"
+    ],
+    "grades": [
+      {
+        "card_id": "sample_023-c01",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_023-c02",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      }
+    ],
+    "warnings": [],
+    "raw_text": "{\"cards\":[{\"id\":\"c01\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c02\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}}]}",
+    "thinking": "",
+    "metadata": {
+      "model": "claude-opus-5-5",
+      "input_tokens": 192,
+      "cache_write_tokens": 0,
+      "cache_read_tokens": 4579,
+      "output_tokens": 206,
+      "cost_usd": 0.0058038000000000005,
+      "latency_seconds": 2.3793573489999744,
+      "stop_reason": "end_turn"
+    },
+    "sample_id": "sample_023"
+  },
+  {
+    "id": "sample_024",
+    "outcome": "judged",
+    "error": null,
+    "card_ids": [
+      "sample_024-c01"
+    ],
+    "grades": [
+      {
+        "card_id": "sample_024-c01",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      }
+    ],
+    "warnings": [],
+    "raw_text": "{\"cards\":[{\"id\":\"c01\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}}]}",
+    "thinking": "",
+    "metadata": {
+      "model": "claude-opus-5-5",
+      "input_tokens": 119,
+      "cache_write_tokens": 0,
+      "cache_read_tokens": 4579,
+      "output_tokens": 108,
+      "cost_usd": 0.0035518000000000004,
+      "latency_seconds": 2.4267347459999655,
+      "stop_reason": "end_turn"
+    },
+    "sample_id": "sample_024"
+  },
+  {
+    "id": "sample_025",
+    "outcome": "judged",
+    "error": null,
+    "card_ids": [
+      "sample_025-c01",
+      "sample_025-c02"
+    ],
+    "grades": [
+      {
+        "card_id": "sample_025-c01",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_025-c02",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      }
+    ],
+    "warnings": [],
+    "raw_text": "{\"cards\":[{\"id\":\"c01\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c02\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}}]}",
+    "thinking": "",
+    "metadata": {
+      "model": "claude-opus-5-5",
+      "input_tokens": 193,
+      "cache_write_tokens": 0,
+      "cache_read_tokens": 4579,
+      "output_tokens": 206,
+      "cost_usd": 0.0058078,
+      "latency_seconds": 2.5246853360000614,
+      "stop_reason": "end_turn"
+    },
+    "sample_id": "sample_025"
+  },
+  {
+    "id": "sample_026",
+    "outcome": "judged",
+    "error": null,
+    "card_ids": [
+      "sample_026-c01",
+      "sample_026-c02",
+      "sample_026-c03",
+      "sample_026-c04"
+    ],
+    "grades": [
+      {
+        "card_id": "sample_026-c01",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_026-c02",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_026-c03",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_026-c04",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      }
+    ],
+    "warnings": [],
+    "raw_text": "{\"cards\":[{\"id\":\"c01\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c02\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c03\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c04\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}}]}",
+    "thinking": "",
+    "metadata": {
+      "model": "claude-opus-5-5",
+      "input_tokens": 360,
+      "cache_write_tokens": 0,
+      "cache_read_tokens": 4579,
+      "output_tokens": 402,
+      "cost_usd": 0.010395799999999998,
+      "latency_seconds": 4.897364414000094,
+      "stop_reason": "end_turn"
+    },
+    "sample_id": "sample_026"
+  },
+  {
+    "id": "sample_027",
+    "outcome": "judged",
+    "error": null,
+    "card_ids": [
+      "sample_027-c01",
+      "sample_027-c02",
+      "sample_027-c03",
+      "sample_027-c04"
+    ],
+    "grades": [
+      {
+        "card_id": "sample_027-c01",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_027-c02",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_027-c03",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_027-c04",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      }
+    ],
+    "warnings": [],
+    "raw_text": "{\"cards\":[{\"id\":\"c01\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c02\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c03\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c04\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}}]}",
+    "thinking": "",
+    "metadata": {
+      "model": "claude-opus-5-5",
+      "input_tokens": 369,
+      "cache_write_tokens": 0,
+      "cache_read_tokens": 4579,
+      "output_tokens": 402,
+      "cost_usd": 0.0104318,
+      "latency_seconds": 6.619186854999953,
+      "stop_reason": "end_turn"
+    },
+    "sample_id": "sample_027"
+  },
+  {
+    "id": "sample_028",
+    "outcome": "judged",
+    "error": null,
+    "card_ids": [
+      "sample_028-c01",
+      "sample_028-c02",
+      "sample_028-c03",
+      "sample_028-c04",
+      "sample_028-c05"
+    ],
+    "grades": [
+      {
+        "card_id": "sample_028-c01",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_028-c02",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_028-c03",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_028-c04",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_028-c05",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      }
+    ],
+    "warnings": [],
+    "raw_text": "{\"cards\":[{\"id\":\"c01\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c02\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c03\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c04\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c05\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}}]}",
+    "thinking": "",
+    "metadata": {
+      "model": "claude-opus-5-5",
+      "input_tokens": 377,
+      "cache_write_tokens": 0,
+      "cache_read_tokens": 4579,
+      "output_tokens": 500,
+      "cost_usd": 0.012423799999999999,
+      "latency_seconds": 3.9977084500000046,
+      "stop_reason": "end_turn"
+    },
+    "sample_id": "sample_028"
+  },
+  {
+    "id": "sample_029",
+    "outcome": "judged",
+    "error": null,
+    "card_ids": [
+      "sample_029-c01",
+      "sample_029-c02",
+      "sample_029-c03",
+      "sample_029-c04"
+    ],
+    "grades": [
+      {
+        "card_id": "sample_029-c01",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_029-c02",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_029-c03",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_029-c04",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      }
+    ],
+    "warnings": [],
+    "raw_text": "{\"cards\":[{\"id\":\"c01\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c02\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c03\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c04\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}}]}",
+    "thinking": "",
+    "metadata": {
+      "model": "claude-opus-5-5",
+      "input_tokens": 337,
+      "cache_write_tokens": 0,
+      "cache_read_tokens": 4579,
+      "output_tokens": 402,
+      "cost_usd": 0.0103038,
+      "latency_seconds": 3.82989558700001,
+      "stop_reason": "end_turn"
+    },
+    "sample_id": "sample_029"
+  },
+  {
+    "id": "sample_030",
+    "outcome": "judged",
+    "error": null,
+    "card_ids": [
+      "sample_030-c01",
+      "sample_030-c02",
+      "sample_030-c03",
+      "sample_030-c04",
+      "sample_030-c05"
+    ],
+    "grades": [
+      {
+        "card_id": "sample_030-c01",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_030-c02",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_030-c03",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_030-c04",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      },
+      {
+        "card_id": "sample_030-c05",
+        "atomic": "Y",
+        "supported": "Y",
+        "no_leakage": "Y",
+        "unambiguous": "Y",
+        "duplicate_of": null,
+        "reasons": {
+          "atomic": null,
+          "supported": null,
+          "no_leakage": null,
+          "unambiguous": null,
+          "duplicate": null
+        }
+      }
+    ],
+    "warnings": [],
+    "raw_text": "{\"cards\":[{\"id\":\"c01\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c02\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c03\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c04\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}},{\"id\":\"c05\",\"atomic\":\"Y\",\"supported\":\"Y\",\"no_leakage\":\"Y\",\"unambiguous\":\"Y\",\"duplicate_of\":null,\"reasons\":{\"atomic\":null,\"supported\":null,\"no_leakage\":null,\"unambiguous\":null,\"duplicate\":null}}]}",
+    "thinking": "",
+    "metadata": {
+      "model": "claude-opus-5-5",
+      "input_tokens": 435,
+      "cache_write_tokens": 0,
+      "cache_read_tokens": 4579,
+      "output_tokens": 500,
+      "cost_usd": 0.0126558,
+      "latency_seconds": 4.700810336000018,
+      "stop_reason": "end_turn"
+    },
+    "sample_id": "sample_030"
+  }
+]

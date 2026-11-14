@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router'
 import { registerUser } from '../api'
-import { isValidEmail } from '../validation'
+import { validateRegistration } from '../validation'
 import PasswordInput from '../components/PasswordInput'
 import './RegisterPage.css'
 
@@ -16,8 +16,9 @@ function RegisterPage() {
     e.preventDefault()
     setError('')
 
-    if (!isValidEmail(email)) {
-      setError('Invalid email')
+    const problems = validateRegistration({ name, email, password })
+    if (problems) {
+      setError(problems)
       return
     }
 

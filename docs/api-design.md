@@ -10,12 +10,13 @@
 
 This document describes the REST API contract between the React frontend and the FastAPI backend. All endpoints return JSON. Authentication is required for all endpoints except `/auth/register` and `/auth/login`.
 
-The API is organized around four concerns:
+The API is organized around five concerns:
 
 - **Authentication** — account creation and login
 - **Decks** — creating and managing flashcard decks
 - **Flashcards** — creating and managing cards within decks
 - **Study** — driving both free study and spaced repetition sessions
+- **AI card generation** — generating candidate cards from pasted notes, within usage limits
 
 ---
 
@@ -94,6 +95,8 @@ Create a new user account.
 ```
 
 > The password is hashed server-side before storage. The hash is never returned in any response.
+
+**Validation (`422`):** the name is stripped of surrounding whitespace and can't be empty ("Name can't be empty."); the password must be at least 8 characters ("Password must be at least 8 characters.") and at most 72 bytes in UTF-8, the most bcrypt uses. Login applies none of these rules, so accounts created before them can still log in.
 
 ---
 
@@ -180,6 +183,8 @@ Create a new deck for the authenticated user.
 }
 ```
 
+**Validation (`422`):** the name is stripped of surrounding whitespace and can't be empty ("Deck name can't be empty.").
+
 ---
 
 #### `PATCH /decks/{deck_id}`
@@ -207,6 +212,8 @@ Update the name of an existing deck.
   "user_id": "integer"
 }
 ```
+
+**Validation (`422`):** same as `POST /decks` when a name is given; omitting `name` leaves it unchanged.
 
 ---
 
@@ -291,6 +298,8 @@ Create a new flashcard in a deck.
 }
 ```
 
+> Surrounding whitespace is stripped from both fields. An empty or whitespace-only `question` or `answer` is rejected with `422`.
+
 **Response `201 Created`:**
 ```json
 {
@@ -299,6 +308,38 @@ Create a new flashcard in a deck.
   "question": "string",
   "answer": "string"
 }
+```
+
+---
+
+#### `POST /decks/{deck_id}/cards/bulk`
+
+Create several flashcards in a deck at once. Used to save cards the user has reviewed after AI generation.
+
+**Path Parameters:**
+
+| Parameter | Type | Description |
+|---|---|---|
+| deck_id | integer | The ID of the deck to add the cards to |
+
+**Request Body:**
+```json
+{
+  "cards": [
+    { "question": "string", "answer": "string" },
+    { "question": "string", "answer": "string" }
+  ]
+}
+```
+
+> `cards` holds 1–100 cards, each validated like the body of `POST /decks/{deck_id}/cards`. The cards are saved in one transaction: if any card is invalid, the request fails with `422` and none are saved.
+
+**Response `201 Created`:**
+```json
+[
+  { "card_id": "integer", "deck_id": "integer", "question": "string", "answer": "string" },
+  { "card_id": "integer", "deck_id": "integer", "question": "string", "answer": "string" }
+]
 ```
 
 ---
@@ -322,7 +363,7 @@ Update the question or answer of an existing flashcard.
 }
 ```
 
-> Both fields are optional. Only include the fields you want to update.
+> Both fields are optional. Only include the fields you want to update. A field that is included follows the same rules as in `POST /decks/{deck_id}/cards`: surrounding whitespace is stripped, and an empty or whitespace-only value is rejected with `422`.
 
 **Response `200 OK`:**
 ```json
@@ -412,6 +453,84 @@ Submit a study result for a flashcard. The backend runs the SM-2 algorithm and u
 
 ---
 
+### AI Card Generation
+
+Generation is limited over a rolling 24 hours: 5 requests per user, 6 shared by the demo account (in place of the per-user limit), and 10 across all users. These defaults are set low to keep the live demo's costs down. Every request that passes validation and the ownership check counts, whatever its outcome, except one that fails because the server is misconfigured. The limits and the demo account's email are configurable through environment variables (see `.env.example`).
+
+---
+
+#### `POST /decks/{deck_id}/cards/generate`
+
+Generate candidate flashcards from pasted notes. Nothing is saved to the deck: the user reviews and edits the cards, then saves them with `POST /decks/{deck_id}/cards/bulk`.
+
+**Path Parameters:**
+
+| Parameter | Type | Description |
+|---|---|---|
+| deck_id | integer | The ID of the deck the cards are for |
+
+**Request Body:**
+```json
+{
+  "notes": "string"
+}
+```
+
+> `notes` is 1–2,000 characters after surrounding whitespace is stripped. Invalid notes are rejected with `422` and don't count toward the limits.
+
+**Response `200 OK` (cards generated):**
+```json
+{
+  "status": "ok",
+  "cards": [
+    { "question": "string", "answer": "string", "source": ["string"] }
+  ],
+  "remaining": "integer"
+}
+```
+
+> `source` holds the excerpts of the notes each card is based on.
+
+**Response `200 OK` (notes rejected):**
+```json
+{
+  "status": "rejected",
+  "reason": "string",
+  "remaining": "integer"
+}
+```
+
+> The model rejects notes it can't make useful cards from, and `reason` says why. A rejection counts toward the limits.
+
+**Error responses:**
+
+| Status | When |
+|---|---|
+| `429 Too Many Requests` | A limit was reached. `detail` says whether it was the user's own limit (or the demo account's) or the overall limit |
+| `502 Bad Gateway` | The model's output was unusable (invalid, cut off, or a refusal), or an unexpected error occurred. `detail` asks the user to try again |
+| `503 Service Unavailable` | The Anthropic API failed or couldn't be reached |
+| `500 Internal Server Error` | The server isn't configured for generation (for example, the API key is missing) |
+
+> The call uses a 45-second timeout per attempt and 1 retry. The notes' content is never logged.
+
+---
+
+#### `GET /generations/remaining`
+
+Retrieve how many generations the user has left, so the UI can show it before they generate.
+
+**Response `200 OK`:**
+```json
+{
+  "remaining": "integer",
+  "limit": "integer"
+}
+```
+
+> `limit` is the user's own limit (6 for the demo account, 5 otherwise). `remaining` is what the user can actually do: the smaller of what's left under their own limit and what's left under the overall limit.
+
+---
+
 ## Endpoint Summary
 
 | Method | Endpoint | Description |
@@ -426,10 +545,13 @@ Submit a study result for a flashcard. The backend runs the SM-2 algorithm and u
 | GET | `/decks/{deck_id}/cards` | Get all cards in a deck (free study) |
 | GET | `/decks/{deck_id}/cards/{card_id}` | Get a specific card |
 | POST | `/decks/{deck_id}/cards` | Create a new card in a deck |
+| POST | `/decks/{deck_id}/cards/bulk` | Create several cards in a deck in one transaction |
 | PATCH | `/decks/{deck_id}/cards/{card_id}` | Update a card |
 | DELETE | `/decks/{deck_id}/cards/{card_id}` | Delete a card |
 | GET | `/decks/{deck_id}/study` | Get cards due for review today (spaced repetition) |
 | POST | `/decks/{deck_id}/cards/{card_id}/review` | Submit a study result and update SM-2 state |
+| POST | `/decks/{deck_id}/cards/generate` | Generate candidate cards from notes (not saved) |
+| GET | `/generations/remaining` | Get the user's remaining generations |
 
 ---
 
@@ -442,6 +564,8 @@ Submit a study result for a flashcard. The backend runs the SM-2 algorithm and u
 | Single review endpoint | `POST /review` handles both create and update | The frontend does not know or care whether a CardReview record exists yet; the backend resolves this internally |
 | Free study vs spaced repetition | Two separate endpoints | `/cards` returns all cards; `/study` returns only due cards — clean separation of concerns with no query parameter flags |
 | Cascade deletes | Handled at database level | Deleting a deck or card automatically removes associated CardReview rows; no separate cleanup endpoints needed |
+| Generated cards | Returned, not saved | The user reviews and edits generated cards before saving them with `/cards/bulk`, so nothing unreviewed reaches a deck |
+| Generation limits | Reserve a counted row before the API call | Concurrent requests can't exceed a limit while one is waiting on the API; a Postgres advisory lock makes the count and the reservation a single step |
 
 ---
 

@@ -1,0 +1,385 @@
+{
+  "run_id": "2026-10-02_215109",
+  "date": "2026-10-02T21:51:09",
+  "rubric_version": "1.4",
+  "model": "claude-haiku-4-5-20251001",
+  "prompt_version": "v1",
+  "prompt_hash": "f5e88f4d8fd8",
+  "max_tokens": 4096,
+  "request_timeout_seconds": 60,
+  "max_retries": 2,
+  "gate_approach": "single call",
+  "anthropic_sdk_version": "1.9.0",
+  "partial": false,
+  "interrupted": false,
+  "incomplete": false,
+  "test_set_size": 35,
+  "sample_ids": [
+    "sample_001",
+    "sample_002",
+    "sample_003",
+    "sample_004",
+    "sample_005",
+    "sample_006",
+    "sample_007",
+    "sample_008",
+    "sample_009",
+    "sample_010",
+    "sample_011",
+    "sample_012",
+    "sample_013",
+    "sample_014",
+    "sample_015",
+    "sample_016",
+    "sample_017",
+    "sample_018",
+    "sample_019",
+    "sample_020",
+    "sample_021",
+    "sample_022",
+    "sample_023",
+    "sample_024",
+    "sample_025",
+    "sample_026",
+    "sample_027",
+    "sample_028",
+    "sample_029",
+    "sample_030",
+    "sample_031",
+    "sample_032",
+    "sample_033",
+    "sample_034",
+    "sample_035"
+  ],
+  "errored_samples": [],
+  "metrics": {
+    "samples_run": 35,
+    "error_rate": {
+      "count": 0,
+      "total": 35,
+      "rate": 0.0
+    },
+    "stage1": {
+      "false_rejection_rate": {
+        "count": 0,
+        "total": 30,
+        "rate": 0.0
+      },
+      "false_acceptance_rate": {
+        "count": 0,
+        "total": 5,
+        "rate": 0.0
+      }
+    },
+    "stage2": {
+      "batches_scored": 30,
+      "cards_scored": 186,
+      "card_count_pass_rate": {
+        "count": 16,
+        "total": 30,
+        "rate": 0.5333333333333333
+      },
+      "source_match_rate": {
+        "count": 176,
+        "total": 186,
+        "rate": 0.946236559139785
+      }
+    },
+    "operational": {
+      "total_input_tokens": 60104,
+      "total_output_tokens": 10196,
+      "total_cost_usd": 0.11108400000000003,
+      "average_cost_usd": 0.0031738285714285725,
+      "average_latency_seconds": 2.9422710911713823
+    }
+  },
+  "metrics_by_category": {
+    "already_list_like": {
+      "samples_run": 5,
+      "error_rate": {
+        "count": 0,
+        "total": 5,
+        "rate": 0.0
+      },
+      "stage1": {
+        "false_rejection_rate": {
+          "count": 0,
+          "total": 5,
+          "rate": 0.0
+        },
+        "false_acceptance_rate": {
+          "count": 0,
+          "total": 0,
+          "rate": null
+        }
+      },
+      "stage2": {
+        "batches_scored": 5,
+        "cards_scored": 22,
+        "card_count_pass_rate": {
+          "count": 5,
+          "total": 5,
+          "rate": 1.0
+        },
+        "source_match_rate": {
+          "count": 22,
+          "total": 22,
+          "rate": 1.0
+        }
+      },
+      "operational": {
+        "total_input_tokens": 8473,
+        "total_output_tokens": 1118,
+        "total_cost_usd": 0.014062999999999999,
+        "average_cost_usd": 0.0028125999999999997,
+        "average_latency_seconds": 2.2610697233998507
+      }
+    },
+    "code_content": {
+      "samples_run": 5,
+      "error_rate": {
+        "count": 0,
+        "total": 5,
+        "rate": 0.0
+      },
+      "stage1": {
+        "false_rejection_rate": {
+          "count": 0,
+          "total": 5,
+          "rate": 0.0
+        },
+        "false_acceptance_rate": {
+          "count": 0,
+          "total": 0,
+          "rate": null
+        }
+      },
+      "stage2": {
+        "batches_scored": 5,
+        "cards_scored": 23,
+        "card_count_pass_rate": {
+          "count": 4,
+          "total": 5,
+          "rate": 0.8
+        },
+        "source_match_rate": {
+          "count": 21,
+          "total": 23,
+          "rate": 0.9130434782608695
+        }
+      },
+      "operational": {
+        "total_input_tokens": 8769,
+        "total_output_tokens": 1372,
+        "total_cost_usd": 0.015629,
+        "average_cost_usd": 0.0031258,
+        "average_latency_seconds": 3.022075004600265
+      }
+    },
+    "dense_textbook_prose": {
+      "samples_run": 5,
+      "error_rate": {
+        "count": 0,
+        "total": 5,
+        "rate": 0.0
+      },
+      "stage1": {
+        "false_rejection_rate": {
+          "count": 0,
+          "total": 5,
+          "rate": 0.0
+        },
+        "false_acceptance_rate": {
+          "count": 0,
+          "total": 0,
+          "rate": null
+        }
+      },
+      "stage2": {
+        "batches_scored": 5,
+        "cards_scored": 37,
+        "card_count_pass_rate": {
+          "count": 1,
+          "total": 5,
+          "rate": 0.2
+        },
+        "source_match_rate": {
+          "count": 37,
+          "total": 37,
+          "rate": 1.0
+        }
+      },
+      "operational": {
+        "total_input_tokens": 8788,
+        "total_output_tokens": 2149,
+        "total_cost_usd": 0.019533000000000002,
+        "average_cost_usd": 0.0039066000000000005,
+        "average_latency_seconds": 3.685941965999882
+      }
+    },
+    "sloppy_bullets": {
+      "samples_run": 5,
+      "error_rate": {
+        "count": 0,
+        "total": 5,
+        "rate": 0.0
+      },
+      "stage1": {
+        "false_rejection_rate": {
+          "count": 0,
+          "total": 5,
+          "rate": 0.0
+        },
+        "false_acceptance_rate": {
+          "count": 0,
+          "total": 0,
+          "rate": null
+        }
+      },
+      "stage2": {
+        "batches_scored": 5,
+        "cards_scored": 47,
+        "card_count_pass_rate": {
+          "count": 1,
+          "total": 5,
+          "rate": 0.2
+        },
+        "source_match_rate": {
+          "count": 47,
+          "total": 47,
+          "rate": 1.0
+        }
+      },
+      "operational": {
+        "total_input_tokens": 8778,
+        "total_output_tokens": 2429,
+        "total_cost_usd": 0.020923,
+        "average_cost_usd": 0.0041846,
+        "average_latency_seconds": 4.703718328399918
+      }
+    },
+    "table_data": {
+      "samples_run": 5,
+      "error_rate": {
+        "count": 0,
+        "total": 5,
+        "rate": 0.0
+      },
+      "stage1": {
+        "false_rejection_rate": {
+          "count": 0,
+          "total": 5,
+          "rate": 0.0
+        },
+        "false_acceptance_rate": {
+          "count": 0,
+          "total": 0,
+          "rate": null
+        }
+      },
+      "stage2": {
+        "batches_scored": 5,
+        "cards_scored": 47,
+        "card_count_pass_rate": {
+          "count": 1,
+          "total": 5,
+          "rate": 0.2
+        },
+        "source_match_rate": {
+          "count": 39,
+          "total": 47,
+          "rate": 0.8297872340425532
+        }
+      },
+      "operational": {
+        "total_input_tokens": 8641,
+        "total_output_tokens": 2223,
+        "total_cost_usd": 0.019756000000000003,
+        "average_cost_usd": 0.0039512,
+        "average_latency_seconds": 3.515252388599947
+      }
+    },
+    "too_short": {
+      "samples_run": 5,
+      "error_rate": {
+        "count": 0,
+        "total": 5,
+        "rate": 0.0
+      },
+      "stage1": {
+        "false_rejection_rate": {
+          "count": 0,
+          "total": 5,
+          "rate": 0.0
+        },
+        "false_acceptance_rate": {
+          "count": 0,
+          "total": 0,
+          "rate": null
+        }
+      },
+      "stage2": {
+        "batches_scored": 5,
+        "cards_scored": 10,
+        "card_count_pass_rate": {
+          "count": 4,
+          "total": 5,
+          "rate": 0.8
+        },
+        "source_match_rate": {
+          "count": 10,
+          "total": 10,
+          "rate": 1.0
+        }
+      },
+      "operational": {
+        "total_input_tokens": 8294,
+        "total_output_tokens": 624,
+        "total_cost_usd": 0.011413999999999999,
+        "average_cost_usd": 0.0022827999999999998,
+        "average_latency_seconds": 2.013989329999822
+      }
+    },
+    "unusable_input": {
+      "samples_run": 5,
+      "error_rate": {
+        "count": 0,
+        "total": 5,
+        "rate": 0.0
+      },
+      "stage1": {
+        "false_rejection_rate": {
+          "count": 0,
+          "total": 0,
+          "rate": null
+        },
+        "false_acceptance_rate": {
+          "count": 0,
+          "total": 5,
+          "rate": 0.0
+        }
+      },
+      "stage2": {
+        "batches_scored": 0,
+        "cards_scored": 0,
+        "card_count_pass_rate": {
+          "count": 0,
+          "total": 0,
+          "rate": null
+        },
+        "source_match_rate": {
+          "count": 0,
+          "total": 0,
+          "rate": null
+        }
+      },
+      "operational": {
+        "total_input_tokens": 8361,
+        "total_output_tokens": 281,
+        "total_cost_usd": 0.009766,
+        "average_cost_usd": 0.0019532,
+        "average_latency_seconds": 1.3938508971999908
+      }
+    }
+  }
+}

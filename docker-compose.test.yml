@@ -16,6 +16,9 @@ services:
       target: test
     environment:
       DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db_test:5432/flashcard_test_db
+      # A fixed key for the test suite only, so tests never depend on the
+      # developer's .env. Long enough to pass the backend's startup check.
+      SECRET_KEY: test-only-secret-key-never-used-outside-the-test-suite
     depends_on:
       db_test:
         condition: service_healthy

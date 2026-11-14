@@ -1,0 +1,170 @@
+.generate-page__header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.generate-page__header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.generate-page__back {
+  align-self: flex-start;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.notes-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.notes-form__field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.notes-form label {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+}
+
+.notes-form__notice {
+  margin: 0 0 2px;
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
+}
+
+.notes-form textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--color-text-primary);
+  background-color: var(--color-surface);
+  resize: vertical;
+}
+
+.notes-form textarea:focus {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 1px;
+}
+
+.notes-form textarea:disabled {
+  color: var(--color-text-secondary);
+}
+
+.notes-form__meta {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+}
+
+.notes-form__counter--over {
+  color: var(--color-danger);
+  font-weight: 600;
+}
+
+.notes-form__hint {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+}
+
+/* Wraps the generations count below a full-width button on a narrow screen */
+.generate-page__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 16px;
+}
+
+.generate-page__remaining {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+}
+
+.generate-page__status,
+.generate-page__rejection {
+  margin: 16px 0 0;
+  color: var(--color-text-secondary);
+}
+
+.generate-page__rejection strong {
+  color: var(--color-text-primary);
+}
+
+.generate-page__divider {
+  border: none;
+  border-top: 1px solid var(--color-border);
+  margin: 24px 0;
+}
+
+.draft-review h2 {
+  margin: 0 0 4px;
+  font-size: 1.25rem;
+}
+
+.draft-review__hint {
+  margin: 0 0 16px;
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+}
+
+.draft-list {
+  list-style: none;
+  margin: 0 0 16px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.draft-review .error-message {
+  margin-bottom: 12px;
+}
+
+/* Same values as the copies in the other pages' stylesheets */
+.button-primary {
+  padding: 10px 16px;
+  background-color: var(--color-accent);
+  color: var(--color-surface);
+  border-radius: 6px;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* The color keeps a link styled as a button white on hover, over the
+   global a:hover */
+.button-primary:hover {
+  background-color: var(--color-accent-hover);
+  color: var(--color-surface);
+}
+
+.error-message {
+  margin: 0;
+  color: var(--color-danger);
+  font-size: 0.875rem;
+}
+
+/* Only this page disables its buttons, so the disabled look is scoped to it */
+.generate-page .button-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.generate-page .button-primary:disabled:hover {
+  background-color: var(--color-accent);
+}
+
+@media (max-width: 480px) {
+  .generate-page__actions .button-primary {
+    width: 100%;
+    padding: 12px 16px;
+  }
+}

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link, useParams } from 'react-router'
 import { getCards, getDueCards, submitReview } from '../api'
+import EmptyState from '../components/EmptyState'
 import './StudySessionPage.css'
 
 function StudySessionPage() {
@@ -55,12 +56,11 @@ function StudySessionPage() {
         <div className="study-session__header">
           <Link to={`/decks/${deckId}`} className="study-session__exit">Back to Deck</Link>
         </div>
-        <div className="study-session__content">
-          <p className="study-session__message">
-            {mode === 'review' ? 'No cards are due today!' : 'This deck has no cards to study.'}
-          </p>
-          <Link to={`/decks/${deckId}`} className="button-primary">Back to Deck</Link>
-        </div>
+        <EmptyState
+          message={mode === 'review' ? 'No cards are due today.' : 'This deck has no cards to study.'}
+          linkTo={`/decks/${deckId}`}
+          linkLabel="Back to Deck"
+        />
       </div>
     )
   }

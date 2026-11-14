@@ -1,0 +1,4 @@
+-r ../backend/requirements.txt
+
+# Evaluation runner
+python-dotenv==1.2.3
